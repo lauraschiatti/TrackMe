@@ -15,6 +15,7 @@
 \usepackage[flushleft]{threeparttable}
 \usepackage{amsmath}
 \usepackage{relsize}
+\usepackage{enumitem}
 
 %\usepackage[demo]{graphicx}
 
@@ -23,10 +24,11 @@
 \fancyhead{}
 \fancyfoot{}
 \fancyhead[L]{\slshape\MakeUppercase{RASD}}
-\fancyhead[R]{\slshape{AvilaSchiattiVirdi}}
+\fancyhead[R]{\slshape{Avila, Schiatti, Virdi}}
 \fancyfoot[C]{\thepage}
 \renewcommand{\footrulewidth}{1pt}
 \renewcommand{\headrulewidth}{1pt}
+\linespread{1.3}
 
 \parindent 0ex
 %\renewcommand{baselinestretch}{1.5}
@@ -76,7 +78,7 @@ TrackMe serves not only as a simple tool to track objects on-line, but it can al
 \subsection{Scope}
 
 \subsubsection{Description of the given problem}
-\textbf{TrackMe} offers to their customers a new service called \textbf{Data4Help}, when they agree provides the user, an interface for the registration of individuals who, by registering, agree that TrackMe acquires their data. They are wirelessly connected to each other, and all that needs to be done is to view them either using a simple PC or a smart-phone. Also, it supports the registration of third parties, who can thereafter request for the data of some specific individuals (using SSN) and the request will be sent to the respective individuals (who can Accept or Reject it) or can ask for bulk data based on some filtering criteria provided by the system (such as age, gender, country, province) which will be handled directly by TrackMe (Requests accepted only if, for which the number of individuals whose data satisfy the request is higher than 1000. As the request for data acquisition is approved, TrackMe offers third party customers to subscribe to the new data (if they want to), in order to receive new data as soon as it is produced.\\
+\textbf{TrackMe} offers to their customers a new service called \textbf{Data4Help}, when they agree provides the user, an interface for the registration of individuals who, by registering, agree that TrackMe acquires their data. They are wirelessly connected to each other, and all that needs to be done is to view them either using a simple PC or a smart-phone. Also, it supports the registration of third parties, who can thereafter request for the data of some specific individuals (using SSN) and the request will be sent to the respective individuals (who can Accept or Reject it) or can ask for bulk data based on some filtering criteria provided by the system (such as age, gender, country, province) which will be handled directly by TrackMe (Requests accepted only if, for which the number of individuals whose data satisfy the request is higher than 1000). As the request for data acquisition is approved, TrackMe offers third party customers to subscribe to the new data (if they want to), in order to receive new data as soon as it is produced.\\
 
 \textbf{AutomatedSOS} is built on the top of Data4Help, which gives an opportunity to the people above the age of 50 years, if they want to subscribe to this new SOS service. AutomatedSOS monitors the health status of the subscribed customers and, when vital signs parameters (Heart rate, Blood pressure) are below certain thresholds, sends to the location of the customer an ambulance, guaranteeing a reaction time of less than 5 seconds from the time the parameters	are	below the threshold.\\
 
@@ -123,8 +125,20 @@ The Shared Phenomenon between the real world and TrackMe (Data4Help, AutomatedSO
 \end{itemize}
 
 \subsubsection{Goals}
-$[ G1 ]$ The system must allow registered third parties to access the data of some specific individuals.\\
-$[ G2 ]$ The system must allow third parties to access anonymous data of a group individuals.
+\begin{itemize}
+\item{\textbf{Data4Help}}\\
+$[G1]$ Provide a service capable to store the location and physical data of an individual obtained by means of TrackMe's smart devices\\
+$[G2]$ Provide a service that let a third party company to access the stored data from an individual\\
+$[G3]$ Provide a service that let a third party company to access anonymized stored data of groups of individuals subject to specified constraints\\
+$[G4]$ Provide to a third party company a way to get updates on a specific individual's data or of a previously saved search of anonymized data\\
+
+\item{\textbf{AutomatedSOS}}\\
+$[G5]$ Provide a service capable to send an advice to the health care service when a individual's parameters are below a defined threshold\\
+
+\item{\textbf{Track4Run}}\\
+$[G6]$ Provide a platform that let races organizer to define race's path, and let the participants to enroll to them\\
+$[G7]$ Provide to run spectators a way to watch the participants' location during the race\\
+\end{itemize}
 
 \subsection{Definitions, Acronyms, Abbreviations}
 \subsubsection{Definitions}
