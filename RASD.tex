@@ -1,0 +1,168 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsfonts,amsmath,amssymb}
+\usepackage[none]{hyphenat}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{booktabs,caption}
+\usepackage[flushleft]{threeparttable}
+\usepackage{amsmath}
+\usepackage{relsize}
+
+%\usepackage[demo]{graphicx}
+
+%PAGESTYLE
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{\slshape\MakeUppercase{RASD}}
+\fancyhead[R]{\slshape{AvilaSchiattiVirdi}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\headrulewidth}{1pt}
+
+\parindent 0ex
+%\renewcommand{baselinestretch}{1.5}
+
+
+%BODY
+\begin{document}
+\begin{titlepage}
+\begin{center}
+\begin{figure}[h]
+\includegraphics[scale=1]{PolimiLogo.png}
+\centering
+\end{figure}
+\centering\textbf{POLITECNICO DI MILANO}\\
+\centering\textbf{DEPARTMENT OF COMPUTER SCIENCE ENGINEERING}
+\vspace*{4cm}
+
+\line(1,0){450}\\
+\Large{\textbf{Requirement Analysis and Specification Document (RASD)}}\\[3mm]
+\Large{- TrackMe -}\\
+\line(2,0){450}\\
+\vfill
+By Group: AvilaSchiattiVirdi\\
+
+
+\today
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+\listoffigures
+\listoftables
+\thispagestyle{empty}
+\clearpage
+\setcounter{page}{1}
+
+\section{Introduction}
+\subsection{Purpose}
+Nowadays, due to the availability of a huge variety of smart electronic devices, more and more applications are developed to help people in their day-to-day activities. In the field of healthcare, wearable devices such as smart-watches are highly useful. As they can be used to collect information about general well-being of users by means of mobile sensor technologies. As expected, measured data has several possible applications including, patient diagnostics and treatment or research motivations. \\
+
+\textbf{TrackMe} is a company which offers cost-effective, easy-to-use and non-invasive wearable health devices. In order to provide new features to their users, TrackMe initiated their software based service - \textbf{Data4Help}. The service aims to allow registered third party users to monitor location and health status of individuals, under certain constraints. \\
+
+TrackMe serves not only as a simple tool to track objects on-line, but it can also be a lifesaver. To exploit data acquired through Data4Help and offer personalized services, TrackMe decided to release \textbf{AutomatedSOS} and \textbf{Track4Run}. AutomatedSOS service is a non-intrusive SOS service for the elderly people designed to keep track of health status, going beyond in ensuring the safety of your beloved ones, keeping them safe, in case of emergency. Additionally, Track4Run service allows organizers to define the path for the run, participants to enrol in the run and to track athletes participating in a run.\\
+
+\subsection{Scope}
+
+\subsubsection{Description of the given problem}
+\textbf{TrackMe} offers to their customers a new service called \textbf{Data4Help}, when they agree provides the user, an interface for the registration of individuals who, by registering, agree that TrackMe acquires their data. They are wirelessly connected to each other, and all that needs to be done is to view them either using a simple PC or a smart-phone. Also, it supports the registration of third parties, who can thereafter request for the data of some specific individuals (using SSN) and the request will be sent to the respective individuals (who can Accept or Reject it) or can ask for bulk data based on some filtering criteria provided by the system (such as age, gender, country, province) which will be handled directly by TrackMe (Requests accepted only if, for which the number of individuals whose data satisfy the request is higher than 1000. As the request for data acquisition is approved, TrackMe offers third party customers to subscribe to the new data (if they want to), in order to receive new data as soon as it is produced.\\
+
+\textbf{AutomatedSOS} is built on the top of Data4Help, which gives an opportunity to the people above the age of 50 years, if they want to subscribe to this new SOS service. AutomatedSOS monitors the health status of the subscribed customers and, when vital signs parameters (Heart rate, Blood pressure) are below certain thresholds, sends to the location of the customer an ambulance, guaranteeing a reaction time of less than 5 seconds from the time the parameters	are	below the threshold.\\
+
+\textbf{Track4Run} allows the 'fit' customers to participate in the upcoming run (by sending a request), if they accept it, they will be redirected to the page where, they can enrol themselves to the run.\\
+
+\subsubsection{World and Machine Phenomenon}
+\begin{itemize}
+\item \textbf{World Phenomenon}
+\\
+\\
+In TrackMe system, the portions of the world which machine cannot observe are classified as:
+\begin{enumerate}
+\item{} Wearable devices (Smartwatches or similar devices)
+\item{} Individuals (who are sharing their personal data after successful registration)
+\item{} Third party customers (who registers in TrackMe and are willing to use the data acquired using Data4Help)
+\item{} Ambulance 
+\end{enumerate}
+
+\item \textbf{Shared Phenomenon}
+\\
+\\
+The Shared Phenomenon between the real world and TrackMe (Data4Help, AutomatedSOS and Track4Run) is classified as:
+\begin{enumerate}
+\item{} The data collected by the devices (i.e. Blood pressure, Body temperature, Heart rate)
+\item{} Individuals location and health status
+\item{} Ambulance contact numbers (emergency number)
+\item{} Defined path for the run
+\item{} The current location of the athletes participating during the run
+\end{enumerate}
+\end{itemize}
+
+\subsubsection{Goals}
+$[ G1 ]$ The system must allow registered third parties to access the data of some specific individuals.\\
+$[ G2 ]$ The system must allow third parties to access anonymous data of a group individuals.
+
+\subsection{Definitions, Acronyms, Abbreviations}
+\subsubsection{Definitions}
+\begin{itemize}
+\item{} \textbf{Wearable Device}: Wearable technology is a blanket term for electronics that can be worn on the body. It has the ability to connect to the internet, enabling data to be exchanged between a network and the device wirelessly.
+
+\item{} \textbf{Remote Monitoring}: Remote Monitoring (RMON) is a standard specification that facilitates the monitoring of network operational activities through the use of remote devices known as monitors or probes(here, we are using smartwatches).
+
+\item{} \textbf{AutomatedSOS}: “SOS” means “help”, signal that is sent automatically, in case of emergency. Originally, SOS was a distress signal in Morse code for seamen.
+
+\end{itemize}
+\subsubsection{Acronyms}
+\begin{itemize}
+\item{} RASD: Requirement Analysis and Specification Document
+\item{} GPS : Global Positioning System
+\item{} API : Application Programming Interface
+
+\end{itemize}
+
+\subsubsection{Abbreviations}
+\begin{itemize}
+\item $[Gn]$: n-goal. 
+\item $[Dn]$: n-domain assumption. 
+\item $[Rn]$: n-functional requirement. 
+
+\end{itemize}
+\subsection{Revision History}
+RASD.pdf version 1
+\subsection{Reference Documents}
+\begin{itemize}
+\item Requirement Analysis and Specification Document: AA 2017-2018.pdf”. Version 1.0 - 26.10.2017
+\item Henriksen, A., Haugen Mikalsen, M., Woldaregay, A. Z., Muzny, M., Hartvigsen, G., Hopstock, L. A., Grimsgaard, S. (2018)
+\\Using Fitness Trackers and Smartwatches to Measure Physical Activity in Research: Analysis of Consumer Wrist-Worn Wearables. Journal of medical Internet research, 20(3), e110. doi:10.2196/jmir.9157. 
+\\Retrieved from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5887043/
+\item IEEE. (1993). IEEE Recommended Practice for Software Requirements Specifications (IEEE 830-1993). 
+\\Retrieved from https://standards.ieee.org/standard/830-1993.html
+
+
+\end{itemize}
+\subsection{Document Structure}
+This document is divided in six parts, each one devoted to approach each one of the steps required to apply requirements engineering techniques.\\
+\begin{itemize}
+\item Chapter 1 gives an introduction to the problem and describes the purpose of the application TrackMe. The scope of the application is defined by stating the goals and description of the problem.
+\item Chapter 2 presents the overall description of the project. The product perspective includes details on the shared phenomena and the domain models.
+\item Chapter 3 contains the external interface requirements, including: user interfaces, hardware interfaces, software interfaces and communication interfaces. Furthermore, the functional requirements are defined by using use case and sequence diagram. The non-functional requirements are defined through performance requirements, design constraints and software system attributes.
+\item Chapter 4 includes the alloy model and the discussion of its purpose. Also, a world generated by it is shown.
+\item Chapter 5 shows the effort spent by each group member while working on this project.
+\item Chapter 6 includes the reference documents.
+
+\end{itemize}
+
+\section{Overall Description}
+\subsection{Product Perspective}
+
+\end{document}
