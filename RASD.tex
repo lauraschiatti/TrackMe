@@ -131,19 +131,19 @@ The goals are divided according to each service TrackMe wants to offer to its cu
 \begin{itemize}
 \item{\textbf{Data4Help}}
 \begin{enumerate}
-\goal{1} Provide a service capable to store the location and physical data of an individual obtained by means of TrackMe's smart devices
-\goal{2} Provide a service that let a third party company to access the stored data from an individual
-\goal{3} Provide a service that let a third party company to access anonymized stored data of groups of individuals subject to specified constraints
-\goal{4} Provide to a third party company a way to get updates on a specific individual's data or of a previously saved search of anonymized data
+\goal{1} Provide a service capable to store the location and physical data of an individual, obtained by means of TrackMe's smart devices
+\goal{2} Provide a service that lets third party companies access an individual's stored data 
+\goal{3} Provide a service that lets a third party companies to access anonymized stored data from groups of individuals, subject to specified constraints
+\goal{4} Provide third party companies a way to get updates on a specific individual's data or a previously saved search of anonymized data
 \end{enumerate}
 \item{\textbf{AutomatedSOS}}
 \begin{enumerate}
-\goal{5} Provide a service capable to send an advice to the health care service when a individual's parameters are below a defined threshold
+\goal{5} Provide a service capable to notify the health care service when a individual's parameters are below or above a defined threshold
 \end{enumerate}
 \item{\textbf{Track4Run}}
 \begin{enumerate}
-\goal{6} Provide a platform that let races organizer to define race's path, and let the participants to enroll to them
-\goal{7} Provide to run spectators a way to watch the participants' location during the race
+\goal{6} Provide a platform that let run organizers to define the running circuit, and participants to enroll to any particular race
+\goal{7} Provide spectators a way to monitor the participants' location during a race
 \end{enumerate}
 \end{itemize}
 
@@ -205,15 +205,15 @@ This document is divided in six parts, each one devoted to approach each one of 
 \section{Overall Description}
 \subsection{Product Perspective}
 \subsection{Product Functions}
-The TrackMe environment is composed, as said before, by a set of 3 services where the main one is Data4Help. AutomatedSOS and Track4Run, are going to be build on top of Data4Help, and will make use of all the functionalities it will offer. Below, the main features of each service are listed, and a description is offered.
+The TrackMe environment is composed, as said before, by a set of 3 services, with Data4Help as the leading service. AutomatedSOS and Track4Run are going to be build on top of Data4Help, and will make use of all of its functionalities. Below, the main features of each service are listed, and a description is offered.
 \begin{itemize}
 \item{\textbf{Data4Help}}
-\\As said, Data4Help is the main service of the TrackMe environment. The main features it will offer are mostly related to the registered third party companies, since they will be able to access to different type of data related to the individuals, who are wearing the TrackMe devices. The third party companies, will be able to subscribe to a specific individual data, or to a group of anonymized individuals' data, as long as certain restrictions are fulfilled. The individuals, will be able to accept or reject the request of accessing his/her data, and the third party companies will be notified of the individuals' decision.
+\\Data4Help will be the leading service, and the features it will provide are mostly related to registered third party companies. Companies will be able to access different types of data from the individuals wearing the TrackMe devices. They will be able to subscribe to a specific individual data, or to a group of anonymized individuals' data, as long as certain restrictions are fulfilled. The individuals, on the other hand, will be able to accept or reject the request of accessing his/her data, and the third party companies will be notified of the individuals' decision.
 
 \item{\textbf{AutomatedSOS}}
-\\ AutomatedSOS is a complementary service offered by TrackMe, and it will be build on top of Data4Help service. All the elderly individuals of Data4Help will receive a request to subscribe to this service, whose main feature is to contact the individual's National Health Care Service every time any critical health parameter is under or above a defined threshold. 
+\\ AutomatedSOS is a complementary service offered to the senior range of users, and it will be built on top of the Data4Help service. All the elderly individuals of Data4Help will receive a request to subscribe to this service, whose main feature is to contact the individual's National Health Care Service every time any critical health parameter is under or above a defined threshold. 
 \item{\textbf{Track4Run}}
-\\Track4Run is the last service offered by TrackMe, and it will, also, be build on top of Data4Help. The main features this service will offer are related to runners, who are TrackMe devices users, and run organizers. The run organizers will be able to define a run, define its path, and send invitations to the TrackMe devices users; The individuals will be able to register to a particular run. Furthermore, the location of each TrackMe device user who enrolled on a run, will be accessible to any spectator, through the Track4Run site, during the run time. 
+\\Track4Run is the last service offered by TrackMe, and it will, also, be build on top of Data4Help. Designed as a service for run organizers and runners, who operate the TrackMe devices. The run organizers will be able to define a running circuit, and send invitations to the TrackMe device users; The individuals will be able to register to any particular competition they prefer. Furthermore, during the duration of each race, all spectators will be able to spot, through the Track4Run site, the location of each registered individual in the circuit.
 
 \end{itemize}
 
