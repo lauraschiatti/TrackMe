@@ -15,6 +15,7 @@
 \usepackage[flushleft]{threeparttable}
 \usepackage{amsmath}
 \usepackage{relsize}
+\usepackage[super,negative]{nth}
 
 %\usepackage[demo]{graphicx}
 
@@ -67,12 +68,19 @@ By Group: AvilaSchiattiVirdi\\
 \setcounter{page}{1}
 
 \section{Introduction}
+\subsection{Context}
+Nowadays, due to the availability of a huge variety of smart electronic devices, more and more applications are developed to help people in their day-to-day activities. In the healthcare field, wearable devices such as smartwatches are highly useful since they can be used to collect information about general well-being of users by means of mobile sensor technologies. As expected, measured data has several possible applications including, patient diagnostics and treatment or research motivations. \\
+
+\textbf{TrackMe Technologies} is a company that develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatch is synchronized with an app that gives users access to their data and stats. 
+
 \subsection{Purpose}
-Nowadays, due to the availability of a huge variety of smart electronic devices, more and more applications are developed to help people in their day-to-day activities. In the field of healthcare, wearable devices such as smart-watches are highly useful. As they can be used to collect information about general well-being of users by means of mobile sensor technologies. As expected, measured data has several possible applications including, patient diagnostics and treatment or research motivations. \\
+Taking into account the long list of currently available wearable devices, \textbf{TrackMe} is continuously looking for new strategic decisions to combat competition by offering new innovative services. In this opportunity, they decided to generate revenues from user data in a direct way (i.e. extend its business model by implementing \textbf{data trading}). This is, selling collected data to third parties -who need to know the health status of the population for different purposes- in an anonymised form.\\
 
-\textbf{TrackMe} is a company which offers cost-effective, easy-to-use and non-invasive wearable health devices. In order to provide new features to their users, TrackMe initiated their software based service - \textbf{Data4Help}. The service aims to allow registered third party users to monitor location and health status of individuals, under certain constraints. \\
+TrackMe new software-based service is called \textbf{Data4Help}. This service provides registered third-party companies the possibility to monitor location and body metrics of individuals by exploiting data acquired through their wearable devices.\\
 
-TrackMe serves not only as a simple tool to track objects on-line, but it can also be a lifesaver. To exploit data acquired through Data4Help and offer personalized services, TrackMe decided to release \textbf{AutomatedSOS} and \textbf{Track4Run}. AutomatedSOS service is a non-intrusive SOS service for the elderly people designed to keep track of health status, going beyond in ensuring the safety of your beloved ones, keeping them safe, in case of emergency. Additionally, Track4Run service allows organizers to define the path for the run, participants to enrol in the run and to track athletes participating in a run.\\
+After some time, TrackMe realizes that a good part of its third-party customers wants to use the data acquired through Data4Help to offer a personalized SOS service to elderly people and decides to  build a new service, called \textbf{AutomatedSOS}, on top of Data4Help. AutomatedSOS provides a personal alarm service for the elderly subscribed customers by monitoring their health status.\\
+
+Finally, TrackMe realizes that another great source of revenues could be the development of a service to track athletes participating in a run. In this case, the service, called \textbf{Track4Run}, will allow run organizers to define the path, TrackMe wearable-devices users to enroll, and spectators to see on the map the position of all runners during the run. 
 
 \subsection{Scope}
 
@@ -126,18 +134,15 @@ $[G7]$ Provide to run spectators a way to watch the participants' location durin
 \subsection{Definitions, Acronyms, Abbreviations}
 \subsubsection{Definitions}
 \begin{itemize}
-\item{} \textbf{Wearable Device}: Wearable technology is a blanket term for electronics that can be worn on the body. It has the ability to connect to the internet, enabling data to be exchanged between a network and the device wirelessly.
-
-\item{} \textbf{Remote Monitoring}: Remote Monitoring (RMON) is a standard specification that facilitates the monitoring of network operational activities through the use of remote devices known as monitors or probes(here, we are using smartwatches).
-
-\item{} \textbf{AutomatedSOS}: “SOS” means “help”, signal that is sent automatically, in case of emergency. Originally, SOS was a distress signal in Morse code for seamen.
+\item{\textbf{Data trading}}: Generate revenew from user data in a much more direct way, by selling user data to a third party.
+\item{\textbf{Health status}}: Collection of the last measured overall physical health parameters of a user or a group of users.
+\item{\textbf{Remote monitoring}}: Remote Monitoring (RMON) is a standard specification that facilitates the monitoring of network operational activities through the use of remote devices known as monitors or probes(here, we are using smartwatches).
+\item{\textbf{Wearable device}}: Devices that can be used to collect data and monitor users' overall physical health, such as body temperature, blood pressure, heart pulse rate, etc.
 
 \end{itemize}
 \subsubsection{Acronyms}
 \begin{itemize}
-\item{} RASD: Requirement Analysis and Specification Document
-\item{} GPS : Global Positioning System
-\item{} API : Application Programming Interface
+\item{RASD}: Requirement Analysis and Specification Document
 
 \end{itemize}
 
@@ -148,8 +153,16 @@ $[G7]$ Provide to run spectators a way to watch the participants' location durin
 \item $[Rn]$: n-functional requirement. 
 
 \end{itemize}
+
 \subsection{Revision History}
-RASD.pdf version 1
+
+  \begin{tabular}{ | l | c |}
+    \hline
+    \textbf{Version} & \textbf{Last modified date} \\ \hline
+    1.0 & \nth{11} November, 2018 \\ \hline
+  \end{tabular}
+
+
 \subsection{Reference Documents}
 \begin{itemize}
 \item Requirement Analysis and Specification Document: AA 2017-2018.pdf”. Version 1.0 - 26.10.2017
