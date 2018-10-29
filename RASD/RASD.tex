@@ -17,7 +17,6 @@
 \usepackage{relsize}
 \usepackage[super,negative]{nth}
 \usepackage{enumerate}
-
 %\usepackage[demo]{graphicx}
 
 % COMMANDS
@@ -40,7 +39,6 @@
 \parindent 0ex
 %\renewcommand{baselinestretch}{1.5}
 
-
 %BODY
 \begin{document}
 \begin{titlepage}
@@ -56,6 +54,7 @@
 \line(1,0){450}\\
 \Large{\textbf{Requirement Analysis and Specification Document (RASD)}}\\[3mm]
 \Large{- TrackMe -}\\
+\Large{v.1.0}\\
 \line(2,0){450}\\
 \vfill
 \textbf{Authors}\\
@@ -63,7 +62,7 @@
 \textbf{Schiatti}, Laura Cristina - 904738\\
 \textbf{Virdi}, Sukhpreet Kaur - 904204\\
 
-November 11, 2018
+November \nth{11} , 2018
 \end{center}
 \end{titlepage}
 
@@ -89,41 +88,41 @@ TrackMe new software-based service is called \textbf{Data4Help}. This service pr
 
 After some time, TrackMe realizes that a good part of its third-party customers wants to use the data acquired through Data4Help to offer a personalized SOS service to elderly people and decides to  build a new service, called \textbf{AutomatedSOS}, on top of Data4Help. AutomatedSOS provides a personal alarm service for the elderly subscribed customers by monitoring their health status.\\
 
-Finally, TrackMe realizes that another great source of revenues could be the development of a service to track athletes participating in a run. In this case, the service, called \textbf{Track4Run}, will allow run organizers to define the path, TrackMe wearable-devices users to enroll, and spectators to see on the map the position of all runners during the run. 
+Finally, TrackMe realizes that another great source of revenues could be the development of a service to track athletes participating in a run. In this case, the service, called \textbf{Track4Run}, will allow run organizers to define the path, TrackMe wearable-devices users to enroll, and spectators to see on the map the position of all runners during the run. \\
 
 \subsection{Scope}
 
 \subsubsection{Description of the given problem}
-\textbf{TrackMe} offers to their customers a new service called \textbf{Data4Help}, when they agree provides the user, an interface for the registration of individuals who, by registering, agree that TrackMe acquires their data. They are wirelessly connected to each other, and all that needs to be done is to view them either using a simple PC or a smart-phone. Also, it supports the registration of third parties, who can thereafter request for the data of some specific individuals (using SSN) and the request will be sent to the respective individuals (who can Accept or Reject it) or can ask for bulk data based on some filtering criteria provided by the system (such as age, gender, country, province) which will be handled directly by TrackMe (Requests accepted only if, for which the number of individuals whose data satisfy the request is higher than 1000). As the request for data acquisition is approved, TrackMe offers third party customers to subscribe to the new data (if they want to), in order to receive new data as soon as it is produced.\\
+\includegraphics[scale=0.45]{Diagrams/High_level.jpg}\\
+\\
+\textbf{TrackMe} develops its own health-monitoring smart-watch and bases the assumption that all registered individuals own the same to retrieve the necessary raw data (body temperature, blood pressure, heart pulse rate, percentage of $O_2$ in the blood, current location)  as input for the service \textbf{Data4Help}. TrackMe provides the user an interface for the registration of individuals as well as third parties. Individuals who register, agree to TrackMe acquiring their data. They are wirelessly connected to each other. We presume the data to be posted using a compatible application that comes with the health-monitoring device. As mentioned before, it also supports the registration of third parties. While doing so, we acknowledge the company is legally established by validating its certificate, who can thereafter request for the data of some specific individuals (using SSN) to whom the request will accordingly be sent. The individuals have the choice to subsequently accept or reject it. Alternatively, they can also ask for bulk data based on criteria filtered and provided by the system (such as age, gender, country, province) which will be handled directly by TrackMe. If the request for data acquisition is approved, TrackMe offers these third party customers to subscribe to the new data, in real-time.\\
+\textbf{AutomatedSOS} is built on top of Data4Help to provide an opportunity to users above the age of 60, to subscribe to a new SOS service. AutomatedSOS monitors the health status of these users. When vital parameters  such as heart rate, blood pressure, body temperature, percentage of $O_2$ in the blood are below certain thresholds, the health care system is automatically notified, which accordingly handles the arrival of an ambulance to the location. It must be noted that this post-notification management cannot be tracked.\\
 
-\textbf{AutomatedSOS} is built on the top of Data4Help, which gives an opportunity to the people above the age of 50 years, if they want to subscribe to this new SOS service. AutomatedSOS monitors the health status of the subscribed customers and, when vital signs parameters (Heart rate, Blood pressure) are below certain thresholds, sends to the location of the customer an ambulance, guaranteeing a reaction time of less than 5 seconds from the time the parameters	are	below the threshold.\\
+\textbf{Track4Run} allows 'fit' users to participate in any upcoming run. If the user desires to participate they can accept the request and enrol themselves through a redirected link.  We assume that organizers define a valid path viewable to all users before the run. Spectators (read : all users) can view the position of all the participants on the map during the run. \\
 
-\textbf{Track4Run} allows the 'fit' customers to participate in the upcoming run (by sending a request), if they accept it, they will be redirected to the page where, they can enrol themselves to the run.\\
+\subsubsection{World and Machine Phenomena}
 
-\subsubsection{World and Machine Phenomenon}
 \begin{itemize}
-\item \textbf{World Phenomenon}
+\item \textbf{World Phenomena}
 \\
-\\
-In TrackMe system, the portions of the world which machine cannot observe are classified as:
-\begin{enumerate}
-\item{} Wearable devices (Smartwatches or similar devices)
-\item{} Individuals (who are sharing their personal data after successful registration)
-\item{} Third party customers (who registers in TrackMe and are willing to use the data acquired using Data4Help)
-\item{} Ambulance 
-\end{enumerate}
+In order to better understand which entities are relevant for the system and how they interact, it is essential to describe the real world events that are involved, they are
+\begin{itemize}
+\item{} TrackMe wearable devices.
+\item{} Individuals sharing their personal data.
+\item{} Third-party customers willing to use the data acquired through the devices.
+\item{} Healthcare system .
+\end{itemize}
 
-\item \textbf{Shared Phenomenon}
+\item \textbf{Shared Phenomena}
 \\
-\\
-The Shared Phenomenon between the real world and TrackMe (Data4Help, AutomatedSOS and Track4Run) is classified as:
-\begin{enumerate}
-\item{} The data collected by the devices (i.e. Blood pressure, Body temperature, Heart rate)
+
+\begin{itemize}
+\item{} The data collected by the devices (i.e. Blood pressure, Body temperature, Heart rate and Percentage of $O_2$ in the blood)
 \item{} Individuals location and health status
-\item{} Ambulance contact numbers (emergency number)
-\item{} Defined path for the run
+\item{} Healthcare system contact numbers (emergency number)
+\item{} The path for the run
 \item{} The current location of the athletes participating during the run
-\end{enumerate}
+\end{itemize}
 \end{itemize}
 
 \subsubsection{Goals}
@@ -159,7 +158,6 @@ The goals are divided according to each service TrackMe wants to offer to its cu
 \subsubsection{Acronyms}
 \begin{itemize}
 \item{RASD}: Requirement Analysis and Specification Document
-
 \end{itemize}
 
 \subsubsection{Abbreviations}
@@ -167,17 +165,14 @@ The goals are divided according to each service TrackMe wants to offer to its cu
 \item $[Gn]$: n-goal. 
 \item $[Dn]$: n-domain assumption. 
 \item $[Rn]$: n-functional requirement. 
-
 \end{itemize}
 
 \subsection{Revision History}
-
-  \begin{tabular}{ | l | c |}
+ \begin{tabular}{ | l | c |}
     \hline
     \textbf{Version} & \textbf{Last modified date} \\ \hline
     1.0 & \nth{11} November, 2018 \\ \hline
-  \end{tabular}
-
+ \end{tabular}
 
 \subsection{Reference Documents}
 \begin{itemize}
@@ -187,11 +182,10 @@ The goals are divided according to each service TrackMe wants to offer to its cu
 \\Retrieved from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5887043/
 \item IEEE. (1993). IEEE Recommended Practice for Software Requirements Specifications (IEEE 830-1993). 
 \\Retrieved from https://standards.ieee.org/standard/830-1993.html
-
-
 \end{itemize}
+
 \subsection{Document Structure}
-This document is divided in six parts, each one devoted to approach each one of the steps required to apply requirements engineering techniques.
+This document is divided in six parts, each one devoted to approach each one of the steps required to apply requirements engineering techniques.\\
 \begin{itemize}
 \item Chapter 1 gives an introduction to the problem and describes the purpose of the application TrackMe. The scope of the application is defined by stating the goals and description of the probl	em.
 \item Chapter 2 presents the overall description of the project. The product perspective includes details on the shared phenomena and the domain models.
@@ -199,13 +193,13 @@ This document is divided in six parts, each one devoted to approach each one of 
 \item Chapter 4 includes the alloy model and the discussion of its purpose. Also, a world generated by it is shown.
 \item Chapter 5 shows the effort spent by each group member while working on this project.
 \item Chapter 6 includes the reference documents.
-
 \end{itemize}
 
 \section{Overall Description}
 \subsection{Product Perspective}
 \subsection{Product Functions}
 The TrackMe environment is composed, as said before, by a set of 3 services, with Data4Help as the leading service. AutomatedSOS and Track4Run are going to be build on top of Data4Help, and will make use of all of its functionalities. Below, the main features of each service are listed, and a description is offered.
+
 \begin{itemize}
 \item{\textbf{Data4Help}}
 \\Data4Help will be the leading service, and the features it will provide are mostly related to registered third party companies. Companies will be able to access different types of data from the individuals wearing the TrackMe devices. They will be able to subscribe to a specific individual data, or to a group of anonymized individuals' data, as long as certain restrictions are fulfilled. The individuals, on the other hand, will be able to accept or reject the request of accessing his/her data, and the third party companies will be notified of the individuals' decision.
@@ -214,8 +208,6 @@ The TrackMe environment is composed, as said before, by a set of 3 services, wit
 \\ AutomatedSOS is a complementary service offered to the senior range of users, and it will be built on top of the Data4Help service. All the elderly individuals of Data4Help will receive a request to subscribe to this service, whose main feature is to contact the individual's National Health Care Service every time any critical health parameter is under or above a defined threshold. 
 \item{\textbf{Track4Run}}
 \\Track4Run is the last service offered by TrackMe, and it will, also, be build on top of Data4Help. Designed as a service for run organizers and runners, who operate the TrackMe devices. The run organizers will be able to define a running circuit, and send invitations to the TrackMe device users; The individuals will be able to register to any particular competition they prefer. Furthermore, during the duration of each race, all spectators will be able to spot, through the Track4Run site, the location of each registered individual in the circuit.
-
 \end{itemize}
-
 
 \end{document}
