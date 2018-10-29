@@ -79,7 +79,7 @@ November \nth{11} , 2018
 \subsection{Context}
 Nowadays, due to the availability of a huge variety of smart electronic devices, more and more applications are developed to help people in their day-to-day activities. In the healthcare field, wearable devices such as smartwatches are highly useful since they can be used to collect information about general well-being of users by means of mobile sensor technologies. As expected, measured data has several possible applications including, patient diagnostics and treatment or research motivations. \\
 
-\textbf{TrackMe Technologies} is a company that develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatch is synchronized with an app that gives users access to their data and stats. 
+\textbf{TrackMe} is a company that develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatch is synchronized with an app that gives users access to their data and stats. 
 
 \subsection{Purpose}
 Taking into account the long list of currently available wearable devices, \textbf{TrackMe} is continuously looking for new strategic decisions to combat competition by offering new innovative services. In this opportunity, they decided to generate revenues from user data in a direct way (i.e. extend its business model by implementing \textbf{data trading}). This is, selling collected data to third parties -who need to know the health status of the population for different purposes- in an anonymised form.\\
@@ -94,8 +94,9 @@ Finally, TrackMe realizes that another great source of revenues could be the dev
 
 \subsubsection{Description of the given problem}
 \includegraphics[scale=0.45]{Diagrams/High_level.jpg}\\
-\\
+\\\\
 \textbf{TrackMe} develops its own health-monitoring smart-watch and bases the assumption that all registered individuals own the same to retrieve the necessary raw data (body temperature, blood pressure, heart pulse rate, percentage of $O_2$ in the blood, current location)  as input for the service \textbf{Data4Help}. TrackMe provides the user an interface for the registration of individuals as well as third parties. Individuals who register, agree to TrackMe acquiring their data. They are wirelessly connected to each other. We presume the data to be posted using a compatible application that comes with the health-monitoring device. As mentioned before, it also supports the registration of third parties. While doing so, we acknowledge the company is legally established by validating its certificate, who can thereafter request for the data of some specific individuals (using SSN) to whom the request will accordingly be sent. The individuals have the choice to subsequently accept or reject it. Alternatively, they can also ask for bulk data based on criteria filtered and provided by the system (such as age, gender, country, province) which will be handled directly by TrackMe. If the request for data acquisition is approved, TrackMe offers these third party customers to subscribe to the new data, in real-time.\\
+
 \textbf{AutomatedSOS} is built on top of Data4Help to provide an opportunity to users above the age of 60, to subscribe to a new SOS service. AutomatedSOS monitors the health status of these users. When vital parameters  such as heart rate, blood pressure, body temperature, percentage of $O_2$ in the blood are below certain thresholds, the health care system is automatically notified, which accordingly handles the arrival of an ambulance to the location. It must be noted that this post-notification management cannot be tracked.\\
 
 \textbf{Track4Run} allows 'fit' users to participate in any upcoming run. If the user desires to participate they can accept the request and enrol themselves through a redirected link.  We assume that organizers define a valid path viewable to all users before the run. Spectators (read : all users) can view the position of all the participants on the map during the run. \\
@@ -198,6 +199,15 @@ This document is divided in six parts, each one devoted to approach each one of 
 
 \section{Overall Description}
 \subsection{Product Perspective}
+In the previous section, the scope of the application was delimited and explained in a shallow way, but at this point it is useful to include further details on the shared phenomena and a domain model as a visual representation of the system.  \\
+
+The addition of brand-new services to TrackMe requires to enlarge the existing model in such a way that it can include the abstraction of those features. To explain in detail the way data will be organized in the upcoming system, the structure of TrackMe up to now will be treated as a “black box”. This means, only those parts of the whole data model that will allow us to obtain users’ basic information and collected data (required by Data4Help) will be considered. \\
+
+On the other hand, AutomatedSOS and Track4Run are treated as third-parties that make requests for the data that Data4Help offers. Every time a user agrees to activate any of those services, a new request is sent to Data4Help to obtain his data. \\
+
+\includegraphics[scale=0.5]{Diagrams/Domain_model.png}\\
+\\
+
 \subsection{Product Functions}
 The TrackMe environment is composed, as said before, by a set of 3 services, with Data4Help as the leading service. AutomatedSOS and Track4Run are going to be build on top of Data4Help, and will make use of all of its functionalities. Below, the main features of each service are listed, and a description is offered.
 
@@ -207,6 +217,7 @@ The TrackMe environment is composed, as said before, by a set of 3 services, wit
 
 \item{\textbf{AutomatedSOS}}
 \\ AutomatedSOS is a complementary service offered to the senior range of users, and it will be built on top of the Data4Help service. All the elderly individuals of Data4Help will receive a request to subscribe to this service, whose main feature is to contact the individual's National Health Care Service every time any critical health parameter is under or above a defined threshold. 
+
 \item{\textbf{Track4Run}}
 \\Track4Run is the last service offered by TrackMe, and it will, also, be build on top of Data4Help. Designed as a service for run organizers and runners, who operate the TrackMe devices. The run organizers will be able to define a running circuit, and send invitations to the TrackMe device users; The individuals will be able to register to any particular competition they prefer. Furthermore, during the duration of each race, all spectators will be able to spot, through the Track4Run site, the location of each registered individual in the circuit.
 \end{itemize}
