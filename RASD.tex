@@ -1,0 +1,457 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsfonts,amsmath,amssymb}
+\usepackage[none]{hyphenat}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{booktabs,caption}
+\usepackage[flushleft]{threeparttable}
+\usepackage{amsmath}
+\usepackage{relsize}
+\usepackage[super,negative]{nth}
+\usepackage{enumerate}
+\usepackage{float}
+%\usepackage[demo]{graphicx}
+
+% COMMANDS
+\newcommand\requirement[1]{\item[{[R#1]}] }
+\newcommand\goal[1]{\item[{[G#1]}] }
+\newcommand\assumption[1]{\item[{[D#1]}] }
+\newcommand\usecase[1]{ \item[{[UC#1]}] }
+
+%%%%%%%%%%%%
+
+%PAGESTYLE
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{\slshape\MakeUppercase{RASD}}
+\fancyhead[R]{\slshape{Avila, Schiatti, Virdi}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\headrulewidth}{1pt}
+\linespread{1.3}
+%\floatstyle{boxed} 
+\restylefloat{figure}
+\parindent 0ex
+%\renewcommand{baselinestretch}{1.5}
+
+%BODY
+\begin{document}
+\begin{titlepage}
+\begin{center}
+\begin{figure}[h]
+\includegraphics[scale=1]{../Assets/PolimiLogo.png}
+\centering
+\end{figure}
+\centering\textbf{POLITECNICO DI MILANO}\\
+\centering\textbf{DEPARTMENT OF COMPUTER SCIENCE ENGINEERING}
+\vspace*{4cm}
+
+\line(1,0){450}\\
+\Large{\textbf{Requirement Analysis and Specification Document (RASD)}}\\[3mm]
+\Large{- TrackMe -}\\
+\Large{v.1.0}\\
+\line(2,0){450}\\
+\vfill
+\textbf{Authors}\\
+\textbf{Avila}, Diego Emanuel - 903988\\
+\textbf{Schiatti}, Laura Cristina - 904738\\
+\textbf{Virdi}, Sukhpreet Kaur - 904204\\
+
+November \nth{11} , 2018
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+\listoffigures
+%\listoftables
+\thispagestyle{empty}
+\clearpage
+\setcounter{page}{1}
+
+\section{Introduction}
+\subsection{Context}
+Nowadays, due to the availability of a huge variety of smart electronic devices, more and more applications are developed to help people in their day-to-day activities. In the healthcare field, wearable devices such as smartwatches are highly useful since they can be used to collect information about general well-being of users by means of mobile sensor technologies. As expected, measured data has several possible applications including, patient diagnostics and treatment or research motivations. \\
+
+\textbf{TrackMe} is a company that develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatch is synchronized with an app that gives users access to their data and stats.  
+
+\subsection{Purpose}
+Taking into account the long list of currently available wearable devices, \textbf{TrackMe} is continuously looking for new strategic decisions to combat competition by offering new innovative services. In this opportunity, they decided to generate revenues from user data in a direct way (i.e. extend its business model by implementing \textbf{data trading}). This is, selling collected data to third parties -who need to know the health status of the population for different purposes- in an anonymised form.\\
+
+TrackMe new software-based service is called \textbf{Data4Help}. This service provides registered third-party companies the possibility to monitor location and body metrics of individuals by exploiting data acquired through their wearable devices.\\
+
+After some time, TrackMe realizes that a good part of its third-party customers wants to use the data acquired through Data4Help to offer a personalized SOS service to elderly people and decides to  build a new service, called \textbf{AutomatedSOS}, on top of Data4Help. AutomatedSOS provides a personal alarm service for the elderly subscribed customers by monitoring their health status.\\
+
+Finally, TrackMe realizes that another great source of revenues could be the development of a service to track athletes participating in a run. In this case, the service, called \textbf{Track4Run}, will allow run organizers to define the path, TrackMe wearable-devices users to enroll, and spectators to see on the map the position of all runners during the run. \\
+
+\subsection{Scope}
+
+\subsubsection{Description of the given problem}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.50]{Diagrams/High_level.jpg}
+\caption[High-level Description of the problem]{High-level Description of the problem}
+\label{fig:High_level}
+\end{figure}
+
+\textbf{TrackMe} develops its own health-monitoring smart-watch and bases the assumption that all registered individuals own the same to retrieve the necessary raw data (body temperature, blood pressure, heart pulse rate, percentage of $O_2$ in the blood, current location)  as input for the service \textbf{Data4Help}. TrackMe provides the user an interface for the registration of individuals as well as third parties. Individuals who register, agree to TrackMe acquiring their data. They are wirelessly connected to each other. We presume the data to be posted using a compatible application that comes with the health-monitoring device. As mentioned before, it also supports the registration of third parties. While doing so, we acknowledge the company is legally established by validating its certificate, who can thereafter request for the data of some specific individuals (using SSN) to whom the request will accordingly be sent. The individuals have the choice to subsequently accept or reject it. Alternatively, they can also ask for bulk data based on criteria filtered and provided by the system (such as age, gender, country, province) which will be handled directly by TrackMe. If the request for data acquisition is approved, TrackMe offers these third party customers to subscribe to the new data, in real-time.\\
+\textbf{AutomatedSOS} is built on top of Data4Help to provide an opportunity to users above the age of 60, to subscribe to a new SOS service. AutomatedSOS monitors the health status of these users. When vital parameters  such as heart rate, blood pressure, body temperature, percentage of $O_2$ in the blood are below certain thresholds, the health care system is automatically notified, which accordingly handles the arrival of an ambulance to the location. It must be noted that this post-notification management cannot be tracked.\\
+
+\textbf{Track4Run} allows 'fit' users to participate in any upcoming run. If the user desires to participate they can accept the request and enrol themselves through a redirected link.  We assume that organizers define a valid path viewable to all users before the run. Spectators (read : all users) can view the position of all the participants on the map during the run. \\
+
+\subsubsection{World and Shared Phenomena}
+
+\begin{itemize}
+\item \textbf{World Phenomena}
+\\
+In order to better understand which entities are relevant for the system and how they interact, it is essential to describe the real world events that are involved, they are
+\begin{itemize}
+\item{} TrackMe wearable devices.
+\item{} Individuals sharing their personal data.
+\item{} Third-party customers willing to use the data acquired through the devices.
+\item{} Healthcare system .
+\end{itemize}
+
+\item \textbf{Shared Phenomena}
+\\
+The shared phenomena is composed by all the relevant interactions between the world and the system. Every interaction is part of a relationship between entities in the real world and Trackme environment. The main ones are listed below.
+\begin{itemize}
+\item{} The physical health parameters collected by the Trackme devices (i.e. blood pressure, body temperature, etc.), and stored by Data4Help
+\item{} Individuals location collected by the Trackme device, and stored by Data4Help
+\item{} Healthcare system, that let AutomatedSOS send the alarms
+\item{} The running circuit defined in Track4Run
+\item{} The current location of the athletes participating in a run.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Goals}
+The goals are divided according to each service TrackMe wants to offer to its customers:
+\begin{itemize}
+\item{\textbf{Data4Help}}
+\begin{enumerate}
+\goal{1} Provide a service capable to acquire the location and physical data of individuals, obtained by means of TrackMe's smart devices
+\goal{2} Provide a service that lets third party companies access an individual's stored data 
+\goal{3} Provide a service that lets a third party companies to access anonymized stored data from groups of individuals, subject to specified constraints
+\goal{4} Provide third party companies a way to get updates on a specific individual's data or a previously saved search of anonymized data
+\end{enumerate}
+\item{\textbf{AutomatedSOS}}
+\begin{enumerate}
+\goal{5} Provide a service capable to notify the health care service when a individual's parameters are below or above a defined threshold
+\end{enumerate}
+\item{\textbf{Track4Run}}
+\begin{enumerate}
+\goal{6} Provide a platform that let run organizers to define the running circuit, and participants to enroll to any particular race
+\goal{7} Provide spectators a way to monitor the participants' location during a race
+\end{enumerate}
+\end{itemize}
+
+\subsection{Definitions, Acronyms, Abbreviations}
+\subsubsection{Definitions}
+\begin{itemize}
+\item{\textbf{Data trading}}: Generate revenew from user data in a much more direct way, by selling user data to a third party.
+\item{\textbf{Health status}}: Collection of the last measured overall physical health parameters of a user or a group of users.
+\item{\textbf{Remote monitoring}}: Remote Monitoring (RMON) is a standard specification that facilitates the monitoring of network operational activities through the use of remote devices known as monitors or probes(here, we are using smartwatches).
+\item{\textbf{Wearable device}}: Devices that can be used to collect data and monitor users' overall physical health, such as body temperature, blood pressure, heart pulse rate, etc.
+
+\end{itemize}
+\subsubsection{Acronyms}
+\begin{itemize}
+\item{RASD}: Requirement Analysis and Specification Document
+\end{itemize}
+
+\subsubsection{Abbreviations}
+\begin{itemize}
+\item $[Gn]$: n-goal. 
+\item $[Dn]$: n-domain assumption. 
+\item $[Rn]$: n-functional requirement. 
+\item $[UCn]$: n-functional requirement. 
+\end{itemize}
+
+\subsection{Revision History}
+ \begin{tabular}{ | l | c |}
+    \hline
+    \textbf{Version} & \textbf{Last modified date} \\ \hline
+    1.0 & \nth{11} November, 2018 \\ \hline
+ \end{tabular}
+
+\subsection{Reference Documents}
+\begin{itemize}
+\item Requirement Analysis and Specification Document: AA 2017-2018.pdf”. Version 1.0 - 26.10.2017
+\item Henriksen, A., Haugen Mikalsen, M., Woldaregay, A. Z., Muzny, M., Hartvigsen, G., Hopstock, L. A., Grimsgaard, S. (2018)
+\\Using Fitness Trackers and Smartwatches to Measure Physical Activity in Research: Analysis of Consumer Wrist-Worn Wearables. Journal of medical Internet research, 20(3), e110. doi:10.2196/jmir.9157. 
+\\Retrieved from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5887043/
+\item IEEE. (1993). IEEE Recommended Practice for Software Requirements Specifications (IEEE 830-1993). 
+\\Retrieved from https://standards.ieee.org/standard/830-1993.html
+\end{itemize}
+
+\subsection{Document Structure}
+This document is divided in six parts, each one devoted to approach each one of the steps required to apply requirements engineering techniques.\\
+\begin{itemize}
+\item Chapter 1 gives an introduction to the problem and describes the purpose of the application TrackMe. The scope of the application is defined by stating the goals and description of the probl	em.
+\item Chapter 2 presents the overall description of the project. The product perspective includes details on the shared phenomena and the domain models.
+\item Chapter 3 contains the external interface requirements, including: user interfaces, hardware interfaces, software interfaces and communication interfaces. Furthermore, the functional requirements are defined by using use case and sequence diagram. The non-functional requirements are defined through performance requirements, design constraints and software system attributes.
+\item Chapter 4 includes the alloy model and the discussion of its purpose. Also, a world generated by it is shown.
+\item Chapter 5 shows the effort spent by each group member while working on this project.
+\item Chapter 6 includes the reference documents.
+\end{itemize}
+
+\section{Overall Description}
+\subsection{Product Perspective}
+In the previous section, the scope of the application was delimited and explained in a shallow way, but at this point it is useful to include further details on the shared phenomena and a domain model as a visual representation of the system.  \\
+ The addition of brand-new services to TrackMe requires to enlarge the existing model in such a way that it can include the abstraction of those features. To explain in detail the way data will be organized in the upcoming system, the structure of TrackMe up to now will be treated as a “black box”. This means, only those parts of the whole data model that will allow us to obtain users’ basic information and collected data (required by Data4Help) will be considered. \\
+ On the other hand, AutomatedSOS and Track4Run are treated as third-parties that make requests for the data that Data4Help offers. Every time a user agrees to activate any of those services, a new request is sent to Data4Help to obtain his data. \\\\
+
+ \begin{figure}[H]
+\centering
+ \includegraphics[scale=0.5]{Diagrams/Domain_model.png}
+\caption[Product Perspective as Class Diagram]{Product Perspective as Class Diagram}
+\label{fig:Domain_model}
+\end{figure}
+
+\subsection{Product Functions}
+The TrackMe environment is composed, as said before, by a set of 3 services, with Data4Help as the leading service. AutomatedSOS and Track4Run are going to be build on top of Data4Help, and will make use of all of its functionalities. Below, the main features of each service are listed, and a description is offered.
+
+\begin{itemize}
+\item{\textbf{Data4Help}}
+\\Data4Help will be the leading service, and the features it will provide are mostly related to registered third party companies. Companies will be able to access different types of data from the individuals wearing the TrackMe devices. They will be able to subscribe to a specific individual data, or to a group of anonymized individuals' data, as long as certain restrictions are fulfilled. The individuals, on the other hand, will be able to accept or reject the request of accessing his/her data, and the third party companies will be notified of the individuals' decision.
+
+\item{\textbf{AutomatedSOS}}
+\\ AutomatedSOS is a complementary service offered to the senior range of users, and it will be built on top of the Data4Help service. All the elderly individuals of Data4Help will receive a request to subscribe to this service, whose main feature is to contact the individual's National Health Care Service every time any critical health parameter is under or above a defined threshold. 
+\item{\textbf{Track4Run}}
+\\Track4Run is the last service offered by TrackMe, and it will, also, be build on top of Data4Help. Designed as a service for run organizers and runners, who operate the TrackMe devices. The run organizers will be able to define a running circuit, and send invitations to the TrackMe device users; The individuals will be able to register to any particular competition they prefer. Furthermore, during the duration of each race, all spectators will be able to spot, through the Track4Run site, the location of each registered individual in the circuit.
+\end{itemize}
+
+\subsection{User characteristics}
+The target users of the \textbf{TrackMe} system are:
+\begin{itemize}
+\item{} \textbf{Individuals:} 
+\begin{itemize}
+\item{} who can \textbf{register} and \textbf{allows} TrackMe to store, analyse and process their data;
+\item{} can \textbf{manage} the requests if some third party users wants access to their data individually;
+\item{} users above the age of 60, can \textbf{avail} AutomatedSOS service provided by TrackMe by using the subscribe option available on their dashboard;
+\item{} they can \textbf{participate} into the upcoming runs;
+\item{} \textbf{Organisers and Spectators} are also categorised as individuals. Organisers take the initiative of organising runs and defining the path, such that, other individuals are able to participate, whereas, spectators are the audience;
+
+\end{itemize}
+\item{} \textbf{Third party users:}
+\begin{itemize}
+\item{} can \textbf{register} and make \textbf{requests} for the data required;
+\item{} can \textbf{subscribe} to the data after acquiring;
+\item{} \textbf{AutomatedSOS and Track4Run} are the third party companies \textbf{managed directly by} TrackMe;
+\end{itemize}
+
+\end{itemize}
+Therefore, all the constraints derived from these characteristics must be satisfied from the \textbf{TrackMe} system, as much as possible.
+\subsection{Assumptions, dependencies and constraints}
+
+\section{Specific requirements}
+This section contains all of the functional and quality requirements of the system. It gives a detailed
+description of the system and all its features. 
+\subsection{External Interface Requirements}
+This section provides a detailed description of all inputs into and outputs from the system. It also gives a
+description of the hardware, software and communication interfaces and provides basic prototypes of the
+user interface.
+\subsubsection{User Interfaces}
+The following mock-ups represent a basic idea of what the web application will look like after the first release:\\\\\\
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{../Assets/Home_Page.png}
+\caption[UI: TrackMe's Home Page]{TrackMe's Home Page}
+\label{fig:Home_Page}
+\end{figure}
+
+As when new customers visits the home page of TrackMe, they can read about the work that our company does, what services we offer, what benefits users can achieve by joining the community. In addition, they can buy the wearables and get more information, how to use them.\\\\
+Next, comes the web page through which users can Login into the system (if already registered). And if not, they can register themselves through the Register web-page. There are separate register forms for the Individual users and the Third-party users visible below:\\\\
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{../Assets/Login.png}
+\caption[UI: Login Page]{Login Page}
+\label{fig:Login}
+\end{figure}
+
+Registration is free for all the users and it doesn't take much time to complete the forms, as we can see below:\\\\
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{../Assets/Register.png}
+\caption[UI: Individual User's Registration page]{Individual User's Registration page}
+\label{fig:Register}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{../Assets/Register_third_party.png}
+\caption[UI: Third Party's Registration page]{Third Party's Registration page}
+\label{fig:Register_third_party}
+\end{figure}
+In Figure below, its personal dashboard for the individual users, who can manage and view the requests and are able to view who all third parties have subscribed to their data.\\\\
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{../Assets/Dashboard_individual.png}
+\caption[UI: Registered user's Dashboard]{Registered user's Dashboard}
+\label{fig:Dashboard_individual}
+\end{figure}
+In the next figure, we can see the customer has options to choose to accept or reject the request for data acquisition. As soon as an action is taken upon the request, it gets deleted from the page.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{../Assets/Individual_Request.png}
+\caption[UI: Registered user's Dashboard who can choose to Accept or Reject the requests]{Registered user's Dashboard who can choose to Accept or Reject the requests}
+\label{fig:Individual_Request}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{../Assets/Make_Request.png}\caption[UI: Third party user's Dashboard to make requests]{Third party user's Dashboard to make requests}
+\label{fig:Make_Request}
+\end{figure}
+
+In the figure above, Third party users can make request for the data using the filtering criteria provided by the system.
+
+
+
+\subsubsection{Hardware Interfaces}
+No such direct hardware interfaces are required by our system, as this is a web portal application. The physical GPS is managed by the smart-watch wearables and managed through its application. And the hardware connection to the database server is managed by the underlying operating system on the web server. Thus, it can be easily accessible from any device or any location if \textbf{Internet service} is available.
+\subsubsection{Software Interfaces}
+Web applications are by nature distributed applications. Specifically, web applications are accessed with a web browser and are popular because of the ease of using the browser as a user client.\\
+Software Interfaces considered in TrackMe system are as follows:
+\begin{itemize}
+\item{} \textbf{Data4Help:} A service developed by TrackMe which collects all the data of the individuals and provides the data if necessary; It provides an interface to the third party users to make request;
+\item{} \textbf{AutomatedSOS:} A Third party company organised directly by TrackMe which provides support in case of emergency to the subscribed users;
+\item{} \textbf{Track2Run:} A Third party company organised directly by TrackMe which provides an interface to individuals to enrol into the run and allows the audience to view the position of the runners during the run;
+\end{itemize}
+\subsubsection{Communication Interfaces}
+The communication between different parts of the system is important since they depend on each other. However, in the way communication is achieved is not important for the system and is therefore handled by the underlying operating system for web portal.
+\subsection{Functional Requirements}
+The functional requirements are those which are the fundamental actions of the system. As before, every requirement is divided by subsystem (D4H, ASOS and T4R), and the relation with each goal is shown.
+
+\begin{itemize}
+  \item{\textbf{Data4Help}}
+  \begin{enumerate}
+    \goal{1} Provide a service capable to acquire the location and physical data of individuals, obtained by means of TrackMe's smart devices
+    \begin{enumerate}
+      \requirement{1} The system must allow an individual to register a new account.
+      \requirement{2} The system must allow an individual to access to its account.
+      \requirement{3} The system must allow an individual to accept or reject its requests of accessing personal data.
+      \requirement{4} The system must be able to communicate with TrackMe database in order to obtain the health status and location of an individual.
+    \end{enumerate}
+    \goal{2} Provide a service that lets third party companies access an individual's stored data 
+    \begin{enumerate}
+      \requirement{5} The system must allow a third party company to register a new account.
+      \requirement{6} The system must allow a third party company to access to its account.
+      \requirement{7} The system must allow a third party company to search for an individual health status and location using his/her SSN.
+      \requirement{8} The system must be able to notify the individual that a third party company wants to access its data.
+    \end{enumerate}
+    \goal{3} Provide a service that lets a third party companies to access anonymized stored data from groups of individuals, subject to specified constraints
+    \begin{enumerate}
+      \requirement{5} The system must allow a third party company to register a new account.
+      \requirement{6} The system must allow a third party company to access to its account.
+      \requirement{9} The system must allow a third party company to access data of an anonymized group of individuals.
+      \requirement{10} The system must be able to anonymize health status and location of a group of individuals.
+    \end{enumerate}
+    \goal{4} Provide third party companies a way to get updates on a specific individual's data or a previously saved search of anonymized data
+    \begin{enumerate}
+      \requirement{5} The system must allow a third party company to register a new account.
+      \requirement{6} The system must allow a third party company to access to its account.
+      \requirement{11} The system must allow a third party company to subscribe to an individual health status and location.
+      \requirement{12} The system must allow a third party company to subscribe to data of an anonymized group of individuals
+    \end{enumerate}
+  \end{enumerate}
+  
+  \item{\textbf{AutomatedSOS}}
+  \begin{enumerate}
+    \goal{5} Provide a service capable to notify the health care service when a individual's parameters are below or above a defined threshold
+    \begin{enumerate}
+      \requirement{13} The system must be able to send a request for accessing an individual's data when he/she is older than 60 years old.
+      \requirement{14} The system must be able to monitor, and compare against defined thresholds, the health status of an individual.
+      \requirement{15} The system must be able to contact the Healthcare service associated to an individual.      
+    \end{enumerate}
+  \end{enumerate}
+  
+  \item{\textbf{Track4Run}}
+  \begin{enumerate}
+    \goal{6} Provide a platform that let run organizers to define the running circuit, and participants to enroll to any particular race
+    \begin{enumerate}
+      \requirement{16} The system must allow a participant to register a new account.
+      \requirement{17} The system must allow a participant to access to its account.
+      \requirement{18} The system must allow an organizer to register a new account.
+      \requirement{19} The system must allow an organizer to access to its account.
+      \requirement{20} The system must allow an organizer to create a race event.
+      \requirement{21} The system must allow an organizer to define the running circuit of a race event.
+      \requirement{22} The system must allow an organizer to send invitations to the participants to enroll in a race event.
+      \requirement{23} The system must allow a participant to accept or reject an invitation to a race.
+    \end{enumerate}
+    \goal{7} Provide spectators a way to monitor the participants' location during a race
+    \begin{enumerate}
+      \requirement{16} The system must allow a participant to register a new account.
+      \requirement{17} The system must allow a participant to access to its account.
+      \requirement{18} The system must allow an organizer to register a new account.
+      \requirement{19} The system must allow an organizer to access to its account.
+      \requirement{20} The system must allow an organizer to create a race event.
+      \requirement{23} The system must allow a participant to accept or reject an invitation to a race.
+      \requirement{24} The system must allow any spectator of a run to view in a map the participants' location
+      \requirement{25} the system must allow a spectator to click on a participant location in order to view his/her health status.
+    \end{enumerate}
+  \end{enumerate}
+
+\end{itemize}
+
+\subsubsection{Use Case Diagrams}
+In the current section the use cases for all the subsystems are shown.
+
+\begin{itemize}
+\item{\textbf{Data4Help}} \\
+In the Figure \ref{fig:d4h_use_cases} the Data4Help use cases are shown. The most important use cases are \textit{Manage requests}, \textit{Access individual data}, \textit{Access bulk data}, and \textit{Send a request}. As shown in the figure, the actors related to this system are the \textit{Individual}, who is the user of the TrackMe wearable device, and the \textit{Third party company}, which is the actor who will access the individual's data.
+
+\begin{figure}[H]
+\centering
+	\includegraphics[scale=0.6]{Diagrams/d4h_use_cases.png}
+\caption[Data4Help use cases]{Data4Help use cases diagram}
+\label{fig:d4h_use_cases}
+\end{figure}
+
+\item{\textbf{AutomatedSOS}}\\
+\item{\textbf{Track4Run}}\\
+In the Figure \ref{fig:t4r_use_cases} the Track4Run use cases are shown. The most important use cases are \textit{Manage invitations}, and \textit{Create a run}. In this system, the actors are the \textit{Participant}, who is the TrackMe wearable device user, the \textit{Organizer}, who will setup the run, and the \textit{Spectator}, who are all the non-users that may track and watch the location of the participants during a given run.
+
+\begin{figure}[H]
+\centering
+	\includegraphics[scale=0.6]{Diagrams/t4r_use_cases.png}
+\caption[Track4Run use cases]{Track4Run use cases diagram}
+\label{fig:t4r_use_cases}
+\end{figure}
+
+\end{itemize}
+
+\subsubsection{Use Cases Description}
+
+\subsubsection{Activity Diagrams}
+
+\subsubsection{Sequence Diagrams}
+
+\subsubsection{Requirements Traceability Matrix}
+\begin{tabular}{ | l | l | l | l |}
+    \hline
+    \textbf{Goal ID} & \textbf{Req ID} & \textbf{Use case ID} & \textbf{Comments} \\ \hline
+    G.1 & RE.3 & UC.3 & UC.3 \\ \hline
+\end{tabular}
+
+\subsection{Performance Requirements}
+
+
+\end{document}
