@@ -17,12 +17,14 @@
 \usepackage{relsize}
 \usepackage[super,negative]{nth}
 \usepackage{enumerate}
+\usepackage{float}
 %\usepackage[demo]{graphicx}
 
 % COMMANDS
 \newcommand\requirement[1]{\item[{[R#1]}] }
 \newcommand\goal[1]{\item[{[G#1]}] }
 \newcommand\assumption[1]{\item[{[D#1]}] }
+\newcommand\usecase[1]{ \item[{[UC#1]}] }
 
 %%%%%%%%%%%%
 
@@ -36,6 +38,8 @@
 \renewcommand{\footrulewidth}{1pt}
 \renewcommand{\headrulewidth}{1pt}
 \linespread{1.3}
+%\floatstyle{boxed} 
+\restylefloat{figure}
 \parindent 0ex
 %\renewcommand{baselinestretch}{1.5}
 
@@ -69,7 +73,7 @@ November \nth{11} , 2018
 \tableofcontents
 \thispagestyle{empty}
 \newpage
-%\listoffigures
+\listoffigures
 %\listoftables
 \thispagestyle{empty}
 \clearpage
@@ -131,7 +135,7 @@ The goals are divided according to each service TrackMe wants to offer to its cu
 \begin{itemize}
 \item{\textbf{Data4Help}}
 \begin{enumerate}
-\goal{1} Provide a service capable to store the location and physical data of an individual, obtained by means of TrackMe's smart devices
+\goal{1} Provide a service capable to acquire the location and physical data of individuals, obtained by means of TrackMe's smart devices
 \goal{2} Provide a service that lets third party companies access an individual's stored data 
 \goal{3} Provide a service that lets a third party companies to access anonymized stored data from groups of individuals, subject to specified constraints
 \goal{4} Provide third party companies a way to get updates on a specific individual's data or a previously saved search of anonymized data
@@ -238,7 +242,105 @@ The TrackMe environment is composed, as said before, by a set of 3 services, wit
 \subsubsection{Communication Interfaces}
 
 \subsection{Functional Requirements}
+The functional requirements are those which are the fundamental actions of the system. As before, every requirement is divided by subsystem (D4H, ASOS and T4R), and the relation with each goal is shown.
+
+\begin{itemize}
+  \item{\textbf{Data4Help}}
+  \begin{enumerate}
+    \goal{1} Provide a service capable to acquire the location and physical data of individuals, obtained by means of TrackMe's smart devices
+    \begin{enumerate}
+      \requirement{1} The system must allow an individual to register a new account.
+      \requirement{2} The system must allow an individual to access to its account.
+      \requirement{3} The system must allow an individual to accept or reject its requests of accessing personal data.
+      \requirement{4} The system must be able to communicate with TrackMe database in order to obtain the health status and location of an individual.
+    \end{enumerate}
+    \goal{2} Provide a service that lets third party companies access an individual's stored data 
+    \begin{enumerate}
+      \requirement{5} The system must allow a third party company to register a new account.
+      \requirement{6} The system must allow a third party company to access to its account.
+      \requirement{7} The system must allow a third party company to search for an individual health status and location using his/her SSN.
+      \requirement{8} The system must be able to notify the individual that a third party company wants to access its data.
+    \end{enumerate}
+    \goal{3} Provide a service that lets a third party companies to access anonymized stored data from groups of individuals, subject to specified constraints
+    \begin{enumerate}
+      \requirement{5} The system must allow a third party company to register a new account.
+      \requirement{6} The system must allow a third party company to access to its account.
+      \requirement{9} The system must allow a third party company to access data of an anonymized group of individuals.
+      \requirement{10} The system must be able to anonymize health status and location of a group of individuals.
+    \end{enumerate}
+    \goal{4} Provide third party companies a way to get updates on a specific individual's data or a previously saved search of anonymized data
+    \begin{enumerate}
+      \requirement{5} The system must allow a third party company to register a new account.
+      \requirement{6} The system must allow a third party company to access to its account.
+      \requirement{11} The system must allow a third party company to subscribe to an individual health status and location.
+      \requirement{12} The system must allow a third party company to subscribe to data of an anonymized group of individuals
+    \end{enumerate}
+  \end{enumerate}
+  
+  \item{\textbf{AutomatedSOS}}
+  \begin{enumerate}
+    \goal{5} Provide a service capable to notify the health care service when a individual's parameters are below or above a defined threshold
+    \begin{enumerate}
+      \requirement{13} The system must be able to send a request for accessing an individual's data when he/she is older than 60 years old.
+      \requirement{14} The system must be able to monitor, and compare against defined thresholds, the health status of an individual.
+      \requirement{15} The system must be able to contact the Healthcare service associated to an individual.      
+    \end{enumerate}
+  \end{enumerate}
+  
+  \item{\textbf{Track4Run}}
+  \begin{enumerate}
+    \goal{6} Provide a platform that let run organizers to define the running circuit, and participants to enroll to any particular race
+    \begin{enumerate}
+      \requirement{16} The system must allow a participant to register a new account.
+      \requirement{17} The system must allow a participant to access to its account.
+      \requirement{18} The system must allow an organizer to register a new account.
+      \requirement{19} The system must allow an organizer to access to its account.
+      \requirement{20} The system must allow an organizer to create a race event.
+      \requirement{21} The system must allow an organizer to define the running circuit of a race event.
+      \requirement{22} The system must allow an organizer to send invitations to the participants to enroll in a race event.
+      \requirement{23} The system must allow a participant to accept or reject an invitation to a race.
+    \end{enumerate}
+    \goal{7} Provide spectators a way to monitor the participants' location during a race
+    \begin{enumerate}
+      \requirement{16} The system must allow a participant to register a new account.
+      \requirement{17} The system must allow a participant to access to its account.
+      \requirement{18} The system must allow an organizer to register a new account.
+      \requirement{19} The system must allow an organizer to access to its account.
+      \requirement{20} The system must allow an organizer to create a race event.
+      \requirement{23} The system must allow a participant to accept or reject an invitation to a race.
+      \requirement{24} The system must allow any spectator of a run to view in a map the participants' location
+      \requirement{25} the system must allow a spectator to click on a participant location in order to view his/her health status.
+    \end{enumerate}
+  \end{enumerate}
+
+\end{itemize}
+
 \subsubsection{Use Case Diagrams}
+In the current section the use cases for all the subsystems are shown.
+
+\begin{itemize}
+\item{\textbf{Data4Help}} \\
+In the Figure \ref{fig:d4h_use_cases} the Data4Help use cases are shown. The most important use cases are \textit{Manage requests}, \textit{Access individual data}, \textit{Access bulk data}, and \textit{Send a request}. As shown in the figure, the actors related to this system are the \textit{Individual}, who is the user of the TrackMe wearable device, and the \textit{Third party company}, which is the actor who will access the individual's data.
+
+\begin{figure}[H]
+\centering
+	\includegraphics[scale=0.6]{Diagrams/d4h_use_cases.png}
+\caption[Data4Help use cases]{Data4Help use cases diagram}
+\label{fig:d4h_use_cases}
+\end{figure}
+
+\item{\textbf{AutomatedSOS}}\\
+\item{\textbf{Track4Run}}\\
+In the Figure \ref{fig:t4r_use_cases} the Track4Run use cases are shown. The most important use cases are \textit{Manage invitations}, and \textit{Create a run}. In this system, the actors are the \textit{Participant}, who is the TrackMe wearable device user, the \textit{Organizer}, who will setup the run, and the \textit{Spectator}, who are all the non-users that may track and watch the location of the participants during a given run.
+
+\begin{figure}[H]
+\centering
+	\includegraphics[scale=0.6]{Diagrams/t4r_use_cases.png}
+\caption[Track4Run use cases]{Track4Run use cases diagram}
+\label{fig:t4r_use_cases}
+\end{figure}
+
+\end{itemize}
 
 \subsubsection{Use Cases Description}
 
