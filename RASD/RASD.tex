@@ -24,7 +24,7 @@
 \newcommand\requirement[1]{\item[{[R#1]}] }
 \newcommand\goal[1]{\item[{[G#1]}] }
 \newcommand\assumption[1]{\item[{[D#1]}] }
-\newcommand\usecase[1]{ \item[{[UC#1]}] }
+\newcommand\usecase[1]{ [UC#1] }
 
 %%%%%%%%%%%%
 
@@ -141,10 +141,10 @@ The goals are divided according to each service TrackMe wants to offer to its cu
 \begin{itemize}
 \item{\textbf{Data4Help}}
 \begin{enumerate}
-\goal{1} Provide a service capable to acquire the location and physical data of individuals, obtained by means of TrackMe's smart devices
+\goal{1} Provide a service capable to acquire the location and physiological data of individuals, obtained by means of TrackMe's smart devices
 \goal{2} Provide a service that lets third party companies access an individual's stored data 
 \goal{3} Provide a service that lets a third party companies to access anonymized stored data from groups of individuals, subject to specified constraints
-\goal{4} Provide third party companies a way to get updates on a specific individual's data or a previously saved search of anonymized data
+\goal{4} Provide third party companies a way to get updates regarding a specific individual or a previous search of anonymized data
 \end{enumerate}
 \item{\textbf{AutomatedSOS}}
 \begin{enumerate}
@@ -176,7 +176,7 @@ The goals are divided according to each service TrackMe wants to offer to its cu
 \item $[Gn]$: n-goal. 
 \item $[Dn]$: n-domain assumption. 
 \item $[Rn]$: n-functional requirement. 
-\item $[UCn]$: n-functional requirement. 
+\item $[UCn]$: n-use case. 
 \end{itemize}
 
 \subsection{Revision History}
@@ -343,7 +343,7 @@ The functional requirements are those which are the fundamental actions of the s
 \begin{itemize}
   \item{\textbf{Data4Help}}
   \begin{enumerate}
-    \goal{1} Provide a service capable to acquire the location and physical data of individuals, obtained by means of TrackMe's smart devices
+    \goal{1} Provide a service capable to acquire the location and physiological data of individuals, obtained by means of TrackMe's smart devices
     \begin{enumerate}
       \requirement{1} The system must allow an individual to register a new account.
       \requirement{2} The system must allow an individual to access to its account.
@@ -361,10 +361,10 @@ The functional requirements are those which are the fundamental actions of the s
     \begin{enumerate}
       \requirement{5} The system must allow a third party company to register a new account.
       \requirement{6} The system must allow a third party company to access to its account.
-      \requirement{9} The system must allow a third party company to access data of an anonymized group of individuals.
+      \requirement{9} The system must allow a third party company to filter data of an anonymized group of individuals by country, age, gender and blood type parameters.
       \requirement{10} The system must be able to anonymize health status and location of a group of individuals.
     \end{enumerate}
-    \goal{4} Provide third party companies a way to get updates on a specific individual's data or a previously saved search of anonymized data
+    \goal{4} Provide third party companies a way to get updates regarding a specific individual or a previous search of anonymized data
     \begin{enumerate}
       \requirement{5} The system must allow a third party company to register a new account.
       \requirement{6} The system must allow a third party company to access to its account.
@@ -435,10 +435,270 @@ In the Figure \ref{fig:t4r_use_cases} the Track4Run use cases are shown. The mos
 \caption[Track4Run use cases]{Track4Run use cases diagram}
 \label{fig:t4r_use_cases}
 \end{figure}
-
 \end{itemize}
 
 \subsubsection{Use Cases Description}
+In the following section a description of each use case is provided. For every use case, an ID is defined, as well as the entry conditions, steps to accomplish the exit condition and any exception that may occur. As in previous sections, all the use cases are described based on the subsystem they belong to.
+
+\begin{itemize}
+	\item{\textbf{Data4Help}} \\
+	\\
+	\textbf{ID}: \usecase{1} \\
+	\textbf{Name}: Manage requests \\
+	\textbf{Actor}: Individual \\ 
+	\textbf{Entry conditions}:
+		\begin{enumerate}
+			\item{A logged in individual}
+  		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+			\item{The individual clicks on Requests button}
+			\item{The system shows the page with a list of all pending request for the individual (\textbf{Show requests} \usecase{2})}
+		    	\item{The individual selects the desired action (accept or reject) and clicks the Submit button}
+		    	\item{The system \textbf{Accepts the request} (\usecase{3}) or \textbf{Rejects the request} (\usecase{4})}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{itemize}
+			\item{The request is set as accepted or rejected}
+  		\end{itemize}
+  	\textbf{Exceptions}: - \\
+
+	\textbf{ID}: \usecase{2} \\	
+	\textbf{Name}: Show requests \\
+    \textbf{Actor}: Individual \\ 	
+    \textbf{Entry conditions}: 
+		\begin{enumerate}
+			\item{A logged in individual}
+    			\item{A request to access the individual's health status and location}
+  		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+			\item{The system gets all the pending requests}
+    			\item{The system shows all the pending requests to the individual}
+  		\end{enumerate}
+  	\textbf{Exit conditions}: - \\
+  	\textbf{Exceptions}:
+  		\begin{enumerate}
+			\item{If there are no pending requests, the system should show a message to the user}
+  		\end{enumerate}
+  		
+  	\textbf{ID}: \usecase{3} \\
+  	\textbf{Name}: Accept the request \\
+  	\textbf{Actor}: Individual \\ 
+  	\textbf{Entry conditions}:
+	\begin{enumerate}
+		\item{A logged in individual}
+    		\item{A request to access the individual's health status and location}
+    		\item{The individual clicked on the submit button to accept a request}
+  	\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+			\item{The system sets the pending request as Accepted}
+    			\item{The system \textbf{Notifies the third party} (\usecase{5})}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+			\item{The request is set to Accepted}
+  		\end{enumerate}
+  	\textbf{Exceptions}: - \\
+  	
+  	\textbf{ID}: \usecase{4} \\
+  	\textbf{Name}: Reject the request \\
+  	\textbf{Actor}: Individual \\
+  	\textbf{Entry conditions}:
+  		\begin{enumerate}
+			\item{A logged in individual}
+    			\item{A request to access the individual's health status and location}
+    			\item{The individual clicked on the submit button to reject a request}
+  		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+			\item{The system sets the pending request as Rejected}
+    			\item{The system \textbf{Notifies the third party} (\usecase{5})}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+			\item{The request is set to Rejected}
+  		\end{enumerate}
+  	\textbf{Exceptions}: - \\
+  	
+  	\textbf{ID}: \usecase{5} \\
+  	\textbf{Name}: Notify third party \\
+    \textbf{Actor}: Individual \\
+    \textbf{Entry conditions}: 
+    		\begin{enumerate}
+			\item{A logged in individual}
+    			\item{A request is set to Accepted or Rejected}
+  		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The system adds a notification of the individual's decision to the third party company}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The system shows a new notification in the Third party company dashboard}
+  		\end{enumerate}
+  	\textbf{Exceptions}: - \\
+  	
+  	\textbf{ID}: \usecase{6} \\
+  	\textbf{Name}: Sign up \\
+    \textbf{Actor}: Individual, Third party company \\
+    \textbf{Entry conditions}: - \\
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The Individual or the Third party company enters to the sign up page of the website}
+    			\item{The Individual or the Third party company completes all the mandatory fields}
+    			\item{The Individual or the Third party company clicks on the "Get started" button}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The system creates an account for an Individual or a Third party company}
+  		\end{enumerate}
+  	\textbf{Exceptions}: 
+  		\begin{enumerate}
+    			\item{If either the Individual or the Third party company are already registered, an error message will be shown}
+    			\item{If there some of the fields in the registration form that are not filled in, an error message will be shown}
+  		\end{enumerate}
+  		
+  	\textbf{ID}: \usecase{7} \\
+  	\textbf{Name}: Login \\
+    \textbf{Actor}: Individual, Third party company \\
+    \textbf{Entry conditions}: - \\
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The Individual or the Third party company enters to the login page of the website}
+    			\item{The Individual or the Third party company completes the email address and password fields}
+    			\item{The Individual or the Third party company clicks on the "Log in" button}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The system redirects the Individual or a Third party company to the profile page}
+  		\end{enumerate}
+  	\textbf{Exceptions}: 
+  		\begin{enumerate}
+    			\item{If the credentials are wrong, an error message will be shown}
+    			\item{If the password or the email are missing, an error message will be shown}
+  		\end{enumerate}
+  	
+  	\textbf{ID}: \usecase{8} \\
+  	\textbf{Name}: Send a request \\
+    \textbf{Actor}: Third party company \\
+    \textbf{Entry conditions}:
+    		\begin{enumerate}
+    			\item{The Third party company is logged in}
+  		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The Third party company clicks on the Requests button}
+    			\item{The system shows a form with a filter criteria, which contains the SSN field}
+    			\item{The Third party company fills in the SSN field and clicks submit}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The system sends a notification to the Individual}
+  		\end{enumerate}
+  	\textbf{Exceptions}: 
+  		\begin{enumerate}
+    			\item{If the SSN is not valid, an error message will be shown}
+    			\item{If the SSN does not corresponds to an active Individual, an error message will be shown}
+  		\end{enumerate}
+  		
+  	\textbf{ID}: \usecase{9} \\
+  	\textbf{Name}: Access individual data \\
+    \textbf{Actor}: Third party company \\
+    \textbf{Entry conditions}:
+    		\begin{enumerate}
+    			\item{The Third party company is logged in}
+    			\item{The Third party has sent a request to access an specific Individual health status and location}
+  		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The Third party company clicks on the View data button}
+    			\item{The system shows a form with a filter criteria, which contains the SSN field}
+    			\item{The Third party company fills in the SSN field and clicks submit}
+    			\item{The system gets the health status and location of the given SSN}
+    			\item{The system shows the health status and location of the Individual}
+    			\item{The third party company may click on Subscribe, which extends to the use case \usecase{10}}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The system shows the health status and location of the given Individual}
+  		\end{enumerate}
+  	\textbf{Exceptions}: 
+  		\begin{enumerate}
+    			\item{If the SSN is not valid, an error message will be shown}
+    			\item{If the SSN does not corresponds to an active Individual, an error message will be shown}
+    			\item{If the SSN does not corresponds to an Individual who accepted the previously sent request, an error message will be shown}
+  		\end{enumerate}
+  		
+  	\textbf{ID}: \usecase{10} \\
+  	\textbf{Name}: Subscribe to data \\
+    \textbf{Actor}: Third party company \\
+    \textbf{Entry conditions}:
+    		\begin{enumerate}
+    			\item{The Third party company is logged in}
+    			\item{The Third party has made a search}
+    			\item{The Third party company clicks on the Subscribe button}
+  		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The system creates a subscription between the Third party company and saved search, that can be an specific SSN or a more general search}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The system starts to notify the Third party company of new incoming data of the Individual or the anonymized group of individuals}
+  		\end{enumerate}
+  	\textbf{Exceptions}:  - \\
+  	
+  	\textbf{ID}: \usecase{11} \\
+  	\textbf{Name}: Access bulk data \\
+    \textbf{Actor}: Third party company \\
+    \textbf{Entry conditions}:
+    		\begin{enumerate}
+    			\item{The Third party company is logged in}
+  		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The Third party company clicks on the View data button}
+    			\item{The system shows a form with different filter criteria, which contains country, age, gender and blood type fields}
+    			\item{The Third party company selects the different filters}
+    			\item{The system\textbf{Anonymize the data}(\usecase{12})}
+    			\item{The system shows the health status and location of the anonymized group of individuals}
+    			\item{The third party company may click on Subscribe, which extends to the use case \usecase{10}}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The system shows the health status of the anonymized group of individuals}
+  		\end{enumerate}
+  	\textbf{Exceptions}: 
+  		\begin{enumerate}
+    			\item{If the data cannot be anonymized, an error message will be shown}
+    			\item{If there is not enough data, an error message will be shown}
+  		\end{enumerate}
+  		
+  	\textbf{ID}: \usecase{12} \\
+  	\textbf{Name}: Anonymize data \\
+    \textbf{Actor}: Third party company \\
+    \textbf{Entry conditions}:
+    		\begin{enumerate}
+    			\item{The Third party company is logged in}
+    			\item{The Third party company has made a search for a bulk of data}
+  		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The system gets the data based on the filters the Third party company has provided}
+    			\item{The system anonymize the data, by removing the location of each user}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The system returns the anonymized data}
+  		\end{enumerate}
+  	\textbf{Exceptions}: 
+  		\begin{enumerate}
+    			\item{If there are less than 1000 individuals in the request of data, an error is returned}
+    			\item{If there is not enough data, an error is returned}
+  		\end{enumerate}
+\end{itemize}
 
 \subsubsection{Activity Diagrams}
 
