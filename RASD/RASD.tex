@@ -470,7 +470,7 @@ In the following section a description of each use case is provided. For every u
 			\item{The request is set as accepted or rejected}
   		\end{itemize}
   	\textbf{Exceptions}: - \\
-
+\rule{\linewidth}{0.4pt}
 	\textbf{ID}: \usecase{2} \\	
 	\textbf{Name}: Show requests \\
     \textbf{Actor}: Individual \\ 	
@@ -489,7 +489,7 @@ In the following section a description of each use case is provided. For every u
   		\begin{enumerate}
 			\item{If there are no pending requests, the system should show a message to the user}
   		\end{enumerate}
-  		
+\rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{3} \\
   	\textbf{Name}: Accept the request \\
   	\textbf{Actor}: Individual \\ 
@@ -509,7 +509,7 @@ In the following section a description of each use case is provided. For every u
 			\item{The request is set to Accepted}
   		\end{enumerate}
   	\textbf{Exceptions}: - \\
-  	
+  \rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{4} \\
   	\textbf{Name}: Reject the request \\
   	\textbf{Actor}: Individual \\
@@ -529,7 +529,7 @@ In the following section a description of each use case is provided. For every u
 			\item{The request is set to Rejected}
   		\end{enumerate}
   	\textbf{Exceptions}: - \\
-  	
+  	\rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{5} \\
   	\textbf{Name}: Notify third party \\
     \textbf{Actor}: Individual \\
@@ -547,7 +547,7 @@ In the following section a description of each use case is provided. For every u
     			\item{The system shows a new notification in the Third party company dashboard}
   		\end{enumerate}
   	\textbf{Exceptions}: - \\
-  	
+  	\rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{6} \\
   	\textbf{Name}: Sign up \\
     \textbf{Actor}: Individual, Third party company \\
@@ -567,7 +567,7 @@ In the following section a description of each use case is provided. For every u
     			\item{If either the Individual or the Third party company are already registered, an error message will be shown}
     			\item{If there some of the fields in the registration form that are not filled in, an error message will be shown}
   		\end{enumerate}
-  		
+  	\rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{7} \\
   	\textbf{Name}: Login \\
     \textbf{Actor}: Individual, Third party company \\
@@ -587,7 +587,7 @@ In the following section a description of each use case is provided. For every u
     			\item{If the credentials are wrong, an error message will be shown}
     			\item{If the password or the email are missing, an error message will be shown}
   		\end{enumerate}
-  	
+  	\rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{8} \\
   	\textbf{Name}: Send a request \\
     \textbf{Actor}: Third party company \\
@@ -610,7 +610,7 @@ In the following section a description of each use case is provided. For every u
     			\item{If the SSN is not valid, an error message will be shown}
     			\item{If the SSN does not corresponds to an active Individual, an error message will be shown}
   		\end{enumerate}
-  		
+  	\rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{9} \\
   	\textbf{Name}: Access individual data \\
     \textbf{Actor}: Third party company \\
@@ -638,7 +638,7 @@ In the following section a description of each use case is provided. For every u
     			\item{If the SSN does not corresponds to an active Individual, an error message will be shown}
     			\item{If the SSN does not corresponds to an Individual who accepted the previously sent request, an error message will be shown}
   		\end{enumerate}
-  		
+  	\rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{10} \\
   	\textbf{Name}: Subscribe to data \\
     \textbf{Actor}: Third party company \\
@@ -657,7 +657,7 @@ In the following section a description of each use case is provided. For every u
     			\item{The system starts to notify the Third party company of new incoming data of the Individual or the anonymized group of individuals}
   		\end{enumerate}
   	\textbf{Exceptions}:  - \\
-  	
+  	\rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{11} \\
   	\textbf{Name}: Access bulk data \\
     \textbf{Actor}: Third party company \\
@@ -683,7 +683,7 @@ In the following section a description of each use case is provided. For every u
     			\item{If the data cannot be anonymized, an error message will be shown}
     			\item{If there is not enough data, an error message will be shown}
   		\end{enumerate}
-  		
+  	\rule{\linewidth}{0.4pt}	
   	\textbf{ID}: \usecase{12} \\
   	\textbf{Name}: Anonymize data \\
     \textbf{Actor}: Third party company \\
@@ -706,12 +706,231 @@ In the following section a description of each use case is provided. For every u
     			\item{If there are less than 1000 individuals in the request of data, an error is returned}
     			\item{If there is not enough data, an error is returned}
   		\end{enumerate}
+
+  	\item{\textbf{AutomatedSOS}}
+
+  	\item{\textbf{Track4Run}} \\
+	\\
+	\textbf{ID}: \usecase{13} \\
+  	\textbf{Name}: Sign up \\
+    \textbf{Actor}: Participant, Organizer \\
+    \textbf{Entry conditions}: - \\
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The Participant or the Organizer enters to the Track4Run sign up page}
+    			\item{The Participant or the Organizer fill in all the mandatory fields in the registration form}
+    			\item{The Participant or the Organizer click on Register button}
+    			\item{The system \textbf{Sends a Data4Help request} (\usecase{15})}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The system creates an account for a Participant or an Organizer}
+  		\end{enumerate}
+  	\textbf{Exceptions}: 
+  		\begin{enumerate}
+    			\item{If either the Participant or the Organizer are already registered, an error message will be shown}
+    			\item{If there some of the fields in the registration form that are not filled in, an error message will be shown}
+  		\end{enumerate}
+  	\rule{\linewidth}{0.4pt}
+  	\textbf{ID}: \usecase{14} \\
+  	\textbf{Name}: Login \\
+    \textbf{Actor}: Participant, Organizer \\
+    \textbf{Entry conditions}: - \\
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The Participant or the Organizer enters to the login page of the website}
+    			\item{The Participant or the Organizer completes the email address and password fields}
+    			\item{The Participant or the Organizer clicks on the "Log in" button}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The system redirects the Participant or the Organizer to the profile page}
+  		\end{enumerate}
+  	\textbf{Exceptions}: 
+  		\begin{enumerate}
+    			\item{If the credentials are wrong, an error message will be shown}
+    			\item{If the password or the email are missing, an error message will be shown}
+  		\end{enumerate}
+  	\rule{\linewidth}{0.4pt}
+  	\textbf{ID}: \usecase{15} \\
+  	\textbf{Name}: Send Data4Help request \\
+    \textbf{Actor}: Participant \\
+    \textbf{Entry conditions}: 
+    		\begin{enumerate}
+    			\item{The Participant has already registered}
+    		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The system sends a notification to Data4Help in order to request health status and location of the user}
+    			\item{The system sends a notification to Data4Help in order to request health status and location of the user}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The Participant received a notification from Track4Run}
+  		\end{enumerate}
+  	\textbf{Exceptions}: - \\
+  	\rule{\linewidth}{0.4pt}
+  	\textbf{ID}: \usecase{16} \\
+  	\textbf{Name}: Manage invitations \\
+    \textbf{Actor}: Participant \\
+    \textbf{Entry conditions}: 
+    		\begin{enumerate}
+    			\item{The Participant is logged in}
+    		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The Participant clicks on Invitations button}
+    			\item{The system shows all the run invitations to the user}
+    			\item{The Participant clicks either on \textbf{Accept invitation} (\usecase{17}) or \textbf{Reject invitation} (\usecase{18})}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The system shows the user the pending invitations}
+  		\end{enumerate}
+  	\textbf{Exceptions}: - \\
+  	\rule{\linewidth}{0.4pt}
+  	\textbf{ID}: \usecase{17} \\
+  	\textbf{Name}: Accept invitation \\
+    \textbf{Actor}: Participant \\
+    \textbf{Entry conditions}: 
+    		\begin{enumerate}
+    			\item{The Participant is logged in}
+    			\item{The Participant has clicked on Accept invitation}
+    		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The system sets the invitation as Accepted}
+    			\item{The system \textbf{Enrolls the participant into the run} (\usecase{19})}
+    			\item{The system shows all the run invitations to the user}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The Participant is enrolled into the run}
+  		\end{enumerate}
+  	\textbf{Exceptions}: - \\
+  	\rule{\linewidth}{0.4pt}
+  	\textbf{ID}: \usecase{18} \\
+  	\textbf{Name}: Reject invitation \\
+    \textbf{Actor}: Participant \\
+    \textbf{Entry conditions}: 
+    		\begin{enumerate}
+    			\item{The Participant is logged in}
+    			\item{The Participant has clicked on Reject invitation}
+    		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The system sets the invitation as Rejected}
+    			\item{The system shows all the run invitations to the user}
+  		\end{enumerate}
+  	\textbf{Exit conditions}: - \\
+  	\textbf{Exceptions}: - \\
+  	\rule{\linewidth}{0.4pt}
+  	\textbf{ID}: \usecase{19} \\
+  	\textbf{Name}: Enroll in the run \\
+    \textbf{Actor}: Participant \\
+    \textbf{Entry conditions}: 
+    		\begin{enumerate}
+    			\item{The Participant is logged in}
+    			\item{The Participant has clicked on Accept invitation}
+    		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The system adds the Participant into the participants list of the run}
+    			\item{The system shows the Participant a confirmation message}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The Participant is enrolled into the run}
+  		\end{enumerate}
+  	\textbf{Exceptions}: - \\
+  	\rule{\linewidth}{0.4pt}
+  	\textbf{ID}: \usecase{20} \\
+  	\textbf{Name}: Create a run \\
+    \textbf{Actor}: Organizer \\
+    \textbf{Entry conditions}: 
+    		\begin{enumerate}
+    			\item{The Organizer is logged in}
+    		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The Organizer clicks on the "Create a run" button}
+    			\item{The system shows a form with the following fields: Name, Start day and End time}
+    			\item{The Organizer fills in all the fields and clicks the Create button}
+    			\item{The system shows the \textbf{Define running circuit} (\usecase{21}) web page}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The system creates the run}
+  		\end{enumerate}
+  	\textbf{Exceptions}:
+  		\begin{enumerate}
+  			\item{If the Start date field is less than "Today", an error will be shown}
+  		\end{enumerate}
+  	\rule{\linewidth}{0.4pt}
+  	\textbf{ID}: \usecase{21} \\
+  	\textbf{Name}: Define running circuit \\
+    \textbf{Actor}: Organizer \\
+    \textbf{Entry conditions}: 
+    		\begin{enumerate}
+    			\item{The Organizer is logged in}
+    			\item{The Organizer has created a run}
+    		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The system shows the Running circuit web page}
+    			\item{The Organizer defines the running circuit by clicking on the map}
+    			\item{Once the Organizer has finished defining the running circuit, clicks on Submit button}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The system creates the running circuit and associate it with the run event}
+  		\end{enumerate}
+  	\textbf{Exceptions}: - \\
+  	\rule{\linewidth}{0.4pt}
+  	\textbf{ID}: \usecase{22} \\
+  	\textbf{Name}: Send invitation \\
+    \textbf{Actor}: Organizer \\
+    \textbf{Entry conditions}: 
+    		\begin{enumerate}
+    			\item{The Organizer is logged in}
+    		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The Organizer clicks on "Send invitations" button}
+    			\item{The system shows a list with all pending running events}
+    			\item{The Organizer clicks on one running event}
+    			\item{The system shows a list of all not-enrolled, Track4Run Participants}
+    			\item{The Organizer selects the Participants he/she wants to invite, and clicks the Invite button}
+  		\end{enumerate}
+  	\textbf{Exit conditions}:
+  		\begin{enumerate}
+    			\item{The system sends invitations to all the selected Participants}
+  		\end{enumerate}
+  	\textbf{Exceptions}: - \\
+  	\rule{\linewidth}{0.4pt}
+  	\textbf{ID}: \usecase{23} \\
+  	\textbf{Name}: Track runners' location \\
+    \textbf{Actor}: Spectator \\
+    \textbf{Entry conditions}: 
+    		\begin{enumerate}
+    			\item{The Spectator is in the Track4Run site}
+    		\end{enumerate}
+  	\textbf{Event flow}:
+  		\begin{enumerate}
+    			\item{The Spectator clicks on "Current events" button}
+    			\item{The system shows a list of all running events which has started but has not finished}
+    			\item{The Spectator selects one of the running events}
+    			\item{The system shows a map with all the Participants' location}
+  		\end{enumerate}
+  	\textbf{Exit conditions}: - \\
+  	\textbf{Exceptions}: - \\
+  	
 \end{itemize}
 
 \subsubsection{Activity Diagrams}
 
 \subsubsection{Sequence Diagrams}
-
+Individual or a Third party company
 \subsubsection{Requirements Traceability Matrix}
 \begin{tabular}{ | l | l | l | l |}
     \hline
