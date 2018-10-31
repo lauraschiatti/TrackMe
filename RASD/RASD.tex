@@ -86,18 +86,18 @@ Nowadays, due to the availability of a huge variety of smart electronic devices,
 \textbf{TrackMe} is a company that develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatch is synchronized with an app that gives users access to their data and stats.  
 
 \subsection{Purpose}
-Taking into account the long list of currently available wearable devices, \textbf{TrackMe} is continuously looking for new strategic decisions to combat competition by offering new innovative services. In this opportunity, they decided to generate revenues from user data in a direct way (i.e. extend its business model by implementing \textbf{data trading}). This is, selling collected data to third parties -who need to know the health status of the population for different purposes- in an anonymised form.\\
+Taking into account the long list of currently available wearable devices, \textbf{TrackMe}  is aware that the market is plenty of healthcare wearable devices, therefore, to stand out against its competitors, the key ingredient is improving customers experience, and doing so requires understanding their needs and how they interact with the system, in order to provide personalized recommendations and correctly oriented new services. \\
 
-TrackMe new software-based service is called \textbf{Data4Help}. This service provides registered third-party companies the possibility to monitor location and body metrics of individuals by exploiting data acquired through their wearable devices.\\
+After analyzing users behaviour, TrackMe decided to focus on third-party companies and profit from users data in a direct way (i.e. extend its business model by implementing \textbf{data trading}). This is, provide the collected data (i.e. location and health status) to third parties by means of a new software-based service called \textbf{Data4Help}. \\
 
-After some time, TrackMe realizes that a good part of its third-party customers wants to use the data acquired through Data4Help to offer a personalized SOS service to elderly people and decides to  build a new service, called \textbf{AutomatedSOS}, on top of Data4Help. AutomatedSOS provides a personal alarm service for the elderly subscribed customers by monitoring their health status.\\
+Moreover, after some time, TrackMe realizes that a good part of its third-party customers want to use the data acquired through Data4Help to offer a personalized SOS service to elderly people, and decides to build a new service called \textbf{AutomatedSOS} to provide a personal alarm service to subscribed customers by monitoring their health status. \\
 
 Finally, TrackMe realizes that another great source of revenues could be the development of a service to track athletes participating in a run. In this case, the service, called \textbf{Track4Run}, will allow run organizers to define the path, TrackMe wearable-devices users to enroll, and spectators to see on the map the position of all runners during the run. \\
 
 \subsection{Scope}
 
 \subsubsection{Description of the given problem}
-
+The TrackMe environment will be composed by three systems, whose scope are defined in this section.
 
 \begin{figure}[H]
 \centering
@@ -107,6 +107,7 @@ Finally, TrackMe realizes that another great source of revenues could be the dev
 \end{figure}
 
 \textbf{TrackMe} develops its own health-monitoring smart-watch and bases the assumption that all registered individuals own the same to retrieve the necessary raw data (body temperature, blood pressure, heart pulse rate, percentage of $O_2$ in the blood, current location)  as input for the service \textbf{Data4Help}. TrackMe provides the user an interface for the registration of individuals as well as third parties. Individuals who register, agree to TrackMe acquiring their data. They are wirelessly connected to each other. We presume the data to be posted using a compatible application that comes with the health-monitoring device. As mentioned before, it also supports the registration of third parties. While doing so, we acknowledge the company is legally established by validating its certificate, who can thereafter request for the data of some specific individuals (using SSN) to whom the request will accordingly be sent. The individuals have the choice to subsequently accept or reject it. Alternatively, they can also ask for bulk data based on criteria filtered and provided by the system (such as age, gender, country, province) which will be handled directly by TrackMe. If the request for data acquisition is approved, TrackMe offers these third party customers to subscribe to the new data, in real-time.\\
+
 \textbf{AutomatedSOS} is built on top of Data4Help to provide an opportunity to users above the age of 60, to subscribe to a new SOS service. AutomatedSOS monitors the health status of these users. When vital parameters  such as heart rate, blood pressure, body temperature, percentage of $O_2$ in the blood are below certain thresholds, the health care system is automatically notified, which accordingly handles the arrival of an ambulance to the location. It must be noted that this post-notification management cannot be tracked.\\
 
 \textbf{Track4Run} allows 'fit' users to participate in any upcoming run. If the user desires to participate they can accept the request and enrol themselves through a redirected link.  We assume that organizers define a valid path viewable to all users before the run. Spectators (read : all users) can view the position of all the participants on the map during the run. \\
@@ -164,15 +165,22 @@ The goals are divided according to each service TrackMe wants to offer to its cu
 \item{\textbf{Health status}}: Collection of the last measured overall physical health parameters of a user or a group of users.
 \item{\textbf{Remote monitoring}}: Remote Monitoring (RMON) is a standard specification that facilitates the monitoring of network operational activities through the use of remote devices known as monitors or probes(here, we are using smartwatches).
 \item{\textbf{Wearable device}}: Devices that can be used to collect data and monitor users' overall physical health, such as body temperature, blood pressure, heart pulse rate, etc.
+\item{\textbf{Third party company}}: Customer who needs to know the health status of the population for different purposes (e.d. health insurance companies)
 
 \end{itemize}
 \subsubsection{Acronyms}
 \begin{itemize}
 \item{RASD}: Requirement Analysis and Specification Document
+\item{D4H}: Data4Help
+\item{ASOS}: AutomatedSOS
+\item{T4R}: Track4Run
+\item{SSN}: Social Security Number
 \end{itemize}
 
 \subsubsection{Abbreviations}
 \begin{itemize}
+\item i.e.: stands for id est and means “in other words.” 
+\item e.g.: stands for exempli gratia and means “for example.”
 \item $[Gn]$: n-goal. 
 \item $[Dn]$: n-domain assumption. 
 \item $[Rn]$: n-functional requirement. 
@@ -197,7 +205,7 @@ The goals are divided according to each service TrackMe wants to offer to its cu
 \end{itemize}
 
 \subsection{Document Structure}
-This document is divided in six parts, each one devoted to approach each one of the steps required to apply requirements engineering techniques.\\
+This document is divided in six parts, each one devoted to approach each one of the steps required to apply requirements engineering techniques.
 \begin{itemize}
 \item Chapter 1 gives an introduction to the problem and describes the purpose of the application TrackMe. The scope of the application is defined by stating the goals and description of the probl	em.
 \item Chapter 2 presents the overall description of the project. The product perspective includes details on the shared phenomena and the domain models.
