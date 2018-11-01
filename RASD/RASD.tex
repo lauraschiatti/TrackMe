@@ -847,7 +847,7 @@ In the following section a description of each use case is provided. For every u
 % TRACK4RUN USE CASE SPECIFICATION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   	\item{\textbf{Track4Run}}\\
-	\textbf{ID}: \usecase{13} \\
+	\textbf{ID}: \usecase{17} \\
   	\textbf{Name}: Sign up \\
     \textbf{Actor}: Participant, Organizer \\
     \textbf{Entry conditions}: - \\
@@ -856,7 +856,7 @@ In the following section a description of each use case is provided. For every u
     			\item{The Participant or the Organizer enters to the Track4Run sign up page}
     			\item{The Participant or the Organizer fill in all the mandatory fields in the registration form}
     			\item{The Participant or the Organizer click on Register button}
-    			\item{The system \textbf{Sends a Data4Help request} (\usecase{15})}
+    			\item{The system \textbf{Sends a Data4Help request} (\usecase{19})}
   		\end{enumerate}
   	\textbf{Exit conditions}:
   		\begin{enumerate}
@@ -868,7 +868,7 @@ In the following section a description of each use case is provided. For every u
     			\item{If there some of the fields in the registration form that are not filled in, an error message will be shown}
   		\end{enumerate}
   	\rule{\linewidth}{0.4pt}
-  	\textbf{ID}: \usecase{14} \\
+  	\textbf{ID}: \usecase{18} \\
   	\textbf{Name}: Login \\
     \textbf{Actor}: Participant, Organizer \\
     \textbf{Entry conditions}: - \\
@@ -888,7 +888,7 @@ In the following section a description of each use case is provided. For every u
     			\item{If the password or the email are missing, an error message will be shown}
   		\end{enumerate}
   	\rule{\linewidth}{0.4pt}
-  	\textbf{ID}: \usecase{15} \\
+  	\textbf{ID}: \usecase{19} \\
   	\textbf{Name}: Send Data4Help request \\
     \textbf{Actor}: Participant \\
     \textbf{Entry conditions}: 
@@ -898,7 +898,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{Event flow}:
   		\begin{enumerate}
     			\item{The system sends a notification to Data4Help in order to request health status and location of the user}
-    			\item{The system sends a notification to Data4Help in order to request health status and location of the user}
+    			\item{Data4Help sends an OK response to advice the system that the request was sent}
   		\end{enumerate}
   	\textbf{Exit conditions}:
   		\begin{enumerate}
@@ -906,7 +906,7 @@ In the following section a description of each use case is provided. For every u
   		\end{enumerate}
   	\textbf{Exceptions}: - \\
   	\rule{\linewidth}{0.4pt}
-  	\textbf{ID}: \usecase{16} \\
+  	\textbf{ID}: \usecase{20} \\
   	\textbf{Name}: Manage invitations \\
     \textbf{Actor}: Participant \\
     \textbf{Entry conditions}: 
@@ -917,7 +917,7 @@ In the following section a description of each use case is provided. For every u
   		\begin{enumerate}
     			\item{The Participant clicks on Invitations button}
     			\item{The system shows all the run invitations to the user}
-    			\item{The Participant clicks either on \textbf{Accept invitation} (\usecase{17}) or \textbf{Reject invitation} (\usecase{18})}
+    			\item{The Participant clicks either on \textbf{Accept invitation} (\usecase{21}) or \textbf{Reject invitation} (\usecase{22})}
   		\end{enumerate}
   	\textbf{Exit conditions}:
   		\begin{enumerate}
@@ -925,7 +925,7 @@ In the following section a description of each use case is provided. For every u
   		\end{enumerate}
   	\textbf{Exceptions}: - \\
   	\rule{\linewidth}{0.4pt}
-  	\textbf{ID}: \usecase{17} \\
+  	\textbf{ID}: \usecase{21} \\
   	\textbf{Name}: Accept invitation \\
     \textbf{Actor}: Participant \\
     \textbf{Entry conditions}: 
@@ -936,7 +936,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{Event flow}:
   		\begin{enumerate}
     			\item{The system sets the invitation as Accepted}
-    			\item{The system \textbf{Enrolls the participant into the run} (\usecase{19})}
+    			\item{The system \textbf{Enrolls the participant into the run} (\usecase{23})}
     			\item{The system shows all the run invitations to the user}
   		\end{enumerate}
   	\textbf{Exit conditions}:
@@ -945,7 +945,7 @@ In the following section a description of each use case is provided. For every u
   		\end{enumerate}
   	\textbf{Exceptions}: - \\
   	\rule{\linewidth}{0.4pt}
-  	\textbf{ID}: \usecase{18} \\
+  	\textbf{ID}: \usecase{22} \\
   	\textbf{Name}: Reject invitation \\
     \textbf{Actor}: Participant \\
     \textbf{Entry conditions}: 
@@ -961,7 +961,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{Exit conditions}: - \\
   	\textbf{Exceptions}: - \\
   	\rule{\linewidth}{0.4pt}
-  	\textbf{ID}: \usecase{19} \\
+  	\textbf{ID}: \usecase{23} \\
   	\textbf{Name}: Enroll in the run \\
     \textbf{Actor}: Participant \\
     \textbf{Entry conditions}: 
@@ -980,7 +980,7 @@ In the following section a description of each use case is provided. For every u
   		\end{enumerate}
   	\textbf{Exceptions}: - \\
   	\rule{\linewidth}{0.4pt}
-  	\textbf{ID}: \usecase{20} \\
+  	\textbf{ID}: \usecase{24} \\
   	\textbf{Name}: Create a run \\
     \textbf{Actor}: Organizer \\
     \textbf{Entry conditions}: 
@@ -992,7 +992,7 @@ In the following section a description of each use case is provided. For every u
     			\item{The Organizer clicks on the "Create a run" button}
     			\item{The system shows a form with the following fields: Name, Start day and End time}
     			\item{The Organizer fills in all the fields and clicks the Create button}
-    			\item{The system shows the \textbf{Define running circuit} (\usecase{21}) web page}
+    			\item{The system shows the \textbf{Define running circuit} (\usecase{25}) web page}
   		\end{enumerate}
   	\textbf{Exit conditions}:
   		\begin{enumerate}
@@ -1003,7 +1003,7 @@ In the following section a description of each use case is provided. For every u
   			\item{If the Start date field is less than "Today", an error will be shown}
   		\end{enumerate}
   	\rule{\linewidth}{0.4pt}
-  	\textbf{ID}: \usecase{21} \\
+  	\textbf{ID}: \usecase{25} \\
   	\textbf{Name}: Define running circuit \\
     \textbf{Actor}: Organizer \\
     \textbf{Entry conditions}: 
@@ -1023,7 +1023,7 @@ In the following section a description of each use case is provided. For every u
   		\end{enumerate}
   	\textbf{Exceptions}: - \\
   	\rule{\linewidth}{0.4pt}
-  	\textbf{ID}: \usecase{22} \\
+  	\textbf{ID}: \usecase{26} \\
   	\textbf{Name}: Send invitation \\
     \textbf{Actor}: Organizer \\
     \textbf{Entry conditions}: 
@@ -1044,7 +1044,7 @@ In the following section a description of each use case is provided. For every u
   		\end{enumerate}
   	\textbf{Exceptions}: - \\
   	\rule{\linewidth}{0.4pt}
-  	\textbf{ID}: \usecase{23} \\
+  	\textbf{ID}: \usecase{27} \\
   	\textbf{Name}: Track runners' location \\
     \textbf{Actor}: Spectator \\
     \textbf{Entry conditions}: 
