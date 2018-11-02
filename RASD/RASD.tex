@@ -611,6 +611,7 @@ In the following section a description of each use case is provided. For every u
 			\item{The request is set to Rejected}
   		\end{enumerate}
   	\textbf{Exceptions}: - \\
+  	\textbf{Scenario}: A TrackMe device user, who is already registered in D4H, has receive a notification in his cellphone saying that a company he never heard of wants to access his health data and location. Since it is an unknown company, he logs in into D4H website, goes to the Manage Requests sections, and rejects the suspicious request. \\
   	\rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{5} \\
   	\textbf{Name}: Notify third party \\
@@ -692,6 +693,7 @@ In the following section a description of each use case is provided. For every u
     			\item{If the SSN is not valid, an error message will be shown}
     			\item{If the SSN does not corresponds to an active Individual, an error message will be shown}
   		\end{enumerate}
+  	\textbf{Scenario}: The company HelpMe needs updates on the health status of one of its clients in order to offer a particular service. To be able to access the data of the client, makes a request for accessing the health data and location of the user, using his SSN. To do so, an employee logs in into D4H, and sends a request to the client using the D4H website.\\
   	\rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{9} \\
   	\textbf{Name}: Access individual data \\
@@ -732,13 +734,14 @@ In the following section a description of each use case is provided. For every u
   		\end{enumerate}
   	\textbf{Event flow}:
   		\begin{enumerate}
-    			\item{The system creates a subscription between the Third party company and saved search, that can be an specific SSN or a more general search}
+    			\item{The system creates a subscription between the Third party company and saved query, that can be an specific SSN or a more general query}
   		\end{enumerate}
   	\textbf{Exit conditions}:
   		\begin{enumerate}
     			\item{The system starts to notify the Third party company of new incoming data of the Individual or the anonymized group of individuals}
   		\end{enumerate}
   	\textbf{Exceptions}:  - \\
+  	\textbf{Scenario}: A company needs to subscribe to the health data of one of its users. To do so, an employee logs in into D4H website, looks for the users health data and location using its SSN, and subscribes to the query. Once the employee does that, the company will receive any update of its user's health status and location.
   	\rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{11} \\
   	\textbf{Name}: Access bulk data \\
@@ -859,6 +862,7 @@ In the following section a description of each use case is provided. For every u
   			\item{The system has contacted the healthcare service}
   		\end{itemize}
   	\textbf{Exceptions}: \\
+  	\textbf{Scenario}: An individual subscribed to ASOS service is having a hart attack. ASOS has validated the individual's health status and compared the parameters with the defined thresholds, and has decided to call the Health care service. To do so, it contacts the Health care service associated to the individual, using a previously defined protocol and API, and sends to them all the data of the individual. \\
   	\rule{\linewidth}{0.4pt}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TRACK4RUN USE CASE SPECIFICATION
@@ -1077,6 +1081,7 @@ In the following section a description of each use case is provided. For every u
   		\end{enumerate}
   	\textbf{Exit conditions}: - \\
   	\textbf{Exceptions}: - \\
+  	\textbf{Scenario}: A marathon is taking place in the city, and a runner's family want to cheer he during the race. Since they are late and the event has already begun, they enter to the T4R website and go to the Current events web page, select the event and look for their family member. \\
 \end{itemize}
 
 \subsection{Activity diagrams}
