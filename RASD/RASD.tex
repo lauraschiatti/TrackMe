@@ -1082,6 +1082,35 @@ In the following section a description of each use case is provided. For every u
 \subsection{Activity diagrams}
 
 \subsection{Sequence diagrams}
+In the following section three sequence diagrams are described. All of them, are an important part of the system and represent the following processes: \textit{accept a request} for accessing the individual's health status and location, \textit{search and subscribe to a bulk of data}, and \textit{accept an invitation} to enroll in a race.\\
+
+To begin with, the \textit{accept a request} for accessing the individual's health status and location is shown in the Figure \ref{fig:d4h_seq_accept_request}. It is possible to observe the Manage Requests use case (\usecase{1}) flow, where the Individual asks D4H to get his/her pending requests, and the interaction between D4H and the Request collection, which returns the pending requests to the Individual. Also, once the Individual has accepted a request, it changes its status to \textit{Accepted} and the Third party company is notified.
+
+\begin{figure}[H]
+\centering
+	\includegraphics[scale=0.8]{Diagrams/d4h_seq_accept_request.png}
+\caption[Data4Help - Accept Request Sequence Diagram]{Data4Help - Accept Request Sequence Diagram}
+\label{fig:d4h_seq_accept_request}
+\end{figure}
+
+In the Figure \ref{fig:d4h_seq_bulk_data} can be observed the sequence diagram of Access bulk data use case (\usecase{11}) and the optional Subscribe to data use case (\usecase{10}). Also in this case, it is possible to notice the action taken by the actor (the Third party company) to get data from D4H. The \textit{search} action makes D4H to look for the data in the Data collection, anonymize it, and return it to the actor. Optionally, the Third party company can save and subscribe to the previously used query in order to get updates.
+
+\begin{figure}[H]
+\centering
+	\includegraphics[scale=0.8]{Diagrams/d4h_seq_subscribe_to_bulk_query.png}
+\caption[Data4Help - Access to bulk data and subscribe Sequence Diagram]{Data4Help - Access to bulk data and subscribe Sequence Diagram}
+\label{fig:d4h_seq_bulk_data}
+\end{figure}
+
+Finally, the Accept invitation to a run use case (\usecase{21}) is modeled in the Figure \ref{fig:t4r_accept_invitation}. In this case, the Participant asks T4R to show his/her pending invitations, which are collected from the Invitations collection. Once the Participant has all the pending invitations, he/she can select one and accept the invitation, action that will enroll the Participant to the given run, and set the invitation as \textit{Accepted}.
+
+\begin{figure}[H]
+\centering
+	\includegraphics[scale=0.65]{Diagrams/t4r_seq_accept_invitation.png}
+\caption[Track4Run - Accept invitation Sequence Diagram]{Track4Run - Accept invitation Sequence Diagram}
+\label{fig:t4r_accept_invitation}
+\end{figure}
+
 
 \subsection{Requirements traceability matrix}
 \begin{longtable}{c | c | c | c}
