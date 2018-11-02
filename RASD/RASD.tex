@@ -128,11 +128,11 @@ Nowadays, due to the availability of a huge variety of smart electronic devices,
 \section{Purpose}
 Taking into account the long list of currently available wearable devices, \textbf{TrackMe}  is aware that the market is plenty of healthcare wearable devices, therefore, to stand out against its competitors, the key ingredient is improving customers experience, and doing so requires understanding their needs and how they interact with the system, in order to provide personalized recommendations and correctly oriented new services. \\
 
-After analyzing users behaviour, TrackMe decided to focus on third-party companies and profit from users data in a direct way (i.e. extend its business model by implementing \textbf{data trading}). This is, provide the collected data (i.e. location and health status) to third parties by means of a new software-based service called \textbf{Data4Help}. \\
+After analysing users behaviour, TrackMe decided to focus on third-party companies and profit from users data in a direct way (i.e. extend its business model by implementing \textbf{data trading}). This is, provide the collected data (i.e. location and health status) to third parties by means of a new software-based service called \textbf{Data4Help}. \\
 
 Moreover, after some time, TrackMe realizes that a good part of its third-party customers want to use the data acquired through Data4Help to offer a personalized SOS service to elderly people, and decides to build a new service called \textbf{AutomatedSOS} to provide a personal alarm service to subscribed customers by monitoring their health status. \\
 
-Finally, TrackMe realizes that another great source of revenues could be the development of a service to track athletes participating in a run. In this case, the service, called \textbf{Track4Run}, will allow run organizers to define the path, TrackMe wearable-devices users to enroll, and spectators to see on the map the position of all runners during the run. \\
+Finally, TrackMe realizes that another great source of revenues could be the development of a service to track athletes participating in a run. In this case, the service, called \textbf{Track4Run}, will allow run organizers to define the path, TrackMe wearable-devices users to enrol, and spectators to see on the map the position of all runners during the run. \\
 
 \section{Scope}
 \subsection{Description of the given problem}
@@ -188,21 +188,20 @@ The goals are divided according to each service TrackMe wants to offer to its cu
 
 \item{\textbf{AutomatedSOS}}
 \begin{enumerate}
-\goal{5} Provide a service capable to send an advice to the health care service when a individual’s parameters are below a defined threshold.
+\goal{5} Provide a service capable to send an advice to the health care service when a individual's parameters are below a defined threshold.
 \end{enumerate}
 
 \item{\textbf{Track4Run}}
 \begin{enumerate}
-\goal{6} Run organizers could define the path for a given run and TrackMe users can enroll to it.
-\goal{7} 
-Run spectators could track the position of all the runners during the race.
+\goal{6} Run organizers could define the path for a given run and TrackMe users can enrol to it.
+\goal{7} Run spectators could track the position of all the runners during the race.
 \end{enumerate}
 \end{itemize}
 
 \section{Definitions, Acronyms, Abbreviations}
 \subsection{Definitions}
 \begin{itemize}
-\item{\textbf{Data trading}}: Generate revenew from user data in a much more direct way, by selling user data to a third party.
+\item{\textbf{Data trading}}: Generate revenue from user data in a much more direct way, by selling user data to a third party.
 \item{\textbf{Health status}}: Collection of the last measured overall physical health parameters of a user or a group of users.
 \item{\textbf{Remote monitoring}}: Remote Monitoring (RMON) is a standard specification that facilitates the monitoring of network operational activities through the use of remote devices known as monitors or probes(here, we are using smartwatches).
 \item{\textbf{Wearable device}}: Devices that can be used to collect data and monitor users' overall physical health, such as body temperature, blood pressure, heart pulse rate, etc.
@@ -257,7 +256,7 @@ This document is divided in six parts, each one devoted to approach each one of 
 \section{Product perspective}
 In the previous section, the scope of the application was delimited and explained in a shallow way, but at this point it is useful to include further details on the shared phenomena and a domain model as a visual representation of the system.  \\
 
-The addition of brand-new services to TrackMe requires to enlarge the existing model in such a way that it can include the abstraction of those features. To explain in detail the way data will be organized in the upcoming system, the structure of TrackMe up to now will be treated as a “black box”. This means, only those parts of the whole data model that will allow us to obtain users’ basic information and collected data (required by Data4Help) will be considered. \\
+The addition of brand-new services to TrackMe requires to enlarge the existing model in such a way that it can include the abstraction of those features. To explain in detail the way data will be organized in the upcoming system, the structure of TrackMe up to now will be treated as a "black box". This means, only those parts of the whole data model that will allow us to obtain users' basic information and collected data (required by Data4Help) will be considered. \\
 
  On the other hand, AutomatedSOS and Track4Run are treated as third-parties that make requests for the data that Data4Help offers. Every time a user agrees to activate any of those services, a new request is sent to Data4Help to obtain his data. \\\\
 
@@ -268,7 +267,7 @@ The addition of brand-new services to TrackMe requires to enlarge the existing m
 \label{fig:Domain_model}
 \end{figure}
 
-So as to understand the main events happening in the system, it is useful to provide a visual representation using statechart diagrams (described in the figure below). For \textbf {D4H} the main task is handling requests, and they can be in different states (unprocessed, pending, rejected/approved and completed). On the other hand, \textbf {ASOS} is a background process in charge of checking the health condition of a person, therefore it monitors the health statys of the given individual until an anomaly happens, notifies it and after, loops back to the initial state. Finally, \textbf {T4R}, needs to tackle the “how to setup a run and make it available for the spectators” task, then this chain of events can also be modeled.
+So as to understand the main events happening in the system, it is useful to provide a visual representation using state chart diagrams (described in the figure below). For \textbf {D4H} the main task is handling requests, and they can be in different states (unprocessed, pending, rejected/approved and completed). On the other hand, \textbf {ASOS} is a background process in charge of checking the health condition of a person, therefore it monitors the health status of the given individual until an anomaly happens, notifies it and after, loops back to the initial state. Finally, \textbf {T4R}, needs to tackle the "how to setup a run and make it available for the spectators" task, then this chain of events can also be modelled.
 
  \begin{figure}[H]
 \centering
@@ -320,7 +319,7 @@ Domain assumptions help to make clear what it is expected from the external envi
 \assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
 \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
 \assumption{3} TrackMe devices are up and running during monitoring.
-\assumption{4} The data collected is directly related to the individuals’ by their SSN and is structured according to the data scheme required by D4H.
+\assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
 \assumption{5} The provided SSN by the individual is valid and trustable.
 \assumption{6} Out of coverage scenarios cannot be handled by ASOS so as to guarantee a 5 seconds reaction.
 \assumption{7} The organizers meet all the legal requirements and permissions necessary to set up a run.
@@ -336,7 +335,7 @@ description of the hardware, software and communication interfaces and provides 
 user interface.
 
 \subsection{User interfaces}
-The following mock-ups represent a basic idea of what the web application will look like after the first release:\\\\\\
+The following mock-ups represent a basic idea of what the web application will look like after the first release:\\\\
 
 \begin{figure}[H]
 \centering
@@ -346,8 +345,7 @@ The following mock-ups represent a basic idea of what the web application will l
 \end{figure}
 
 As when new customers visits the home page of TrackMe, they can read about the work that our company does, what services we offer, what benefits users can achieve by joining the community. In addition, they can buy the wearables and get more information, how to use them.\\\\
-Next, comes the web page through which users can Login into the system (if already registered). And if not, they can register themselves through the Register web-page. There are separate register forms for the Individual users and the Third-party users visible below:\\\\
-
+Next, comes the web page through which users can Login into the system (if already registered). And if not, they can register themselves through the Register web-page. There are separate register forms for the Individual users and the Third-party users visible below:
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.35]{../Assets/Login.png}
@@ -355,7 +353,7 @@ Next, comes the web page through which users can Login into the system (if alrea
 \label{fig:Login}
 \end{figure}
 
-Registration is free for all the users and it doesn't take much time to complete the forms, as we can see below:\\\\
+Registration is free for all the users and it doesn't take much time to complete the forms, as we can see below:
 
 \begin{figure}[H]
 \centering
@@ -371,7 +369,7 @@ Registration is free for all the users and it doesn't take much time to complete
 \label{fig:Register_third_party}
 \end{figure}
 
-In Figure below, its personal dashboard for the individual users, who can manage and view the requests and are able to view who all third parties have subscribed to their data.\\\\
+In Figure below, its personal dashboard for the individual users, who can manage and view the requests and are able to view who all third parties have subscribed to their data.
 
 \begin{figure}[H]
 \centering
@@ -453,7 +451,7 @@ The functional requirements are those which are the fundamental actions of the s
   
   \item{\textbf{AutomatedSOS}}
   \begin{enumerate}
-    \textbf{\goal{5} Provide a service capable to send an advice to the health care service when a individual’s parameters are below a defined threshold.}
+    \textbf{\goal{5} Provide a service capable to send an advice to the health care service when a individual's parameters are below a defined threshold.}
     \begin{enumerate}
       \requirement{13} The system must be able to send a request for accessing an individual's data when he/she is older than 60 years old.
       \requirement{14} The system must be able to monitor, and compare against defined thresholds, the health status of an individual.
@@ -463,7 +461,7 @@ The functional requirements are those which are the fundamental actions of the s
   
   \item{\textbf{Track4Run}}
   \begin{enumerate}
-    \textbf{\goal{6} Run organizers could define the path for a given run and TrackMe users can enroll to it.}
+    \textbf{\goal{6} Run organizers could define the path for a given run and TrackMe users can enrol to it.}
     \begin{enumerate}
       \requirement{16} The system must allow a participant to register a new account.
       \requirement{17} The system must allow a participant to access to its account.
@@ -471,7 +469,7 @@ The functional requirements are those which are the fundamental actions of the s
       \requirement{19} The system must allow an organizer to access to its account.
       \requirement{20} The system must allow an organizer to create a race event.
       \requirement{21} The system must allow an organizer to define the running circuit of a race event.
-      \requirement{22} The system must allow an organizer to send invitations to the participants to enroll in a race event.
+      \requirement{22} The system must allow an organizer to send invitations to the participants to enrol in a race event.
       \requirement{23} The system must allow a participant to accept or reject an invitation to a race.
     \end{enumerate}
     
@@ -861,7 +859,7 @@ In the following section a description of each use case is provided. For every u
   		\begin{itemize}
   			\item{The system has contacted the healthcare service}
   		\end{itemize}
-  	\textbf{Exceptions}: \\
+  	\textbf{Exceptions}: - \\
   	\textbf{Scenario}: An individual subscribed to ASOS service is having a hart attack. ASOS has validated the individual's health status and compared the parameters with the defined thresholds, and has decided to call the Health care service. To do so, it contacts the Health care service associated to the individual, using a previously defined protocol and API, and sends to them all the data of the individual. \\
   	\rule{\linewidth}{0.4pt}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -957,7 +955,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{Event flow}:
   		\begin{enumerate}
     			\item{The system sets the invitation as Accepted}
-    			\item{The system \textbf{Enrolls the participant into the run} (\usecase{23})}
+    			\item{The system \textbf{Enrols the participant into the run} (\usecase{23})}
     			\item{The system shows all the run invitations to the user}
   		\end{enumerate}
   	\textbf{Exit conditions}:
@@ -983,7 +981,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{Exceptions}: - \\
   	\rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{23} \\
-  	\textbf{Name}: Enroll in the run \\
+  	\textbf{Name}: Enrol in the run \\
     \textbf{Actor}: Participant \\
     \textbf{Entry conditions}: 
     		\begin{enumerate}
@@ -1087,7 +1085,7 @@ In the following section a description of each use case is provided. For every u
 \subsection{Activity diagrams}
 
 \subsection{Sequence diagrams}
-In the following section three sequence diagrams are described. All of them, are an important part of the system and represent the following processes: \textit{accept a request} for accessing the individual's health status and location, \textit{search and subscribe to a bulk of data}, and \textit{accept an invitation} to enroll in a race.\\
+In the following section three sequence diagrams are described. All of them, are an important part of the system and represent the following processes: \textit{accept a request} for accessing the individual's health status and location, \textit{search and subscribe to a bulk of data}, and \textit{accept an invitation} to enrol in a race.\\
 
 To begin with, the \textit{accept a request} for accessing the individual's health status and location is shown in the Figure \ref{fig:d4h_seq_accept_request}. It is possible to observe the Manage Requests use case (\usecase{1}) flow, where the Individual asks D4H to get his/her pending requests, and the interaction between D4H and the Request collection, which returns the pending requests to the Individual. Also, once the Individual has accepted a request, it changes its status to \textit{Accepted} and the Third party company is notified.
 
@@ -1107,7 +1105,7 @@ In the Figure \ref{fig:d4h_seq_bulk_data} can be observed the sequence diagram o
 \label{fig:d4h_seq_bulk_data}
 \end{figure}
 
-Finally, the Accept invitation to a run use case (\usecase{21}) is modeled in the Figure \ref{fig:t4r_accept_invitation}. In this case, the Participant asks T4R to show his/her pending invitations, which are collected from the Invitations collection. Once the Participant has all the pending invitations, he/she can select one and accept the invitation, action that will enroll the Participant to the given run, and set the invitation as \textit{Accepted}.
+Finally, the Accept invitation to a run use case (\usecase{21}) is modelled in the Figure \ref{fig:t4r_accept_invitation}. In this case, the Participant asks T4R to show his/her pending invitations, which are collected from the Invitations collection. Once the Participant has all the pending invitations, he/she can select one and accept the invitation, action that will enrol the Participant to the given run, and set the invitation as \textit{Accepted}.
 
 \begin{figure}[H]
 \centering
