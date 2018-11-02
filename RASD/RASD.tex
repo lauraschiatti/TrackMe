@@ -229,7 +229,7 @@ The addition of brand-new services to TrackMe requires to enlarge the existing m
 \label{fig:Domain_model}
 \end{figure}
 
-\textbf{...Statechart description ...}
+So as to understand the main events happening in the system, it is useful to provide a visual representation using statechart diagrams (described in the figure below). For \textbf {D4H} the main task is handling requests, and they can be in different states (unprocessed, pending, rejected/approved and completed). On the other hand, \textbf {ASOS} is a background process in charge of checking the health condition of a person, therefore it monitors the health statys of the given individual until an anomaly happens, notifies it and after, loops back to the initial state. Finally, \textbf {T4R}, needs to tackle the “how to setup a run and make it available for the spectators” task, then this chain of events can also be modeled.
 
  \begin{figure}[H]
 \centering
