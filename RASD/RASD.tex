@@ -183,15 +183,23 @@ The goals are divided according to each service TrackMe wants to offer to its cu
 \item $[Dn]$: n-domain assumption. 
 \item $[Rn]$: n-functional requirement. 
 \item $[UCn]$: n-use case. 
-\end{itemize}
+\end{itemize} 
 
 \subsection{Revision history}
-\begin{tabular}{ | l | c |}
-   \hline
-   \textbf{Version} & \textbf{Last modified date} \\ \hline
-   1.0 & \nth{11} November, 2018 \\ \hline
+It is important to keep track of the revisions made to this document: \\
+
+\begin{table}[h]
+\centering 
+\begin{tabular}{l c} 
+\hline\hline 
+\textbf{Version} & \textbf{Last modified date} \\ [0.5ex] 
+\hline 
+1.0 &  \nth{11} November, 2018  \\
+\hline 
 \end{tabular}
-\\
+\caption{Revision history timeline}
+\label{fig:Revision history}
+\end{table}
 
 \subsection{Document structure}
 This document is divided in six parts, each one devoted to approach each one of the steps required to apply requirements engineering techniques.
@@ -267,36 +275,7 @@ Therefore, all the constraints derived from these characteristics must be satisf
 \subsection{Assumptions, dependencies and constraints}
 \subsubsection{Domain assumptions}
 \begin{itemize}
-  \item{\textbf{Data4Help}}
-  \begin{enumerate}
-    \goal{1} Provide a service capable to acquire the location and physiological data of individuals, obtained by means of TrackMe's smart devices
-    \begin{enumerate}
       \assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
-      \assumption{2} TrackMe handles processes associated to data privacy, including consumer consent to the privacy and sharing policies. 
-      \assumption{3} TrackMe addresses data protection and integrity against possible attacks.
-      \assumption{4} The devices are up and running most of the time allowing monitoring individuals. 
-      \assumption{5} The data collected is directly related to the individuals’ by their SSN and is structured according to the data scheme required by D4H.
-    \end{enumerate}
-  
-    \goal{2} Provide a service that lets third party companies access an individual's stored data 
-    \begin{enumerate}
-      \assumption{6} The third-party is already registered in the system.
-      \assumption{7} When requesting data of a specific individual, the requester knows that individual by his/her SSN.
-      \assumption{8} The provided SSN by the individual is valid and trustable.
-    \end{enumerate}
-        
-     \goal{3}  Provide a service that lets a third party companies to access anonymized stored data from groups of individuals, subject to specified constraints.
-    \begin{enumerate}
-      \assumption{6} The third-party is already registered in the system.
-      \assumption{9} TrackMe will accept only requests for which the number of filtered individuals is higher than 1000.
-    \end{enumerate}
-        
-     \goal{4}  Provide third party companies a way to get updates regarding a given individual or a previously saved search of anonymized data.
-    \begin{enumerate}
-      \assumption{10} The third-party was previously authorized to access the data.
-    \end{enumerate}
-    
-     \end{enumerate}
 \end{itemize}
 
 \section{Specific requirements}
@@ -1050,7 +1029,6 @@ In the following section a description of each use case is provided. For every u
   		\end{enumerate}
   	\textbf{Exit conditions}: - \\
   	\textbf{Exceptions}: - \\
-  	
 \end{itemize}
 
 \subsubsection{Activity diagrams}
@@ -1163,7 +1141,6 @@ Checking document  & X  \\
 \label{fig:Time spent by all team members}
 \end{table}
 
-
 \begin{table}[h]
 \centering 
 \begin{tabular}{l c l c l c} 
@@ -1215,7 +1192,6 @@ Scenarios &  X
 \caption{Time spent by each team member}
 \label{fig:Time spent by each team member}
 \end{table}
-
 
 \section{References}
 \begin{itemize}
