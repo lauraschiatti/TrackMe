@@ -111,7 +111,7 @@ The TrackMe environment will be composed by three systems, whose scope are defin
 
 \textbf{T4R} allows 'fit' users to participate in any upcoming run. If the user desires to participate they can accept the request and enrol themselves through a redirected link.  We assume that organizers define a valid path viewable to all users before the run. Spectators (read : all users) can view the position of all the participants on the map during the run. \\
 
-\subsubsection{World and Shared Phenomena}
+\subsubsection{World and shared phenomena}
 \begin{itemize}
 \item \textbf{World Phenomena}
 \\
@@ -185,7 +185,7 @@ The goals are divided according to each service TrackMe wants to offer to its cu
 \item $[UCn]$: n-use case. 
 \end{itemize}
 
-\subsection{Revision History}
+\subsection{Revision history}
 \begin{tabular}{ | l | c |}
    \hline
    \textbf{Version} & \textbf{Last modified date} \\ \hline
@@ -193,17 +193,7 @@ The goals are divided according to each service TrackMe wants to offer to its cu
 \end{tabular}
 \\
 
-\subsection{Reference Documents}
-\begin{itemize}
-\item Requirement Analysis and Specification Document: AA 2017-2018.pdf”. Version 1.0 - 26.10.2017
-\item Henriksen, A., Haugen Mikalsen, M., Woldaregay, A. Z., Muzny, M., Hartvigsen, G., Hopstock, L. A., Grimsgaard, S. (2018)
-\\Using Fitness Trackers and Smartwatches to Measure Physical Activity in Research: Analysis of Consumer Wrist-Worn Wearables. Journal of medical Internet research, 20(3), e110. doi:10.2196/jmir.9157. 
-\\Retrieved from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5887043/
-\item IEEE. (1993). IEEE Recommended Practice for Software Requirements Specifications (IEEE 830-1993). 
-\\Retrieved from https://standards.ieee.org/standard/830-1993.html
-\end{itemize}
-
-\subsection{Document Structure}
+\subsection{Document structure}
 This document is divided in six parts, each one devoted to approach each one of the steps required to apply requirements engineering techniques.
 \begin{itemize}
 \item Chapter 1 gives an introduction to the problem and describes the purpose of the application TrackMe. The scope of the application is defined by stating the goals and description of the problem.
@@ -214,8 +204,8 @@ This document is divided in six parts, each one devoted to approach each one of 
 \item Chapter 6 includes the reference documents.
 \end{itemize}
 
-\section{Overall Description}
-\subsection{Product Perspective}
+\section{Overall description}
+\subsection{Product perspective}
 In the previous section, the scope of the application was delimited and explained in a shallow way, but at this point it is useful to include further details on the shared phenomena and a domain model as a visual representation of the system.  \\
 
 The addition of brand-new services to TrackMe requires to enlarge the existing model in such a way that it can include the abstraction of those features. To explain in detail the way data will be organized in the upcoming system, the structure of TrackMe up to now will be treated as a “black box”. This means, only those parts of the whole data model that will allow us to obtain users’ basic information and collected data (required by Data4Help) will be considered. \\
@@ -238,7 +228,7 @@ So as to understand the main events happening in the system, it is useful to pro
 \label{fig:Statechart_diagram}
 \end{figure}
 
-\subsection{Product Functions}
+\subsection{Product functions}
 The TrackMe environment is composed, as said before, by a set of 3 services, with D4H as the leading service. ASOS and T4R are going to be build on top of D4H, and will make use of all of its functionalities. Below, the main features of each service are listed, and a description is offered.
 
 \begin{itemize}
@@ -275,7 +265,7 @@ The target users of the \textbf{TrackMe} system are:
 Therefore, all the constraints derived from these characteristics must be satisfied from the \textbf{TrackMe} system, as much as possible.
 
 \subsection{Assumptions, dependencies and constraints}
-\subsubsection{Domain Assumptions}
+\subsubsection{Domain assumptions}
 \begin{itemize}
   \item{\textbf{Data4Help}}
   \begin{enumerate}
@@ -313,12 +303,12 @@ Therefore, all the constraints derived from these characteristics must be satisf
 This section contains all of the functional and quality requirements of the system. It gives a detailed
 description of the system and all its features. 
 
-\subsection{External Interface Requirements}
+\subsection{External interface requirements}
 This section provides a detailed description of all inputs into and outputs from the system. It also gives a
 description of the hardware, software and communication interfaces and provides basic prototypes of the
 user interface.
 
-\subsubsection{User Interfaces}
+\subsubsection{User interfaces}
 The following mock-ups represent a basic idea of what the web application will look like after the first release:\\\\\\
 
 \begin{figure}[H]
@@ -380,10 +370,10 @@ In the next figure, we can see the customer has options to choose to accept or r
 
 In the figure above, Third party users can make request for the data using the filtering criteria provided by the system.
 
-\subsubsection{Hardware Interfaces}
+\subsubsection{Hardware interfaces}
 No such direct hardware interfaces are required by our system, as this is a web portal application. The physical GPS is managed by the smart-watch wearables and managed through its application. And the hardware connection to the database server is managed by the underlying operating system on the web server. Thus, it can be easily accessible from any device or any location if \textbf{Internet service} is available.
 
-\subsubsection{Software Interfaces}
+\subsubsection{Software interfaces}
 Web applications are by nature distributed applications. Specifically, web applications are accessed with a web browser and are popular because of the ease of using the browser as a user client.\\
 Software Interfaces considered in TrackMe system are as follows:
 \begin{itemize}
@@ -392,10 +382,10 @@ Software Interfaces considered in TrackMe system are as follows:
 \item{} \textbf{Track2Run:} A Third party company organised directly by TrackMe which provides an interface to individuals to enrol into the run and allows the audience to view the position of the runners during the run;
 \end{itemize}
 
-\subsubsection{Communication Interfaces}
+\subsubsection{Communication interfaces}
 The communication between different parts of the system is important since they depend on each other. However, in the way communication is achieved is not important for the system and is therefore handled by the underlying operating system for web portal.
 
-\subsection{Functional Requirements}
+\subsection{Functional requirements}
 The functional requirements are those which are the fundamental actions of the system. As before, every requirement is divided by subsystem (D4H, ASOS and T4R), and the relation with each goal is shown.
 
 \begin{itemize}
@@ -473,7 +463,7 @@ The functional requirements are those which are the fundamental actions of the s
   \end{enumerate}
 \end{itemize}
 
-\subsubsection{Use Case Diagrams}
+\subsubsection{Use case diagrams}
 In the current section the use cases for all the subsystems are shown.
 
 \begin{itemize}
@@ -508,7 +498,7 @@ In the Figure \ref{fig:t4r_use_cases} the Track4Run use cases are shown. The mos
 \end{figure}
 \end{itemize}
 
-\subsubsection{Use Cases Description}
+\subsubsection{Use cases description}
 In the following section a description of each use case is provided. For every use case, an ID is defined, as well as the entry conditions, steps to accomplish the exit condition and any exception that may occur. As in previous sections, all the use cases are described based on the subsystem they belong to.
 
 \begin{itemize}
@@ -1063,17 +1053,37 @@ In the following section a description of each use case is provided. For every u
   	
 \end{itemize}
 
-\subsubsection{Activity Diagrams}
+\subsubsection{Activity diagrams}
 
-\subsubsection{Sequence Diagrams}
+\subsubsection{Sequence diagrams}
 
-\subsubsection{Requirements Traceability Matrix}
+\subsubsection{Requirements traceability matrix}
 \begin{tabular}{ | l | l | l | l |}
     \hline
     \textbf{Goal ID} & \textbf{Req ID} & \textbf{Use case ID} & \textbf{Comments} \\ \hline
     G.1 & RE.3 & UC.3 & UC.3 \\ \hline
 \end{tabular}
 
-\subsection{Performance Requirements}
+\subsection{Performance requirements}
+
+\subsection{Design constraints}
+\subsubsection{Standards compliance}
+\subsubsection{Hardware limitations}
+\subsubsection{Any other constraint}
+
+\subsection{Formal analysis using Alloy}
+
+\subsection{Effort spent}
+
+\subsection{References}
+\begin{itemize}
+\item Requirement Analysis and Specification Document: AA 2017-2018.pdf”. Version 1.0 - 26.10.2017
+\item Henriksen, A., Haugen Mikalsen, M., Woldaregay, A. Z., Muzny, M., Hartvigsen, G., Hopstock, L. A., Grimsgaard, S. (2018)
+\\Using Fitness Trackers and Smartwatches to Measure Physical Activity in Research: Analysis of Consumer Wrist-Worn Wearables. Journal of medical Internet research, 20(3), e110. doi:10.2196/jmir.9157. 
+\\Retrieved from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5887043/
+\item IEEE. (1993). IEEE Recommended Practice for Software Requirements Specifications (IEEE 830-1993). 
+\\Retrieved from https://standards.ieee.org/standard/830-1993.html
+\item Sloane, A. M. (2009). Software Abstractions: Logic, Language, and Analysis by Jackson Daniel, The MIT Press, 2006, 366pp, ISBN 978-0262101141.
+\end{itemize}
 
 \end{document}
