@@ -418,6 +418,9 @@ The functional requirements are those which are the fundamental actions of the s
   \begin{enumerate}
    \textbf{\goal{1} The individual could allow (or refuse) Data4Help to use their data.}
     \begin{enumerate}
+      \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
+      \assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
+      \assumption{5} The provided SSN by the individual is valid and trustable.
       \requirement{1} The system must allow an individual to register a new account.
       \requirement{2} The system must allow an individual to access to its account.
       \requirement{3} The system must allow an individual to accept or reject its requests of accessing personal data.
@@ -426,6 +429,9 @@ The functional requirements are those which are the fundamental actions of the s
     
     \textbf{\goal{2} The third-party company should be able to access data of a specific individual.}
     \begin{enumerate}
+      \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
+	  \assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
+	  \assumption{5} The provided SSN by the individual is valid and trustable.
       \requirement{5} The system must allow a third party company to register a new account.
       \requirement{6} The system must allow a third party company to access to its account.
       \requirement{7} The system must allow a third party company to search for an individual health status and location using his/her SSN.
@@ -434,6 +440,9 @@ The functional requirements are those which are the fundamental actions of the s
     
     \textbf{\goal{3} The third-party company should be able to access anonymized data of groups of individuals under certain constraints.}
     \begin{enumerate}
+      \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
+      \assumption{3} TrackMe devices are up and running during monitoring.
+      \assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
       \requirement{5} The system must allow a third party company to register a new account.
       \requirement{6} The system must allow a third party company to access to its account.
       \requirement{9} The system must allow a third party company to filter data of an anonymized group of individuals by country, age, gender and blood type parameters.
@@ -442,6 +451,10 @@ The functional requirements are those which are the fundamental actions of the s
     
     \textbf{\goal{4} The third-party company should be able to access anonymized data of groups of individuals under certain constraints.}
     \begin{enumerate}
+      \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
+      \assumption{3} TrackMe devices are up and running during monitoring.
+      \assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
+      \assumption{5} The provided SSN by the individual is valid and trustable.
       \requirement{5} The system must allow a third party company to register a new account.
       \requirement{6} The system must allow a third party company to access to its account.
       \requirement{11} The system must allow a third party company to subscribe to an individual health status and location.
@@ -453,6 +466,11 @@ The functional requirements are those which are the fundamental actions of the s
   \begin{enumerate}
     \textbf{\goal{5} Provide a service capable to send an advice to the health care service when a individual's parameters are below a defined threshold.}
     \begin{enumerate}
+      \assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
+      \assumption{3} TrackMe devices are up and running during monitoring.
+      \assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
+      \assumption{5} The provided SSN by the individual is valid and trustable.
+	  \assumption{6} Out of coverage scenarios cannot be handled by ASOS so as to guarantee a 5 seconds reaction.
       \requirement{13} The system must be able to send a request for accessing an individual's data when he/she is older than 60 years old.
       \requirement{14} The system must be able to monitor, and compare against defined thresholds, the health status of an individual.
       \requirement{15} The system must be able to contact the Healthcare service associated to an individual.      
@@ -463,6 +481,11 @@ The functional requirements are those which are the fundamental actions of the s
   \begin{enumerate}
     \textbf{\goal{6} Run organizers could define the path for a given run and TrackMe users can enrol to it.}
     \begin{enumerate}
+      \assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
+      \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
+      \assumption{3} TrackMe devices are up and running during monitoring.
+      \assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
+      \assumption{7} The organizers meet all the legal requirements and permissions necessary to set up a run.
       \requirement{16} The system must allow a participant to register a new account.
       \requirement{17} The system must allow a participant to access to its account.
       \requirement{18} The system must allow an organizer to register a new account.
@@ -475,6 +498,10 @@ The functional requirements are those which are the fundamental actions of the s
     
     \textbf{\goal{7} Run spectators could track the position of all the runners during the race.}
     \begin{enumerate}
+      \assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
+      \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
+      \assumption{3} TrackMe devices are up and running during monitoring.
+      \assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
       \requirement{16} The system must allow a participant to register a new account.
       \requirement{17} The system must allow a participant to access to its account.
       \requirement{18} The system must allow an organizer to register a new account.
