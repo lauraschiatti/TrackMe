@@ -274,8 +274,15 @@ Therefore, all the constraints derived from these characteristics must be satisf
 
 \subsection{Assumptions, dependencies and constraints}
 \subsubsection{Domain assumptions}
+Domain assumptions help to make clear what it is expected from the external environment and allows constraining the software-driven machine so as to stay in the domain of interest.
 \begin{itemize}
-      \assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
+\assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
+\assumption{2} TrackMe addresses data protection and integrity against possible attacks.
+\assumption{3} TrackMe devices are up and running during monitoring.
+\assumption{4} The data collected is directly related to the individuals’ by their SSN and is structured according to the data scheme required by D4H.
+\assumption{5} The provided SSN by the individual is valid and trustable.
+\assumption{6} Out of coverage scenarios cannot be handled by ASOS so as to guarantee a 5 seconds reaction.
+\assumption{7} The organizers meet all the legal requirements and permissions necessary to set up a run.
 \end{itemize}
 
 \section{Specific requirements}
