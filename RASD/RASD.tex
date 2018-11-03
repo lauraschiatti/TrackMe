@@ -1213,12 +1213,25 @@ Finally, the Accept invitation to a run use case (\usecase{21}) is modelled in t
 \end{longtable}
 
 \section{Performance requirements}
-
+The system is provided to serve fairly great number of users simultaneously. It guarantees high level performance and maintenance operation costs very low. Technical support for installation is not required, as it is only a web application and users can access it from anywhere where the internet service is provided. Additionally, under ASOS service, we make sure the system responds and notifies the health control system within 5 seconds, when the thresholds are below the certain defined level. Users will rely on the application in order to organize their send or accept/reject requests for data and notifications, so we have to guarantee quick, reactive and correct response.
 \section{Design constraints}
 \subsection{Standards compliance}
-\subsection{Hardware limitations}
-\subsection{Any other constraint}
+\begin{itemize}
+\item{} The application is responsive that makes web pages render well on a variety of devices and window or screen sizes. Content, design and performance are necessary across all devices to ensure usability and satisfaction.
+\item{} The application complies with the web standards of the World Wide Web Consortium (W3C).
+\item{} As the Web provides many mechanisms to interlink data across systems, our system keep user's personal information private and fragmented.
+\item{} The system correctly preserves and restores user or application state within the session. The application preserves user or state when leaving the web browser and prevents accidental data loss due to back-navigation and other state changes. When returning to the web page, the application must restore the preserved state and any significant stateful transaction that was pending.
+\item{} All private data is stored in the MongoDB database.
+\end{itemize}
 
+\subsection{Hardware limitations}
+This is a web based application with no strict hardware limitations. The only requirement is a TrackMe smart-watch and its app that posts the data when online. Users can access the application from anywhere, from any system using the internet service.
+\subsection{Any other constraint}
+\begin{itemize}
+\item{} \textbf{Regulatory Policies}\\
+The application will have to ask for user's position and personal data in order to have track of the health status. Social security numbers(SSN)/Fiscal code and email addresses won't be used for commercial uses.\\\\
+Moreover, the system makes sure the third-party companies who registers are legally established. Thus, there are no fake companies who tries to exploit user's data. 
+\end{itemize}
 \section{Software system attributes}
 \subsection{Reliability}
 \subsection{Availability}
@@ -1286,10 +1299,12 @@ UC diagrams &  X
 UC description &  X
 & Assumptions & X 
 & Design constraints & X  \\
+
+
 \hline
 Scenarios &  X
 & NF requirements & X 
-& &  X  \\
+& External Interface Requirements & X  \\
 \hline
 &  X
 & Effort spent & X 
