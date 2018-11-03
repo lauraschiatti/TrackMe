@@ -87,27 +87,38 @@
 \begin{document}
 
 \begin{titlepage}
-\begin{center}
-\begin{figure}[h]
-\includegraphics[scale=1]{../Assets/PolimiLogo.png}
-\centering
-\end{figure}
-\centering\textbf{POLITECNICO DI MILANO}\\
-\centering\textbf{DEPARTMENT OF COMPUTER SCIENCE ENGINEERING}
-\vspace*{4cm}
-
-\line(1,0){450}\\
-\Large{\textbf{Requirement Analysis and Specification Document (RASD)}}\\[3mm]
-\Large{- TrackMe -}\\
-\Large{v.1.0}\\
-\line(2,0){450}\\
-\vfill
-\textbf{Authors}\\
-\textbf{Avila}, Diego Emanuel - 903988\\
-\textbf{Schiatti}, Laura Cristina - 904738\\
-\textbf{Virdi}, Sukhpreet Kaur - 904204\\
-November \nth{11} , 2018
-\end{center}
+	\centering
+    \vspace*{0.7 cm}
+    \includegraphics[scale = 0.85]{../Assets/PolimiLogo.png}\\[1.6 cm]
+     \textsc{\large Department of Computer Science and Engineering}\\[1.8 cm]
+     
+    \rule{\linewidth}{0.2 mm} \\[0.4 cm]
+	{ \huge \bfseries Requirement Analysis and Specification Document (RASD)}\\
+	\rule{\linewidth}{0.2 mm} \\[1.5 cm]
+	
+	\textsc{\Large TrackMe}\\[0.5 cm]		
+	\textsc{\large - v1.0 -}\\[1 cm]		
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft} \large
+			\emph{Authors:}\\
+			 \textbf{Avila}, Diego \\
+			 \textbf{Schiatti}, Laura \\
+			 \textbf{Virdi}, Sukhpreet
+			\end{flushleft}
+			\end{minipage}~
+			\begin{minipage}{0.4\textwidth}
+			\begin{flushright} \large
+			%\emph{Student Number:} \\
+			903988 \\
+			904738 \\
+			904204					
+		\end{flushright}
+	\end{minipage}\\[2 cm]
+	
+	{\large November \nth{11} , 2018}\\[2 cm]
+ 
+	\vfill
 \end{titlepage}
 
 \tableofcontents
@@ -230,7 +241,7 @@ It is important to keep track of the revisions made to this document: \\
 
 \begin{table}[h]
 \centering 
-\begin{tabular}{l c} 
+\begin{tabular}{c c} 
 \hline\hline 
 \textbf{Version} & \textbf{Last modified date} \\ [0.5ex] 
 \hline 
@@ -413,11 +424,9 @@ The communication between different parts of the system is important since they 
 \section{Functional requirements}
 The functional requirements are those which are the fundamental actions of the system. As before, every requirement is divided by subsystem (D4H, ASOS and T4R), and the relation with each goal is shown.
 
-\begin{itemize}
-  \item{\textbf{Data4Help}}
-  \begin{enumerate}
-   \textbf{\goal{1} The individual could allow (or refuse) Data4Help to use their data.}
-    \begin{enumerate}
+\begin{enumerate}
+    \goal{1} The individual could allow (or refuse) Data4Help to use their data.
+	\begin{enumerate}
       \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
       \assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
       \assumption{5} The provided SSN by the individual is valid and trustable.
@@ -425,9 +434,9 @@ The functional requirements are those which are the fundamental actions of the s
       \requirement{2} The system must allow an individual to access to its account.
       \requirement{3} The system must allow an individual to accept or reject its requests of accessing personal data.
       \requirement{4} The system must be able to communicate with TrackMe database in order to obtain the health status and location of an individual.
-    \end{enumerate}
+	\end{enumerate}
     
-    \textbf{\goal{2} The third-party company should be able to access data of a specific individual.}
+    \goal{2} The third-party company should be able to access data of a specific individual.
     \begin{enumerate}
       \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
 	  \assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
@@ -438,7 +447,7 @@ The functional requirements are those which are the fundamental actions of the s
       \requirement{8} The system must be able to notify the individual that a third party company wants to access its data.
     \end{enumerate}
     
-    \textbf{\goal{3} The third-party company should be able to access anonymized data of groups of individuals under certain constraints.}
+   \goal{3} The third-party company should be able to access anonymized data of groups of individuals under certain constraints.
     \begin{enumerate}
       \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
       \assumption{3} TrackMe devices are up and running during monitoring.
@@ -449,7 +458,7 @@ The functional requirements are those which are the fundamental actions of the s
       \requirement{10} The system must be able to anonymize health status and location of a group of individuals.
     \end{enumerate}
     
-    \textbf{\goal{4} The third-party company should be able to access anonymized data of groups of individuals under certain constraints.}
+   \goal{4} The third-party company should be able to access anonymized data of groups of individuals under certain constraints.
     \begin{enumerate}
       \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
       \assumption{3} TrackMe devices are up and running during monitoring.
@@ -460,11 +469,8 @@ The functional requirements are those which are the fundamental actions of the s
       \requirement{11} The system must allow a third party company to subscribe to an individual health status and location.
       \requirement{12} The system must allow a third party company to subscribe to data of an anonymized group of individuals
     \end{enumerate}
-  \end{enumerate}
-  
-  \item{\textbf{AutomatedSOS}}
-  \begin{enumerate}
-    \textbf{\goal{5} Provide a service capable to send an advice to the health care service when a individual's parameters are below a defined threshold.}
+
+   \goal{5} Provide a service capable to send an advice to the health care service when a individual's parameters are below a defined threshold.
     \begin{enumerate}
       \assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
       \assumption{3} TrackMe devices are up and running during monitoring.
@@ -474,12 +480,9 @@ The functional requirements are those which are the fundamental actions of the s
       \requirement{13} The system must be able to send a request for accessing an individual's data when he/she is older than 60 years old.
       \requirement{14} The system must be able to monitor, and compare against defined thresholds, the health status of an individual.
       \requirement{15} The system must be able to contact the Healthcare service associated to an individual.      
-    \end{enumerate}
   \end{enumerate}
   
-  \item{\textbf{Track4Run}}
-  \begin{enumerate}
-    \textbf{\goal{6} Run organizers could define the path for a given run and TrackMe users can enrol to it.}
+    \goal{6} Run organizers could define the path for a given run and TrackMe users can enrol to it.
     \begin{enumerate}
       \assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
       \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
@@ -496,7 +499,7 @@ The functional requirements are those which are the fundamental actions of the s
       \requirement{23} The system must allow a participant to accept or reject an invitation to a race.
     \end{enumerate}
     
-    \textbf{\goal{7} Run spectators could track the position of all the runners during the race.}
+   \goal{7} Run spectators could track the position of all the runners during the race.
     \begin{enumerate}
       \assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
       \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
@@ -509,11 +512,10 @@ The functional requirements are those which are the fundamental actions of the s
       \requirement{20} The system must allow an organizer to create a race event.
       \requirement{23} The system must allow a participant to accept or reject an invitation to a race.
       \requirement{24} The system must allow any spectator of a run to view in a map the participants' location
-      \requirement{25} the system must allow a spectator to click on a participant location in order to view his/her health status.
+      \requirement{25} The system must allow a spectator to click on a participant location in order to view his/her health status.
     \end{enumerate}
   
-  \end{enumerate}
-\end{itemize}
+\end{enumerate}
 
 \subsection{Use case diagrams}
 In the current section the use cases for all the subsystems are shown.
@@ -525,7 +527,7 @@ In the Figure \ref{fig:d4h_use_cases} the Data4Help use cases are shown. The mos
 \begin{figure}[H]
 \centering
 	\includegraphics[scale=0.5]{Diagrams/d4h_use_cases.png}
-\caption[Data4Help Use Cases Diagram]{Data4Help Use Cases Diagram}
+\caption[Data4Help Use Case Diagram]{Data4Help Use Case Diagram}
 \label{fig:d4h_use_cases}
 \end{figure}
 
@@ -535,7 +537,7 @@ In the Figure \ref{fig:asos_use_cases} AutomatedSOS use cases are shown. In the 
 \begin{figure}[H]
 \centering
 	\includegraphics[scale=0.5]{Diagrams/asos_use_cases.png}
-\caption[AutomatedSOS Use Cases Diagram]{AutomatedSOS Use Cases Diagram}
+\caption[AutomatedSOS Use Case Diagram]{AutomatedSOS Use Case Diagram}
 \label{fig:asos_use_cases}
 \end{figure}
 
@@ -545,7 +547,7 @@ In the Figure \ref{fig:t4r_use_cases} the Track4Run use cases are shown. The mos
 \begin{figure}[H]
 \centering
 	\includegraphics[scale=0.5]{Diagrams/t4r_use_cases.png}
-\caption[Track4Run Use Cases Diagram]{Track4Run Use Cases Diagram}
+\caption[Track4Run Use Case Diagram]{Track4Run Use Case Diagram}
 \label{fig:t4r_use_cases}
 \end{figure}
 \end{itemize}
@@ -1114,20 +1116,20 @@ In the following section a description of each use case is provided. For every u
 \subsection{Sequence diagrams}
 In the following section three sequence diagrams are described. All of them, are an important part of the system and represent the following processes: \textit{accept a request} for accessing the individual's health status and location, \textit{search and subscribe to a bulk of data}, and \textit{accept an invitation} to enrol in a race.\\
 
-To begin with, the \textit{accept a request} for accessing the individual's health status and location is shown in the Figure \ref{fig:d4h_seq_accept_request}. It is possible to observe the Manage Requests use case (\usecase{1}) flow, where the Individual asks D4H to get his/her pending requests, and the interaction between D4H and the Request collection, which returns the pending requests to the Individual. Also, once the Individual has accepted a request, it changes its status to \textit{Accepted} and the Third party company is notified.
+To begin with, the \textit{accept a request} for accessing the individual's health status and location is shown in the Figure \ref{fig:d4h_seq_accept_request}. It is possible to observe the Manage Requests use case (\usecase{1}) flow, where the Individual asks D4H to get his/her pending requests, and the interaction between D4H and the Request collection, which returns the pending requests to the Individual. Also, once the Individual has accepted a request, it changes its status to \textit{Accepted} and the Third party company is notified. \\
 
 \begin{figure}[H]
 \centering
-	\includegraphics[scale=0.8]{Diagrams/d4h_seq_accept_request.png}
-\caption[Data4Help - Accept Request Sequence Diagram]{Data4Help - Accept Request Sequence Diagram}
+	\includegraphics[scale=0.6]{Diagrams/d4h_seq_accept_request.png}
+\caption[Data4Help - Accept Request S7equence Diagram]{Data4Help - Accept Request Sequence Diagram}
 \label{fig:d4h_seq_accept_request}
 \end{figure}
 
-In the Figure \ref{fig:d4h_seq_bulk_data} can be observed the sequence diagram of Access bulk data use case (\usecase{11}) and the optional Subscribe to data use case (\usecase{10}). Also in this case, it is possible to notice the action taken by the actor (the Third party company) to get data from D4H. The \textit{search} action makes D4H to look for the data in the Data collection, anonymize it, and return it to the actor. Optionally, the Third party company can save and subscribe to the previously used query in order to get updates.
+In the Figure \ref{fig:d4h_seq_bulk_data} can be observed the sequence diagram of Access bulk data use case (\usecase{11}) and the optional Subscribe to data use case (\usecase{10}). Also in this case, it is possible to notice the action taken by the actor (the Third party company) to get data from D4H. The \textit{search} action makes D4H to look for the data in the Data collection, anonymize it, and return it to the actor. Optionally, the Third party company can save and subscribe to the previously used query in order to get updates.\\
 
 \begin{figure}[H]
 \centering
-	\includegraphics[scale=0.8]{Diagrams/d4h_seq_subscribe_to_bulk_query.png}
+	\includegraphics[scale=0.6]{Diagrams/d4h_seq_subscribe_to_bulk_query.png}
 \caption[Data4Help - Access to bulk data and subscribe Sequence Diagram]{Data4Help - Access to bulk data and subscribe Sequence Diagram}
 \label{fig:d4h_seq_bulk_data}
 \end{figure}
@@ -1136,7 +1138,7 @@ Finally, the Accept invitation to a run use case (\usecase{21}) is modelled in t
 
 \begin{figure}[H]
 \centering
-	\includegraphics[scale=0.65]{Diagrams/t4r_seq_accept_invitation.png}
+	\includegraphics[scale=0.6]{Diagrams/t4r_seq_accept_invitation.png}
 \caption[Track4Run - Accept invitation Sequence Diagram]{Track4Run - Accept invitation Sequence Diagram}
 \label{fig:t4r_accept_invitation}
 \end{figure}
