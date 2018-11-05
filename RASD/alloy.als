@@ -1,6 +1,9 @@
 open util/integer
 // open util/boolean
 
+//==========================================================//
+//				MODEL
+
 // declares a set Status with 3 elements
 abstract sig Status {}
 one sig Approved, Pending, Rejected extends Status{}
@@ -22,6 +25,7 @@ sig Request{
 	notification: lone NotificationType
 }
 
+
 sig Query{
 	company: one ThirdParty,
 	individual: one Individual
@@ -29,12 +33,14 @@ sig Query{
 
 sig QueryResponse{
 	query: one Query
-}
+} 
+//==========================================================//
+//				FACTS
 
-// an individual is an individual of its request
+// An individual is an individual of its request
 fact allRequestsShouldBeRelatedToOneIndividualAndMustBeInItsSet {
 	(all i:Individual, r:i.requests | r.individual = i) and 
-	(some r:Request, i:Individual | r.individual = i)
+	(all r:Request, i:Individual | r.individual = i and r in i.requests)
 }
 
 // There should be 1 request per individual and third party. 
@@ -52,12 +58,52 @@ fact  allRequestsShouldHaveAppropiateNotification{
 				(r.notification = none implies (r.status = Pending))
 }
 
-fact a {
-	all qr:QueryResponse, r:qr.query.individual.requests  | 
-			(r.status = Approved and 
-			r.individual = qr.query.individual and 
-			r.company = qr.query.company)
+// All queries should have one third party and one individual
+// We don't care here if the request was approved or rejected
+fact allQueriesShouldBeRelatedToOneRequestRelation {
+	all q:Query | some r:q.individual.requests  | 
+			(r.individual = q.individual and 
+			r.company = q.company)
 }
+
+// All query responses should be related to a query with an accepted request
+// this means that if the request was rejected, and a third party makes a 
+// query asking for an individual's data, there should not be a response
+// Otherwise, if the individual approved the request, there should be a 
+// response.
+fact allQueryResponsesShouldHaveQueryWithAnAcceptedRequest {
+	all qr:QueryResponse, q:qr.query | some r:q.individual.requests | 
+			(r.status = Approved and
+			r.individual = q.individual and 
+			r.company = q.company)
+}
+
+// There should be 1 query response per query
+fact noCommonQueryResponseBetweenTwoQueries {
+	no disj qr1,qr2:QueryResponse | qr1.query = qr2.query
+}
+
+// Every QeuryResponse should have a query associated to an approved request
+fact allQueryResponsesAssociatedToAQueryShouldBeRelatedToAnApprovedRequest {
+	some q:Query, qr:QueryResponse | some  r:q.individual.requests | qr.query = q and 
+				r.individual = q.individual and
+				r.company = q.company and 
+				r.status = Approved
+}
+
+//==========================================================//
+//				PREDICATES
+
+pred show(){
+// show worlds with more than 1 request and more than 1 query
+	#Request > 1
+	#QueryResponse > 1
+}
+
+run show
+
+//==========================================================//
+//				ASSERTS
 
 assert everyRequestIsInAtMostOneRequestSet {
 	all r:Request | lone i:Individual | r in i.requests
