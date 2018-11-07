@@ -276,13 +276,27 @@ The addition of brand-new services to TrackMe requires to enlarge the existing m
 \label{fig:Domain_model}
 \end{figure}
 
-So as to understand the main events happening in the system, it is useful to provide a visual representation using state chart diagrams (described in the figure below). For \textbf {D4H} the main task is handling requests, and they can be in different states (unprocessed, pending, rejected/approved and completed). On the other hand, \textbf {ASOS} is a background process in charge of checking the health condition of a person, therefore it monitors the health status of the given individual until an anomaly happens, notifies it and after, loops back to the initial state. Finally, \textbf {T4R}, needs to tackle the "how to setup a run and make it available for the spectators" task, then this chain of events can also be modelled.
+So as to understand the main events happening in the system, it is useful to provide a visual representation using state chart diagrams (described in the figure below). For \textbf {D4H} (Figure \ref{fig:d4h_statechart}) the main task is handling requests, and they can be in different states (unprocessed, pending, rejected/approved and completed). On the other hand, \textbf {ASOS} (Figure \ref{fig:asos_statechart}) is a background process in charge of checking the health condition of a person, therefore it monitors the health status of the given individual until an anomaly happens, notifies it and after, loops back to the initial state. Finally, \textbf {T4R} (Figure \ref{fig:t4r_statechart}), needs to tackle the "how to setup a run and make it available for the spectators" task, then this chain of events can also be modelled.
 
  \begin{figure}[H]
 \centering
- \includegraphics[scale=0.6]{Diagrams/statechart_diagrams.png}
-\caption[Statechart Diagrams]{Statechart Diagrams}
-\label{fig:Statechart_diagram}
+ \includegraphics[scale=0.6]{Diagrams/d4h_statechart.png}
+\caption[D4H Statechart Diagrams]{D4H Statechart Diagrams}
+\label{fig:d4h_statechart}
+\end{figure}
+
+ \begin{figure}[H]
+\centering
+ \includegraphics[scale=0.6]{Diagrams/asos_statechart.png}
+\caption[ASOS Statechart Diagrams]{ASOS Statechart Diagrams}
+\label{fig:asos_statechart}
+\end{figure}
+
+ \begin{figure}[H]
+\centering
+ \includegraphics[scale=0.6]{Diagrams/t4r_statechart.png}
+\caption[T4R Statechart Diagrams]{T4R Statechart Diagrams}
+\label{fig:t4r_statechart}
 \end{figure}
 
 \section{Product functions}
@@ -378,7 +392,7 @@ Registration is free for all the users and it doesn't take much time to complete
 \label{fig:Register_third_party}
 \end{figure}
 
-In Figure below, its personal dashboard for the individual users, who can manage and view the requests and are able to view who all third parties have subscribed to their data.
+In the figure below, its personal dashboard for the individual users, who can manage and view the requests and are able to view who all third parties have subscribed to their data.
 
 \begin{figure}[H]
 \centering
