@@ -12,7 +12,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{booktabs}
 \usepackage{multirow}
-\usepackage{booktabs,caption}
+\usepackage{booktabs}
+\usepackage[font=footnotesize]{caption}
 \usepackage[flushleft]{threeparttable}
 \usepackage{amsmath}
 \usepackage{relsize}
@@ -147,18 +148,18 @@ Finally, TrackMe realizes that another great source of revenues could be the dev
 \subsection{Description of the given problem}
 The TrackMe environment will be composed by three systems, whose scope are defined in this section. \\
 
+\textbf{Data4Help} is a system capable to store the physical health data of any individual using any TrackMe wearable device. All the stored data will be available to any third party company, after request and approval of its use is sent to the TrackMe wearable device user, who will be able to accept or reject the request, under no condition. Also, third party companies will be able to request data of a group of users, and Data4Help will provide that information under the solely condition of be able to anonymize it.\\
+
+In addition, \textbf{AutomatedSOS} is a system that will be built on top of Data4Help, and will send requests to every elderly individual in order to access its physical health parameters. It will monitor the physical health status of all of its users in order to establish their health condition, based on previously defined thresholds. If any of the user's health parameters is under or above its threshold, the system will contact the associated healthcare service for that user. AutomatedSOS will do its best effort to contact the healthcare service, but under no circumstances will follow-up the status of the healthcare response, meaning that it will not know if the healthcare service answered the notification or not.\\
+
+Finally, \textbf{Track4Run}, also a system built on top of Data4Help, will send requests to every user in order to access their location and let them participate in a defined running circuit. Track4Run organizer users, will be able to setup a race, define its running circuit and send invitations to all the TrackMe wearable device users. Also, the race spectators will be able to follow the participants' location using the Track4Run web site. The location of every participant will only be available during the race.
+
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.45]{Diagrams/high_level.jpg}
-\caption[High-level Description of the problem]{High-level Description of the problem}
+\includegraphics[scale=0.5]{Diagrams/high_level.jpg}
+\caption[High-level description of the problem]{High-level description of the problem. It is possible to observe the relationship between the current TrackMe system and Data4Help, and this system with the other two to be built}
 \label{fig:High_level}
 \end{figure}
-
-\textbf{TrackMe} develops its own health-monitoring smart-watch and bases the assumption that all registered individuals own the same to retrieve the necessary raw data (body temperature, blood pressure, heart pulse rate, percentage of $O_2$ in the blood, current location)  as input for the service \textbf{D4H}. TrackMe provides the user an interface for the registration of individuals as well as third parties. Individuals who register, agree to TrackMe acquiring their data. They are wirelessly connected to each other. We presume the data to be posted using a compatible application that comes with the health-monitoring device. As mentioned before, it also supports the registration of third parties. While doing so, we acknowledge the company is legally established by validating its certificate, who can thereafter request for the data of some specific individuals (using SSN) to whom the request will accordingly be sent. The individuals have the choice to subsequently accept or reject it. Alternatively, they can also ask for bulk data based on criteria filtered and provided by the system (such as age, gender, country, province) which will be handled directly by TrackMe. If the request for data acquisition is approved, TrackMe offers these third party customers to subscribe to the new data, in real-time.\\
-
-\textbf{ASOS} is built on top of Data4Help to provide an opportunity to users above the age of 60, to subscribe to a new SOS service. AutomatedSOS monitors the health status of these users. When vital parameters  such as heart rate, blood pressure, body temperature, percentage of $O_2$ in the blood are below certain thresholds, the health care system is automatically notified, which accordingly handles the arrival of an ambulance to the location. It must be noted that this post-notification management cannot be tracked.\\
-
-\textbf{T4R} allows 'fit' users to participate in any upcoming run. If the user desires to participate they can accept the request and enrol themselves through a redirected link.  We assume that organizers define a valid path viewable to all users before the run. Spectators (read : all users) can view the position of all the participants on the map during the run. \\
 
 \subsection{World and shared phenomena}
 \begin{itemize}
@@ -300,7 +301,7 @@ So as to understand the main events happening in the system, it is useful to pro
 \end{figure}
 
 \section{Product functions}
-The TrackMe environment is composed, as said before, by a set of 3 services, with D4H as the leading service. ASOS and T4R are going to be build on top of D4H, and will make use of all of its functionalities. Below, the main features of each service are listed, and a description is offered.
+The TrackMe environment is composed, as said before, by a set of three services, with D4H as the leading service. ASOS and T4R are going to be build on top of D4H, and will make use of all of its functionalities. Below, the main features of each service are listed, and a description is offered.
 
 \begin{itemize}
 \item{\textbf{Data4Help}}
@@ -310,30 +311,30 @@ The TrackMe environment is composed, as said before, by a set of 3 services, wit
 \\ ASOS is a complementary service offered to the senior range of users, and it will be built on top of the D4H service. All the elderly individuals of D4H will receive a request to subscribe to this service, whose main feature is to contact the individual's National Health Care Service every time any critical health parameter is under or above a defined threshold. 
 
 \item{\textbf{Track4Run}}
-\\T4R is the last service offered by TrackMe, and it will, also, be build on top of D4H. Designed as a service for run organizers and runners, who operate the TrackMe devices. The run organizers will be able to define a running circuit, and send invitations to the TrackMe device users; The individuals will be able to register to any particular competition they prefer. Furthermore, during the duration of each race, all spectators will be able to spot, through the T4R site, the location of each registered individual in the circuit.
+\\T4R is the last service offered by TrackMe, and it will, also, be build on top of D4H. Designed as a service for run organizers and runners, who operate the TrackMe devices. The run organizers will be able to define a running circuit, and send invitations to the TrackMe device users; The individuals will be able to register to any particular competition they prefer, only if they have not registered on another competition at the same date and time. Furthermore, during the duration of each race, all spectators will be able to spot, through the T4R site, the location of each registered individual in the circuit.
 \end{itemize}
 
 \section{User characteristics}
-The target users of the \textbf{TrackMe} system are:
+The target users of the TrackMe system are:
 \begin{itemize}
-\item{} \textbf{Individuals:} 
+\item{} \textbf{Individuals} 
 \begin{itemize}
-\item{} who can \textbf{register} and \textbf{allows} TrackMe to store, analyse and process their data;
-\item{} can \textbf{manage} the requests if some third party users wants access to their data individually;
-\item{} users above the age of 60, can \textbf{avail} themselves of ASOS service by using the subscribe option available on their dashboard;
-\item{} they can \textbf{participate} into the upcoming runs;
-\item{} \textbf{Organizers and spectators} are also categorized as individuals. Organizers take the initiative of organising runs and defining the path, such that, other individuals are able to participate, whereas, spectators are the audience;
+\item{} Can register and allows TrackMe to store, analyse and process their data
+\item{} Can manage the requests if some third party company wants access to their data individually
+\item{} TrackMe users above the age of 60, can avail themselves of ASOS service by using the subscribe option
+\item{} Can participate into the upcoming runs
+\item{} \textbf{Organizers} and \textbf{spectators} are also categorized as individuals. Organizers take the initiative of organising runs and defining the path, such that, other individuals are able to participate, whereas, spectators are the audience;
 
 \end{itemize}
-\item{} \textbf{Third party users:}
+\item{} \textbf{Third party companies}
 \begin{itemize}
-\item{} can \textbf{register} and make \textbf{requests} for the data required;
-\item{} can \textbf{subscribe} to the data after acquiring;
-\item{} \textbf{ASOS and T4R} are the third party companies \textbf{managed directly by} TrackMe;
+\item{} Can register and make requests for the data required
+\item{} Can subscribe to the data after acquiring
+\item{} ASOS and T4R are considered third party, with the particularity of being managed directly by TrackMe
 \end{itemize}
 \end{itemize}
 
-Therefore, all the constraints derived from these characteristics must be satisfied from the \textbf{TrackMe} system, as much as possible.
+Therefore, all the constraints derived from these characteristics must be satisfied from the TrackMe system, as much as possible.
 
 \section{Assumptions, dependencies and constraints}
 \subsection{Domain assumptions}
@@ -1241,15 +1242,36 @@ This is a web based application with no strict hardware limitations. The only re
 \subsection{Any other constraint}
 \begin{itemize}
 \item{} \textbf{Regulatory Policies}\\
-The application will have to ask for user's position and personal data in order to have track of the health status. Social security numbers(SSN)/Fiscal code and email addresses won't be used for commercial uses.\\\\
+The application will have to ask for user's position and personal data in order to have track of the health status. Social security numbers(SSN) and email addresses won't be used for commercial uses.\\\\
 Moreover, the system makes sure the third-party companies who registers are legally established. Thus, there are no fake companies who tries to exploit user's data. 
 \end{itemize}
 \section{Software system attributes}
+
 \subsection{Reliability}
+D4H, T4R and ASOS infrastructure must guarantee at least two database mirrors and three server instances up. This way, any failure in the database or in the instances will keep the whole system up and running. 
+
 \subsection{Availability}
+Since ASOS depends on D4H, both systems must be available 99.9\% of the time. On the other hand, T4R must have an up time of 95%.
+
 \subsection{Security}
+D4H and T4R databases must have different users and password and the access from outside the servers' network must not be allowed.\\
+
+Furthermore, D4T must keep track of every request made by the third parties, and must log every access to the third party company account or individual account. Moreover, ASOS must have log every time the system contacts a health care service, specifying the individual's ID, the contacted health care service and the individual's health status. \\
+
+Finally, all the connections to the TrackMe services and from the TrackMe services should be encrypted using PKI (HTTP over SSL).
+
 \subsection{Maintainability}
+D4H, T4R, ASOS systems must maintain a service log in order to have a very detailed sequence of steps when a bug is found.\\
+
+A software developer, who has at least one year of experience supporting these software application shall be able to add a new product feature, including source code modifications and testing. The test cases of the three systems should have a 90\% of code coverage.\\
+
 \subsection{Portability}
+D4H, T4R and ASOS should be written in a way that, moving from one hosting service to another, should not affect the service and the code of the system.
+
+\subsection{Usability}
+D4H and T4R must function properly in the following Internet browsers: Google Chrome version 31 or higher, Mozilla Firefox version 26 or higher, Internet Explorer Edge or higher. In addition, both websites must be responsive so users should be able to use them from a smartphone or tablet without inconvenience.\\
+
+There is no specific usability requirement for ASOS.
 
 \chapter{Formal analysis using Alloy}
 
