@@ -50,7 +50,7 @@ fact allNotificationsMustHaveAnAssociatedHealthcareServiceAndIndividual {
 
 // There must not be 2 notifications with the same healthcare service 
 fact noCommonHSNotificationWithSameHealthService {
-	no disj n1,n2:HSNotification | n1.healthService = n2.healthService // and n1.individual = n2.individual
+	no disj n1,n2:HSNotification | n1.healthService = n2.healthService  and n1.individual = n2.individual
 }
 
 // If any parameter in the data of the individual is less than 0, it should have a notification related to it and its health care service.
