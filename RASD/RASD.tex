@@ -40,7 +40,7 @@
         \par
         \vspace*{4\p@}
         \hrule
-    \vskip 60\p@
+    \vskip 50\p@
   }}
 \def\@makeschapterhead#1{
   \vspace*{4\p@}
@@ -55,7 +55,7 @@
         \par
         \vspace*{4\p@}
         \hrule
-    \vskip 60\p@
+    \vskip 50\p@
   }}
   
 \pagestyle{fancy}
@@ -263,39 +263,45 @@ This document is divided in six parts, each one devoted to approach each one of 
 
 \chapter{Overall description}
 \section{Product perspective}
-In the previous section, the scope of the application was delimited and explained in a shallow way, but at this point it is useful to include further details on the shared phenomena and a domain model as a visual representation of the system.  \\
-
-The addition of brand-new services to TrackMe requires to enlarge the existing model in such a way that it can include the abstraction of those features. To explain in detail the way data will be organized in the upcoming system, the structure of TrackMe up to now will be treated as a "black box". This means, only those parts of the whole data model that will allow us to obtain users' basic information and collected data (required by Data4Help) will be considered. \\
-
- On the other hand, AutomatedSOS and Track4Run are treated as third-parties that make requests for the data that Data4Help offers. Every time a user agrees to activate any of those services, a new request is sent to Data4Help to obtain his data. \\\\
+In the previous section, the scope of the application was delimited and explained in a shallow way, but at this point it is useful to include further details on the shared phenomena and a domain model as a visual representation of the system (Figure \ref{fig:domain_model}).   \\
 
  \begin{figure}[H]
 \centering
  \includegraphics[scale=0.45]{Diagrams/domain_model.png}
 \caption[Domain Model]{Domain Model}
-\label{fig:Domain_model}
+\label{fig:domain_model}
 \end{figure}
 
-So as to understand the main events happening in the system, it is useful to provide a visual representation using state chart diagrams (described in the figure below). For \textbf {D4H} (Figure \ref{fig:d4h_statechart}) the main task is handling requests, and they can be in different states (unprocessed, pending, rejected/approved and completed). On the other hand, \textbf {ASOS} (Figure \ref{fig:asos_statechart}) is a background process in charge of checking the health condition of a person, therefore it monitors the health status of the given individual until an anomaly happens, notifies it and after, loops back to the initial state. Finally, \textbf {T4R} (Figure \ref{fig:t4r_statechart}), needs to tackle the "how to setup a run and make it available for the spectators" task, then this chain of events can also be modelled.
+Augmenting the services offered by TrackMe requires to enlarge the existing model in such a way that it can include the abstraction of those features. From this perspective, to explain in detail how the data will be organized in the upcoming system, the structure of TrackMe up to now will be treated as a "black box". This means, only those parts of the whole data model that will allow us to obtain users' basic information and collected data (required by \textbf{Data4Help}) will be considered. \\
+
+On the other hand, \textbf{AutomatedSOS} and \textbf{Track4Run} are treated as third-parties that make requests for the data that Data4Help offers. Every time a user agrees to activate any of those services, a new request is sent to Data4Help to obtain his data. \\
+
+To understand the main events happening in the system, it is useful to use statechart diagrams (described in the figure below). In \textbf {D4H} (Figure \ref{fig:d4h_statechart}) the main task is handling requests made by third parties registered in the system. At the beginning each request is considered as \textit{unprocessed}, meaning that the constraints, they must satisfy, have not been checked yet, in the meanwhile they are on a \textit{pending} state and according to constraints checking can become either \textit{rejected} or \textit{approved}. In the end, they are considered \textit{completed}. \\
 
  \begin{figure}[H]
 \centering
- \includegraphics[scale=0.6]{Diagrams/d4h_statechart.png}
-\caption[D4H Statechart Diagrams]{D4H Statechart Diagrams}
+ \includegraphics[scale=0.55]{Diagrams/d4h_statechart.png}
+\caption[D4H statechart diagram]{D4H statechart diagram}
 \label{fig:d4h_statechart}
 \end{figure}
 
- \begin{figure}[H]
-\centering
- \includegraphics[scale=0.6]{Diagrams/asos_statechart.png}
-\caption[ASOS Statechart Diagrams]{ASOS Statechart Diagrams}
-\label{fig:asos_statechart}
-\end{figure}
+On the other hand, \textbf{ASOS} (Figure \ref{fig:asos_statechart}) is an additional service offered to individuals older than 60 years. It is a background process in charge of monitoring the health status of each individual until an anomaly happens (i.e. any parameter out of its normal range), then a notification is sent to his corresponding healthcare service (i.e. send the location) and after, the system loops back to be ready to process new upcoming data. \\
+
+Another fact to highlight is ASOS associates a status to each individual, \textit{stable and critical}, needed to decide if triggering the notification or not (to avoid sending more than one notification for the same user). \\
 
  \begin{figure}[H]
 \centering
- \includegraphics[scale=0.6]{Diagrams/t4r_statechart.png}
-\caption[T4R Statechart Diagrams]{T4R Statechart Diagrams}
+ \includegraphics[scale=0.55]{Diagrams/asos_statechart.png}
+\caption[ASOS statechart diagram]{ASOS statechart diagram}
+\label{fig:asos_statechart}
+\end{figure}
+
+Finally, \textbf {T4R} (Figure \ref{fig:t4r_statechart}), needs to tackle the "how to setup a run and make it available for the spectators" task. To do so, after an organizer creates a run, it can be in different states depending on whether it was completely configured (i.e. define a running circuit and notify individuals) or not. Also it will be active or unactive according to the date and time when the run will take place.
+
+ \begin{figure}[H]
+\centering
+ \includegraphics[scale=0.55]{Diagrams/t4r_statechart.png}
+\caption[T4R statechart diagram]{T4R statechart diagram}
 \label{fig:t4r_statechart}
 \end{figure}
 
