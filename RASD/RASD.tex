@@ -40,7 +40,7 @@
         \par
         \vspace*{4\p@}
         \hrule
-    \vskip 60\p@
+    \vskip 50\p@
   }}
 \def\@makeschapterhead#1{
   \vspace*{4\p@}
@@ -55,9 +55,9 @@
         \par
         \vspace*{4\p@}
         \hrule
-    \vskip 60\p@
+    \vskip 50\p@
   }}
-  
+
 \pagestyle{fancy}
 \fancyhead{}
 \fancyfoot{}
@@ -67,7 +67,7 @@
 \renewcommand{\footrulewidth}{1pt}
 \renewcommand{\headrulewidth}{1pt}
 \linespread{1.3}
-%\floatstyle{boxed} 
+%\floatstyle{boxed}
 \restylefloat{figure}
 \parindent 0ex
 %\renewcommand{baselinestretch}{1.5}
@@ -89,14 +89,14 @@
     \vspace*{0.7 cm}
     \includegraphics[scale = 0.85]{../Assets/PolimiLogo.png}\\[1.6 cm]
      \textsc{\large Department of Computer Science and Engineering}\\[1.8 cm]
-     
+
     \rule{\linewidth}{0.2 mm} \\[0.4 cm]
 	{ \huge \bfseries Requirement Analysis and Specification Document (RASD)}\\
 	\rule{\linewidth}{0.2 mm} \\[1.5 cm]
-	
-	\textsc{\Large TrackMe}\\[0.5 cm]		
-	\textsc{\large - v1.0 -}\\[1 cm]		
-	
+
+	\textsc{\Large TrackMe}\\[0.5 cm]
+	\textsc{\large - v1.0 -}\\[1 cm]
+
 	\begin{minipage}{0.4\textwidth}
 		\begin{flushleft} \large
 			\emph{Authors:}\\
@@ -110,12 +110,12 @@
 			%\emph{Student Number:} \\
 			903988 \\
 			904738 \\
-			904204					
+			904204
 		\end{flushright}
 	\end{minipage}\\[2 cm]
-	
+
 	{\large November \nth{11} , 2018}\\[2 cm]
- 
+
 	\vfill
 \end{titlepage}
 
@@ -128,11 +128,11 @@
 \clearpage
 \setcounter{page}{1}
 
-\chapter{Introduction} 
+\chapter{Introduction}
 \section{Context}
 Nowadays, due to the availability of a huge variety of smart electronic devices, more and more applications are developed to help people in their day-to-day activities. In the healthcare field, wearable devices such as smartwatches are highly useful since they can be used to collect information about general well-being of users by means of mobile sensor technologies. As expected, measured data has several possible applications including, patient diagnostics and treatment or research motivations. \\
 
-\textbf{TrackMe} is a company that develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatch is synchronized with an app that gives users access to their data and stats.  
+\textbf{TrackMe} is a company that develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatch is synchronized with an app that gives users access to their data and stats.
 
 \section{Purpose}
 Taking into account the long list of currently available wearable devices, \textbf{TrackMe}  is aware that the market is plenty of healthcare wearable devices, therefore, to stand out against its competitors, the key ingredient is improving customers experience, and doing so requires understanding their needs and how they interact with the system, in order to provide personalized recommendations and correctly oriented new services. \\
@@ -228,23 +228,23 @@ The goals are divided according to each service TrackMe wants to offer to its cu
 
 \subsection{Abbreviations}
 \begin{itemize}
-\item $[Gn]$: n-goal. 
-\item $[Dn]$: n-domain assumption. 
-\item $[Rn]$: n-functional requirement. 
-\item $[UCn]$: n-use case. 
-\end{itemize} 
+\item $[Gn]$: n-goal.
+\item $[Dn]$: n-domain assumption.
+\item $[Rn]$: n-functional requirement.
+\item $[UCn]$: n-use case.
+\end{itemize}
 
 \section{Revision history}
 It is important to keep track of the revisions made to this document: \\
 
 \begin{table}[h]
-\centering 
-\begin{tabular}{c c} 
-\hline\hline 
-\textbf{Version} & \textbf{Last modified date} \\ [0.5ex] 
-\hline 
+\centering
+\begin{tabular}{c c}
+\hline\hline
+\textbf{Version} & \textbf{Last modified date} \\ [0.5ex]
+\hline
 1.0 &  \nth{11} November, 2018  \\
-\hline 
+\hline
 \end{tabular}
 \caption{Revision history timeline}
 \label{fig:Revision history}
@@ -263,39 +263,45 @@ This document is divided in six parts, each one devoted to approach each one of 
 
 \chapter{Overall description}
 \section{Product perspective}
-In the previous section, the scope of the application was delimited and explained in a shallow way, but at this point it is useful to include further details on the shared phenomena and a domain model as a visual representation of the system.  \\
-
-The addition of brand-new services to TrackMe requires to enlarge the existing model in such a way that it can include the abstraction of those features. To explain in detail the way data will be organized in the upcoming system, the structure of TrackMe up to now will be treated as a "black box". This means, only those parts of the whole data model that will allow us to obtain users' basic information and collected data (required by Data4Help) will be considered. \\
-
- On the other hand, AutomatedSOS and Track4Run are treated as third-parties that make requests for the data that Data4Help offers. Every time a user agrees to activate any of those services, a new request is sent to Data4Help to obtain his data. \\\\
+In the previous section, the scope of the application was delimited and explained in a shallow way, but at this point it is useful to include further details on the shared phenomena and a domain model as a visual representation of the system (Figure \ref{fig:domain_model}).   \\
 
  \begin{figure}[H]
 \centering
  \includegraphics[scale=0.6]{Diagrams/domain_model.png}
 \caption[Domain Model]{Domain Model}
-\label{fig:Domain_model}
+\label{fig:domain_model}
 \end{figure}
 
-So as to understand the main events happening in the system, it is useful to provide a visual representation using state chart diagrams (described in the figure below). For \textbf {D4H} (Figure \ref{fig:d4h_statechart}) the main task is handling requests, and they can be in different states (unprocessed, pending, rejected/approved and completed). On the other hand, \textbf {ASOS} (Figure \ref{fig:asos_statechart}) is a background process in charge of checking the health condition of a person, therefore it monitors the health status of the given individual until an anomaly happens, notifies it and after, loops back to the initial state. Finally, \textbf {T4R} (Figure \ref{fig:t4r_statechart}), needs to tackle the "how to setup a run and make it available for the spectators" task, then this chain of events can also be modelled.
+Augmenting the services offered by TrackMe requires to enlarge the existing model in such a way that it can include the abstraction of those features. From this perspective, to explain in detail how the data will be organized in the upcoming system, the structure of TrackMe up to now will be treated as a "black box". This means, only those parts of the whole data model that will allow us to obtain users' basic information and collected data (required by \textbf{Data4Help}) will be considered. \\
+
+On the other hand, \textbf{AutomatedSOS} and \textbf{Track4Run} are treated as third-parties that make requests for the data that Data4Help offers. Every time a user agrees to activate any of those services, a new request is sent to Data4Help to obtain his data. \\
+
+To understand the main events happening in the system, it is useful to use statechart diagrams (described in the figure below). In \textbf {D4H} (Figure \ref{fig:d4h_statechart}) the main task is handling requests made by third parties registered in the system. At the beginning each request is considered as \textit{unprocessed}, meaning that the constraints, they must satisfy, have not been checked yet, in the meanwhile they are on a \textit{pending} state and according to constraints checking can become either \textit{rejected} or \textit{approved}. In the end, they are considered \textit{completed}. \\
 
  \begin{figure}[H]
 \centering
- \includegraphics[scale=1]{Diagrams/d4h_statechart.png}
-\caption[D4H Statechart Diagrams]{D4H Statechart Diagrams}
+ \includegraphics[scale=0.55]{Diagrams/d4h_statechart.png}
+\caption[D4H statechart diagram]{D4H statechart diagram}
 \label{fig:d4h_statechart}
 \end{figure}
 
- \begin{figure}[H]
-\centering
- \includegraphics[scale=1]{Diagrams/asos_statechart.png}
-\caption[ASOS Statechart Diagrams]{ASOS Statechart Diagrams}
-\label{fig:asos_statechart}
-\end{figure}
+On the other hand, \textbf{ASOS} (Figure \ref{fig:asos_statechart}) is an additional service offered to individuals older than 60 years. It is a background process in charge of monitoring the health status of each individual until an anomaly happens (i.e. any parameter out of its normal range), then a notification is sent to his corresponding healthcare service (i.e. send the location) and after, the system loops back to be ready to process new upcoming data. \\
+
+Another fact to highlight is ASOS associates a status to each individual, \textit{stable and critical}, needed to decide if triggering the notification or not (to avoid sending more than one notification for the same user). \\
 
  \begin{figure}[H]
 \centering
- \includegraphics[scale=1]{Diagrams/t4r_statechart.png}
-\caption[T4R Statechart Diagrams]{T4R Statechart Diagrams}
+ \includegraphics[scale=0.55]{Diagrams/asos_statechart.png}
+\caption[ASOS statechart diagram]{ASOS statechart diagram}
+\label{fig:asos_statechart}
+\end{figure}
+
+Finally, \textbf {T4R} (Figure \ref{fig:t4r_statechart}), needs to tackle the "how to setup a run and make it available for the spectators" task. To do so, after an organizer creates a run, it can be in different states depending on whether it was completely configured (i.e. define a running circuit and notify individuals) or not. Also it will be active or unactive according to the date and time when the run will take place.
+
+ \begin{figure}[H]
+\centering
+ \includegraphics[scale=0.55]{Diagrams/t4r_statechart.png}
+\caption[T4R statechart diagram]{T4R statechart diagram}
 \label{fig:t4r_statechart}
 \end{figure}
 
@@ -307,7 +313,7 @@ The TrackMe environment is composed, as said before, by a set of three services,
 \\D4H will be the leading service, and the features it will provide are mostly related to registered third party companies. Companies will be able to access different types of data from the individuals wearing the TrackMe devices. They will be able to subscribe to a specific individual data, or to a group of anonymized individuals' data, as long as certain restrictions are fulfilled. The individuals, on the other hand, will be able to accept or reject the request of accessing his/her data, and the third party companies will be notified of the individuals' decision.
 
 \item{\textbf{AutomatedSOS}}
-\\ ASOS is a complementary service offered to the senior range of users, and it will be built on top of the D4H service. All the elderly individuals of D4H will receive a request to subscribe to this service, whose main feature is to contact the individual's National Health Care Service every time any critical health parameter is under or above a defined threshold. 
+\\ ASOS is a complementary service offered to the senior range of users, and it will be built on top of the D4H service. All the elderly individuals of D4H will receive a request to subscribe to this service, whose main feature is to contact the individual's National Health Care Service every time any critical health parameter is under or above a defined threshold.
 
 \item{\textbf{Track4Run}}
 \\T4R is the last service offered by TrackMe, and it will, also, be build on top of D4H. Designed as a service for run organizers and runners, who operate the TrackMe devices. The run organizers will be able to define a running circuit, and send invitations to the TrackMe device users; The individuals will be able to register to any particular competition they prefer, only if they have not registered on another competition at the same date and time. Furthermore, during the duration of each race, all spectators will be able to spot, through the T4R site, the location of each registered individual in the circuit.
@@ -316,7 +322,7 @@ The TrackMe environment is composed, as said before, by a set of three services,
 \section{User characteristics}
 The target users of the TrackMe system are:
 \begin{itemize}
-\item{} \textbf{Individuals} 
+\item{} \textbf{Individuals}
 \begin{itemize}
 \item{} Can register and allows TrackMe to store, analyse and process their data
 \item{} Can manage the requests if some third party company wants access to their data individually
@@ -350,7 +356,7 @@ Domain assumptions help to make clear what it is expected from the external envi
 
 \chapter{Specific requirements}
 This section contains all of the functional and quality requirements of the system. It gives a detailed
-description of the system and all its features. 
+description of the system and all its features.
 
 \section{External interface requirements}
 This section provides a detailed description of all inputs into and outputs from the system. It also gives a
@@ -447,7 +453,7 @@ The functional requirements are those which are the fundamental actions of the s
       \requirement{3} The system must allow an individual to accept or reject its requests of accessing personal data.
       \requirement{4} The system must be able to communicate with TrackMe database in order to obtain the health status and location of an individual.
 	\end{enumerate}
-    
+
     \goal{2} The third-party company should be able to access data of a specific individual.
     \begin{enumerate}
       \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
@@ -458,7 +464,7 @@ The functional requirements are those which are the fundamental actions of the s
       \requirement{7} The system must allow a third party company to search for an individual health status and location using his/her SSN.
       \requirement{8} The system must be able to notify the individual that a third party company wants to access its data.
     \end{enumerate}
-    
+
    \goal{3} The third-party company should be able to access anonymized data of groups of individuals under certain constraints.
     \begin{enumerate}
       \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
@@ -469,7 +475,7 @@ The functional requirements are those which are the fundamental actions of the s
       \requirement{9} The system must allow a third party company to filter data of an anonymized group of individuals by country, age, gender and blood type parameters.
       \requirement{10} The system must be able to anonymize health status and location of a group of individuals.
     \end{enumerate}
-    
+
    \goal{4} The third-party company could subscribe to get new data related to specific individuals or previously saved search.
     \begin{enumerate}
       \assumption{2} TrackMe addresses data protection and integrity against possible attacks.
@@ -491,9 +497,9 @@ The functional requirements are those which are the fundamental actions of the s
 	  \assumption{6} Out of coverage scenarios cannot be handled by ASOS so as to guarantee a 5 seconds reaction.
       \requirement{13} The system must be able to send a request for accessing an individual's data when he/she is older than 60 years old.
       \requirement{14} The system must be able to monitor, and compare against defined thresholds, the health status of an individual.
-      \requirement{15} The system must be able to contact the Healthcare service associated to an individual.      
+      \requirement{15} The system must be able to contact the Healthcare service associated to an individual.
   \end{enumerate}
-  
+
     \goal{6} Run organizers could define the path for a given run and TrackMe users can enrol to it.
     \begin{enumerate}
       \assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
@@ -510,7 +516,7 @@ The functional requirements are those which are the fundamental actions of the s
       \requirement{22} The system must allow an organizer to send invitations to the participants to enrol in a race event.
       \requirement{23} The system must allow a participant to accept or reject an invitation to a race.
     \end{enumerate}
-    
+
    \goal{7} Run spectators could track the position of all the runners during the race.
     \begin{enumerate}
       \assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
@@ -526,7 +532,7 @@ The functional requirements are those which are the fundamental actions of the s
       \requirement{24} The system must allow any spectator of a run to view in a map the participants' location
       \requirement{25} The system must allow a spectator to click on a participant location in order to view his/her health status.
     \end{enumerate}
-  
+
 \end{enumerate}
 
 \subsection{Use case diagrams}
@@ -574,7 +580,7 @@ In the following section a description of each use case is provided. For every u
 	\item{\textbf{Data4Help}} \\
 	\textbf{ID}: \usecase{1} \\
 	\textbf{Name}: Manage requests \\
-	\textbf{Actor}: Individual \\ 
+	\textbf{Actor}: Individual \\
 	\textbf{Entry conditions}:
 		\begin{enumerate}
 			\item{A logged in individual}
@@ -592,10 +598,10 @@ In the following section a description of each use case is provided. For every u
   		\end{itemize}
   	\textbf{Exceptions}: - \\
 \rule{\linewidth}{0.4pt}
-	\textbf{ID}: \usecase{2} \\	
+	\textbf{ID}: \usecase{2} \\
 	\textbf{Name}: Show requests \\
-    \textbf{Actor}: Individual \\ 	
-    \textbf{Entry conditions}: 
+    \textbf{Actor}: Individual \\
+    \textbf{Entry conditions}:
 		\begin{enumerate}
 			\item{A logged in individual}
     			\item{A request to access the individual's health status and location}
@@ -613,7 +619,7 @@ In the following section a description of each use case is provided. For every u
 \rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{3} \\
   	\textbf{Name}: Accept the request \\
-  	\textbf{Actor}: Individual \\ 
+  	\textbf{Actor}: Individual \\
   	\textbf{Entry conditions}:
 	\begin{enumerate}
 		\item{A logged in individual}
@@ -655,7 +661,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{ID}: \usecase{5} \\
   	\textbf{Name}: Notify third party \\
     \textbf{Actor}: Individual \\
-    \textbf{Entry conditions}: 
+    \textbf{Entry conditions}:
     		\begin{enumerate}
 			\item{A logged in individual}
     			\item{A request is set to Accepted or Rejected}
@@ -684,7 +690,7 @@ In the following section a description of each use case is provided. For every u
   		\begin{enumerate}
     			\item{The system creates an account for an Individual or a Third party company}
   		\end{enumerate}
-  	\textbf{Exceptions}: 
+  	\textbf{Exceptions}:
   		\begin{enumerate}
     			\item{If either the Individual or the Third party company are already registered, an error message will be shown}
     			\item{If there some of the fields in the registration form that are not filled in, an error message will be shown}
@@ -704,7 +710,7 @@ In the following section a description of each use case is provided. For every u
   		\begin{enumerate}
     			\item{The system redirects the Individual or a Third party company to the profile page}
   		\end{enumerate}
-  	\textbf{Exceptions}: 
+  	\textbf{Exceptions}:
   		\begin{enumerate}
     			\item{If the credentials are wrong, an error message will be shown}
     			\item{If the password or the email are missing, an error message will be shown}
@@ -727,7 +733,7 @@ In the following section a description of each use case is provided. For every u
   		\begin{enumerate}
     			\item{The system sends a notification to the Individual}
   		\end{enumerate}
-  	\textbf{Exceptions}: 
+  	\textbf{Exceptions}:
   		\begin{enumerate}
     			\item{If the SSN is not valid, an error message will be shown}
     			\item{If the SSN does not corresponds to an active Individual, an error message will be shown}
@@ -755,7 +761,7 @@ In the following section a description of each use case is provided. For every u
   		\begin{enumerate}
     			\item{The system shows the health status and location of the given Individual}
   		\end{enumerate}
-  	\textbf{Exceptions}: 
+  	\textbf{Exceptions}:
   		\begin{enumerate}
     			\item{If the SSN is not valid, an error message will be shown}
     			\item{If the SSN does not corresponds to an active Individual, an error message will be shown}
@@ -802,12 +808,12 @@ In the following section a description of each use case is provided. For every u
   		\begin{enumerate}
     			\item{The system shows the health status of the anonymized group of individuals}
   		\end{enumerate}
-  	\textbf{Exceptions}: 
+  	\textbf{Exceptions}:
   		\begin{enumerate}
     			\item{If the data cannot be anonymized, an error message will be shown}
     			\item{If there is not enough data, an error message will be shown}
   		\end{enumerate}
-  	\rule{\linewidth}{0.4pt}	
+  	\rule{\linewidth}{0.4pt}
   	\textbf{ID}: \usecase{12} \\
   	\textbf{Name}: Anonymize data \\
     \textbf{Actor}: Third party company \\
@@ -825,7 +831,7 @@ In the following section a description of each use case is provided. For every u
   		\begin{enumerate}
     			\item{The system returns the anonymized data}
   		\end{enumerate}
-  	\textbf{Exceptions}: 
+  	\textbf{Exceptions}:
   		\begin{enumerate}
     			\item{If there are less than 1000 individuals in the request of data, an error is returned}
     			\item{If there is not enough data, an error is returned}
@@ -837,7 +843,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{ID}: \usecase{13} \\
   	\textbf{Name}: Send request for subscription \\
     \textbf{Actor}: D4H \\
-    \textbf{Entry conditions}: 
+    \textbf{Entry conditions}:
     		\begin{itemize}
     			\item{The system knows the SSN of the elderly individual to be subscribed}
     		\end{itemize}
@@ -855,7 +861,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{ID}: \usecase{14} \\
   	\textbf{Name}: Receive individual's data \\
     \textbf{Actor}: D4H \\
-    \textbf{Entry conditions}: 
+    \textbf{Entry conditions}:
     		\begin{itemize}
     			\item{The individual is subscribed to ASOS}
     		\end{itemize}
@@ -870,7 +876,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{ID}: \usecase{15} \\
   	\textbf{Name}: Validate health status \\
     \textbf{Actor}: - \\
-    \textbf{Entry conditions}: 
+    \textbf{Entry conditions}:
     		\begin{itemize}
     			\item{The individual is subscribed to ASOS}
     			\item{ASOS has received new health data of the individual}
@@ -887,7 +893,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{ID}: \usecase{16} \\
   	\textbf{Name}: Contact healthcare service \\
     \textbf{Actor}: Healthcare service \\
-    \textbf{Entry conditions}: 
+    \textbf{Entry conditions}:
     		\begin{itemize}
     			\item{Some parameters of the health data of the individual are above or below the threshold}
     		\end{itemize}
@@ -896,7 +902,7 @@ In the following section a description of each use case is provided. For every u
     			\item{The system gets the healthcare service contact of the given individual}
     			\item{The system contacts the healthcare service, and sends the health data and location of the given individual}
   		\end{enumerate}
-  	\textbf{Exit conditions}: 
+  	\textbf{Exit conditions}:
   		\begin{itemize}
   			\item{The system has contacted the healthcare service}
   		\end{itemize}
@@ -922,7 +928,7 @@ In the following section a description of each use case is provided. For every u
   		\begin{enumerate}
     			\item{The system creates an account for a Participant or an Organizer}
   		\end{enumerate}
-  	\textbf{Exceptions}: 
+  	\textbf{Exceptions}:
   		\begin{enumerate}
     			\item{If either the Participant or the Organizer are already registered, an error message will be shown}
     			\item{If there some of the fields in the registration form that are not filled in, an error message will be shown}
@@ -942,7 +948,7 @@ In the following section a description of each use case is provided. For every u
   		\begin{enumerate}
     			\item{The system redirects the Participant or the Organizer to the profile page}
   		\end{enumerate}
-  	\textbf{Exceptions}: 
+  	\textbf{Exceptions}:
   		\begin{enumerate}
     			\item{If the credentials are wrong, an error message will be shown}
     			\item{If the password or the email are missing, an error message will be shown}
@@ -951,7 +957,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{ID}: \usecase{19} \\
   	\textbf{Name}: Send Data4Help request \\
     \textbf{Actor}: Participant \\
-    \textbf{Entry conditions}: 
+    \textbf{Entry conditions}:
     		\begin{enumerate}
     			\item{The Participant has already registered}
     		\end{enumerate}
@@ -969,7 +975,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{ID}: \usecase{20} \\
   	\textbf{Name}: Manage invitations \\
     \textbf{Actor}: Participant \\
-    \textbf{Entry conditions}: 
+    \textbf{Entry conditions}:
     		\begin{enumerate}
     			\item{The Participant is logged in}
     		\end{enumerate}
@@ -988,7 +994,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{ID}: \usecase{21} \\
   	\textbf{Name}: Accept invitation \\
     \textbf{Actor}: Participant \\
-    \textbf{Entry conditions}: 
+    \textbf{Entry conditions}:
     		\begin{enumerate}
     			\item{The Participant is logged in}
     			\item{The Participant has clicked on Accept invitation}
@@ -1008,7 +1014,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{ID}: \usecase{22} \\
   	\textbf{Name}: Reject invitation \\
     \textbf{Actor}: Participant \\
-    \textbf{Entry conditions}: 
+    \textbf{Entry conditions}:
     		\begin{enumerate}
     			\item{The Participant is logged in}
     			\item{The Participant has clicked on Reject invitation}
@@ -1024,7 +1030,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{ID}: \usecase{23} \\
   	\textbf{Name}: Enrol in the run \\
     \textbf{Actor}: Participant \\
-    \textbf{Entry conditions}: 
+    \textbf{Entry conditions}:
     		\begin{enumerate}
     			\item{The Participant is logged in}
     			\item{The Participant has clicked on Accept invitation}
@@ -1043,7 +1049,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{ID}: \usecase{24} \\
   	\textbf{Name}: Create a run \\
     \textbf{Actor}: Organizer \\
-    \textbf{Entry conditions}: 
+    \textbf{Entry conditions}:
     		\begin{enumerate}
     			\item{The Organizer is logged in}
     		\end{enumerate}
@@ -1066,7 +1072,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{ID}: \usecase{25} \\
   	\textbf{Name}: Define running circuit \\
     \textbf{Actor}: Organizer \\
-    \textbf{Entry conditions}: 
+    \textbf{Entry conditions}:
     		\begin{enumerate}
     			\item{The Organizer is logged in}
     			\item{The Organizer has created a run}
@@ -1086,7 +1092,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{ID}: \usecase{26} \\
   	\textbf{Name}: Send invitation \\
     \textbf{Actor}: Organizer \\
-    \textbf{Entry conditions}: 
+    \textbf{Entry conditions}:
     		\begin{enumerate}
     			\item{The Organizer is logged in}
     		\end{enumerate}
@@ -1107,7 +1113,7 @@ In the following section a description of each use case is provided. For every u
   	\textbf{ID}: \usecase{27} \\
   	\textbf{Name}: Track runners' location \\
     \textbf{Actor}: Spectator \\
-    \textbf{Entry conditions}: 
+    \textbf{Entry conditions}:
     		\begin{enumerate}
     			\item{The Spectator is in the Track4Run site}
     		\end{enumerate}
@@ -1158,8 +1164,8 @@ Finally, the Accept invitation to a run use case (\usecase{21}) is modelled in t
 
 \subsection{Requirements traceability matrix}
 \begin{longtable}{c | c | c | c}
-    \hline\hline 
-    \textbf{Goal Id} & \textbf{Requirement Id} & \textbf{Use case Id} & \textbf{Comments} \\ 
+    \hline\hline
+    \textbf{Goal Id} & \textbf{Requirement Id} & \textbf{Use case Id} & \textbf{Comments} \\
     \hline
     \multirow{4}{*}{} [G1]  & [R1] & [UC6] & \\ \cline{2-4}
     				           & [R2] & [UC7] & \\ \cline{2-4}
@@ -1187,12 +1193,12 @@ Finally, the Accept invitation to a run use case (\usecase{21}) is modelled in t
     				           &                        & [UC10] & \\ \cline{2-4}
     				           & \multirow{3}{*}{[R12]} & [UC10] & \\ \cline{3-4}
     				           &                        & [UC11] & \\ \cline{3-4}
-    				           &                        & [UC12] & \\ 
+    				           &                        & [UC12] & \\
 	\hline
 	\multirow{3}{*}{} [G5]  & [R13] & [UC13] & \\ \cline{2-4}
     				           & \multirow{2}{*}{[R14]} & [UC14] & \\ \cline{3-4}
     				           & 					  & [UC15] & \\ \cline{2-4}
-    				           & [R15] & [UC16] & \\ 
+    				           & [R15] & [UC16] & \\
 	\hline
     \multirow{8}{*}{} [G6]  & \multirow{2}{*}{[R16]} & [UC17] & \\ \cline{3-4}
                             &                        & [UC19] & \\ \cline{2-4}
@@ -1242,12 +1248,12 @@ This is a web based application with no strict hardware limitations. The only re
 \begin{itemize}
 \item{} \textbf{Regulatory Policies}\\
 The application will have to ask for user's position and personal data in order to have track of the health status. Social security numbers(SSN) and email addresses won't be used for commercial uses.\\\\
-Moreover, the system makes sure the third-party companies who registers are legally established. Thus, there are no fake companies who tries to exploit user's data. 
+Moreover, the system makes sure the third-party companies who registers are legally established. Thus, there are no fake companies who tries to exploit user's data.
 \end{itemize}
 \section{Software system attributes}
 
 \subsection{Reliability}
-D4H, T4R and ASOS infrastructure must guarantee at least two database mirrors and three server instances up. This way, any failure in the database or in the instances will keep the whole system up and running. 
+D4H, T4R and ASOS infrastructure must guarantee at least two database mirrors and three server instances up. This way, any failure in the database or in the instances will keep the whole system up and running.
 
 \subsection{Availability}
 Since ASOS depends on D4H, both systems must be available 99.9\% of the time. On the other hand, T4R must have an up time of 95%.
@@ -1276,77 +1282,77 @@ There is no specific usability requirement for ASOS.
 
 \chapter{Effort spent}
 \begin{table}[h]
-\centering 
-\begin{tabular}{l c} 
-\hline\hline 
-\multicolumn{2}{c}{\textbf{Team Work}} \\ 
+\centering
+\begin{tabular}{l c}
+\hline\hline
+\multicolumn{2}{c}{\textbf{Team Work}} \\
 \hline
-\textbf{Task} & \textbf{Hours} \\ [0.5ex] 
-\hline 
+\textbf{Task} & \textbf{Hours} \\ [0.5ex]
+\hline
 Understanding the problem & 3  \\
 Brainstorming & 2 \\
 World and shared phenomena & 2 \\
 Definitions, acronyms, abbreviations & 1  \\
-Software system attributes & 1 \\ 
+Software system attributes & 1 \\
 Alloy & X \\
 Checking document  & X  \\
 \hline
 \textbf{Total} & X  \\
-\hline 
+\hline
 \end{tabular}
 \caption{Time spent by all team members}
 \label{fig:Time spent by all team members}
 \end{table}
 
 \begin{table}[h]
-\centering 
-\begin{tabular}{l c l c l c} 
-\hline\hline 
-\multicolumn{6}{c}{\textbf{Individual Work}} \\ 
+\centering
+\begin{tabular}{l c l c l c}
+\hline\hline
+\multicolumn{6}{c}{\textbf{Individual Work}} \\
 \hline
-\multicolumn{2}{c |}{\textbf{Diego Avila}}  & 
-\multicolumn{2}{c |}{\textbf{Laura Schiatti}} & 
+\multicolumn{2}{c |}{\textbf{Diego Avila}}  &
+\multicolumn{2}{c |}{\textbf{Laura Schiatti}} &
 \multicolumn{2}{c}{\textbf{Sukhpreet Kaur}}  \\
 \hline
 \textbf{Task} & \textbf{Hours}
-& \textbf{Task} & \textbf{Hours} 
-& \textbf{Task} & \textbf{Hours} \\ [0.5ex] 
-\hline 
+& \textbf{Task} & \textbf{Hours}
+& \textbf{Task} & \textbf{Hours} \\ [0.5ex]
+\hline
 Goals &  X
-& Context & X 
+& Context & X
 & Layout & 3  \\
-\hline 
+\hline
 Product functions &  X
-& Purpose & X 
+& Purpose & X
 & Problem description & 2  \\
-\hline 
+\hline
 F requirements &  X
-& Domain model & X 
+& Domain model & X
 & User characteristics & 1  \\
 \hline
 UC diagrams &  X
 & Statechart diagrams
-& X 
+& X
 & User interfaces & 4  \\
-\hline 
+\hline
 UC description &  X
-& Assumptions & X 
+& Assumptions & X
 & Design constraints & 1  \\
 
 
 \hline
 Scenarios &  X
-& NF requirements & X 
+& NF requirements & X
 & External Interface  & 1  \\
 \hline
 &  X
-& Effort spent & X 
+& Effort spent & X
 & Performance requirements &  1  \\
 \hline
 \textbf{Total} & X
 & \textbf{Total} & X
 & \textbf{Total} & X  \\
-\hline 
+\hline
 \end{tabular}
 \caption{Time spent by each team member}
 \label{fig:Time spent by each team member}
@@ -1356,9 +1362,9 @@ Scenarios &  X
 \begin{itemize}
 \item Requirement Analysis and Specification Document: AA 2017-2018.pdf”. Version 1.0 - 26.10.2017
 \item Henriksen, A., Haugen Mikalsen, M., Woldaregay, A. Z., Muzny, M., Hartvigsen, G., Hopstock, L. A., Grimsgaard, S. (2018)
-\\Using Fitness Trackers and Smartwatches to Measure Physical Activity in Research: Analysis of Consumer Wrist-Worn Wearables. Journal of medical Internet research, 20(3), e110. doi:10.2196/jmir.9157. 
+\\Using Fitness Trackers and Smartwatches to Measure Physical Activity in Research: Analysis of Consumer Wrist-Worn Wearables. Journal of medical Internet research, 20(3), e110. doi:10.2196/jmir.9157.
 \\Retrieved from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5887043/
-\item IEEE. (1993). IEEE Recommended Practice for Software Requirements Specifications (IEEE 830-1993). 
+\item IEEE. (1993). IEEE Recommended Practice for Software Requirements Specifications (IEEE 830-1993).
 \\Retrieved from https://standards.ieee.org/standard/830-1993.html
 \item Sloane, A. M. (2009). Software Abstractions: Logic, Language, and Analysis by Jackson Daniel, The MIT Press, 2006, 366pp, ISBN 978-0262101141.
 \end{itemize}
