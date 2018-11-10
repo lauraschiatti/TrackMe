@@ -1449,7 +1449,9 @@ In this case, D4H, ASOS and T4R will have a corresponding model with different p
 
 	\section{Data4Help}
 	\subsection{Purpose of the model}
-	\textbf{what you can prove with it and why what you prove is important given the problem at hand}
+	The purpose of the following model is to formalize the Goal 2. In this case, the alloy model defines the following objects: \textit{Status}, which can be \textit{Approved}, \textit{Pending} or \textit{Rejected}, \textit{NotificationType}, which can be \textit{ApprovedNotification} or \textit{RejectedNotification}, \textit{ThirdParty}, \textit{Individual}, \textit{Request}, \textit{Query}, and \textit{QueryResponse}. Individual objects contain a set of Request objects, which relate them with the requests that were sent to them by ThirdParty objects. A Request object, relates a ThirdParty with an Individual, and has a Status and a NotificationType, which is the notification sent to the ThirdParty when the Individual approved or rejected the Request. Finally, the Query objects relate a Third Party with an Individual, and represent the action of inquiry the health status and location of an Individual.\\
+
+	There are several facts that must be hold when creating an Alloy world. The most important ones are those related to the Query and QueryResponse, in which there cannot exist a QueryResponse related to a Query that was created by a ThirdParty, who is trying to acquire information of an Individual whose Request, for that ThirdParty, has the status Pending or Rejected. On the other hand, there should be one and only one Request that relates a ThirdParty with an Individual, so a ThirdParty cannot send more than one Request to an Individual.
 	
 	\subsection{Alloy model}
 	\vspace{2 mm}
@@ -1466,20 +1468,22 @@ In this case, D4H, ASOS and T4R will have a corresponding model with different p
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.55]{Diagrams/goal_2_world_1.png}
-		\caption[D4H - first generated world]{D4H - first generated world}
+		\caption[D4H - First generated world]{D4H - 1\textsuperscript{st} generated world. It can be seen an Individual object with two Request objects of different ThirdParty objects. One Request has the status Pending, and the other one has the status Approved. The Query0, relates the ThirdParty whose Request is Pending, and so it has no QueryResponse associated. On the other hand, the Query1 object is associated to the ThirdParty whose Request was accepted, hence it has an associated QueryResponse.}
 		\label{fig:goal_2_world_1}
 	\end{figure}
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.55]{Diagrams/goal_2_world_2.png}
-		\caption[D4H - second generated world]{D4H - second generated world}
+		\caption[D4H - Second generated world]{D4H - 2\textsuperscript{nd} generated world. It can be seen an Individual object with two Request objects of different ThirdParty objects. One Request has the status Rejected, and the other one has the status Approved. The Query0, relates the ThirdParty whose Request is Rejected, and so it has no QueryResponse associated. On the other hand, the Query1 object is associated to the ThirdParty whose Request was accepted, hence it has an associated QueryResponse.}
 		\label{fig:goal_2_world_2}
 	\end{figure}
 	
 	\section{AutomatedSOS}
 	\subsection{Purpose of the model}
-	\textbf{what you can prove with it and why what you prove is important given the problem at hand}
+	The purpose of the following model is to formalize the Goal 2. In this case, the alloy model defines the following objects: \textit{Individual}, \textit{Data}, which is the list of health parameters of an Individual, \textit{HealthcareService} and \textit{HSNotification}. Individual objects contain a Data object, and they are related to one HealthcareService object. Data objects contain a list of parameters (health status), which for the sake of simplicity contains only one element. The HealthcareService objects contain a list of HSNotification objects, which are the notifications sent to the health-care service notifying that an Individual is in a critical situation. Finally, the HSNotification objects relates an Individual with a HealthcareService.\\
+
+	The facts in this model are mostly related to having HSNotification objects only when the health status of an Individual is out of range (again, for the sake of simplicity, values below zero are considered out of normal range). Also, there cannot exist HSNotification objects that relates a HealthcareService with an Individual that does not have it as its health-care service.
 	
 	\subsection{Alloy model}
 	\vspace{2 mm}
@@ -1496,14 +1500,14 @@ In this case, D4H, ASOS and T4R will have a corresponding model with different p
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.55]{Diagrams/goal_5_world_1.png}
-		\caption[ASOS - first generated world]{ASOS - first generated world}
+		\caption[ASOS - First generated world]{ASOS - 1\textsuperscript{st} generated world. It can be seen three Individual objects, two of them related to HealthcareService0 object, and the other one related to HealthcareService1 object. None of the Individual objects have a Data parameter below zero, therefore there are no HSNotification objects.}
 		\label{fig:goal_5_world_1}
 	\end{figure}
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.5]{Diagrams/goal_5_world_2.png}
-		\caption[ASOS - second generated world]{ASOS - second generated world}
+		\caption[ASOS - Second generated world]{ASOS - 2\textsuperscript{nd} generated world. It can be seen three Individual objects, two of them related to HealthcareService1 and the other one related to HealthcareService0 object. In this case the Individual1 and Individual2 objects have Data parameters below zero, hence there are HSNotification objects that relate them with the corresponding HealthcareService objects. The Individual0 object has Data parameters above zero, therefore there is no HSNotification object for it.}
 		\label{fig:goal_5_world_2}
 	\end{figure}
 	
