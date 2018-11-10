@@ -141,7 +141,7 @@
 	\section{Purpose}
 	Taking into account the long list of currently available wearable devices, \textbf{TrackMe}  is aware that the market is plenty of healthcare wearable devices, therefore, to stand out against its competitors, the key ingredient is improving customers experience, and doing so requires understanding their needs and how they interact with the system, in order to provide personalized recommendations and correctly oriented new services. \\
 	
-	After analysing users behaviour, TrackMe decided to focus on third-party companies and profit from users data in a direct way (i.e. extend its business model by implementing \textbf{data trading}). This is, provide the collected data (i.e. location and health status) to third parties by means of a new software-based service called \textbf{Data4Help}. \\
+	After analyzing users behaviour, TrackMe decided to focus on third-party companies and profit from users data in a direct way (i.e. extend its business model by implementing \textbf{data trading}). This is, provide the collected data (i.e. location and health status) to third parties by means of a new software-based service called \textbf{Data4Help}. \\
 	
 	Moreover, after some time, TrackMe realizes that a good part of its third-party customers want to use the data acquired through Data4Help to offer a personalized SOS service to elderly people, and decides to build a new service called \textbf{AutomatedSOS} to provide a personal alarm service to subscribed customers by monitoring their health status. \\
 	
@@ -222,6 +222,7 @@
 		\item{\textbf{Normal range}}: When the parameters are under the defined threshold values (here, in context: health parameters).
 		\item{\textbf{Running circuit}}: Path defined by the organizer for the run, using the set of nodes.
 		\item{\textbf{Anonymise}}: An individual's identity cannot be inferred using the available data.
+		\item{\textbf{Parameter out of its normal range}}: Meaning that the parameter is under or above a defined threshold.
 	\end{itemize}
 	
 	\subsection{Acronyms}
@@ -283,23 +284,23 @@
 	
 	On the other hand, \textbf{AutomatedSOS} and \textbf{Track4Run} are treated as third-parties that make requests for the data that Data4Help offers. Every time a user agrees to activate any of those services, a new request is sent to Data4Help to obtain his data. \\
 	
-	To understand the main events happening in the system, it is useful to use statechart diagrams (described in the figure below). In \textbf {D4H} (Figure \ref{fig:d4h_statechart}) the main task is handling requests made by third parties registered in the system. At the beginning each request is considered as \textit{unprocessed}, meaning that the constraints, they must satisfy, have not been checked yet, in the meanwhile they are on a \textit{pending} state and according to constraints checking can become either \textit{rejected} or \textit{approved}. In the end, they are considered \textit{completed}. \\
+	To understand the main events happening in the system, it is useful to use statechart diagrams (described in the figure below). In \textbf {D4H} (Figure \ref{fig:d4h_statechart}) the main task is handling requests made by third parties registered in the system. At the beginning each query (i.e. what the third party is asking for) is considered as \textit{unprocessed}. While the constraints are checked, the query is on a \textit{pending} state and can become either \textit{rejected} or \textit{approved}. In the end, they are considered \textit{completed}. \\
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.55]{Diagrams/d4h_statechart.png}
-		\caption[D4H statechart diagram]{D4H statechart diagram}
+		\caption[Data4Help Statechart Diagram]{Data4Help Statechart Diagram}
 		\label{fig:d4h_statechart}
 	\end{figure}
 	
 	On the other hand, \textbf{ASOS} (Figure \ref{fig:asos_statechart}) is an additional service offered to individuals older than 60 years. It is a background process in charge of monitoring the health status of each individual until an anomaly happens (i.e. any parameter out of its normal range), then a notification is sent to his corresponding healthcare service (i.e. send the location) and after, the system loops back to be ready to process new upcoming data. \\
 	
-	Another fact to highlight is ASOS associates a status to each individual, \textit{stable or critical}, needed to decide if triggering the notification or not (to avoid sending same notification). \\
+	Another fact to highlight is ASOS associates a status to each individual, \textit{stable or critical}, needed to decide if triggering the notification or not (to avoid sending the same notification for a user). \\
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.55]{Diagrams/asos_statechart.png}
-		\caption[ASOS statechart diagram]{ASOS statechart diagram}
+		\caption[AutomatedSOS Statechart Diagram]{AutomatedSOS Statechart Diagram}
 		\label{fig:asos_statechart}
 	\end{figure}
 	
@@ -308,7 +309,7 @@
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.55]{Diagrams/t4r_statechart.png}
-		\caption[T4R statechart diagram]{T4R statechart diagram}
+		\caption[Track4Run Statechart Diagram]{Track4Run Statechart Diagram}
 		\label{fig:t4r_statechart}
 	\end{figure}
 	
@@ -331,27 +332,26 @@
 	\begin{itemize}
 		\item{} \textbf{Individuals}
 		\begin{itemize}
-			\item{} Can register and allows TrackMe to store, analyse and process their data
-			\item{} Can manage the requests if some third party company wants access to their data individually
-			\item{} If they are above 60 years, they can avail themselves of ASOS service by using the subscribe option
-			\item{} Can enroll into the upcoming runs
+			\item{} Can register and allows TrackMe to store, analyze and process their data.
+			\item{} Can manage the requests if some third party company wants access to their data individually.
+			\item{} If they are above 60 years, they can avail themselves of ASOS service by using the subscribe option.
+			\item{} Can enroll into the upcoming runs.
 		\end{itemize}
 		\item{} \textbf{Organizers}
 		\begin{itemize}
-			\item{} they are specialized individuals
-			\item{} they take the initiative of organising runs and defining the path, such that, other individuals are able to participate
+			\item{} Are users that coordinate runs by defining the path, such that, other individuals are able to enroll.
 		\end{itemize}
 		
 	\item{} \textbf{Spectators}
 	\begin{itemize}
-		\item they are the audience of the ongoing runs
-		\item they are anyone who uses the T4R website
+		\item Are the audience of the ongoing runs.
+		\item Are anyone who uses the T4R website.
 	\end{itemize}
 		\item{} \textbf{Third party companies}
 		\begin{itemize}
-			\item{} Can register and can query for the data
-			\item{} Can subscribe to the acquired data
-			\item{} ASOS and T4R are considered third party, with the particularity of being managed directly by TrackMe
+			\item{} Can register and query for the data.
+			\item{} Can subscribe to the acquired data so as to get new data when it is available.
+			\item{} ASOS and T4R are considered third party, with the particularity of being managed directly by TrackMe.
 		\end{itemize}
 	\end{itemize}
 	
@@ -391,7 +391,7 @@
 	
 	As when new customers visits the home page of TrackMe, they can read about the work that our company does, what services we offer, what benefits users can achieve by joining the community. In addition, they can buy the wearables and get more information, how to use them.\\
 	
-	Next, comes the web page through which users can Login into the system (if already registered). And if not, they can register themselves through the Register web-page. There are separate register forms for the Individual users and the Third-party users visible below:
+	Next, comes the web page through which users can Login into the system (if already registered). And if not, they can register themselves through the Register web-page. There are separate register forms for the Individual users and fot third party users visible below:
 	
 	\begin{figure}[H]
 		\centering
@@ -477,15 +477,15 @@
 	In the figure above, Spectators are able to view an error message when the race has been ended. 
 
 	\subsection{Hardware interfaces}
-	No such direct hardware interfaces are required by our system, as this is a web portal application. The physical GPS is managed by the TrackMe wearables and managed through its application. And the hardware connection to the database server is managed by the underlying operating system on the web server. Thus, it can be easily accessible from any device or any location if \textbf{Internet service} is available.
+	No such direct hardware interfaces are required by our system, as this is a web portal application. The physical GPS is managed by the TrackMe devices and managed through its application. And the hardware connection to the database server is managed by the underlying operating system on the web server. Thus, it can be easily accessible from any device or any location if \textbf{Internet service} is available.
 	
 	\subsection{Software interfaces}
-	Web applications are by nature distributed applications. Specifically, web applications are accessed with a web browser and are popular because of the ease of using the browser as a user client.\\
-	Software Interfaces provided by the system are as follows:
+	Web applications are by nature distributed applications. Specifically, web applications are accessed with a web browser and are popular because of the ease of using the browser as a user client. The software Interfaces provided by the system are as follows:\\
+	
 	\begin{itemize}
-		\item{} \textbf{Data4Help:} A service developed by TrackMe which collects all the data of the individuals and provides the data if necessary; It provides an interface to the third party users to request data;
-		\item{} \textbf{AutomatedSOS:} A service developed on the top of D4H which provides support (the interface that communicates with the health-care service) in case of emergency to the subscribed users;
-		\item{} \textbf{Track4Run:} A service developed on the top of D4H  which provides \textit{different interfaces} to organizers (to build the path of a run), individuals (to enroll in available run only under certain constraints) and spectators (to view the position of the runners during a run);
+		\item{} \textbf{Data4Help:} A service developed by TrackMe which collects all the data of the individuals and provides the data if necessary; It provides an interface to the third party users to request data.
+		\item{} \textbf{AutomatedSOS:} A service developed on the top of D4H which provides support (the interface that communicates with the health-care service) in case of emergency to the subscribed users.
+		\item{} \textbf{Track4Run:} A service developed on the top of D4H  which provides \textit{different interfaces} to organizers (to build the path of a run), individuals (to enroll in available run only under certain constraints) and spectators (to view the position of the runners during a run).
 	\end{itemize}
 	
 	\subsection{Communication interfaces}
@@ -553,7 +553,7 @@
 			\requirement{15} The system must be able to contact the Healthcare service associated to an individual.
 		\end{enumerate}
 		
-		\goal{6} Run organizers could define the path for a given run and TrackMe users can enrol to it.
+		\goal{6} Run organizers could define the path for a given run and TrackMe users can enroll to it.
 		\begin{enumerate}
 			\assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
 			\assumption{2} TrackMe addresses data protection and integrity against possible attacks.
@@ -566,7 +566,7 @@
 			\requirement{19} The system must allow an organizer to access to their account.
 			\requirement{20} The system must allow an organizer to create a race event.
 			\requirement{21} The system must allow an organizer to define the running circuit of a race event.
-			\requirement{22} The system must allow an organizer to send invitations to participants to enrol in a race event.
+			\requirement{22} The system must allow an organizer to send invitations to participants to enroll in a race event.
 			\requirement{23} The system must allow a participant to accept or reject an invitation to a race.
 		\end{enumerate}
 		
@@ -598,12 +598,12 @@
 		\begin{figure}[H]
 			\centering
 			\includegraphics[scale=0.5]{Diagrams/d4h_use_cases.png}
-			\caption[Data4Help Use Case Diagram]{Data4Help Use Case Diagram}
+			\caption[Data4Help use case diagram]{Data4Help Use Case Diagram}
 			\label{fig:d4h_use_cases}
 		\end{figure}
 		
 		\item{\textbf{AutomatedSOS}}\\
-		In the Figure \ref{fig:asos_use_cases} AutomatedSOS use cases are shown. In the case of ASOS, the system has two passive actors, one of them is the Healthcare service, that is affected by the use case \textit{Contact Health care service}, and D4H, which is affected by the use case \textit{Send request for subscription}. On the other hand, the use case \textit{Receive individual's data} is affected by D4H, since it is that service which sends the individual's information to ASOS.
+		In the Figure \ref{fig:asos_use_cases} AutomatedSOS use cases are shown. In the case of ASOS, the system has two passive actors, one of them is the health-care service, that is affected by the use case \textit{Contact health-care service}, and D4H, which is affected by the use case \textit{Send request for subscription}. On the other hand, the use case \textit{Receive individual's data} is affected by D4H, since it is that service which sends the individual's information to ASOS.
 		
 		\begin{figure}[H]
 			\centering
@@ -1249,9 +1249,51 @@
 		\end{itemize}
 	
 	\subsection{Activity diagrams}
+	In order to describe in detail the flow followed by each one of the offered services, activity diagrams are highly useful. \\
+	
+	 For \textbf{D4H}, it is important to specify the steps and conditions involved in giving access to data requested by third parties (Figure \ref{fig:d4h_act_provide_data}).\\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{Diagrams/d4h_activity_diagram.png}
+		\caption[Data4Help - Provide Data To Third Parties Activity Diagram]{Data4Help - Provide Data To Third Parties Activity Diagram}
+		\label{fig:d4h_act_provide_data}
+	\end{figure}
+	
+		If an individual (older than 60 years) activates ASOS service, D4H sends to a predefined URL, provided by ASOS, the data of that user immediately after it is received from the devices. ASOS compares the parameters with their corresponding threshold, and if the current status of the individual is \textit{stable}, a notification is send to his associated health-care service. On the other hand, if the current status is \textit{critical}, means that a notification was send previously, so the system goes back to a monitoring activity. \\
+		
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{Diagrams/asos_activity_diagram.png}
+		\caption[AutomatedSOS - Monitoring Individuals Activity Diagram]{AutomatedSOS - Monitoring Individuals Activity Diagram}
+		\label{fig:asos_act_monitoring}
+	\end{figure}
+	
+	In \textbf{T4R}, there are three main activities involving each type of actor in the system. Organizers can \textit{configure a run} and \textit{send invitations to individuals} (Figure \ref{fig:t4r_act_create_run}), invited individuals can \textit{enroll into a run} (Figure \ref{fig:t4r_act_enrolment}) and spectators can \textit{track participants of an active run} (Figure \ref{fig:t4r_act_track_runners}).
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.55]{Diagrams/t4r_create_run_activity_diagram.png}
+		\caption[Track4Run - Create a Run and Invite Individuals  Activity Diagram]{Track4Run - Create a Run and Invite Individuals Activity Diagram}
+		\label{fig:t4r_act_create_run}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.55]{Diagrams/t4r_enrolment_activity_diagram.png}
+		\caption[Track4Run - Enroll into a Run Activity Diagram]{Track4Run - Enroll into a Run Activity Diagram}
+		\label{fig:t4r_act_enrolment}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.55]{Diagrams/t4r_track_runners_activity_diagram.png}
+		\caption[Track4Run - Track Runners Activity Diagram]{Track4Run - Track Runners Activity Diagram}
+		\label{fig:t4r_act_track_runners}
+	\end{figure}
 	
 	\subsection{Sequence diagrams}
-	In the following section three sequence diagrams are described. All of them, are an important part of the system and represent the following processes: \textit{accept a request} for accessing the individual's health status and location, \textit{search and subscribe to a bulk of data}, and \textit{accept an invitation} to enrol in a race.\\
+	In the following section three sequence diagrams are described. All of them, are an important part of the system and represent the following processes: \textit{accept a request} for accessing the individual's health status and location, \textit{search and subscribe to a bulk of data}, and \textit{accept an invitation} to enroll in a race.\\
 	
 	To begin with, the \textit{accept a request} for accessing the individual's health status and location is shown in the Figure \ref{fig:d4h_seq_accept_request}. It is possible to observe the Manage Requests use case (\usecase{1}) flow, where the Individual asks D4H to get his/her pending requests, and the interaction between D4H and the Request collection, which returns the pending requests to the Individual. Also, once the Individual has accepted a request, it changes its status to \textit{Accepted} and the Third party company is notified. \\
 	
@@ -1276,7 +1318,7 @@
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.6]{Diagrams/t4r_seq_accept_invitation.png}
-		\caption[Track4Run - Accept invitation Sequence Diagram]{Track4Run - Accept invitation Sequence Diagram}
+		\caption[Track4Run - Accept Invitation Sequence Diagram]{Track4Run - Accept Invitation Sequence Diagram}
 		\label{fig:t4r_accept_invitation}
 	\end{figure}
 		
@@ -1352,6 +1394,7 @@
 	
 	\section{Performance requirements}
 	The system is provided to serve all the trackme wearable device users at the same time simultaneously. It guarantees high level performance and maintenance operation costs as low as possible. Technical support for installation is not required, as it is only a web application and users can access it from anywhere where the internet service is provided. Additionally, under ASOS service, the system makes sure the system responds and notifies the health-care system within 5 seconds, when the thresholds are below the certain defined level. Users will rely on the application in order to organize their send or accept/reject requests for data and notifications, so we have to guarantee quick, reactive and correct response.
+	
 	\section{Design constraints}
 	\subsection{Standards compliance}
 	\begin{itemize}
@@ -1359,19 +1402,20 @@
 		\item{} The application complies with the web standards of the World Wide Web Consortium (W3C).
 		\item{} As the Web provides many mechanisms to interlink data across systems, the system keep user's personal information private and fragmented.
 		\item{} The system correctly preserves and restores user or application state within the session. The application preserves user or state when leaving the web browser and prevents accidental data loss due to back-navigation and other state changes. When returning to the web page, the application must restore the preserved state and any significant stateful transaction that was pending.
-		
 	\end{itemize}
 	
 	\subsection{Hardware limitations}
 	This is a web based application with no strict hardware limitations. The only requirement is a wearable device and its app that posts the data when online. Users can access the application from anywhere, from any system using the internet service.
+	
 	\subsection{Any other constraint}
 	\begin{itemize}
 		\item{} \textbf{Regulatory Policies}\\
-		The application will have to ask for user's position and personal data in order to have track of the health status. Social security numbers(SSN) and email addresses won't be used for commercial uses.\\\\
+		The application will have to ask for user's position and personal data in order to have track of the health status. Social security numbers(SSN) and email addresses won't be used for commercial uses.\\
+		
 		Moreover, the system makes sure the third-party companies who registers are legally established. Thus, there are no fake companies who tries to exploit user's data.
 	\end{itemize}
-	\section{Software system attributes}
 	
+	\section{Software system attributes}	
 	\subsection{Reliability}
 	D4H, T4R and ASOS infrastructure must guarantee at least two database mirrors and three server instances up. This way, any failure in the database or in the instances will keep the whole system up and running.
 	
