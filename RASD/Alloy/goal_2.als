@@ -1,5 +1,38 @@
 open util/integer
-open trackMeModel
+
+//==========================================================//
+//				MODEL
+
+// declares a set Status with 3 elements
+abstract sig Status {}
+one sig Approved, Pending, Rejected extends Status{}
+
+// declares a set NotificationeType with 2 elements
+abstract sig NotificationType{}
+one sig ApprovedNotification, RejectedNotification extends NotificationType{}
+
+sig ThirdParty{}
+
+sig Individual{
+	requests: some Request
+}
+
+sig Request{
+	company: one ThirdParty,
+	individual: one Individual,
+	status: one Status,
+	notification: lone NotificationType
+}
+
+
+sig Query{
+	company: one ThirdParty,
+	individual: one Individual
+}
+
+sig QueryResponse{
+	query: one Query
+} 
 
 //==========================================================//
 //				FACTS
@@ -58,25 +91,50 @@ fact allQueryResponsesAssociatedToAQueryShouldBeRelatedToAnApprovedRequest {
 				r.status = Approved
 }
 
+// All queries that relates with an individual and a company with an accepted request, should have a response
+fact  allQueriesWithAnAcceptedRequestRelationShouldHaveAResponse{
+	all q:Query,i:q.individual,c:q.company | hasApprovedRequest[i,c] implies 
+		( some qr:QueryResponse | qr.query = q and qr.query.company = c and qr.query.individual = i )
+}
+
 //==========================================================//
 //				PREDICATES
 
-pred show(){
-// show worlds with more than 1 request and more than 1 query
-	#Request > 1
-	#QueryResponse > 1
+// Check whether the individual has a request that relates him with a company, and it is approved
+pred hasApprovedRequest[i:Individual,c:ThirdParty]{
+	one r:i.requests | r.company = c and r.individual = i and r.status = Approved
 }
 
-run show
+pred show(){
+// show worlds with more than 2 request, more than 2 queries, and more than 1 query response
+	#Request > 2
+	#QueryResponse > 1
+	#Query > 2
+}
 
 //==========================================================//
 //				ASSERTS
 
-assert everyRequestIsInAtMostOneRequestSet {
-	all r:Request | lone i:Individual | r in i.requests
+// Every QueryResponse should be related to an individual and a company with a common accepted request
+assert everyAcceptedRequestShouldHaveAResponse {
+	all qr:QueryResponse, q:qr.query, i:q.individual, c:q.company | 
+		one r:i.requests | 
+			r.company = c and r.individual = i and r.status = Approved
 }
 
-check everyRequestIsInAtMostOneRequestSet
+// 
+assert everyRejectedOrPendingRequestShouldNotHaveAResponse {
+	all qr:QueryResponse, q:qr.query, i:q.individual, c:q.company | 
+		no r:i.requests | 
+			r.company = c and r.individual = i and (r.status = Pending or r.status = Rejected)
+}
+
+run show
+
+check everyAcceptedRequestShouldHaveAResponse
+check everyRejectedOrPendingRequestShouldNotHaveAResponse
+
+
 
 
 
