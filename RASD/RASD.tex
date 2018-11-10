@@ -20,6 +20,10 @@
 \usepackage[super,negative]{nth}
 \usepackage{enumerate}
 \usepackage{float}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
+\usepackage{alloy-style}
 %%%%%%%%%%%%
 
 % DOC STYLES
@@ -336,9 +340,8 @@
 		\begin{itemize}
 			\item{} they are specialized individuals
 			\item{} they take the initiative of organising runs and defining the path, such that, other individuals are able to participate
-			
-			
 		\end{itemize}
+		
 	\item{} \textbf{Spectators}
 	\begin{itemize}
 		\item they are the audience of the ongoing runs
@@ -386,8 +389,10 @@
 		\label{fig:Home_Page}
 	\end{figure}
 	
-	As when new customers visits the home page of TrackMe, they can read about the work that our company does, what services we offer, what benefits users can achieve by joining the community. In addition, they can buy the wearables and get more information, how to use them.\\\\
+	As when new customers visits the home page of TrackMe, they can read about the work that our company does, what services we offer, what benefits users can achieve by joining the community. In addition, they can buy the wearables and get more information, how to use them.\\
+	
 	Next, comes the web page through which users can Login into the system (if already registered). And if not, they can register themselves through the Register web-page. There are separate register forms for the Individual users and the Third-party users visible below:
+	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.35]{../Assets/Login.png}
@@ -470,7 +475,6 @@
 		\label{fig:Make_Request}
 	\end{figure}
 	In the figure above, Spectators are able to view an error message when the race has been ended. 
-	
 
 	\subsection{Hardware interfaces}
 	No such direct hardware interfaces are required by our system, as this is a web portal application. The physical GPS is managed by the TrackMe wearables and managed through its application. And the hardware connection to the database server is managed by the underlying operating system on the web server. Thus, it can be easily accessible from any device or any location if \textbf{Internet service} is available.
@@ -1387,7 +1391,7 @@
 	A software developer, shall be able to add a new product feature, including source code modifications and testing. The test cases of the three systems should have a 90\% of code coverage.\\
 	
 	\subsection{Portability}
-	D4H, T4R and ASOS should be written in a way that, moving from one hosting service to another, should not affect the service and the code of the system.
+	D4H, ASOS and T4R, should be written in a way that, moving from one hosting service to another, should not affect the service and the code of the system.
 	
 	\subsection{Usability}
 	D4H and T4R must function properly in the following Internet browsers: Google Chrome version 31 or higher, Mozilla Firefox version 26 or higher, Internet Explorer Edge or higher. In addition, both websites must be responsive so users should be able to use them from a smartphone or tablet without inconvenience.\\
@@ -1395,8 +1399,69 @@
 	There is no specific usability requirement for ASOS.
 	
 	\chapter{Formal analysis using Alloy}
+	As any real-life system, all the services provided by TrackMe are described by a set of essential properties and constraints. All of them have been defined in the basis of the problem domain and the needs of its users. To check whether or not the properties will be satisfied by the system and the constraints will never be violated, it is useful to make a formal analysis building an alloy model.\\
+
+In this case, D4H, ASOS and T4R will have a corresponding model with different purposes according to what is important given each service. 
+
+	\section{Data4Help}
+	\subsection{Purpose of the model}
+	\textbf{what you can prove with it and why what you prove is important given the problem at hand}
 	
-		
+	\subsection{Alloy model}
+	\vspace{2 mm}
+	
+	\lstinputlisting[language=alloy]{
+			Alloy/goal_2.als
+	}
+	
+	\vspace{8 mm}
+	
+	\subsection{Generated worlds}
+	After running the model described above, different worlds are generated, two of them are:
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.55]{Diagrams/goal_2_world_1.png}
+		\caption[D4H - first generated world]{D4H - first generated world}
+		\label{fig:goal_2_world_1}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.55]{Diagrams/goal_2_world_2.png}
+		\caption[D4H - second generated world]{D4H - second generated world}
+		\label{fig:goal_2_world_2}
+	\end{figure}
+	
+	\section{AutomatedSOS}
+	\subsection{Purpose of the model}
+	\textbf{what you can prove with it and why what you prove is important given the problem at hand}
+	
+	\subsection{Alloy model}
+	\vspace{2 mm}
+	
+	\lstinputlisting[language=alloy]{
+			Alloy/goal_5.als
+	}
+	
+	\vspace{8 mm}
+	
+	\subsection{Generated worlds}
+	After running the model described above, different worlds are generated, two of them are:
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.55]{Diagrams/goal_5_world_1.png}
+		\caption[ASOS - first generated world]{ASOS - first generated world}
+		\label{fig:goal_5_world_1}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{Diagrams/goal_5_world_2.png}
+		\caption[ASOS - second generated world]{ASOS - second generated world}
+		\label{fig:goal_5_world_2}
+	\end{figure}
 	
 	\chapter{Effort spent}
 	\begin{table}[h]
@@ -1411,11 +1476,11 @@
 			Brainstorming & 2 \\
 			World and shared phenomena & 2 \\
 			Definitions, acronyms, abbreviations & 1  \\
-			Software system attributes & 1 \\
-			Alloy & 7 \\
-			Checking document  & 3  \\
+			Software system attributes & 2 \\
+			Alloy coding & 7 \\
+			Checking document  & 4  \\
 			\hline
-			\textbf{Total} & X  \\
+			\textbf{Total} & 20  \\
 			\hline
 		\end{tabular}
 		\caption{Time spent by all team members}
@@ -1437,47 +1502,45 @@
 			& \textbf{Task} & \textbf{Hours} \\ [0.5ex]
 			\hline
 			Goals &  4
-			& Context & X
+			& Context & 1
 			& Layout & 3  \\
 			\hline
 			Product functions &  2
-			& Purpose & X
+			& Purpose & 2
 			& Problem description & 2  \\
 			\hline
 			F requirements &  3
-			& Domain model & X
+			& Domain model & 4
 			& User characteristics & 1  \\
 			\hline
 			UC diagrams &  1
-			& Statechart diagrams
-			& X
+			& Statechart diagrams & 4
 			& User interfaces & 4  \\
 			\hline
 			UC description &  7
-			& Assumptions & X
+			& Assumptions & 2
 			& Design constraints & 1  \\
-			
 			
 			\hline
 			Scenarios &  1
-			& NF requirements & X
+			& Activity diagrams & 3
 			& External Interface  & 1  \\
 			\hline
 			Sequence diagrams &  2
-			& Effort spent & X
-			& Performance requirements &  1  \\
+			& Effort spent & 2
+			& NF requirements &  1  \\
 			\hline
 			Traceability matrix &  3
-			&  & X
-			& & X  \\
+			& Alloy section layout & 1
+			& &  \\
 			\hline
 			SS attributes &  2
-			&  & X
-			&  & X  \\
+			&  & 
+			&  &   \\
 			\hline
 			\textbf{Total} & 25
-			& \textbf{Total} & X
-			& \textbf{Total} & X  \\
+			& \textbf{Total} & 19
+			& \textbf{Total} & 13  \\
 			\hline
 		\end{tabular}
 		\caption{Time spent by each team member}
