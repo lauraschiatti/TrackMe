@@ -197,13 +197,13 @@
 		
 		\item{\textbf{AutomatedSOS}}
 		\begin{enumerate}
-			\goal{5} Provide a service capable to send an advice to the health care service when a individual's parameters are below a defined threshold.
+\goal{5} Provide a service capable to send a notification to the health-care service when any individual's parameter is out of range.
 		\end{enumerate}
 		
 		\item{\textbf{Track4Run}}
 		\begin{enumerate}
 			\goal{6} Run organizers could define the path for a given run and TrackMe users can enrol to it.
-			\goal{7} Run spectators could track the position of all the runners during the race.
+\goal{7} Run spectators could track the position of all the runners during a race.
 		\end{enumerate}
 	\end{itemize}
 	
@@ -217,6 +217,7 @@
 		\item{\textbf{Third party company}}: Customer who needs to know the health status of the population for different purposes (e.g. health insurance companies)
 		\item{\textbf{Normal range}}: When the parameters are under the defined threshold values (here, in context: health parameters).
 		\item{\textbf{Running circuit}}: Path defined by the organizer for the run, using the set of nodes.
+		\item{\textbf{Anonymise}}: An individual's identity cannot be inferred using the available data.
 	\end{itemize}
 	
 	\subsection{Acronyms}
@@ -315,7 +316,7 @@
 		\\D4H will be the leading service, and the features it will provide are mostly related to registered third party companies. Companies will be able to access different types of data from the individuals wearing the TrackMe devices. They will be able to subscribe to a specific individual data, or to a group of anonymized individuals' data, as long as certain restrictions are fulfilled. The individuals, on the other hand, will be able to accept or reject the request of accessing his/her data, and the third party companies will be notified of the individuals' decision.
 		
 		\item{\textbf{AutomatedSOS}}
-		\\ ASOS is a complementary service offered to the senior range of users, and it will be built on top of the D4H service. All the elderly individuals of D4H will receive a request to subscribe to this service, whose main feature is to contact the individual's Health-Care service every time any health parameter collected using TrackMe devices, becomes critical.
+\\ ASOS is a complementary service offered to the senior range of users, and it will be built on top of the D4H service. All the elderly individuals of D4H will receive a request to subscribe to this service, whose main feature is to contact the individual's health-care Service every time any health parameter collected using TrackMe devices becomes critical (out of normal range).
 		
 		\item{\textbf{Track4Run}}
 		\\T4R is the last service offered by TrackMe, and it will, also, be build on top of D4H. Designed as a service for run organizers and runners, who operate the TrackMe devices. The run organizers will be able to define a running circuit, and send invitations to the TrackMe device users; The individuals will be able to register to any particular competition they prefer, only if they have not registered on another competition at the same date and time. Furthermore, while the race is taking place, all spectators will be able to spot, through the T4R site, the location of each registered individual in the circuit.
@@ -496,8 +497,8 @@
 			\assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
 			\assumption{5} The provided SSN by the individual is valid and trustable.
 			\requirement{1} The system must allow an individual to register a new account.
-			\requirement{2} The system must allow an individual to access to its account.
-			\requirement{3} The system must allow an individual to accept or reject its requests of accessing personal data.
+			\requirement{2} The system must allow an individual to access to their account.
+			\requirement{3} The system must allow an individual to accept or reject their requests of accessing personal data.
 			\requirement{4} The system must be able to communicate with TrackMe database in order to obtain the health status and location of an individual.
 		\end{enumerate}
 		
@@ -508,8 +509,9 @@
 			\assumption{5} The provided SSN by the individual is valid and trustable.
 			\requirement{5} The system must allow a third party company to register a new account.
 			\requirement{6} The system must allow a third party company to access to its account.
-			\requirement{7} The system must allow a third party company to search for an individual health status and location using his/her SSN.
-			\requirement{8} The system must be able to notify the individual that a third party company wants to access its data.
+			\requirement{7} The system must be able to notify the individual that a third party company wants to access its data.
+			\requirement{7.1} The system must be able to notify the the third party company about the individual's decision.
+			\requirement{8} The system must allow a third party company to search for an individual health status and location using his/her SSN.
 		\end{enumerate}
 		
 		\goal{3} The third-party company should be able to access anonymized data of groups of individuals under certain constraints.
@@ -520,10 +522,10 @@
 			\requirement{5} The system must allow a third party company to register a new account.
 			\requirement{6} The system must allow a third party company to access to its account.
 			\requirement{9} The system must allow a third party company to filter data of an anonymized group of individuals by country, age, gender and blood type parameters.
-			\requirement{10} The system must be able to anonymize health status and location of a group of individuals.
+			\requirement{10} The system must be able to anonymize the data of a group of individuals.
 		\end{enumerate}
 		
-		\goal{4} The third-party company could subscribe to get new data related to specific individuals or previously saved search.
+		\goal{4} The third-party company could subscribe to get new data related to specific individuals or previously saved query.
 		\begin{enumerate}
 			\assumption{2} TrackMe addresses data protection and integrity against possible attacks.
 			\assumption{3} TrackMe devices are up and running during monitoring.
@@ -535,14 +537,14 @@
 			\requirement{12} The system must allow a third party company to subscribe to data of an anonymized group of individuals
 		\end{enumerate}
 		
-		\goal{5} Provide a service capable to send an advice to the health care service when a individual's parameters are below a defined threshold.
+		\goal{5} Provide a service capable to send a notification to the health-care service when any individual's parameter is out of range.
 		\begin{enumerate}
 			\assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
 			\assumption{3} TrackMe devices are up and running during monitoring.
 			\assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
 			\assumption{5} The provided SSN by the individual is valid and trustable.
 			\assumption{6} Out of coverage scenarios cannot be handled by ASOS so as to guarantee a 5 seconds reaction.
-			\requirement{13} The system must be able to send a request for accessing an individual's data when he/she is older than 60 years old.
+			\requirement{13} The system must be able to send a request for monitoring an individual's data when he/she is older than 60 years old.
 			\requirement{14} The system must be able to monitor, and compare against defined thresholds, the health status of an individual.
 			\requirement{15} The system must be able to contact the Healthcare service associated to an individual.
 		\end{enumerate}
@@ -555,25 +557,25 @@
 			\assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
 			\assumption{7} The organizers meet all the legal requirements and permissions necessary to set up a run.
 			\requirement{16} The system must allow a participant to register a new account.
-			\requirement{17} The system must allow a participant to access to its account.
+			\requirement{17} The system must allow a participant to access to their account.
 			\requirement{18} The system must allow an organizer to register a new account.
-			\requirement{19} The system must allow an organizer to access to its account.
+			\requirement{19} The system must allow an organizer to access to their account.
 			\requirement{20} The system must allow an organizer to create a race event.
 			\requirement{21} The system must allow an organizer to define the running circuit of a race event.
-			\requirement{22} The system must allow an organizer to send invitations to the participants to enrol in a race event.
+			\requirement{22} The system must allow an organizer to send invitations to participants to enrol in a race event.
 			\requirement{23} The system must allow a participant to accept or reject an invitation to a race.
 		\end{enumerate}
 		
-		\goal{7} Run spectators could track the position of all the runners during the race.
+		\goal{7} Run spectators could track the position of all the runners during a race.
 		\begin{enumerate}
 			\assumption{1} TrackMe guarantees that the wearables can provide sufficient accuracy and sensitivity when monitoring individuals.
 			\assumption{2} TrackMe addresses data protection and integrity against possible attacks.
 			\assumption{3} TrackMe devices are up and running during monitoring.
 			\assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
 			\requirement{16} The system must allow a participant to register a new account.
-			\requirement{17} The system must allow a participant to access to its account.
+			\requirement{17} The system must allow a participant to access to their account.
 			\requirement{18} The system must allow an organizer to register a new account.
-			\requirement{19} The system must allow an organizer to access to its account.
+			\requirement{19} The system must allow an organizer to access to their account.
 			\requirement{20} The system must allow an organizer to create a race event.
 			\requirement{23} The system must allow a participant to accept or reject an invitation to a race.
 			\requirement{24} The system must allow any spectator of a run to view in a map the participants' location
@@ -597,7 +599,7 @@
 		\end{figure}
 		
 		\item{\textbf{AutomatedSOS}}\\
-		In the Figure \ref{fig:asos_use_cases} AutomatedSOS use cases are shown. In the case of ASOS, the system has two passive actors, one of them is the Health-care service, that is affected by the use case \textit{Contact Health-care service}, and D4H, which is affected by the use case \textit{Send request for subscription}. On the other hand, the use case \textit{Receive individual's data} is affected by D4H, since it is the service which sends the individual's information to ASOS.
+		In the Figure \ref{fig:asos_use_cases} AutomatedSOS use cases are shown. In the case of ASOS, the system has two passive actors, one of them is the Healthcare service, that is affected by the use case \textit{Contact Health care service}, and D4H, which is affected by the use case \textit{Send request for subscription}. On the other hand, the use case \textit{Receive individual's data} is affected by D4H, since it is that service which sends the individual's information to ASOS.
 		
 		\begin{figure}[H]
 			\centering
@@ -607,7 +609,7 @@
 		\end{figure}
 		
 		\item{\textbf{Track4Run}}\\
-		In the Figure \ref{fig:t4r_use_cases} the Track4Run use cases are shown. The most important use cases are \textit{Manage invitations}, and \textit{Create a run}. In this system, the actors are the \textit{Participant}, who is the TrackMe wearable device user, the \textit{Organizer}, who will setup the run, and the \textit{Spectator}, who are the audience that may view the location of the participants during a given run.
+		In the Figure \ref{fig:t4r_use_cases} the Track4Run use cases are shown. The most important use cases are \textit{Manage invitations}, and \textit{Create a run}. In this system, the actors are the \textit{Participant}, who is the TrackMe wearable device user, the \textit{Organizer}, who will setup the run, and the \textit{Spectators}, who are the audience that may view the location of the participants during a given run.
 		
 		\begin{figure}[H]
 			\centering
@@ -882,11 +884,32 @@
 		\begin{enumerate}
 			\item{If there are less than 1000 individuals in the request of data, an error is returned}
 			\item{If there is not enough data, an error is returned}
+  		\end{enumerate}
+		\rule{\linewidth}{0.4pt}
+		\textbf{ID}: \usecase{28} \\
+		\textbf{Name}: Show subscribed third parties \\
+		\textbf{Actor}:Individual \\
+		\textbf{Entry conditions}:
+    		\begin{enumerate}
+			\item{The Individual is logged in}
+  		\end{enumerate}
+		\textbf{Event flow}:
+  		\begin{enumerate}
+			\item{The Individual clicks on "Subscribed companies" button}
+			\item{The system shows a web page with all the Third party companies that have subscribed to the Individual's data}
+		\end{enumerate}
+		\textbf{Exit conditions}:
+		\begin{enumerate}
+			\item{The system redirects the current Individual to the "Subscribed companies" section}
+		\end{enumerate}
+		\textbf{Exceptions}:
+  		\begin{enumerate}
+			\item{If there are no subscribed third party companies, a message is shown}
 		\end{enumerate}
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		% AUTOMATEDSOS USE CASE SPECIFICATION
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-		\item{\textbf{AutomatedSOS}}
+		\item{\textbf{AutomatedSOS}}\\
 		\textbf{ID}: \usecase{13} \\
 		\textbf{Name}: Send request for subscription \\
 		\textbf{Actor}: D4H \\
@@ -1129,6 +1152,8 @@
 			\item{The system shows the Running circuit web page}
 			\item{The Organizer defines the running circuit by clicking on the map}
 			\item{Once the Organizer has finished defining the running circuit, clicks on Submit button}
+			\item{The system shows a message asking if the Organizer wants to send invitations or not}
+			\item{The system extends either \usecase{29} or \usecase{30}}
 		\end{enumerate}
 		\textbf{Exit conditions}:
 		\begin{enumerate}
@@ -1174,7 +1199,50 @@
 		\textbf{Exit conditions}: - \\
 		\textbf{Exceptions}: - \\
 		\textbf{Scenario}: A marathon is taking place in the city, and a runner's family want to cheer he during the race. Since they are late and the event has already begun, they enter to the T4R website and go to the Current events web page, select the event and look for their family member. \\
-	\end{itemize}
+		\rule{\linewidth}{0.4pt}
+		\textbf{ID}: \usecase{29} \\
+		\textbf{Name}: Send invitation to all the T4R participant users \\
+		\textbf{Actor}: Organizer \\
+		\textbf{Entry conditions}:
+		\begin{enumerate}
+			\item{The Organizer has defined a running circuit of a race event}
+		\end{enumerate}
+		\textbf{Event flow}:
+		\begin{enumerate}
+			\item{The system sends an invitation to all the T4R participant users}
+		\end{enumerate}
+		\textbf{Exit conditions}:
+		\begin{enumerate}
+			\item{The system redirects the Organizer to the dashboard page of the web site}
+		\end{enumerate}
+		\textbf{Exceptions}:
+		\begin{enumerate}
+			\item{If an error occurs, the system will show an error message}
+		\end{enumerate}
+		\rule{\linewidth}{0.4pt}
+		\textbf{ID}: \usecase{30} \\
+		\textbf{Name}: Select participants and send invitations \\
+		\textbf{Actor}: Organizer \\
+		\textbf{Entry conditions}:
+		\begin{enumerate}
+			\item{The Organizer has defined a running circuit of a race event}
+		\end{enumerate}
+		\textbf{Event flow}:
+		\begin{enumerate}
+			\item{The system shows a list with all the T4R Participant users}
+			\item{The Organizer filters the Participant users using some of the following filters: Min Age, Max Age, Country and City}
+			\item{The system shows the Participants that match the selected filter}
+			\item{The Organizer selects some Participants and clicks the Invite button}
+		\end{enumerate}
+		\textbf{Exit conditions}:
+		\begin{enumerate}
+			\item{The system sends invitations to all the selected Participants}
+		\end{enumerate}
+		\textbf{Exceptions}:
+		\begin{enumerate}
+			\item{If an error occurs, the system will show an error message}
+		\end{enumerate}
+		\end{itemize}
 	
 	\subsection{Activity diagrams}
 	
@@ -1225,8 +1293,8 @@
 		\hline
 		\multirow{4}{*}{} [G2]  & [R5] & [UC6] & \\ \cline{2-4}
 		& [R6] & [UC7] & \\ \cline{2-4}
-		& [R7] & [UC9] & \\ \cline{2-4}
-		& [R8] & [UC8] & \\
+		& [R8] & [UC9] & \\ \cline{2-4}
+		& [R7] & [UC8] & \\
 		\hline
 		\multirow{4}{*}{} [G3]  & [R5] & [UC6] & \\ \cline{2-4}
 		& [R6] & [UC7] & \\ \cline{2-4}
@@ -1254,7 +1322,9 @@
 		& [R19] & [UC18] & \\ \cline{2-4}
 		& [R20] & [UC24] & \\ \cline{2-4}
 		& [R21] & [UC25] & \\ \cline{2-4}
-		& [R22] & [UC26] & \\ \cline{2-4}
+		& \multirow{3}{*}{[R22]} & [UC26] & \\ \cline{3-4}
+		&                        & [UC29] & \\ \cline{3-4}
+		&                        & [UC30] & \\ \cline{2-4}
 		& \multirow{4}{*}{[R23]} & [UC20] & \\ \cline{3-4}
 		&                        & [UC21] & \\ \cline{3-4}
 		&                        & [UC22] & \\ \cline{3-4}
@@ -1308,7 +1378,7 @@
 	\subsection{Security}
 	D4H and T4R databases must have different users and password and the access from outside the servers' network must not be allowed.\\
 	
-	Furthermore, D4H must keep track of every request made by the third parties, and must log every access to the third party users' account or individual users' account. Moreover, ASOS must have log every time the system contacts a health care service, specifying the individual's ID, the contacted health-care service and the individual's health status. \\
+	Furthermore, D4H must keep track of every request made by the third parties, and must log every access to the third party users' account or individuals' account. Moreover, ASOS must have log every time the system contacts a health care service, specifying the individual's ID, the contacted health care service and the individual's health status. \\
 	
 	Finally, all the connections to the TrackMe services and from the TrackMe services should be encrypted using PKI (HTTP over SSL).
 	
@@ -1341,8 +1411,8 @@
 			World and shared phenomena & 2 \\
 			Definitions, acronyms, abbreviations & 1  \\
 			Software system attributes & 1 \\
-			Alloy & X \\
-			Checking document  & X  \\
+			Alloy & 7 \\
+			Checking document  & 3  \\
 			\hline
 			\textbf{Total} & X  \\
 			\hline
@@ -1365,38 +1435,46 @@
 			& \textbf{Task} & \textbf{Hours}
 			& \textbf{Task} & \textbf{Hours} \\ [0.5ex]
 			\hline
-			Goals &  X
+			Goals &  4
 			& Context & X
 			& Layout & 3  \\
 			\hline
-			Product functions &  X
+			Product functions &  2
 			& Purpose & X
 			& Problem description & 2  \\
 			\hline
-			F requirements &  X
+			F requirements &  3
 			& Domain model & X
 			& User characteristics & 1  \\
 			\hline
-			UC diagrams &  X
+			UC diagrams &  1
 			& Statechart diagrams
 			& X
 			& User interfaces & 4  \\
 			\hline
-			UC description &  X
+			UC description &  7
 			& Assumptions & X
 			& Design constraints & 1  \\
 			
 			
 			\hline
-			Scenarios &  X
+			Scenarios &  1
 			& NF requirements & X
 			& External Interface  & 1  \\
 			\hline
-			&  X
+			Sequence diagrams &  2
 			& Effort spent & X
 			& Performance requirements &  1  \\
 			\hline
-			\textbf{Total} & X
+			Traceability matrix &  3
+			&  & X
+			& & X  \\
+			\hline
+			SS attributes &  2
+			&  & X
+			&  & X  \\
+			\hline
+			\textbf{Total} & 25
 			& \textbf{Total} & X
 			& \textbf{Total} & X  \\
 			\hline
