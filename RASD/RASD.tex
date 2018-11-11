@@ -123,23 +123,25 @@
 		\vfill
 	\end{titlepage}
 	
+	\pagenumbering{roman}
 	\tableofcontents
-	\thispagestyle{empty}
+%	\thispagestyle{empty}
 	\newpage
 	\listoffigures
 	\listoftables
-	\thispagestyle{empty}
+%	\thispagestyle{empty}
 	\clearpage
+	\pagenumbering{arabic}
 	\setcounter{page}{1}
 	
 	\chapter{Introduction}
 	\section{Context}
-	Nowadays, due to the availability of a huge variety of smart electronic devices, more and more applications are developed to help people in their day-to-day activities. In the healthcare field, wearable devices such as smartwatches are highly useful since they can be used to collect information about general well-being of users by means of mobile sensor technologies. As expected, measured data has several possible applications including, patient diagnostics and treatment or research motivations. \\
+	Nowadays, due to the availability of a huge variety of smart electronic devices, more and more applications are developed to help people in their day-to-day activities. In the health-care field, wearable devices such as smartwatches are highly useful since they can be used to collect information about general well-being of users by means of mobile sensor technologies. As expected, measured data has several possible applications including, patient diagnostics and treatment or research motivations. \\
 	
-	\textbf{TrackMe} is a company that develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatch is synchronized with an app that gives users access to their data and stats.
+	\textbf{TrackMe} is a company that develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O\textsubscript{2} in the blood) and also their location. TrackMe health smartwatch is synchronized with an app that gives users access to their data and stats.
 	
 	\section{Purpose}
-	Taking into account the long list of currently available wearable devices, \textbf{TrackMe}  is aware that the market is plenty of healthcare wearable devices, therefore, to stand out against its competitors, the key ingredient is improving customers experience, and doing so requires understanding their needs and how they interact with the system, in order to provide personalized recommendations and correctly oriented new services. \\
+	Taking into account the long list of currently available wearable devices, \textbf{TrackMe}  is aware that the market is plenty of health-care wearable devices, therefore, to stand out against its competitors, the key ingredient is improving customers experience, and doing so requires understanding their needs and how they interact with the system, in order to provide personalized recommendations and correctly oriented new services. \\
 	
 	After analyzing users behaviour, TrackMe decided to focus on third-party companies and profit from users data in a direct way (i.e. extend its business model by implementing \textbf{data trading}). This is, provide the collected data (i.e. location and health status) to third parties by means of a new software-based service called \textbf{Data4Help}. \\
 	
@@ -153,7 +155,7 @@
 	
 	\textbf{Data4Help} is a system capable to store the physical health data of any individual using any TrackMe wearable device. All the stored data will be available to any third party company, after request and approval of its use is sent to the TrackMe wearable device user, who will be able to accept or reject the request, under no condition. Also, third party companies will be able to request data of a group of users, and Data4Help will provide that information under the solely condition of be able to anonymize it.\\
 	
-	In addition, \textbf{AutomatedSOS} is a system that will be built on top of Data4Help, and will send requests to every elderly individual in order to access its physical health parameters. It will monitor the physical health status of all of its users in order to establish their health condition, based on previously defined thresholds. If any of the user's health parameters is under or above its threshold, the system will contact the associated healthcare service for that user. AutomatedSOS will do its best effort to contact the healthcare service, but under no circumstances will follow-up the status of the healthcare response, meaning that it will not know if the healthcare service answered the notification or not.\\
+	In addition, \textbf{AutomatedSOS} is a system that will be built on top of Data4Help, and will send requests to every elderly individual in order to access its physical health parameters. It will monitor the physical health status of all of its users in order to establish their health condition, based on previously defined thresholds. If any of the user's health parameters is under or above its threshold, the system will contact the associated health-care service for that user. AutomatedSOS will do its best effort to contact the health-care service, but under no circumstances will follow-up the status of the health-care response, meaning that it will not know if the health-care service answered the notification or not.\\
 	
 	Finally, \textbf{Track4Run}, also a system built on top of Data4Help, will send requests to every user in order to access their location and let them participate in a defined running circuit. Track4Run organizer users, will be able to setup a race, define its running circuit and send invitations to all the TrackMe wearable device users. Also, the race spectators will be able to follow the participants' location using the Track4Run web site. The location of every participant will only be available during the race.
 	
@@ -173,7 +175,7 @@
 			\item{} TrackMe wearable devices.
 			\item{} Individuals sharing their personal data.
 			\item{} Third-party customers willing to use the data acquired through the devices.
-			\item{} Healthcare system .
+			\item{} Health-care system .
 		\end{itemize}
 		
 		\item \textbf{Shared Phenomena}
@@ -182,7 +184,7 @@
 		\begin{itemize}
 			\item{} The physical health parameters collected by the Trackme devices (i.e. blood pressure, body temperature, etc.), and stored by Data4Help
 			\item{} Individuals location collected by the Trackme device, and stored by Data4Help
-			\item{} Healthcare system, that let AutomatedSOS send the alarms
+			\item{} Health-care system, that let AutomatedSOS send the alarms
 			\item{} The running circuit defined in Track4Run
 			\item{} The current location of the athletes participating in a run.
 		\end{itemize}
@@ -221,7 +223,7 @@
 		\item{\textbf{Third party company}}: Customer who needs to know the health status of the population for different purposes (e.g. health insurance companies)
 		\item{\textbf{Normal range}}: When the parameters are under the defined threshold values (here, in context: health parameters).
 		\item{\textbf{Running circuit}}: Path defined by the organizer for the run, using the set of nodes.
-		\item{\textbf{Anonymise}}: An individual's identity cannot be inferred using the available data.
+		\item{\textbf{Anonymize}}: The action of anonymize means that an individual's identity cannot be inferred using the available data.
 		\item{\textbf{Parameter out of its normal range}}: Meaning that the parameter is under or above a defined threshold.
 	\end{itemize}
 	
@@ -293,7 +295,7 @@
 		\label{fig:d4h_statechart}
 	\end{figure}
 	
-	On the other hand, \textbf{ASOS} (Figure \ref{fig:asos_statechart}) is an additional service offered to individuals older than 60 years. It is a background process in charge of monitoring the health status of each individual until an anomaly happens (i.e. any parameter out of its normal range), then a notification is sent to his corresponding healthcare service (i.e. send the location) and after, the system loops back to be ready to process new upcoming data. \\
+	On the other hand, \textbf{ASOS} (Figure \ref{fig:asos_statechart}) is an additional service offered to individuals older than 60 years. It is a background process in charge of monitoring the health status of each individual until an anomaly happens (i.e. any parameter out of its normal range), then a notification is sent to his corresponding health-care service (i.e. send the location) and after, the system loops back to be ready to process new upcoming data. \\
 	
 	Another fact to highlight is ASOS associates a status to each individual, \textit{stable or critical}, needed to decide if triggering the notification or not (to avoid sending the same notification for a user). \\
 	
@@ -391,7 +393,7 @@
 	
 	As when new customers visits the home page of TrackMe, they can read about the work that our company does, what services we offer, what benefits users can achieve by joining the community. In addition, they can buy the wearables and get more information, how to use them.\\
 	
-	Next, comes the web page through which users can Login into the system (if already registered). And if not, they can register themselves through the Register web-page. There are separate register forms for the Individual users and fot third party users visible below:
+	Next, comes the web page through which users can Login into the system (if already registered). And if not, they can register themselves through the Register web-page. There are separate register forms for the Individual users and for third party users, which can be seen in the Figure \ref{fig:Login}.
 	
 	\begin{figure}[H]
 		\centering
@@ -400,7 +402,7 @@
 		\label{fig:Login}
 	\end{figure}
 	
-	Registration is free for all the users and it doesn't take much time to complete the forms, as we can see below:
+	Registration is free for all the users and it doesn't take much time to complete the forms, as can be seen in the Figure \ref{fig:Register} and Figure \ref{fig:Register_third_party}.
 	
 	\begin{figure}[H]
 		\centering
@@ -416,7 +418,7 @@
 		\label{fig:Register_third_party}
 	\end{figure}
 	
-	In the figure below, its personal dashboard for the individual users, who can manage and view the requests and are able to view who all third parties have subscribed to their data.
+	In the Figure \ref{fig:Dashboard_individual}, its personal dashboard for the individual users, who can manage and view the requests and are able to view who all third parties have subscribed to their data.
 	
 	\begin{figure}[H]
 		\centering
@@ -425,7 +427,7 @@
 		\label{fig:Dashboard_individual}
 	\end{figure}
 	
-	In the next figure, we can see the customer has options to choose to accept or reject the request for data acquisition. As soon as an action is taken upon the request, it gets deleted from the page.
+	In the Figure \ref{fig:Individual_Request}, can be seen that the customer has two options to choose: accept or reject the request for data acquisition. As soon as an action is taken upon the request, it gets deleted from the page.
 	
 	\begin{figure}[H]
 		\centering
@@ -440,47 +442,47 @@
 		\label{fig:Make_Request}
 	\end{figure}
 	
-	In the figure above, Third party users can make request for the data using the filtering criteria provided by the system.
+	In the Figure \ref{fig:Make_Request}, Third party users can make request for the data using the filtering criteria provided by the system.
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.35]{../Assets/organizer_dashboard_1.png}\caption[UI: Organiser's Dashboard - create new run]{Organizer's Dashboard- create new run}
-		\label{fig:Make_Request}
+		\label{fig:create_run}
 	\end{figure}
 	
-	In the figure above, Organizer's are able to view the pending invites to send to targeted participants and here, they can start configuring a new run by clicking on 'Create new run' button.
+	In the Figure \ref{fig:create_run}, Organizer's are able to view the pending invites to send to targeted participants and here, they can start configuring a new run by clicking on 'Create new run' button.
 	
 	 \begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.35]{../Assets/organizer_dashboard_2.png}\caption[UI: Organizer's Dashboard - Define running circuit]{Organizer's Dashboard- Define running circuit}
-		\label{fig:Make_Request}
+		\label{fig:define_circuit}
 	\end{figure}
 	
-	In the figure above, Organizer's are able to define the parameters to define a complete running circuit and here, they can select whether to send invitations now or not by clicking the checkbox.
+	In the Figure \ref{fig:define_circuit}, Organizer's are able to define the parameters to set up a complete running circuit and here, they can select whether to send invitations now or not by clicking the checkbox.
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.35]{../Assets/t4r_list_of_available_run.png}\caption[UI: Spectators' view List of available run]{Spectators' view List of available run}
-		\label{fig:Make_Request}
+		\label{fig:available_runs}
 	\end{figure}
 	
-	In the figure above, Spectators are able to view all the available runs, and by clicking on view participants, they are redirected to the map-view of the selected run. 
+	In the Figure \ref{fig:available_runs}, Spectators are able to view all the available runs, and by clicking on view participants, they are redirected to the map-view of the selected run. 
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.35]{../Assets/spectators_valid_race.png}\caption[UI: Spectators' view during the race]{Spectators' view during the race}
-		\label{fig:Make_Request}
+		\label{fig:view_during_race}
 	\end{figure}
 	
-	In the figure above, Spectators are able to view are the participants' position during the run and time left for the race to end. 
+	In the Figure \ref{fig:view_during_race}, Spectators are able to view the participants' position during the run and time left for the race to end. 
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.35]{../Assets/spectators_invalid_race.png}\caption[UI: Spectators' view when race has ended]{Spectators' view when race has ended}
-		\label{fig:Make_Request}
+		\label{fig:race_ended}
 	\end{figure}
 	
-	In the figure above, Spectators are able to view an error message when the race has been ended. 
+	In the Figure \ref{fig:race_ended}, Spectators are able to view an error message when the race has been ended. 
 
 	\subsection{Hardware interfaces}
 	No such direct hardware interfaces are required by our system, as this is a web portal application. The physical GPS is managed by the TrackMe devices. And the hardware connection to the database server is managed by the underlying operating system on the web server. Thus, it can be easily accessible from any device or any location if \textbf{Internet service} is available.
@@ -556,7 +558,7 @@
 			\assumption{6} Out of coverage scenarios cannot be handled by ASOS so as to guarantee a 5 seconds reaction.
 			\requirement{13} The system must be able to send a request for monitoring an individual's data when he/she is older than 60 years old.
 			\requirement{14} The system must be able to monitor, and compare against defined thresholds, the health status of an individual.
-			\requirement{15} The system must be able to contact the Healthcare service associated to an individual.
+			\requirement{15} The system must be able to contact the health-care service associated to an individual.
 		\end{enumerate}
 		
 		\goal{6} Run organizers could define the path for a given run and TrackMe users can enroll to it.
@@ -965,29 +967,29 @@
 		\textbf{Event flow}:
 		\begin{enumerate}
 			\item{The system validates the health condition of the individual using the configured thresholds}
-			\item{The system \textbf{Contacts the healthcare service} (\usecase(16)) if needed}
+			\item{The system \textbf{Contacts the health-care service} (\usecase(16)) if needed}
 		\end{enumerate}
 		\textbf{Exit conditions}: \\
 		\textbf{Exceptions}: \\
 		\rule{\linewidth}{0.4pt}
 		\textbf{ID}: \usecase{16} \\
-		\textbf{Name}: Contact healthcare service \\
-		\textbf{Actor}: Healthcare service \\
+		\textbf{Name}: Contact health-care service \\
+		\textbf{Actor}: Health-care service \\
 		\textbf{Entry conditions}:
 		\begin{itemize}
 			\item{Some parameters of the health data of the individual are above or below the threshold}
 		\end{itemize}
 		\textbf{Event flow}:
 		\begin{enumerate}
-			\item{The system gets the healthcare service contact of the given individual}
-			\item{The system contacts the healthcare service, and sends the health data and location of the given individual}
+			\item{The system gets the health-care service contact of the given individual}
+			\item{The system contacts the health-care service, and sends the health data and location of the given individual}
 		\end{enumerate}
 		\textbf{Exit conditions}:
 		\begin{itemize}
-			\item{The system has contacted the healthcare service}
+			\item{The system has contacted the health-care service}
 		\end{itemize}
 		\textbf{Exceptions}: - \\
-		\textbf{Scenario}: An individual subscribed to ASOS service is having a hart attack. ASOS has validated the individual's health status and compared the parameters with the defined thresholds, and has decided to call the Health care service. To do so, it contacts the Health care service associated to the individual, using a previously defined protocol and API, and sends to them all the data of the individual. \\
+		\textbf{Scenario}: An individual subscribed to ASOS service is having a hart attack. ASOS has validated the individual's health status and compared the parameters with the defined thresholds, and has decided to call the health-care service. To do so, it contacts the health-care service associated to the individual, using a previously defined protocol and API, and sends to them all the data of the individual. \\
 		\rule{\linewidth}{0.4pt}
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		% TRACK4RUN USE CASE SPECIFICATION
@@ -1431,14 +1433,14 @@
 	\subsection{Security}
 	D4H and T4R databases must have different users and password and the access from outside the servers' network must not be allowed.\\
 	
-	Furthermore, D4H must keep track of every request made by the third parties, and must log every access to the third party users' account or individuals' account. Moreover, ASOS must have log every time the system contacts a health care service, specifying the individual's ID, the contacted health care service and the individual's health status. \\
+	Furthermore, D4H must keep track of every request made by the third parties, and must log every access to the third party users' account or individuals' account. Moreover, ASOS must have log every time the system contacts a health-care service, specifying the individual's ID, the contacted health-care service and the individual's health status. \\
 	
 	Finally, all the connections to the TrackMe services and from the TrackMe services should be encrypted using PKI (HTTP over SSL).
 	
 	\subsection{Maintainability}
 	D4H, T4R, ASOS systems must maintain a service log in order to have a very detailed sequence of steps when a bug is found.\\
 	
-	A software developer, shall be able to add a new product feature, including source code modifications and testing. The test cases of the three systems should have a 90\% of code coverage.\\
+	A software developer, shall be able to add a new product feature, including source code modifications and testing. The test cases of the three systems should have a 90\% of code coverage.
 	
 	\subsection{Portability}
 	D4H, ASOS and T4R, should be written in a way that, moving from one hosting service to another, should not affect the service and the code of the system.
@@ -1469,7 +1471,7 @@ In this case, D4H, ASOS and T4R will have a corresponding model with different p
 	\vspace{8 mm}
 	
 	\subsection{Generated worlds}
-	After running the model described above, different worlds are generated, two of them are:
+	After running the model described above, different worlds were generated, two of them are:
 	
 	\begin{figure}[H]
 		\centering
@@ -1501,7 +1503,7 @@ In this case, D4H, ASOS and T4R will have a corresponding model with different p
 	\vspace{8 mm}
 	
 	\subsection{Generated worlds}
-	After running the model described above, different worlds are generated, two of them are:
+	After running the model described above, different worlds were generated, two of them are:
 	
 	\begin{figure}[H]
 		\centering
