@@ -447,20 +447,23 @@
 		\includegraphics[scale=0.35]{../Assets/organizer_dashboard_1.png}\caption[UI: Organiser's Dashboard - create new run]{Organizer's Dashboard- create new run}
 		\label{fig:Make_Request}
 	\end{figure}
-	In the figure above, Organiser's are able to view the pending invites to send to targeted participants and here, they can start configuring a new run by clicking on 'Create new run' button.
+	
+	In the figure above, Organizer's are able to view the pending invites to send to targeted participants and here, they can start configuring a new run by clicking on 'Create new run' button.
 	
 	 \begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{../Assets/organizer_dashboard_2.png}\caption[UI: Organiser's Dashboard - Define running circuit]{Organizer's Dashboard- Define running circuit}
+		\includegraphics[scale=0.35]{../Assets/organizer_dashboard_2.png}\caption[UI: Organizer's Dashboard - Define running circuit]{Organizer's Dashboard- Define running circuit}
 		\label{fig:Make_Request}
 	\end{figure}
-	In the figure above, Organiser's are able to define the parameters to define a complete running circuit and here, they can select whether to send invitations now or not by clicking the checkbox.
+	
+	In the figure above, Organizer's are able to define the parameters to define a complete running circuit and here, they can select whether to send invitations now or not by clicking the checkbox.
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.35]{../Assets/t4r_list_of_available_run.png}\caption[UI: Spectators' view List of available run]{Spectators' view List of available run}
 		\label{fig:Make_Request}
 	\end{figure}
+	
 	In the figure above, Spectators are able to view all the available runs, and by clicking on view participants, they are redirected to the map-view of the selected run. 
 	
 	\begin{figure}[H]
@@ -468,16 +471,19 @@
 		\includegraphics[scale=0.35]{../Assets/spectators_valid_race.png}\caption[UI: Spectators' view during the race]{Spectators' view during the race}
 		\label{fig:Make_Request}
 	\end{figure}
+	
 	In the figure above, Spectators are able to view are the participants' position during the run and time left for the race to end. 
+	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.35]{../Assets/spectators_invalid_race.png}\caption[UI: Spectators' view when race has ended]{Spectators' view when race has ended}
 		\label{fig:Make_Request}
 	\end{figure}
+	
 	In the figure above, Spectators are able to view an error message when the race has been ended. 
 
 	\subsection{Hardware interfaces}
-	No such direct hardware interfaces are required by our system, as this is a web portal application. The physical GPS is managed by the TrackMe devices and managed through its application. And the hardware connection to the database server is managed by the underlying operating system on the web server. Thus, it can be easily accessible from any device or any location if \textbf{Internet service} is available.
+	No such direct hardware interfaces are required by our system, as this is a web portal application. The physical GPS is managed by the TrackMe devices. And the hardware connection to the database server is managed by the underlying operating system on the web server. Thus, it can be easily accessible from any device or any location if \textbf{Internet service} is available.
 	
 	\subsection{Software interfaces}
 	Web applications are by nature distributed applications. Specifically, web applications are accessed with a web browser and are popular because of the ease of using the browser as a user client. The software Interfaces provided by the system are as follows:\\
@@ -1481,7 +1487,7 @@ In this case, D4H, ASOS and T4R will have a corresponding model with different p
 	
 	\section{AutomatedSOS}
 	\subsection{Purpose of the model}
-	The purpose of the following model is to formalize the Goal 2. In this case, the alloy model defines the following objects: \textit{Individual}, \textit{Data}, which is the list of health parameters of an Individual, \textit{HealthcareService} and \textit{HSNotification}. Individual objects contain a Data object, and they are related to one HealthcareService object. Data objects contain a list of parameters (health status), which for the sake of simplicity contains only one element. The HealthcareService objects contain a list of HSNotification objects, which are the notifications sent to the health-care service notifying that an Individual is in a critical situation. Finally, the HSNotification objects relates an Individual with a HealthcareService.\\
+	The purpose of the following model is to formalize the Goal 5. In this case, the alloy model defines the following objects: \textit{Individual}, \textit{Data}, which is the list of health parameters of an Individual, \textit{HealthcareService} and \textit{HSNotification}. Individual objects contain a Data object, and they are related to one HealthcareService object. Data objects contain a list of parameters (health status), which for the sake of simplicity contains only one element. The HealthcareService objects contain a list of HSNotification objects, which are the notifications sent to the health-care service notifying that an Individual is in a critical situation. Finally, the HSNotification objects relates an Individual with a HealthcareService.\\
 
 	The facts in this model are mostly related to having HSNotification objects only when the health status of an Individual is out of range (again, for the sake of simplicity, values below zero are considered out of normal range). Also, there cannot exist HSNotification objects that relates a HealthcareService with an Individual that does not have it as its health-care service.
 	
