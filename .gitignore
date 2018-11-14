@@ -6,6 +6,8 @@
 *.out
 *.synctex.gz
 *.toc
+*.gz
+
 RASD/*.pdf
 DD/*.pdf
 
