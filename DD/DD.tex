@@ -20,6 +20,7 @@
 \usepackage[super,negative]{nth}
 \usepackage{enumerate}
 \usepackage{float}
+\usepackage[counterclockwise, figuresleft]{rotating}
 %%%%%%%%%%%%
 
 % DOC STYLES
@@ -188,7 +189,41 @@
 	
 	\section{Overview}
 	\section{Component view}
-	
+		\subsection{Data4Help component diagram}
+		In the Figure \ref{fig:d4h_component_diagram} it can be seen the component diagram of D4H, with all its external interfaces. It can be noticed two packages: \textit{Data Base} and \textit{D4H Back-end}, where the former one refers to the TrackMe database, and which provides an interface used by the \textbf{DBManager} component. \\\\
+		On the other hand, \textit{D4H Back-end} package, contains all the components related to D4H, which are needed to provide the interfaces used by the third parties and the web site. The following interfaces are used by the web site: \textbf{SignupWeb}, \textbf{LoginWeb}, \textbf{SearchWeb}, \textbf{RequestWeb} and  \textbf{SubscriptionWeb}, while the \textbf{RequestAPI} interface is used by the third parties. In this case, D4H provides the interface in order to let the third parties send Requests for accessing the health status and location of the individuals to them.\\\\
+		Furthermore, \textbf{AuthenticatorService} component has the responsibility of validate the different credentials, and to provide the Secret codes to the third parties.\\\\
+		Finally, it can be seen the different third parties related to D4H. It worth mentioning \textbf{Track4Run} and \textbf{AutomatedSOS} components which, even though they are part of the TrackMe environment, they are treated as third parties in the sense they are completely decoupled of D4H. Moreover, all third parties must provide a port to D4H in order to let it communicate the incoming changes of the subscriptions.
+		
+			\begin{sidewaysfigure}
+    				\centering
+				\includegraphics[width=1\textwidth]{diagrams/d4h_component_diagram.png}
+				\caption[Data4Help Component Diagram]{Data4Help Component Diagram}
+				\label{fig:d4h_component_diagram}
+			\end{sidewaysfigure}	
+			\clearpage
+			
+		\subsection{Track4Run component diagram}	
+			In the Figure \ref{fig:t4r_component_diagram} it can be seen the T4R components. Unlike the D4H component diagram, here the \textit{Database} package is inside the \textit{T4R Back-end} package, this is so because T4R owns it in the sense that it has full responsibility on it. Besides this detail, the database provides a connector in order to let the \textbf{DBManager} component communicate to it.\\\\
+			The main structure of the system is similar to the structure seen in D4H component diagram. The web site communicates with the back-end using the following interfaces: \textbf{LoginWeb}, \textbf{SignupWeb}, \textbf{UserWeb} and \textbf{NotificationWeb}. On the other hand, T4R provides the \textbf{DataAPI} interface, which is responsibly of receiving all the data of the participants, and uses the \textbf{RequestAPI} interface, in order to send the requests for accessing the individuals' location and health status.\\\\
+			Finally, as in D4H, the \textbf{AuthenticatorService} component is responsible of validate the users' credentials.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=1\textwidth]{diagrams/t4r_component_diagram.png}
+				\caption[Track4Run Component Diagram]{Track4Run Component Diagram}
+				\label{fig:t4r_component_diagram}
+			\end{figure}	
+			
+			\subsection{AutomatedSOS component diagram}	
+			In the Figure \ref{fig:asos_component_diagram} 
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=1\textwidth]{diagrams/asos_component_diagram.png}
+				\caption[AutomatedSOS Component Diagram]{AutomatedSOS Component Diagram}
+				\label{fig:asos_component_diagram}
+			\end{figure}	
+			
+			
 	\section{Deployment view}
 	
 	\section{Runtime view}
