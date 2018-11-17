@@ -21,6 +21,8 @@
 \usepackage{enumerate}
 \usepackage{float}
 \usepackage[counterclockwise, figuresleft]{rotating}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
 %%%%%%%%%%%%
 
 % DOC STYLES
@@ -133,10 +135,31 @@
 	
 	\chapter{Introduction}
 	\section{Context}
+	\textbf{TrackMe} develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatch is synchronized with an app that gives users access to their data and stats. This document discuss more technical aspects of working of the TrackMe application.
 	
 	\section{Purpose}
+	The purpose of this document is to give more technical details than the RASD about TrackMe application system. While the RASD presented a general view of the system and what functions the system is supposed to execute, this document aims to present the implementation of the system including components, run-time processes, deployment and algorithm design. It also presents in more details the implementation and integration plan, as well as the testing plan.\\\\
+More precisely, the document presents:
+\begin{itemize}
+		\item{}Overview of the high level architecture
+		\item{}The main components and their interfaces provided one for another
+		\item{}The Runtime behaviour
+		\item{}The design patterns
+		\item{}The algorithm design of the most critical parts of the application
+		\item{}Implementation plan
+		\item{}Integration plan
+		\item{}Testing Plan
+	\end{itemize}
+The purpose of this document is to provide an overall guidance to the architecture of the software product.
 		
 	\section{Scope}
+	The TrackMe environment will be composed by three systems, whose scope are defined in this section. \\
+	
+	\textbf{Data4Help} is a system capable to store the physical health data of any individual using any TrackMe wearable device. All the stored data will be available to any third party company, after request and approval of its use is sent to the TrackMe wearable device user, who will be able to accept or reject the request, under no condition. Also, third party companies will be able to request data of a group of users, and Data4Help will provide that information under the solely condition of be able to anonymize it.\\
+	
+	In addition, \textbf{AutomatedSOS} is a system that will be built on top of Data4Help, and will send requests to every elderly individual in order to access its physical health parameters. It will monitor the physical health status of all of its users in order to establish their health condition, based on previously defined thresholds. If any of the user's health parameters is under or above its threshold, the system will contact the associated health-care service for that user. AutomatedSOS will do its best effort to contact the health-care service, but under no circumstances will follow-up the status of the health-care response, meaning that it will not know if the health-care service answered the notification or not.\\
+	
+	Finally, \textbf{Track4Run}, also a system built on top of Data4Help, will send requests to every user in order to access their location and let them participate in a defined running circuit. Track4Run organizer users, will be able to setup a race, define its running circuit and send invitations to all the TrackMe wearable device users. Also, the race spectators will be able to follow the participants' location using the Track4Run web site. The location of every participant will only be available during the race.
 	
 	\section{Definitions, Acronyms, Abbreviations}
 	\subsection{Definitions}
@@ -150,6 +173,9 @@
 		\item{D4H}: Data4Help
 		\item{ASOS}: AutomatedSOS
 		\item{T4R}: Track4Run
+		\item{GUI}: Graphical User Interface
+		\item{MVC}: Model View Controller is a design pattern used for GUIs
+		\item{RASD}: Requirements Analysis and Specifications Document
 	\end{itemize}
 	
 	\subsection{Abbreviations}
@@ -174,14 +200,18 @@
 	\end{table}
 	
 	\section{Document structure}
-	This document is divided in six parts, each one devoted to approach each one of the steps required to apply requirements engineering techniques.
+	This document is divided in seven parts, each one devoted to approach each one of the steps required to apply requirements engineering techniques.
 	\begin{itemize}
-		\item Chapter 1 gives ...
-		\item Chapter 2 presents ...
-		\item Chapter 3 ...
-		\item Chapter 4 includes ....
-		\item Chapter 5 shows the effort spent by each group member while working on this project.
-		\item Chapter 6 includes the reference documents.
+		\item Chapter 1 gives an introduction of the design document. It contains the purpose and the scope of the document, as well as some abbreviation in order to provide a better understanding of the document to the reader.
+		\item Chapter 2  deals with the architectural design of the application. It gives an overview of the architecture
+and it also contains the most relevant architecture views: component view, class view, deployment view, runtime view and it shows the interaction of the component interfaces. Some of the used architectural designs and designs patterns are also presented here, with an explanation of each one of them and the purpose of their usage.
+
+		\item Chapter 3  refers to the mock-ups already presented in the RASD document.
+		\item Chapter 4 explains how the requirements that have been defined in the RASD map to the design elements that are defined in this document.
+		\item Chapter 5 presents the algorithm design. It includes the most critical parts of the application and the
+algorithms designed to deal with them. All of the algorithms are written in pseudo code in order not to make any restriction on the implementation language and stay focused on the most important parts.
+		\item Chapter 6 shows the effort spent by each group member while working on this project.
+		\item Chapter 7 includes the reference documents.
 	\end{itemize}
 	
 	\chapter{Architectural design}
