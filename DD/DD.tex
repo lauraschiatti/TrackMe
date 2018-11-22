@@ -157,7 +157,7 @@ The purpose of this document is to provide an overall guidance to the architectu
 	
 	\textbf{Data4Help} is a system capable to store the physical health data of any individual using any TrackMe wearable device. All the stored data will be available to any third party company, after request and approval of its use is sent to the TrackMe wearable device user, who will be able to accept or reject the request, under no condition. Also, third party companies will be able to request data of a group of users, and Data4Help will provide that information under the solely condition of be able to anonymize it.\\
 	
-	In addition, \textbf{AutomatedSOS} is a system that will be built on top of Data4Help, and will send requests to every elderly individual in order to access its physical health parameters. It will monitor the physical health status of all of its users in order to establish their health condition, based on previously defined thresholds. If any of the user's health parameters is under or above its threshold, the system will contact the associated health-care service for that user. AutomatedSOS will do its best effort to contact the health-care service, but under no circumstances will follow-up the status of the health-care response, meaning that it will not know if the health-care service answered the notification or not.\\
+	In addition, \textbf{AutomatedSOS} is a system that will be built on top of Data4Help, and will send requests to every elderly individual and responds back, if accepted, it adds to ASOS database in order to access its physical health parameters. ASOS is able to respond only if a city is available for health-care service in that city, before creating a request to that user. Apparently, ASOS automatically assigns emergency contact according to the city of the user. It will monitor the physical health status of all of its users in order to establish their health condition, based on previously defined thresholds. If any of the user's health parameters is under or above its threshold, the system will contact the associated health-care service for that user. AutomatedSOS will do its best effort to contact the health-care service, but under no circumstances will follow-up the status of the health-care response, meaning that it will not know if the health-care service answered the notification or not. \\
 	
 	Finally, \textbf{Track4Run}, also a system built on top of Data4Help, will send requests to every user in order to access their location and let them participate in a defined running circuit. Track4Run organizer users, will be able to setup a race, define its running circuit and send invitations to all the TrackMe wearable device users. Also, the race spectators will be able to follow the participants' location using the Track4Run web site. The location of every participant will only be available during the race.
 	
@@ -215,9 +215,19 @@ algorithms designed to deal with them. All of the algorithms are written in pseu
 	\end{itemize}
 	
 	\chapter{Architectural design}
-	High-level components and their interaction
 	
 	\section{Overview}
+	Application architecture design is a process which has to be executed in a defined flow. High-level components and their interaction is displayed as follows:
+	\begin{figure}[H]
+				\centering
+				\includegraphics[width=1\textwidth]{diagrams/architecture.png}
+				\caption[High-level architecture Diagram]{High-level architecture Diagram}
+				\label{fig:High-level architecture Diagram}
+			\end{figure}
+			
+The above architecture diagram depicts clearly that third party - Data4Help relation is a service oriented, when the third-party user asks for some specific data and it is an event based, when it is subscribed to the data. In addition, a CRON job runs every day at 00:00, if there is every user above age of 60 years - they receive an ASOS notification. The system uses MongoDB, that listens, watch collection and events. Apparently, all the APIs are RESTful.\\
+When the third-party users have subscribed to the bulk data subscription, they define an update time when they want to get the refreshed data (e.g. update data in every 'X' hours).
+
 	\section{Component view}
 		\subsection{Data4Help component diagram}
 		In the Figure \ref{fig:d4h_component_diagram} it can be seen the component diagram of D4H, with all its external interfaces. It can be noticed two main components: \textbf{DataBase} and \textbf{D4HBackend}, where the former one refers to the TrackMe database, and which provides an interface used by the \textbf{DBManager} component. \\\\
@@ -268,7 +278,59 @@ used, why, and how
 	\section{Other design decisions}
 	
 	\chapter{User interface design}
-	Provide an overview on how the user interface(s) of your system will look like; if you have included this part in the RASD, you can simply refer to what you have already done, possibly, providing here some extensions if applicable.
+	The following mock-ups represent a basic idea of what the web application will look like after the first release:
+	
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.4]{UI/d4h_home1.png}
+		\includegraphics[scale=0.4]{UI/d4h_home2.png}
+		\includegraphics[scale=0.4]{UI/d4h_home3.png}
+		\includegraphics[scale=0.4]{UI/d4h_home4.png}
+		\caption[UI: TrackMe's Home Page]{TrackMe's Home Page}
+		\label{fig:Home_Page}
+	\end{figure}
+	
+	As when new customers visits the home page of TrackMe, they can read about the work that our company does, what services we offer, what benefits users can achieve by joining the community. In addition, they can buy the wearables and get more information, how to use them, what is TrackMe, more details about Data4Help, ASOS and Track4Run is provided here.\\
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.4]{UI/d4h.png}
+		\includegraphics[scale=0.4]{UI/d4h2.png}
+		\includegraphics[scale=0.35]{UI/d4h_home4.png}
+
+		\caption[UI: Data4Help Information Page]{Data4Help Information Page}
+		\label{fig:Data4Help Information Page}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.4]{UI/asos.png}
+
+		\caption[UI: ASOS Information Page]{ASOS Information Page}
+		\label{fig:ASOS Information Page}
+	\end{figure}
+	
+	Next, comes the web page through which users can Login into the system (if already registered):
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]{UI/login1.png}
+		\includegraphics[scale=0.35]{UI/login.png}
+		\includegraphics[scale=0.35]{UI/d4h_home4.png}
+		\caption[UI: Login Page]{Login Page}
+		\label{fig:Login}
+	\end{figure}
+	
+	 And if not already registered into the system, they can register themselves through the Register web-page. There are separate register forms for the Individual users and for third party users visible below:
+	 \begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]{UI/register1.png}
+		\includegraphics[scale=0.35]{UI/register2.png}
+		\includegraphics[scale=0.35]{UI/register3.png}
+		\includegraphics[scale=0.35]{UI/d4h_home4.png}
+		\caption[UI: Registration Page]{Registration Page}
+		\label{fig:Registration}
+	\end{figure}
+
 	
 	\chapter{Requirements traceability}
 	Explain how the requirements you have defined in the RASD map to the design elements that you have defined in this document.
