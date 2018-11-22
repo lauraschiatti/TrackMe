@@ -14,3 +14,7 @@ DD/*.pdf
 
 # Ignore Mac DS_Store files
 .DS_Store
+
+# Ignore IntelliJ files
+.idea/
+src/**/target/
