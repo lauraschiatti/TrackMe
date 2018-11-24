@@ -10,16 +10,18 @@ import avila.schiatti.virdi.service.response.LoginResponse;
 import avila.schiatti.virdi.utils.JsonUtil;
 import avila.schiatti.virdi.service.authentication.*;
 import org.eclipse.jetty.http.HttpStatus;
+import spark.Request;
+import spark.Response;
 
 import static spark.Spark.*;
 
 public class LoginService implements Service {
     private static LoginService _instance = null;
     private UserResource userResource;
-    private AuthenticationService authService;
+    private AuthenticationManager authManager;
 
     private LoginService() {
-        authService = AuthenticationService.getInstance();
+        authManager = AuthenticationManager.getInstance();
         userResource = UserResource.getInstance();
     }
 
@@ -31,31 +33,36 @@ public class LoginService implements Service {
     }
 
     private D4HUser validateCredentials(String email, String password){
-        return userResource.getByEmailAndPass(email, password);
+        String pass = authManager.hashPassword(password);
+        return userResource.getByEmailAndPass(email, pass);
+    }
+
+    private LoginResponse login(Request request, Response response){
+        LoginRequest body = JsonUtil.fromJson(request.body(), LoginRequest.class);
+        D4HUser user = this.validateCredentials(body.getEmail(), body.getPassword());
+
+        if(user != null){
+            UserWebAuth uAuth = authManager.setUserAccessToken(user);
+            return new LoginResponse(uAuth.getUserId(), uAuth.getAccessToken());
+        }
+
+        throw new TrackMeException(TrackMeError.NOT_VALID_EMAIL_OR_PASSWORD);
+    }
+
+    private Void logout(Request request, Response response) {
+        LogoutRequest body = JsonUtil.fromJson(request.body(), LogoutRequest.class);
+
+        authManager.deleteAccessToken(body.getAccessToken());
+
+        response.status(HttpStatus.OK_200);
+        return null;
     }
 
     @Override
     public void setupWebEndpoints() {
-        post("/login", (request, response) -> {
-            LoginRequest body = JsonUtil.fromJson(request.body(), LoginRequest.class);
-            D4HUser user = this.validateCredentials(body.getEmail(), body.getPassword());
+        post("/login", this::login, JsonUtil::toJson);
 
-            if(user != null){
-                UserWebAuth uAuth = authService.setUserAccessToken(user);
-                return new LoginResponse(uAuth.getUserId(), uAuth.getAccessToken());
-            }
-
-            throw new TrackMeException(TrackMeError.NOT_VALID_EMAIL_OR_PASSWORD);
-        }, JsonUtil::toJson);
-
-        post("/logout", (request, response) -> {
-            LogoutRequest body = JsonUtil.fromJson(request.body(), LogoutRequest.class);
-
-            authService.deleteAccessToken(body.getAccessToken());
-
-            response.status(HttpStatus.OK_200);
-            return "";
-        });
+        post("/logout", this::logout);
     }
 
     @Override

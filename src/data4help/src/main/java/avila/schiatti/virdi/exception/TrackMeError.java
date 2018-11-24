@@ -1,5 +1,7 @@
 package avila.schiatti.virdi.exception;
 
+import org.eclipse.jetty.http.HttpStatus;
+
 public enum TrackMeError {
     // BAD REQUEST 400
     NOT_VALID_USER(40001, "The provided user id is not valid or null"),
@@ -25,6 +27,11 @@ public enum TrackMeError {
 
     public int getCode() {
         return code;
+    }
+
+    // TODO - return a valid HTTP status based on the code of the Error
+    public Integer getStatus(){
+        return HttpStatus.OK_200;
     }
 
     @Override

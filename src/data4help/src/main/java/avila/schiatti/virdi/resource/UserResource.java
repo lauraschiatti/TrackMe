@@ -1,7 +1,6 @@
 package avila.schiatti.virdi.resource;
 
 import avila.schiatti.virdi.model.user.D4HUser;
-import avila.schiatti.virdi.model.user.Individual;
 import org.bson.types.ObjectId;
 
 import java.util.Collection;
@@ -32,42 +31,42 @@ public class UserResource extends Resource<D4HUser> {
     }
 
     @Override
-    Collection<D4HUser> getAll() {
+    public Collection<D4HUser> getAll() {
         return null;
     }
 
     @Override
-    D4HUser getById(String id) {
+    public D4HUser getById(String id) {
         return null;
     }
 
     @Override
-    D4HUser getById(ObjectId id) {
+    public D4HUser getById(ObjectId id) {
         return null;
     }
 
     @Override
-    void add(D4HUser o) {
+    public void add(D4HUser o) {
 
     }
 
     @Override
-    void update(D4HUser o) {
+    public void update(D4HUser o) {
 
     }
 
     @Override
-    void removeById(String id) {
+    public void removeById(String id) {
 
     }
 
     @Override
-    void removeById(ObjectId id) {
+    public void removeById(ObjectId id) {
 
     }
 
     @Override
-    void remove(D4HUser o) {
+    public void remove(D4HUser o) {
 
     }
 }

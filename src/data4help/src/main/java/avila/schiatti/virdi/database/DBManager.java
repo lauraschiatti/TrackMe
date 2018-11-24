@@ -17,13 +17,9 @@ public class DBManager {
 
     private DBManager(){
         morphia.mapPackage(MODELS_PACKAGE);
-        datastore = createDatastore();
-    }
-
-    private Datastore createDatastore() {
         MongoClientURI mongoClientURI = new MongoClientURI(config.getMongoDBConnectionString());
         MongoClient mongoClient = new MongoClient(mongoClientURI);
-        return morphia.createDatastore(mongoClient, config.getMongoDBDatabase());
+        datastore = morphia.createDatastore(mongoClient, config.getMongoDBDatabase());
     }
 
     public static DBManager getInstance(){

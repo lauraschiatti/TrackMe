@@ -13,15 +13,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
-public class AuthenticationService {
+public class AuthenticationManager {
 
     private final static String SECRET_PREFIX = "lA7eBr1c0le";
     private final static Integer DEFAULT_TTL_SECONDS = 3600;
-    private static AuthenticationService _instance = null;
+    private static AuthenticationManager _instance = null;
 
     private RedisCommands<String, String> commands;
 
-    private AuthenticationService(){
+    private AuthenticationManager(){
         StaticConfiguration configuration = StaticConfiguration.getInstance();
 
         RedisClient redisClient = RedisClient.create(configuration.getRedisConnectionString());
@@ -31,9 +31,9 @@ public class AuthenticationService {
     }
 
     @NotNull
-    public static AuthenticationService getInstance(){
+    public static AuthenticationManager getInstance(){
         if(_instance == null){
-            _instance = new AuthenticationService();
+            _instance = new AuthenticationManager();
         }
         return _instance;
     }
@@ -110,5 +110,10 @@ public class AuthenticationService {
 
     public void deleteAccessToken(String accessToken) {
         commands.del(accessToken);
+        throw new TrackMeException(TrackMeError.NOT_VALID_USER);
+    }
+
+    public String hashPassword(String password){
+        return DigestUtils.sha512Hex(password);
     }
 }
