@@ -18,3 +18,6 @@ DD/*.pdf
 # Ignore IntelliJ files
 .idea/
 src/**/target/
+
+# Ignore node_modules
+node_modules/
