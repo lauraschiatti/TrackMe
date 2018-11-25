@@ -7,6 +7,7 @@ import avila.schiatti.virdi.service.RouteConfig;
 import avila.schiatti.virdi.service.authentication.AuthenticationManager;
 import avila.schiatti.virdi.service.response.ErrorResponse;
 import avila.schiatti.virdi.utils.JsonUtil;
+import avila.schiatti.virdi.utils.SparkUtils;
 
 import static spark.Spark.*;
 
@@ -19,6 +20,8 @@ public class Main {
 
     public static void main(String[] args) {
         port(config.getPort());
+
+        SparkUtils.createServerWithRequestLog();
 
         configureRoutes();
 
