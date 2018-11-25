@@ -20,7 +20,7 @@
 \usepackage[super,negative]{nth}
 \usepackage{enumerate}
 \usepackage{float}
-\usepackage[counterclockwise, figuresleft]{rotating}
+\usepackage{rotating}
 \usepackage[dvipsnames]{xcolor}
 \usepackage{listings}
 %%%%%%%%%%%%
@@ -138,14 +138,13 @@
 	\textbf{TrackMe} develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatch is synchronized with an app that gives users access to their data and stats. This document discuss more technical aspects of working of the TrackMe application.
 	
 	\section{Purpose}
-	The purpose of this document is to give more technical details than the RASD about TrackMe application system. While the RASD presented a general view of the system and what functions the system is supposed to execute, this document aims to present the implementation of the system including components, run-time processes, deployment and algorithm design. It also presents in more details the implementation and integration plan, as well as the testing plan.\\\\
+	The purpose of this document is to give more technical details than the RASD about TrackMe application system. While the RASD presented a general view of the system and what functions the system is supposed to execute, this document aims to present the implementation of the system including components, run-time processes and deployment. It also presents in more details the implementation and integration plan, as well as the testing plan.\\\\
 More precisely, the document presents:
 \begin{itemize}
 		\item{}Overview of the high level architecture
 		\item{}The main components and their interfaces provided one for another
-		\item{}The Runtime behaviour
+		\item{}The runtime behaviour
 		\item{}The design patterns
-		\item{}The algorithm design of the most critical parts of the application
 		\item{}Implementation plan
 		\item{}Integration plan
 		\item{}Testing Plan
@@ -157,7 +156,7 @@ The purpose of this document is to provide an overall guidance to the architectu
 	
 	\textbf{Data4Help} is a system capable to store the physical health data of any individual using any TrackMe wearable device. All the stored data will be available to any third party company, after request and approval of its use is sent to the TrackMe wearable device user, who will be able to accept or reject the request, under no condition. Also, third party companies will be able to request data of a group of users, and Data4Help will provide that information under the solely condition of be able to anonymize it.\\
 	
-	In addition, \textbf{AutomatedSOS} is a system that will be built on top of Data4Help, and will send requests to every elderly individual and responds back, if accepted, it adds to ASOS database in order to access its physical health parameters. ASOS is able to respond only if a city is available for health-care service in that city, before creating a request to that user. Apparently, ASOS automatically assigns emergency contact according to the city of the user. It will monitor the physical health status of all of its users in order to establish their health condition, based on previously defined thresholds. If any of the user's health parameters is under or above its threshold, the system will contact the associated health-care service for that user. AutomatedSOS will do its best effort to contact the health-care service, but under no circumstances will follow-up the status of the health-care response, meaning that it will not know if the health-care service answered the notification or not. \\
+	In addition, \textbf{AutomatedSOS} is a system that will be built on top of Data4Help, and will send requests to every elderly individual and responds back, if accepted, it adds to ASOS database in order to access its physical health parameters. ASOS is able to respond only if a city is available for health-care service in that city, before creating a request to that user. ASOS automatically assigns emergency contact according to the city of the user. It will monitor the physical health status of all of its users in order to establish their health condition based on previously defined thresholds. If any of the user's health parameters is under or above its threshold, the system will contact the associated health-care service for that user. AutomatedSOS will do its best effort to contact the health-care service, but under no circumstances will follow-up the status of the health-care response, meaning that it will not know if the health-care service answered the notification or not. \\
 	
 	Finally, \textbf{Track4Run}, also a system built on top of Data4Help, will send requests to every user in order to access their location and let them participate in a defined running circuit. Track4Run organizer users, will be able to setup a race, define its running circuit and send invitations to all the TrackMe wearable device users. Also, the race spectators will be able to follow the participants' location using the Track4Run web site. The location of every participant will only be available during the race.
 	
@@ -217,7 +216,7 @@ algorithms designed to deal with them. All of the algorithms are written in pseu
 	\chapter{Architectural design}
 	
 	\section{Overview}
-	Application architecture design is a process which has to be executed in a defined flow. High-level components and their interaction is displayed as follows:
+	Application architecture design is a process which has to be executed in a defined flow. High-level components and their interaction is displayed in Figure \ref{fig:High-level architecture Diagram}.
 	\begin{figure}[H]
 				\centering
 				\includegraphics[width=1\textwidth]{diagrams/architecture.png}
@@ -230,9 +229,9 @@ When the third-party users have subscribed to the bulk data subscription, they d
 
 	\section{Component view}
 		\subsection{Data4Help component diagram}
-		In the Figure \ref{fig:d4h_component_diagram} it can be seen the component diagram of D4H, with all its external interfaces. It can be noticed two main components: \textbf{DataBase} and \textbf{D4HBackend}, where the former one refers to the TrackMe database, and which provides an interface used by the \textbf{DBManager} component. \\\\
+		In the Figure \ref{fig:d4h_component_diagram} it can be seen the component diagram of D4H, with all its external interfaces. It can be noticed two main components: \textbf{DataBase} and \textbf{D4HBackend}, where the former one refers to the Data4Help database, and which provides an interface used by the \textbf{DBManager} component. \\\\
 		On the other hand, \textbf{D4HBackend} component, contains all the components related to D4H, which are needed to provide the interfaces used by the third parties and the web site. The following interfaces are used by the web site: \textbf{SignupWeb}, \textbf{LoginWeb}, \textbf{SearchWeb}, \textbf{RequestWeb} and  \textbf{SubscriptionWeb}, while the \textbf{RequestAPI} interface is used by the third parties. In this case, D4H provides the interface in order to let the third parties send requests for accessing the health status and location of the individuals to them.\\\\
-		Furthermore, \textbf{AuthenticatorService} component has the responsibility of validate the different credentials, and to provide the secret codes to the third parties, to do so, it interacts with the \textbf{TokenDB} component using the \textbf{TokenConnector}\\\\
+		Furthermore, \textbf{AuthenticatorManager} component has the responsibility of validate the different credentials, and to provide the secret codes to the third parties, to do so, it interacts with the \textbf{TokenDB} component using the \textbf{TokenConnector}.\\\\
 		Finally, it can be seen the different third parties related to D4H. It worth mentioning \textbf{Track4Run} and \textbf{AutomatedSOS} components which, even though they are part of the TrackMe environment, they are treated as third parties in the sense they are completely decoupled of D4H. Moreover, all third parties must provide an interface to D4H in order to let it communicate the incoming changes of the subscriptions.
 		
 			\begin{sidewaysfigure}
@@ -244,9 +243,9 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\clearpage
 			
 		\subsection{Track4Run component diagram}	
-			In the Figure \ref{fig:t4r_component_diagram} it can be seen the T4R components. Unlike the D4H component diagram, here the \textit{DataBase} component is part of the \textit{T4RBackend} component, this is so because T4R owns it in the sense that it has full responsibility on it. Besides this detail, the database provides a connector in order to let the \textbf{DBManager} component communicate to it.\\\\
+			In the Figure \ref{fig:t4r_component_diagram} it can be seen the T4R components. As in the D4H component diagram, the \textit{DataBase} component provides an interface in order to let the \textbf{DBManager} component communicate to it.\\\\
 			The main structure of the system is similar to the structure seen in D4H component diagram. The web site communicates with the back-end using the following interfaces: \textbf{LoginWeb}, \textbf{SignupWeb}, \textbf{UserWeb} and \textbf{NotificationWeb}. On the other hand, T4R provides the \textbf{DataAPI} interface, which is responsibly of receiving all the data of the participants, and uses the \textbf{RequestAPI} interface, in order to send the requests for accessing the individuals' location and health status.\\\\
-			Finally, as in D4H, the \textbf{AuthenticatorService} component is responsible of validate the users' credentials.
+			Finally, as in D4H, the \textbf{AuthenticatorManager} component is responsible of validate the users' credentials.
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=1\textwidth]{diagrams/t4r_component_diagram.png}
@@ -255,7 +254,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\end{figure}	
 			
 			\subsection{AutomatedSOS component diagram}	
-			In the Figure \ref{fig:asos_component_diagram} it can be seen the ASOS components. It can be noticed that the system has a similar structure of T4R: the \textbf{ASOSBackend} component owns the \textbf{DataBase} component, and provides a \textbf{DataAPI} interface to receive the updated information of the individuals.\\\\
+			In the Figure \ref{fig:asos_component_diagram} it can be seen the ASOS components. It can be noticed that the system has a similar structure of T4R: the \textbf{ASOSBackend} component communicates  with \textbf{DataBase} component through the \textbf{DBConnector} interface, and provides a \textbf{DataAPI} interface to receive the updated information of the individuals.\\\\
 			On the other hand, \textbf{ASOSBackend} component sends notifications to the different \textbf{Health Care Service} components using the provided \textbf{Alarm Interface}.
 			\begin{figure}[H]
 				\centering
@@ -266,6 +265,34 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			
 			
 	\section{Deployment view}
+	In the current chapter the deployment diagrams of D4H, T4R and ASOS are shown. All diagrams follow the same structure and design: yellow nodes represent external nodes that interact with the system, green nodes represent hardware devices (i.e. web server, database server, etc.), pale orange nodes represent execution environments such as JVM, and blue boxes represent high level components. Finally, the protocols used to communicate between different nodes displayed as red links.
+	\subsection{Data4Help deployment diagram}
+	In the Figure \ref{fig:d4h_deployment_diagram} can be seen the deployment diagram of D4H. As can be seen, the \textbf{Web Server} node, is a device which contains the execution environment that holds the \textbf{D4H Backend} component. The \textbf{Web Server} node, is related to two different devices: a \textbf{MongoDB Server} which is the environment of the \textbf{TrackMe DB}, and a \textbf{Redis Server} which is the environment of the \textbf{TokenDB}.\\\\
+	Moreover, the \textbf{Web Server} is related to three third parties: two of them are \textbf{Track4Run} execution environment, and \textbf{AutomatedSOS} execution environment. The third third party is a \textbf{Generic Third Party Backend} node that is external to the TrackMe environment.\\\\
+	Finally, the deployment diagram does not show the interaction between the web-users (individuals or third parties) with the system. This interaction is inherent to a web site, and it happens between the client and the \textbf{D4H Web page} component.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{diagrams/d4h_deployment_diagram.png}
+			\caption[Data4Help Deployment Diagram]{Data4Help Deployment Diagram}
+			\label{fig:d4h_deployment_diagram}
+		\end{figure}	
+	\subsection{Track4Run deployment diagram}
+	In the Figure \ref{fig:t4r_deployment_diagram} the T4R deployment diagram is shown. It can be seen the interaction between \textbf{Data4Help} execution environment and the \textbf{Web Server} node. This interaction happens thanks to the different interfaces provided by D4H and T4R. \\\\
+	Furthermore, the \textbf{Web Server} node interacts with the \textbf{MongoDB Server} node using the TCP/IP protocol, and it works thanks to the \textbf{DBConnector} interface provided by the \textbf{T4R Database} component.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{diagrams/t4r_deployment_diagram.png}
+			\caption[Track4Run Deployment Diagram]{Track4Run Deployment Diagram}
+			\label{fig:t4r_deployment_diagram}
+		\end{figure}	
+	\subsection{AutomatedSOS deployment diagram}
+	In the Figure \ref{fig:asos_deployment_diagram} the ASOS deployment diagram is shown. Since ASOS does not have a web site, the main node is an \textbf{Application Server} that hosts the execution environment for the \textbf{ASOS Backend} component. The \textbf{Application Server} interacts with a \textbf{MongoDB Server} node, using the TCP/IP protocol. Moreover, it interacts with an external node which represent the different \textbf{Health Care Service}s, and with the execution environment of \textbf{Data4Help}.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{diagrams/asos_deployment_diagram.png}
+			\caption[AutomatedSOS Deployment Diagram]{AutomatedSOS Deployment Diagram}
+			\label{fig:asos_deployment_diagram}
+		\end{figure}	
 	
 	\section{Runtime view}
 	You can use sequence diagrams to describe the way components
@@ -278,8 +305,9 @@ used, why, and how
 	\section{Other design decisions}
 	
 	\chapter{User interface design}
-	The following mock-ups represent a basic idea of what the web application will look like after the first release:
-	
+	The following mock-ups represent a basic idea of what the web application will look like after the first release.
+	As when new customers visits the home page of TrackMe, they can read about the work that the company does, what services it offers, what benefits users can achieve by joining the community. In addition, they can buy the wearables and get more information, how to use them, what is TrackMe, more details about D4H, ASOS and T4R is provided here. The full home page can be seen in Figure \ref{fig:Home_Page}. \\\\
+	Moreover, in the Figure \ref{fig:Data4Help Information Page} and Figure \ref{fig:ASOS Information Page} can be seen the information page for D4H and ASOS respectively.
 	
 	\begin{figure}[H]
 		\centering
@@ -291,7 +319,6 @@ used, why, and how
 		\label{fig:Home_Page}
 	\end{figure}
 	
-	As when new customers visits the home page of TrackMe, they can read about the work that our company does, what services we offer, what benefits users can achieve by joining the community. In addition, they can buy the wearables and get more information, how to use them, what is TrackMe, more details about Data4Help, ASOS and Track4Run is provided here.\\
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.4]{UI/d4h.png}
@@ -309,7 +336,7 @@ used, why, and how
 		\label{fig:ASOS Information Page}
 	\end{figure}
 	
-	Next, comes the web page through which users can Login into the system (if already registered):
+	In the Figure \ref{fig:Login}, can be seen the web page through which users can Login into the system (if already registered).
 	
 	\begin{figure}[H]
 		\centering
@@ -320,7 +347,7 @@ used, why, and how
 		\label{fig:Login}
 	\end{figure}
 	
-	 And if not already registered into the system, they can register themselves through the Register web-page. There are separate register forms for the Individual users and for third party users visible below:
+	 And if not already registered into the system, they can register themselves through the Register web-page (Figure \ref{fig:Registration}). There are separate register forms for the Individual users and for Third Party users.
 	 \begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.35]{UI/register1.png}
