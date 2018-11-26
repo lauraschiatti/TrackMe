@@ -19,6 +19,10 @@ public class TrackMeException extends RuntimeException {
         this.error = error;
     }
 
+    public Integer getStatusCode(){
+        return error.getStatus();
+    }
+
     public Integer getCode(){
         return error.getCode();
     }

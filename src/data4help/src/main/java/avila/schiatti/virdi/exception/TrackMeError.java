@@ -27,13 +27,13 @@ public enum TrackMeError {
         return message;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    // TODO - return a valid HTTP status based on the code of the Error
+    // Http Status code
     public Integer getStatus(){
-        return HttpStatus.OK_200;
+        return ( this.getCode()/100 );
     }
 
     @Override

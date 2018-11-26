@@ -2,6 +2,8 @@ package avila.schiatti.virdi;
 
 import avila.schiatti.virdi.configuration.StaticConfiguration;
 import avila.schiatti.virdi.exception.TrackMeException;
+import avila.schiatti.virdi.exception.ValidationError;
+import avila.schiatti.virdi.exception.ValidationException;
 import avila.schiatti.virdi.service.LoginService;
 import avila.schiatti.virdi.service.RouteConfig;
 import avila.schiatti.virdi.service.SignupService;
@@ -9,11 +11,13 @@ import avila.schiatti.virdi.service.authentication.AuthenticationManager;
 import avila.schiatti.virdi.service.response.ErrorResponse;
 import avila.schiatti.virdi.utils.JsonUtil;
 import avila.schiatti.virdi.utils.SparkUtils;
+import org.eclipse.jetty.http.HttpStatus;
 
 import static spark.Spark.*;
 
 public class Main {
     private final static String STATUS_URL = "/status";
+    private static final String APPLICATION_JSON = "application/json";
 
     private static final AuthenticationManager authenticationManager = AuthenticationManager.getInstance();
     private static final StaticConfiguration config = StaticConfiguration.getInstance();
@@ -34,6 +38,7 @@ public class Main {
     }
 
     private static void configureRoutes() {
+        // register the Services that will expose their routes.
         routes.register(LoginService.getInstance())
                 .register(SignupService.getInstance());
     }
@@ -43,39 +48,43 @@ public class Main {
     }
 
     private static void setGlobalExceptionHandlers() {
+        // if an internal server error happens, this will catch it.
         internalServerError((req, res) -> {
-            res.type("application/json");
+            res.type(APPLICATION_JSON);
             return "{\"message\":\"Internal server error\"}";
         });
     }
 
     private static void setRoutes() {
+        // set configured api and web endpoints for all registered services
         routes.setApiEndpoints();
         routes.setWebEndpoints();
     }
 
     private static void setExceptionHandlers() {
+        // catch all the TrackMeExceptions and halt with an error code
         exception(TrackMeException.class, (e, req, res) -> {
-            res.type("application/json");
-            res.body(JsonUtil.toJson(new ErrorResponse(e)));
+            res.type(APPLICATION_JSON);
+            halt(e.getStatusCode(), e.toJsonString());
+        });
+
+        // to catch any case in which the validation exception is not captured before.
+        exception(ValidationException.class, (e, req, res) -> {
+            res.type(APPLICATION_JSON);
+            halt(HttpStatus.BAD_REQUEST_400, "{\"message\": \""+e.getMessage()+"\"}");
         });
     }
 
     private static void setAuthHandlers() {
-        // TODO login should not pass through this method
         // everything done from the front-end should pass through WEB endpoint
         before("/web/*", (req, res) -> {
             String path = req.pathInfo();
             String accessToken = req.headers("ACCESS-TOKEN");
             String userId = req.headers("USER_ID");
 
-            try {
-                if(path.contains("login") == Boolean.FALSE && path.contains("signup") == Boolean.FALSE) {
-                    authenticationManager.validateAndUpdateAccessToken(userId, accessToken);
-                }
-
-            } catch (TrackMeException ex) {
-                halt(ex.getCode(), ex.toJsonString());
+            // TODO: improve this if.
+            if(path.contains("login") == Boolean.FALSE && path.contains("signup") == Boolean.FALSE) {
+                authenticationManager.validateAndUpdateAccessToken(userId, accessToken);
             }
         });
 
@@ -85,11 +94,7 @@ public class Main {
             // APP ID can be sent via query parameters or headers
             String appId = req.queryParams("app_id") != null ? req.queryParams("app_id") : req.headers("APP_ID");
 
-            try {
-                authenticationManager.validateSecretKey(appId, secretKey);
-            } catch (TrackMeException ex) {
-                halt(ex.getCode(), ex.toJsonString());
-            }
+            authenticationManager.validateSecretKey(appId, secretKey);
         });
     }
 }
