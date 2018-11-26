@@ -4,10 +4,8 @@ import avila.schiatti.virdi.model.data.Gender;
 import avila.schiatti.virdi.model.data.Address;
 import avila.schiatti.virdi.model.data.BloodType;
 import avila.schiatti.virdi.model.data.Data;
-import org.bson.types.ObjectId;
 import xyz.morphia.annotations.Embedded;
 import xyz.morphia.annotations.Entity;
-import xyz.morphia.annotations.Id;
 import xyz.morphia.annotations.Reference;
 
 import java.util.Date;
@@ -24,7 +22,8 @@ public class Individual extends D4HUser {
     @Embedded
     private BloodType bloodType;
     @Reference(idOnly = true)
-    private Data healthStatus;
+    @Embedded
+    private Data data;
 
     public String getName() {
         return name;
@@ -74,12 +73,12 @@ public class Individual extends D4HUser {
         this.bloodType = bloodType;
     }
 
-    public Data getHealthStatus() {
-        return healthStatus;
+    public Data getData() {
+        return data;
     }
 
-    public void setHealthStatus(Data healthStatus) {
-        this.healthStatus = healthStatus;
+    public void setData(Data data) {
+        this.data = data;
     }
 
     public Boolean hasSsn(){

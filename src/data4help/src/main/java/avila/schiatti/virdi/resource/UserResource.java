@@ -2,6 +2,7 @@ package avila.schiatti.virdi.resource;
 
 import avila.schiatti.virdi.model.user.D4HUser;
 import org.bson.types.ObjectId;
+import xyz.morphia.Key;
 
 import java.util.Collection;
 
@@ -47,7 +48,7 @@ public class UserResource extends Resource<D4HUser> {
 
     @Override
     public void add(D4HUser o) {
-
+        this.getDatastore().save(o);
     }
 
     @Override

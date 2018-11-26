@@ -13,6 +13,12 @@ public class TrackMeException extends RuntimeException {
         this.error = error;
     }
 
+    public TrackMeException(TrackMeError error, String message) {
+        super(message);
+
+        this.error = error;
+    }
+
     public Integer getCode(){
         return error.getCode();
     }

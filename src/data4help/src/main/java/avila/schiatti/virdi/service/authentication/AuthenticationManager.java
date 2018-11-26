@@ -41,7 +41,7 @@ public class AuthenticationManager {
     @NotNull
     private String createAccessToken(String id){
         String stringToEncrypt = SECRET_PREFIX.concat(id).concat((new Date()).toString());
-        return new String(DigestUtils.sha512(stringToEncrypt));
+        return DigestUtils.sha512Hex(stringToEncrypt);
     }
 
     public void validateAndUpdateAccessToken(String userId, String accessToken) throws TrackMeException {

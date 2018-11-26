@@ -7,7 +7,6 @@ import avila.schiatti.virdi.service.request.LoginRequest;
 import avila.schiatti.virdi.service.request.LogoutRequest;
 import avila.schiatti.virdi.resource.UserResource;
 import avila.schiatti.virdi.service.response.LoginResponse;
-import avila.schiatti.virdi.utils.JsonUtil;
 import avila.schiatti.virdi.service.authentication.*;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
@@ -15,7 +14,7 @@ import spark.Response;
 
 import static spark.Spark.*;
 
-public class LoginService implements Service {
+public class LoginService extends Service {
     private static LoginService _instance = null;
     private UserResource userResource;
     private AuthenticationManager authManager;
@@ -38,7 +37,7 @@ public class LoginService implements Service {
     }
 
     private LoginResponse login(Request request, Response response){
-        LoginRequest body = JsonUtil.fromJson(request.body(), LoginRequest.class);
+        LoginRequest body = jsonTransformer.fromJson(request.body(), LoginRequest.class);
         D4HUser user = this.validateCredentials(body.getEmail(), body.getPassword());
 
         if(user != null){
@@ -50,7 +49,7 @@ public class LoginService implements Service {
     }
 
     private Void logout(Request request, Response response) {
-        LogoutRequest body = JsonUtil.fromJson(request.body(), LogoutRequest.class);
+        LogoutRequest body = jsonTransformer.fromJson(request.body(), LogoutRequest.class);
 
         authManager.deleteAccessToken(body.getAccessToken());
 
@@ -60,7 +59,7 @@ public class LoginService implements Service {
 
     @Override
     public void setupWebEndpoints() {
-        post("/login", this::login, JsonUtil::toJson);
+        post("/login", this::login, jsonTransformer::toJson);
 
         post("/logout", this::logout);
     }

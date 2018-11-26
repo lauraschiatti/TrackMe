@@ -4,6 +4,7 @@ import avila.schiatti.virdi.configuration.StaticConfiguration;
 import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.service.LoginService;
 import avila.schiatti.virdi.service.RouteConfig;
+import avila.schiatti.virdi.service.SignupService;
 import avila.schiatti.virdi.service.authentication.AuthenticationManager;
 import avila.schiatti.virdi.service.response.ErrorResponse;
 import avila.schiatti.virdi.utils.JsonUtil;
@@ -33,7 +34,8 @@ public class Main {
     }
 
     private static void configureRoutes() {
-        routes.register(LoginService.getInstance());
+        routes.register(LoginService.getInstance())
+                .register(SignupService.getInstance());
     }
 
     private static void setSpecialRoutes() {
@@ -68,7 +70,7 @@ public class Main {
             String userId = req.headers("USER_ID");
 
             try {
-                if(path.contains("login") == Boolean.FALSE) {
+                if(path.contains("login") == Boolean.FALSE && path.contains("signup") == Boolean.FALSE) {
                     authenticationManager.validateAndUpdateAccessToken(userId, accessToken);
                 }
 
