@@ -1,16 +1,17 @@
 package avila.schiatti.virdi.model.user;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.bson.types.ObjectId;
 import xyz.morphia.annotations.Embedded;
 import xyz.morphia.annotations.Entity;
-import xyz.morphia.annotations.Id;
 
 @Entity("user")
 public class ThirdParty extends D4HUser {
     private String certificate;
     private String name;
     private String phone;
+    private String code;
+    private String taxCode;
+    private String secretKey;
+    private String appId;
     @Embedded
     private TPConfiguration config;
 
@@ -44,5 +45,37 @@ public class ThirdParty extends D4HUser {
 
     public void setConfig(TPConfiguration config) {
         this.config = config;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getTaxCode() {
+        return taxCode;
+    }
+
+    public void setTaxCode(String taxCode) {
+        this.taxCode = taxCode;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 }

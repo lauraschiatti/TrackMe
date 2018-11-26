@@ -5,6 +5,7 @@ import avila.schiatti.virdi.exception.TrackMeError;
 import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.model.user.D4HUser;
 import avila.schiatti.virdi.model.user.ThirdParty;
+import avila.schiatti.virdi.utils.Validator;
 import io.lettuce.core.*;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
@@ -45,18 +46,25 @@ public class AuthenticationManager {
     }
 
     public void validateAndUpdateAccessToken(String userId, String accessToken) throws TrackMeException {
-        if(accessToken == null){
+        // validate access token
+        this.validateAccessToken(userId, accessToken);
+        // update access token TTL
+        this.updateAccessToken(accessToken);
+    }
+
+    public void validateAccessToken(String userId, String accessToken) throws TrackMeException {
+        if(Validator.isNullOrEmpty(accessToken)){
             throw new TrackMeException(TrackMeError.NULL_TOKEN);
         }
 
-        if(userId == null){
+        if(Validator.isNullOrEmpty(userId)){
             throw new TrackMeException(TrackMeError.NOT_VALID_USER);
         }
 
         String storedUserId = commands.get(accessToken);
 
         // the token does not exist in the Redis DB
-        if (storedUserId == null){
+        if (Validator.isNullOrEmpty(storedUserId)){
             throw new TrackMeException(TrackMeError.NOT_VALID_TOKEN);
         }
 
@@ -64,8 +72,6 @@ public class AuthenticationManager {
         if(userId.equals(storedUserId) == Boolean.FALSE){
             throw new TrackMeException(TrackMeError.NOT_VALID_SESSION);
         }
-
-        this.updateAccessToken(accessToken);
     }
 
     private void updateAccessToken(@NotNull String accessToken) {
@@ -74,14 +80,14 @@ public class AuthenticationManager {
     }
 
     public void validateSecretKey(String appId, String secretKey) throws TrackMeException {
-        if(secretKey == null){
+        if(Validator.isNullOrEmpty(secretKey)){
             throw new TrackMeException(TrackMeError.NOT_VALID_SECRET_KEY);
         }
 
         // we save the token as a key and the thirdPartyId as value, if we find the token => thirdPartyId, the token is valid
         String thirdPartyAppId = commands.get(secretKey);
 
-        if (thirdPartyAppId == null || thirdPartyAppId.equals(appId) == Boolean.FALSE){
+        if (Validator.isNullOrEmpty(thirdPartyAppId) || thirdPartyAppId.equals(appId) == Boolean.FALSE){
             throw new TrackMeException(TrackMeError.NOT_VALID_SECRET_KEY);
         }
     }
@@ -96,11 +102,15 @@ public class AuthenticationManager {
         return new UserWebAuth(userId, accessToken);
     }
 
-    public ThirdPartyApiAuth setThirdPartySecretKey(@NotNull ThirdParty thirdParty){
-        String tpId = thirdParty.getId().toString();
-        String appId = DigestUtils.md5Hex(tpId);
+    /**
+     * Creates a secret key and an app_id, used by third parties calls, using a String as a seed
+     * @param seed Seed string used to generate the APP_ID and SECRET_KEY
+     * @return ThirdPartyApiAuth object
+     */
+    public ThirdPartyApiAuth setThirdPartySecretKey(@NotNull String seed){
+        String appId = DigestUtils.md5Hex(seed);
 
-        String secretKey = this.createAccessToken(tpId);
+        String secretKey = this.createAccessToken(seed);
 
         // third parties secret key has not TTL
         commands.set(secretKey, appId);
@@ -110,7 +120,6 @@ public class AuthenticationManager {
 
     public void deleteAccessToken(String accessToken) {
         commands.del(accessToken);
-        throw new TrackMeException(TrackMeError.NOT_VALID_USER);
     }
 
     public String hashPassword(String password){

@@ -39,7 +39,7 @@ public class Main {
     }
 
     private static void setSpecialRoutes() {
-        get(STATUS_URL, (req, res) -> "OK");
+        head(STATUS_URL, (req, res) -> "");
     }
 
     private static void setGlobalExceptionHandlers() {
