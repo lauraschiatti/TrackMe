@@ -207,8 +207,7 @@ and it also contains the most relevant architecture views: component view, class
 
 		\item Chapter 3  refers to the mock-ups already presented in the RASD document.
 		\item Chapter 4 explains how the requirements that have been defined in the RASD map to the design elements that are defined in this document.
-		\item Chapter 5 presents the algorithm design. It includes the most critical parts of the application and the
-algorithms designed to deal with them. All of the algorithms are written in pseudo code in order not to make any restriction on the implementation language and stay focused on the most important parts.
+		\item Chapter 5 presents the implementation, integration and test plan. It includes the how the different components of the application are integrated with each other, how they react, the testing strategy taken into account and analyse the risks in the application.
 		\item Chapter 6 shows the effort spent by each group member while working on this project.
 		\item Chapter 7 includes the reference documents.
 	\end{itemize}
@@ -363,7 +362,109 @@ used, why, and how
 	Explain how the requirements you have defined in the RASD map to the design elements that you have defined in this document.
 	
 	\chapter{Implementation, integration and test plan}
-	Identify here the order in which you plan to implement the subcomponents of your system and the order in which you plan to integrate such subcomponents and test the integration.
+	\section{Requirements of implementation and testing}
+In order to start implementation process of the project, RASD and DD must be finished and available for all the teams of the project, so they will be informed about requirements and adopted design choices. A good analysis of each document is also required to be sure that implemented system will be secure and reliable.\\
+
+\textbf{Development Tools} The Java programming language will be used to develop our system because it suits very well for communication among different platforms and devices. In addition, Java Enterprise Edition will be used to deploy our business functionalities and to build a reliable and powerful web tier to let users communicate with main server using a standard web browser or a Java application. Java Enterprise Edition offers also an enhanced version of JMS services useful for communication between client and server. Spark Framework will be used as it is built for productivity. Spark Framework is a simple and expressive Java/Kotlin web framework DSL built for rapid development. \\
+
+\textbf{Testing Tools} In order to achieve all the testing purposes we will use different testing tools:
+\begin{itemize}
+\item{} For unit testing of each component we will use \textit{JUnit} framework. It’s a good framework offered by Oracle itself so it’s well test and supported. It can test each functionality of component into an isolated environment. It can be used also to test some little interaction between components.
+\item{} \textit{Arquillian} tools will be used during integration testing: it offers different features that tests very well Java Enterprise components and containers. It also provides features for debugging servers functionalities.
+\item{} \textit{Grinder} software will be used to make load tests onWeb Server.
+\item{} \textit{HammerDB} will be used to test functionalities and performance of Database server.
+\end{itemize}
+
+
+\section{Implementation Strategy}
+Implementation process will follow the bottom-up strategy: we plan to implement first single component isolated. Once at least 60\% of a component will be developed, its unit testing phase can start.\\
+Using \textit{Drivers} for tests allows different developer teams to complete its own work. Using this method we can be sure that component will be more reliable, so it will be more easy to reuse them into different part of the system.\\
+
+The implementation of the \textit{TrackMe} system will be done module by module and component by component. The order in which it is carried out depends on a number of factors like the complexity of the modules and services, the dependence of other modules on the component being implemented and to the system as a whole, and it should also take into account the possibility of discovering flaws with the proposed design. The later should be dealt in a way that, if such an unfortunate event does	happen, the flaws should be found and corrected as soon as possible, to limit the cost of the change of design. Identify here the order in which system plan to implement the subcomponents of your system and the order in which system plan to integrate such subcomponents and test the integration.\\
+
+\subsection{Implementation order}
+Due to modularity of system components and to the adopted strategy there are no constraints on implementation order of components. But due to some critical aspects of a few components we want to prioritize implementation of those components.
+The most critical components of the system that could take more than others to be implemented may be:
+
+\begin{itemize}
+\item{} Data4HelpWebService, Track4RunWebService
+\item{} LoginService and SignupService
+\item{} SearchManager, AuthenticationManager, DBManager, DataHandler
+\item{} RequestService, SubscriptionService, NotificationService
+\item{} HealthCareService, HealthCareConnector, AutomatedSOSDB
+\item{} UserService, TokenDB, Track4RunDB
+\end{itemize}
+(note that by specifying the names of interfaces of components, we are also considering the concrete implementations, in whichever number they exist)\\
+
+The Data4HelpWebService is proposed to be the first component that is implemented because all parts of the application server will be using some element of it and its role in allowing some service to communicate with the DBMS in the DBManager component is crucial to the whole application. The component releasing process should follow the integration order that will be described into the next section.
+
+\section{Integration and Testing}
+\subsection{Entry criteria} 
+The integration of components and its testing should start as soon as possible, but before they can commence, some conditions must be met. First of all, the external services and their APIs that are going to be used in the application should be available and ready. This applies to the already mentioned services, to the DBMS and the server on which it will be running on. \\
+
+Next, the modules which are being integrated should have at least the operations concerning one another created, if not completed completely. The operations that have been developed should pass the unit tests in order to be sure that the components are working fine on their own and that if an integration test fails, the problem lies in the in the integration itself.\\
+
+\subsection{Integration test strategy}  
+The main goal of integration process is to avoid as much
+errors as possible at each step of the process, so the system will incrementally integrate components as soon as they are completely developed and released.\\
+
+\textit{Bottom-up} design will be adopted for most of the integration process: at the beginning only components that have less bindings to other components or which can work without other component will be integrated. In this way we can obtain feedbacks
+about system functionalities as soon as components are released and in addition we can parallelize integration of different subsections of the system.\\
+
+For the most critical components or for more complex system parts we will use instead \textit{Critical Modules strategy}: components that fit very well for \textit{Critical Modules} strategy are those in Data4Help subsystem, because the AutomatedSOS and Track4Run will use the Data4Help system and are the most frequent interaction performed into our system. For this reason \textit{Bottom-Up} strategy will be applied only once Data4Help subsystem will be fully integrated using \textit{Critical Modules}.
+
+\subsection{Integration order}
+In this section, the list and order of every integration that is performed is shown. As already stated, the integration will be performed from the bottom-up. \\
+
+It should be noted that there will be no explicit integration of the Data4HelpWebService, Track4RunWebService with any of the other components. This is because the nature of the component, the extent of the usage and dependency of other components on it and the implementation plan, that clearly states that the Data4HelpWebService will be the first part that is implemented, mean that the integration itself is already being done during the implementation phase of the depending components and its correctness will inherently be tested by the unit tests of each component.
+\begin{enumerate}
+\item{} As written in the introduction, at the beginning we will integrate the \textit{Data4Help} subsystem, composed by these components:
+\begin{itemize}
+\item{} Data4HelpWebSite
+\item{} LoginService and SignupService
+\item{} RequestService and NotificationService
+\item{} SubscriptionService
+\end{itemize}
+
+Integration tests will check cases like addition of new user to database, accessing the system with correct credentials, the consistency of making request, the reachability of all notifications to accept/reject request in the dashboard, the modification of subscription chosen by the user (if he wants any) and the remove of an existing appointment and break of a Plan.
+
+\item{} Then we could start to implement part of the \textit{AutomatedSOS} subsystem:
+\begin{itemize}
+\item{} HealthCareService (alarm interface), \textit{External component}
+\item{} HealthCareConnector 
+\item{} AutomatedSOSDB
+\item{} ThresholdCollection, UserCollection, HealthCareCollection
+\end{itemize}
+This integration step will check the communication of the Data4Help system with external sources HealthCareService when the vital signs are out of the normal range or the ThresholdCollection.
+
+\item{} Then we could start to implement part of the \textit{Track4Run} subsystem:
+\begin{itemize}
+\item{} Track4RunWebService
+\item{} Track4RunDB 
+\item{} RunCollection
+\item{} TokenService, OrganizerCollection and ParticipantCollection
+\end{itemize}
+This integration step will check the communication of the Data4Help system with Track4RunWebService and when RunCollection is modified, check the integration with the existing requestService and notificationService of Data4HelpWebService.
+
+\item{} After that, other components can be joined together into small subsystems to test their interactions:
+\begin{itemize}
+\item{} \textit{AuthenticationHandler} and \textit{LoginService} : their interactions must not brake the consistency of Account information and they have to check only authorized users can access information
+\item{} \textit{SearchManager, RequestService} and \textit{SubscriptionService} : system will check consistency between search into a request and subscription of the same user
+\item{} \textit{DataHandler, DBManager} and \textit{HealthCareConnector} : system will continuously check latest data and verify with the ThresholdCollection, if varies, notifies HealthCareService through HealthCareConnector of the same user
+\item{} \textit{RunCollection} and \textit{ParticipantCollection} : system will check consistency between run created and allows users participated in the same run
+\end{itemize}
+
+\item{} After that we can start to integrate user interactions:
+\begin{itemize}
+\item{} \textit{UserInterface} and \textit{RequestService} : tests sending request for specific or anonymized search through different user interfaces
+\item{} \textit{UserInterface} and \textit{NotificationService} : tests will check asynchronous communication between user and server for the dispatch of event messages
+\item{} \textit{UserInterface} and \textit{RunCollection} : tests will check asynchronous communication between user and runs available for the live view on the map of participants
+\item{} \textit{UserInterface} and \textit{HealthCareService} External Resource : will tests the communication
+with external services of User Interface and Health-Care Service
+and the synchronization of Data with threshold values when user's data is out of range, notifies using external alarm interfaces
+\end{itemize}
+\end{enumerate}
+
 	
 	\chapter{Effort spent}
 	\begin{table}[h]
@@ -374,15 +475,12 @@ used, why, and how
 			\hline
 			\textbf{Task} & \textbf{Hours} \\ [0.5ex]
 			\hline
-			Understanding the problem & 3  \\
-			Brainstorming & 2 \\
-			World and shared phenomena & 2 \\
-			Definitions, acronyms, abbreviations & 1  \\
-			Software system attributes & 2 \\
-			Alloy coding & 7 \\
+			Planning Architecture & 3  \\
+			Choosing Pattern & 2 \\
+			Algorithm Decisions & 8 \\
 			Checking document  & 4  \\
 			\hline
-			\textbf{Total} & 20  \\
+			\textbf{Total} & 17  \\
 			\hline
 		\end{tabular}
 		\caption{Time spent by all team members}
