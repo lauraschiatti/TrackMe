@@ -22,6 +22,7 @@ ADD configuration /code/configuration
 # Compile front-end
 WORKDIR /code/src/main/resources
 RUN npm install -g @angular/cli
+RUN npm install
 RUN ng build
 
 # Package the code
