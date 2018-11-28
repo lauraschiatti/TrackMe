@@ -231,7 +231,50 @@ When the third-party users have subscribed to the bulk data subscription, they d
 		In the Figure \ref{fig:d4h_component_diagram} it can be seen the component diagram of D4H, with all its external interfaces. It can be noticed two main components: \textbf{DataBase} and \textbf{D4HBackend}, where the former one refers to the Data4Help database, and which provides an interface used by the \textbf{DBManager} component. \\\\
 		On the other hand, \textbf{D4HBackend} component, contains all the components related to D4H, which are needed to provide the interfaces used by the third parties and the web site. The following interfaces are used by the web site: \textbf{SignupWeb}, \textbf{LoginWeb}, \textbf{SearchWeb}, \textbf{RequestWeb} and  \textbf{SubscriptionWeb}, while the \textbf{RequestAPI} interface is used by the third parties. In this case, D4H provides the interface in order to let the third parties send requests for accessing the health status and location of the individuals to them.\\\\
 		Furthermore, \textbf{AuthenticatorManager} component has the responsibility of validate the different credentials, and to provide the secret codes to the third parties, to do so, it interacts with the \textbf{TokenDB} component using the \textbf{TokenConnector}.\\\\
-		Finally, it can be seen the different third parties related to D4H. It worth mentioning \textbf{Track4Run} and \textbf{AutomatedSOS} components which, even though they are part of the TrackMe environment, they are treated as third parties in the sense they are completely decoupled of D4H. Moreover, all third parties must provide an interface to D4H in order to let it communicate the incoming changes of the subscriptions.
+		Finally, it can be seen the different third parties related to D4H. It worth mentioning \textbf{Track4Run} and \textbf{AutomatedSOS} components which, even though they are part of the TrackMe environment, they are treated as third parties in the sense they are completely decoupled of D4H. Moreover, all third parties must provide an interface to D4H in order to let it communicate the incoming changes of the subscriptions.\\\\
+		The interfaces provided by D4H can be categorised in Internal and External. The Internal interfaces are those related to the D4H web-site, while the External interfaces are those related to third party components. In the Table \ref{table:d4h_internal_interfaces} more detail is provided regarding the internal interfaces provided by D4H, and in the Table \ref{table:d4h_external_interfaces} more detail is provided about the external interfaces.\\
+		
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{l l p{0.5\textwidth}}
+			\hline\hline
+			\multicolumn{3}{c}{\textbf{Internal interfaces}} \\
+			\hline
+			\textbf{Method} & \textbf{Path} & \textbf{Description} \\ [0.5ex]
+			\hline
+			POST & \textbackslash{web}\textbackslash{login} & Let the user to login into the web-site \\
+			POST & \textbackslash{web}\textbackslash{logout} & Let the user to logout into the web-site \\
+			POST & \textbackslash{web}\textbackslash{individual}\textbackslash{signup} & Let an Individual create a D4H account \\
+ 			POST & \textbackslash{web}\textbackslash{thirdparty}\textbackslash{signup} & Let a Third Party company to create a D4H account\\
+			GET & \textbackslash{web}\textbackslash{search} & Let the user to search a specific user information or a bulk of anonymised information\\
+			GET & \textbackslash{web}\textbackslash{request} & Let the user to get all requests sent to him\\
+			POST & \textbackslash{web}\textbackslash{request}\textbackslash{:requestId} & Let the user to accept a request\\
+			DELETE & \textbackslash{web}\textbackslash{request}\textbackslash{:requestId} & Let the user to reject a request\\
+			GET & \textbackslash{web}\textbackslash{subscription} & Let the user to get all the saved subscriptions\\
+			POST & \textbackslash{web}\textbackslash{subscription} & Let the user to save a search query\\
+			DELETE & \textbackslash{web}\textbackslash{subscription}\textbackslash{:queryId} & Let the user to remove a subscription\\
+			\hline
+		\end{tabular}
+		\caption{Internal interfaces provided by D4H}
+		\label{table:d4h_internal_interfaces}
+	\end{table}
+	
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{l l p{0.6\textwidth}}
+			\hline\hline
+			\multicolumn{3}{c}{\textbf{External interfaces}} \\
+			\hline
+			\textbf{Method} & \textbf{Path} & \textbf{Description} \\ [0.5ex]
+			\hline
+			POST & \textbackslash{api}\textbackslash{request} & Let the third party send a request for accessing an individual's health data and location\\
+			DELETE & \textbackslash{api}\textbackslash{request}\textbackslash{:requestId} & Let a third party to remove a request sent to an individual\\
+			\hline
+		\end{tabular}
+		\caption{External interfaces provided by D4H}
+		\label{table:d4h_external_interfaces}
+	\end{table}
+		
 		
 			\begin{sidewaysfigure}
     				\centering
