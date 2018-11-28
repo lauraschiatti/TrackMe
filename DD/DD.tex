@@ -135,30 +135,33 @@
 	
 	\chapter{Introduction}
 	\section{Context}
-	\textbf{TrackMe} develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatch is synchronized with an app that gives users access to their data and stats. This document discuss more technical aspects of working of the TrackMe application.
+	\textbf{TrackMe} develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatches are synchronized with an app that gives users access to their data and stats. Also, TrackMe is offering new services to their customers, so as to exploit the data collected from those devices. 
 	
 	\section{Purpose}
-	The purpose of this document is to give more technical details than the RASD about TrackMe application system. While the RASD presented a general view of the system and what functions the system is supposed to execute, this document aims to present the implementation of the system including components, run-time processes and deployment. It also presents in more details the implementation and integration plan, as well as the testing plan.\\\\
-More precisely, the document presents:
+	The requirements elicitation and analysis activities concerning the whole TrackMe system are presented with detail in the RASD (see \textbf{References} section). Then, the purpose of this document is to discuss more technical aspects regarding architectural and design choices that must be made, so as to follow well-oriented implementation and testing processes. \\
+		
+	More precisely, the document presents:
 \begin{itemize}
 		\item{}Overview of the high level architecture
 		\item{}The main components and their interfaces provided one for another
-		\item{}The runtime behaviour
+		\item{}The runtime behavior
 		\item{}The design patterns
-		\item{}Implementation plan
+		\item{} Implementation plan
 		\item{}Integration plan
 		\item{}Testing Plan
-	\end{itemize}
-The purpose of this document is to provide an overall guidance to the architecture of the software product.
+	\end{itemize}.
 		
 	\section{Scope}
-	The TrackMe environment will be composed by three systems, whose scope are defined in this section. \\
+	The TrackMe environment is composed by three systems whose scope can be summarized as follows: \\
 	
-	\textbf{Data4Help} is a system capable to store the physical health data of any individual using any TrackMe wearable device. All the stored data will be available to any third party company, after request and approval of its use is sent to the TrackMe wearable device user, who will be able to accept or reject the request, under no condition. Also, third party companies will be able to request data of a group of users, and Data4Help will provide that information under the solely condition of be able to anonymize it.\\
+	\textbf{D4H} is a system capable to provide third parties the health data collected from individuals that wear TrackMe devices. This is, third parties can request data of a single individual (who can accept or reject it), and also of groups of users. The data is available only  under certain conditions and is being retrieved anonymized.\\
 	
-	In addition, \textbf{AutomatedSOS} is a system that will be built on top of Data4Help, and will send requests to every elderly individual and responds back, if accepted, it adds to ASOS database in order to access its physical health parameters. ASOS is able to respond only if a city is available for health-care service in that city, before creating a request to that user. ASOS automatically assigns emergency contact according to the city of the user. It will monitor the physical health status of all of its users in order to establish their health condition based on previously defined thresholds. If any of the user's health parameters is under or above its threshold, the system will contact the associated health-care service for that user. AutomatedSOS will do its best effort to contact the health-care service, but under no circumstances will follow-up the status of the health-care response, meaning that it will not know if the health-care service answered the notification or not. \\
+	Additionally, \textbf{D4H} sends invitations to individuals older than 60 years that live in certain cities, offering them a personalized 24/7 monitoring service called \textbf{ASOS}. To establish which cities are available, D4H requests them to ASOS those cities in which there is at least one health care service that has a contract with TrackMe. If a user accepts to activate this service, D4H sends his basic information and last measured health status to ASOS. After receiving the data, ASOS stores it and assigns to the user an emergency contact according to his address. \\
+			
+	The system monitors individuals by comparing their health status with previously defined thresholds. If any of the parameters of a user is out of its normal range, a notification will be send to his associated health care service by means of a predefined communication
+interface within the next five seconds. The health care service reaction time cannot be controlled by ASOS since it is out of the scope \\
 	
-	Finally, \textbf{Track4Run}, also a system built on top of Data4Help, will send requests to every user in order to access their location and let them participate in a defined running circuit. Track4Run organizer users, will be able to setup a race, define its running circuit and send invitations to all the TrackMe wearable device users. Also, the race spectators will be able to follow the participants' location using the Track4Run web site. The location of every participant will only be available during the race.
+	Finally, with \textbf{T4R} run organizers are able to setup runs, define their running circuit and send invitations to D4H users of their interest (i.e. according to some criteria), inviting them to participate in upcoming runs. The spectators are able to follow the participants' location using the T4R website. The location of every participant will only be available during the race.
 	
 	\section{Definitions, Acronyms, Abbreviations}
 	\subsection{Definitions}
@@ -169,12 +172,12 @@ The purpose of this document is to provide an overall guidance to the architectu
 	\subsection{Acronyms}
 	\begin{itemize}
 		\item{DD}: Design Document
+		\item{RASD}: Requirement Analysis and Specification Document
 		\item{D4H}: Data4Help
 		\item{ASOS}: AutomatedSOS
 		\item{T4R}: Track4Run
 		\item{GUI}: Graphical User Interface
 		\item{MVC}: Model View Controller is a design pattern used for GUIs
-		\item{RASD}: Requirements Analysis and Specifications Document
 	\end{itemize}
 	
 	\subsection{Abbreviations}
