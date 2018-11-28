@@ -1,8 +1,12 @@
-FROM openjdk:8
+FROM maven:3.6-jdk-8
 
-# Install maven
+# Install nodejs
 RUN apt-get update
-RUN apt-get install -y maven mongodb-server redis-server
+RUN apt-get install -y curl
+
+RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
+RUN apt-get install -y nodejs
+RUN npm --version
 
 WORKDIR /code
 
@@ -13,7 +17,16 @@ RUN ["mvn", "verify"]
 
 # Adding source, compile and package into a fat jar
 ADD src /code/src
+ADD configuration /code/configuration
+
+# Compile front-end
+WORKDIR /code/src/main/resources
+RUN npm install -g @angular/cli
+RUN ng build
+
+# Package the code
+WORKDIR /code
 RUN ["mvn", "package"]
 
 EXPOSE 4567
-CMD ["/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", "target/sparkexample-jar-with-dependencies.jar"]
+CMD ["/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", "target/data4help-jar-with-dependencies.jar"]

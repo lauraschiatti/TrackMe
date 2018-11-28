@@ -1,0 +1,13 @@
+version: '3'
+services:
+  redis:
+    image: "redis:4.0"
+  mongodb:
+    image: "mongo:4.0.4"
+  d4h:
+    build: ./data4help
+    ports:
+    - "4567:4567"
+    environment:
+    - MONGODB_URI=mongodb://mongodb:27017
+    - REDIS_URL=redis://redis:6379/
