@@ -231,54 +231,11 @@ When the third-party users have subscribed to the bulk data subscription, they d
 
 	\section{Component view}
 		\subsection{Data4Help component diagram}
+			\subsubsection{Overview}
 		In the Figure \ref{fig:d4h_component_diagram} it can be seen the component diagram of D4H, with all its external interfaces. It can be noticed two main components: \textbf{DataBase} and \textbf{D4HBackend}, where the former one refers to the Data4Help database, and which provides an interface used by the \textbf{DBManager} component. \\\\
 		On the other hand, \textbf{D4HBackend} component, contains all the components related to D4H, which are needed to provide the interfaces used by the third parties and the web site. The following interfaces are used by the web site: \textbf{SignupWeb}, \textbf{LoginWeb}, \textbf{SearchWeb}, \textbf{RequestWeb} and  \textbf{SubscriptionWeb}, while the \textbf{RequestAPI} interface is used by the third parties. In this case, D4H provides the interface in order to let the third parties send requests for accessing the health status and location of the individuals to them.\\\\
 		Furthermore, \textbf{AuthenticatorManager} component has the responsibility of validate the different credentials, and to provide the secret codes to the third parties, to do so, it interacts with the \textbf{TokenDB} component using the \textbf{TokenConnector}.\\\\
 		Finally, it can be seen the different third parties related to D4H. It worth mentioning \textbf{Track4Run} and \textbf{AutomatedSOS} components which, even though they are part of the TrackMe environment, they are treated as third parties in the sense they are completely decoupled of D4H. Moreover, all third parties must provide an interface to D4H in order to let it communicate the incoming changes of the subscriptions.\\\\
-		The interfaces provided by D4H can be categorised in Internal and External. The Internal interfaces are those related to the D4H web-site, while the External interfaces are those related to third party components. In the Table \ref{table:d4h_internal_interfaces} more detail is provided regarding the internal interfaces provided by D4H, and in the Table \ref{table:d4h_external_interfaces} more detail is provided about the external interfaces.\\
-		
-	\begin{table}[H]
-		\centering
-		\begin{tabular}{l l p{0.5\textwidth}}
-			\hline\hline
-			\multicolumn{3}{c}{\textbf{Internal interfaces}} \\
-			\hline
-			\textbf{Method} & \textbf{Path} & \textbf{Description} \\ [0.5ex]
-			\hline
-			POST & \textbackslash{web}\textbackslash{login} & Let the user to login into the web-site \\
-			POST & \textbackslash{web}\textbackslash{logout} & Let the user to logout into the web-site \\
-			POST & \textbackslash{web}\textbackslash{individual}\textbackslash{signup} & Let an Individual create a D4H account \\
- 			POST & \textbackslash{web}\textbackslash{thirdparty}\textbackslash{signup} & Let a Third Party company to create a D4H account\\
-			GET & \textbackslash{web}\textbackslash{search} & Let the user to search a specific user information or a bulk of anonymised information\\
-			GET & \textbackslash{web}\textbackslash{request} & Let the user to get all requests sent to him\\
-			POST & \textbackslash{web}\textbackslash{request}\textbackslash{:requestId} & Let the user to accept a request\\
-			DELETE & \textbackslash{web}\textbackslash{request}\textbackslash{:requestId} & Let the user to reject a request\\
-			GET & \textbackslash{web}\textbackslash{subscription} & Let the user to get all the saved subscriptions\\
-			POST & \textbackslash{web}\textbackslash{subscription} & Let the user to save a search query\\
-			DELETE & \textbackslash{web}\textbackslash{subscription}\textbackslash{:queryId} & Let the user to remove a subscription\\
-			\hline
-		\end{tabular}
-		\caption{Internal interfaces provided by D4H}
-		\label{table:d4h_internal_interfaces}
-	\end{table}
-	
-	\begin{table}[h]
-		\centering
-		\begin{tabular}{l l p{0.6\textwidth}}
-			\hline\hline
-			\multicolumn{3}{c}{\textbf{External interfaces}} \\
-			\hline
-			\textbf{Method} & \textbf{Path} & \textbf{Description} \\ [0.5ex]
-			\hline
-			POST & \textbackslash{api}\textbackslash{request} & Let the third party send a request for accessing an individual's health data and location\\
-			DELETE & \textbackslash{api}\textbackslash{request}\textbackslash{:requestId} & Let a third party to remove a request sent to an individual\\
-			\hline
-		\end{tabular}
-		\caption{External interfaces provided by D4H}
-		\label{table:d4h_external_interfaces}
-	\end{table}
-		
-		
 			\begin{sidewaysfigure}
     				\centering
 				\includegraphics[width=1\textwidth]{diagrams/d4h_component_diagram.png}
@@ -286,8 +243,36 @@ When the third-party users have subscribed to the bulk data subscription, they d
 				\label{fig:d4h_component_diagram}
 			\end{sidewaysfigure}	
 			\clearpage
+			\subsubsection{Description}
+			In the Table \ref{table:d4h_component_descriptions} a description of the components involved in D4H is shown.
 			
-		\subsection{Track4Run component diagram}	
+		\begin{longtable}{l p{0.7\textwidth}}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Component descriptions}} \\
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endfirsthead
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endhead
+			Login & Component is responsible of the login and logout actions into the site. It provides the session access tokens to the users and removes them when the user performs a logout. \\
+			Signup & Component responsible of register web-users, either Individuals or Third Party companies. It provides two different interfaces to the web-site, one for the Individual user and another one for the Third Party user, and provides a session access token and a secret key and application id to the Third Party users. \\
+			SearchManager & Component responsible of handling the searches of Individuals or group of Individuals' information. It should be able to anonymize the information of the group of users, and to respond with an error message when the Third Party user tries to access an Individual's information who have not accepted the request. \\
+			Request & Component responsible of adding the requests to a specific Individual and to accept or reject them. It should provide an internal interface, in order to send, accept and reject requests from within the web-site, and an external interface in order to let the Third Parties to send requests to specific users from their back-end. Finally, it should be capable of connecting to the notification API of the Third Parties in order to let them know that an Individual has accepted a Request.\\
+			Subscription & Component responsible of sending the information of the users to the subscribed Third Parties. It should be able to connect to the Third Parties endpoints in order to send the information regarding the saved queries. Also, it should expose an internal interface in order to let the Third Party users to save a particular query, delete it or get all the saved queries.\\
+			DBManager & Component responsible of connecting the database. It is related to all the other components since they depend on it.\\
+			AuthenticatorManager & Component responsible of validate and generate the session access tokens, and to provide the secret key and application id to the Signup component.\\
+			D4H Web site & Component that represent the frontier between the final user and the system. From this component, the Individual user is capable to accept or reject Requests, and the Third Party users are capable to search information of a particular Individual or a group of them, send Requests and/or creating subscriptions.\\
+			DataBase & Component that contains the main database (TrackMe DB), with all its collections and the token database (TokenDB) which contains all the valid access tokens and secret keys.\\
+			\hline
+			\caption{Component descriptions of D4H}
+			\label{table:d4h_component_descriptions}
+		\end{longtable}
+			
+		\subsection{Track4Run component diagram}
+		\subsubsection{Overview}
 			In the Figure \ref{fig:t4r_component_diagram} it can be seen the T4R components. As in the D4H component diagram, the \textit{DataBase} component provides an interface in order to let the \textbf{DBManager} component communicate to it.\\\\
 			The main structure of the system is similar to the structure seen in D4H component diagram. The web site communicates with the back-end using the following interfaces: \textbf{LoginWeb}, \textbf{SignupWeb}, \textbf{UserWeb} and \textbf{NotificationWeb}. On the other hand, T4R provides the \textbf{DataAPI} interface, which is responsibly of receiving all the data of the participants, and uses the \textbf{RequestAPI} interface, in order to send the requests for accessing the individuals' location and health status.\\\\
 			Finally, as in D4H, the \textbf{AuthenticatorManager} component is responsible of validate the users' credentials.
@@ -298,7 +283,38 @@ When the third-party users have subscribed to the bulk data subscription, they d
 				\label{fig:t4r_component_diagram}
 			\end{figure}	
 			
-			\subsection{AutomatedSOS component diagram}	
+			\subsubsection{Description}
+			In the Table \ref{table:t4r_component_descriptions} a description of the components involved in T4R is shown.
+			
+		\begin{longtable}{l p{0.7\textwidth}}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Component descriptions}} \\
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endfirsthead
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endhead
+			Login & Component is responsible of the login and logout to the site. It provides the session access tokens to the users and removes them when the user performs a logout. \\
+			Signup & Component responsible of register Participant and Organizer users. \\
+			AuthenticatorManager & Component responsible of validate and generate the session access tokens.\\
+			DBManager & Component responsible of connecting the database. It is related to all the other components since they depend on it.\\
+			T4R Web site & Component that represent the frontier between the final user and the system. From this component, the Participant user is capable to enrol in a Run, and the Organizer users are capable to create Run events, define the running circuit and send invites to Participant users.\\
+			DataBase & Component that contains the main database (Track4Run DB), with all its collections and the token database (TokenDB) which contains all the valid session access tokens.\\
+			Request & Component responsible of sending Request for accessing location of a specific Individual in D4H. It should be able to connect to D4H through the provided RequestAPI.\\
+			User & Component responsible of manage the Participant operations. It should be able to show all the enrolled and non-enrolled participants of a run.\\
+			Notification & Component responsible of manage the Notification operations. It should be able to send invitations to participants, and let them accept or reject it. \\
+			DataHandler & Component responsible to get the location and health data of the Individuals during a Race event. It should be able to obtain the information sent by D4H during a race event, and to get the information related to the Individuals who accepted the sent request.\\
+			
+			\hline
+			\caption{Component descriptions of T4R}
+			\label{table:t4r_component_descriptions}
+		\end{longtable}
+			
+			\subsection{AutomatedSOS component diagram}
+				\subsubsection{Overview}
 			In the Figure \ref{fig:asos_component_diagram} it can be seen the ASOS components. It can be noticed that the system has a similar structure of T4R: the \textbf{ASOSBackend} component communicates  with \textbf{DataBase} component through the \textbf{DBConnector} interface, and provides a \textbf{DataAPI} interface to receive the updated information of the individuals.\\\\
 			On the other hand, \textbf{ASOSBackend} component sends notifications to the different \textbf{Health Care Service} components using the provided \textbf{Alarm Interface}.
 			\begin{figure}[H]
@@ -307,6 +323,28 @@ When the third-party users have subscribed to the bulk data subscription, they d
 				\caption[AutomatedSOS Component Diagram]{AutomatedSOS Component Diagram}
 				\label{fig:asos_component_diagram}
 			\end{figure}	
+			\subsubsection{Description}
+			In the Table \ref{table:asos_component_descriptions} a description of the components involved in ASOS is shown.
+			
+		\begin{longtable}{l p{0.7\textwidth}}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Component descriptions}} \\
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endfirsthead
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endhead
+			DBManager & Component responsible of connecting the database. It is related to all the other components since they depend on it.\\
+			DataBase & Component that contains the main database (AutomatedSOS DB), with all its collections.\\
+			DataHandler & Component responsible to get the location and health data of the Individuals every time it has changes. It should be able to obtain the information sent by D4H, and to get the information related to the Individuals who accepted the request.\\
+			HealthCareConnector & Component responsible of connecting to the health-care service assigned to an Individual, when its parameters are out of normal range.\\
+			\hline
+			\caption{Component descriptions of ASOS}
+			\label{table:asos_component_descriptions}
+		\end{longtable}
 			
 			
 	\section{Deployment view}
