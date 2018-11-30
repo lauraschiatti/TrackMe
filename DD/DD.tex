@@ -224,11 +224,11 @@ and it also contains the most relevant architecture views: component view, class
 	\section{Overview}
 	Application architecture design is a process which has to be executed in a defined flow. High-level components and their interaction is displayed in Figure \ref{fig:High-level architecture Diagram}.
 	\begin{figure}[H]
-				\centering
-				\includegraphics[width=1\textwidth]{diagrams/architecture.png}
-				\caption[High-level architecture Diagram]{High-level architecture Diagram}
-				\label{fig:High-level architecture Diagram}
-			\end{figure}
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/architecture.png}
+		\caption[High-level architecture Diagram]{High-level architecture Diagram}
+		\label{fig:High-level architecture Diagram}
+	\end{figure}
 			
 The above architecture diagram depicts clearly that third party - Data4Help relation is a service oriented, when the third-party user asks for some specific data and it is an event based, when it is subscribed to the data. In addition, a CRON job runs every day at 00:00, if there is every user above age of 60 years - they receive an ASOS notification. The system uses MongoDB, that listens, watch collection and events. Apparently, all the APIs are RESTful.\\
 When the third-party users have subscribed to the bulk data subscription, they define an update time when they want to get the refreshed data (e.g. update data in every 'X' hours).
@@ -281,43 +281,80 @@ When the third-party users have subscribed to the bulk data subscription, they d
 		\caption{External interfaces provided by D4H}
 		\label{table:d4h_external_interfaces}
 	\end{table}
-		
-		
-			\begin{sidewaysfigure}
-    				\centering
-				\includegraphics[width=1\textwidth]{diagrams/d4h_component_diagram.png}
-				\caption[Data4Help Component Diagram]{Data4Help Component Diagram}
-				\label{fig:d4h_component_diagram}
-			\end{sidewaysfigure}	
-			\clearpage
+	
+		\begin{sidewaysfigure}
+    			\centering
+			\includegraphics[width=1\textwidth]{diagrams/d4h_component_diagram.png}
+			\caption[Data4Help Component Diagram]{Data4Help Component Diagram}
+			\label{fig:d4h_component_diagram}
+		\end{sidewaysfigure}	
+		\clearpage
 			
 		\subsection{Track4Run component diagram}	
-			In the Figure \ref{fig:t4r_component_diagram} it can be seen the T4R components. As in the D4H component diagram, the \textit{DataBase} component provides an interface in order to let the \textbf{DBManager} component communicate to it.\\\\
-			The main structure of the system is similar to the structure seen in D4H component diagram. The web site communicates with the back-end using the following interfaces: \textbf{LoginWeb}, \textbf{SignupWeb}, \textbf{UserWeb} and \textbf{NotificationWeb}. On the other hand, T4R provides the \textbf{DataAPI} interface, which is responsibly of receiving all the data of the participants, and uses the \textbf{RequestAPI} interface, in order to send the requests for accessing the individuals' location and health status.\\\\
-			Finally, as in D4H, the \textbf{AuthenticatorManager} component is responsible of validate the users' credentials.
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=1\textwidth]{diagrams/t4r_component_diagram.png}
-				\caption[Track4Run Component Diagram]{Track4Run Component Diagram}
-				\label{fig:t4r_component_diagram}
-			\end{figure}	
+	In the Figure \ref{fig:t4r_component_diagram} it can be seen the T4R components. As in the D4H component diagram, the \textit{DataBase} component provides an interface in order to let the \textbf{DBManager} component communicate to it.\\
 			
-			\subsection{AutomatedSOS component diagram}	
-			In the Figure \ref{fig:asos_component_diagram} it can be seen the ASOS components. It can be noticed that the system has a similar structure of T4R: the \textbf{ASOSBackend} component communicates  with \textbf{DataBase} component through the \textbf{DBConnector} interface, and provides a \textbf{DataAPI} interface to receive the updated information of the individuals.\\\\
-			On the other hand, \textbf{ASOSBackend} component sends notifications to the different \textbf{Health Care Service} components using the provided \textbf{Alarm Interface}.
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=1\textwidth]{diagrams/asos_component_diagram.png}
-				\caption[AutomatedSOS Component Diagram]{AutomatedSOS Component Diagram}
-				\label{fig:asos_component_diagram}
-			\end{figure}	
+	The main structure of the system is similar to the structure seen in D4H component diagram. The web site communicates with the back-end using the following interfaces: \textbf{LoginWeb}, \textbf{SignupWeb}, \textbf{UserWeb} and \textbf{NotificationWeb}. On the other hand, T4R provides the \textbf{DataAPI} interface, which is responsibly of receiving all the data of the participants, and uses the \textbf{RequestAPI} interface, in order to send the requests for accessing the individuals' location and health status.\\
+	
+	Finally, as in D4H, the \textbf{AuthenticatorManager} component is responsible of validate the users' credentials.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{diagrams/t4r_component_diagram.png}
+			\caption[Track4Run Component Diagram]{Track4Run Component Diagram}
+			\label{fig:t4r_component_diagram}
+		\end{figure}	
 			
+	\subsection{AutomatedSOS component diagram}	
+	In the Figure \ref{fig:asos_component_diagram} it can be seen the ASOS components. It can be noticed that the system has a similar structure of T4R: the \textbf{ASOSBackend} component communicates  with \textbf{DataBase} component through the \textbf{DBConnector} interface, and provides a \textbf{DataAPI} interface to receive the updated information of the individuals.\\
+	
+	On the other hand, \textbf{ASOSBackend} component sends notifications to the different \textbf{Health Care Service} components using the provided \textbf{Alarm Interface}.
+			
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/asos_component_diagram.png}
+		\caption[AutomatedSOS Component Diagram]{AutomatedSOS Component Diagram}
+		\label{fig:asos_component_diagram}
+	\end{figure}	
+			
+	\section{Database view}
+	In the previous section, an architectural landscape of D4H, ASOS and T4R was provided by means of high-level component diagrams. Those diagrams showed how components communicate with the rest of the system (i.e. through interfaces). Now, it is also meaningful to describe data models involved using class diagrams. \\
+	
+	As explained in the RASD, the whole data model of TrackMe up to now will be treated as a ”black box”, this means \textbf{D4H} will have a local copy of the \textit{basic information} and \textit{collected data} only of users who activated this service. \\
+	 
+	Going into details D4H has five main classes: \textit{individual}, \textit{third party}, \textit{data}, \textit{request} and \textit{subscription}, their attributes, and associations are shown in Figure \ref{fig:Data4Help Class Diagram}. Individuals and third parties are the two main types of users interacting with the system, and it is easier to explain the other models involved from the point of view of what they can and cannot do. Thus, \textit{Individuals} are those wearing the devices, therefore are related to their collected\textit{data}. On the other hand, \textit{Third parties} can create \textit{requests} to get data of individuals and also, if any request is approved, they can \textit{subscribe} to receive more (i.e the query of the search they did needs to be stored). \\\\
+	
+	\begin{figure}[H]
+    		\centering
+		\includegraphics[width=1\textwidth]{diagrams/d4h_class_diagram.png}
+		\caption[Data4Help Class Diagram]{Data4Help Class Diagram}
+		\label{fig:Data4Help Class Diagram}
+	\end{figure}
+	
+	\textit{Individuals} subscribed to D4H that decided to activate \textbf{ASOS} service, are stored in ASOSUser after assigning them a \textit{status} so as to avoid duplicate notifications to the health care service. Each user is associated to an \textit{emergency contact} (assigned by the system). It is necessary to clarify that the parameters (i.e. users' data) are not stored, they are used exclusively to make comparisons with their corresponding  \textit{thresholds}.\\\\
+	
+	\begin{figure}[H]
+    		\centering
+		\includegraphics[width=0.5\textwidth]{diagrams/asos_class_diagram.png}
+		\caption[AutomatedSOS Class Diagram]{AutomatedSOS Class Diagram}
+		\label{fig:AutomatedSOS Class Diagram}
+	\end{figure}
+	
+	Regarding \textbf{T4R}, \textit{runs} are characterized by start and end times, and a path. Each run has an \textit{organizer} responsible for setting it up and individuals enrolled in any of them are considered \textit{participants}. The system does not need to keep record of the spectators.
+	
+	\begin{figure}[H]
+    		\centering
+		\includegraphics[width=0.5\textwidth]{diagrams/t4r_class_diagram.png}
+		\caption[Track4Run Class Diagram]{Track4Run Class Diagram}
+		\label{fig:Track4Run Class Diagram}
+	\end{figure}
 			
 	\section{Deployment view}
 	In the current chapter the deployment diagrams of D4H, T4R and ASOS are shown. All diagrams follow the same structure and design: yellow nodes represent external nodes that interact with the system, green nodes represent hardware devices (i.e. web server, database server, etc.), pale orange nodes represent execution environments such as JVM, and blue boxes represent high level components. Finally, the protocols used to communicate between different nodes displayed as red links.
+	
 	\subsection{Data4Help deployment diagram}
-	In the Figure \ref{fig:d4h_deployment_diagram} can be seen the deployment diagram of D4H. As can be seen, the \textbf{Web Server} node, is a device which contains the execution environment that holds the \textbf{D4H Backend} component. The \textbf{Web Server} node, is related to two different devices: a \textbf{MongoDB Server} which is the environment of the \textbf{TrackMe DB}, and a \textbf{Redis Server} which is the environment of the \textbf{TokenDB}.\\\\
-	Moreover, the \textbf{Web Server} is related to three third parties: two of them are \textbf{Track4Run} execution environment, and \textbf{AutomatedSOS} execution environment. The third third party is a \textbf{Generic Third Party Backend} node that is external to the TrackMe environment.\\\\
+	In the Figure \ref{fig:d4h_deployment_diagram} can be seen the deployment diagram of D4H. As can be seen, the \textbf{Web Server} node, is a device which contains the execution environment that holds the \textbf{D4H Backend} component. The \textbf{Web Server} node, is related to two different devices: a \textbf{MongoDB Server} which is the environment of the \textbf{TrackMe DB}, and a \textbf{Redis Server} which is the environment of the \textbf{TokenDB}.\\
+	
+	Moreover, the \textbf{Web Server} is related to three third parties: two of them are \textbf{Track4Run} execution environment, and \textbf{AutomatedSOS} execution environment. The third third party is a \textbf{Generic Third Party Backend} node that is external to the TrackMe environment.\\
+	
 	Finally, the deployment diagram does not show the interaction between the web-users (individuals or third parties) with the system. This interaction is inherent to a web site, and it happens between the client and the \textbf{D4H Web page} component.
 		\begin{figure}[H]
 			\centering
@@ -325,6 +362,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\caption[Data4Help Deployment Diagram]{Data4Help Deployment Diagram}
 			\label{fig:d4h_deployment_diagram}
 		\end{figure}	
+		
 	\subsection{Track4Run deployment diagram}
 	In the Figure \ref{fig:t4r_deployment_diagram} the T4R deployment diagram is shown. It can be seen the interaction between \textbf{Data4Help} execution environment and the \textbf{Web Server} node. This interaction happens thanks to the different interfaces provided by D4H and T4R. \\\\
 	Furthermore, the \textbf{Web Server} node interacts with the \textbf{MongoDB Server} node using the TCP/IP protocol, and it works thanks to the \textbf{DBConnector} interface provided by the \textbf{T4R Database} component.
@@ -334,6 +372,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\caption[Track4Run Deployment Diagram]{Track4Run Deployment Diagram}
 			\label{fig:t4r_deployment_diagram}
 		\end{figure}	
+		
 	\subsection{AutomatedSOS deployment diagram}
 	In the Figure \ref{fig:asos_deployment_diagram} the ASOS deployment diagram is shown. Since ASOS does not have a web site, the main node is an \textbf{Application Server} that hosts the execution environment for the \textbf{ASOS Backend} component. The \textbf{Application Server} interacts with a \textbf{MongoDB Server} node, using the TCP/IP protocol. Moreover, it interacts with an external node which represent the different \textbf{Health Care Service}s, and with the execution environment of \textbf{Data4Help}.
 		\begin{figure}[H]
