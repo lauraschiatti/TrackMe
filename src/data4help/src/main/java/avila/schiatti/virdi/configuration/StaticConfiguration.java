@@ -26,6 +26,7 @@ public final class StaticConfiguration {
     private static String DATABASE_NAME;
     private static String LOCAL_MONGODB_URI;
     private static String REDIS_URL;
+    private static String REDIS_DB;
 
     private StaticConfiguration(){ };
 
@@ -50,13 +51,15 @@ public final class StaticConfiguration {
 
             DATABASE_NAME = tmConfig.getMongoDBName();
             LOCAL_MONGODB_URI = tmConfig.getMongoURI();
-            REDIS_URL = tmConfig.getRedisURI().concat(tmConfig.getRedisDBNumber());
+            REDIS_URL = tmConfig.getRedisURI();
+            REDIS_DB = tmConfig.getRedisDBNumber();
         }catch(Exception ex) {
             logger.error(ex.getMessage(), ex);
 
             DATABASE_NAME = "";
             LOCAL_MONGODB_URI = "";
             REDIS_URL = "";
+            REDIS_DB = "";
         }
     }
 
@@ -74,6 +77,14 @@ public final class StaticConfiguration {
     }
 
     public String getRedisConnectionString(){
+        return (configVars.get("REDIS_URL") != null && configVars.get("REDIS_DB") != null) ? configVars.get("REDIS_URL").concat(configVars.get("REDIS_DB")) : REDIS_URL.concat(REDIS_DB);
+    }
+
+    public String getRedisUrl(){
         return (configVars.get("REDIS_URL") != null) ? configVars.get("REDIS_URL") : REDIS_URL;
+    }
+
+    public String getRedisDb(){
+        return (configVars.get("REDIS_DB") != null) ? configVars.get("REDIS_DB") : REDIS_DB;
     }
 }

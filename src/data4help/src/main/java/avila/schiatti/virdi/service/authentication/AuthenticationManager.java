@@ -9,14 +9,13 @@ import io.lettuce.core.*;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.jetbrains.annotations.TestOnly;
 
 import java.util.Date;
 
 public class AuthenticationManager {
 
     private final static String SECRET_PREFIX = "lA7eBr1c0le";
-    private final static Integer DEFAULT_TTL_SECONDS = 3600;
+    public final static Long DEFAULT_TTL_SECONDS = 3600L;
     private static AuthenticationManager _instance = null;
 
     private RedisCommands<String, String> commands;
@@ -50,7 +49,7 @@ public class AuthenticationManager {
     }
 
 
-    private String createAccessToken(String id){
+    public String createToken(String id){
         String stringToEncrypt = SECRET_PREFIX.concat(id).concat((new Date()).toString());
         return DigestUtils.sha512Hex(stringToEncrypt);
     }
@@ -90,21 +89,21 @@ public class AuthenticationManager {
     }
 
     public void validateSecretKey(String appId, String secretKey) throws TrackMeException {
-        if(Validator.isNullOrEmpty(secretKey)){
+        if(Validator.isNullOrEmpty(secretKey) || Validator.isNullOrEmpty(appId)){
             throw new TrackMeException(TrackMeError.NOT_VALID_SECRET_KEY);
         }
 
         // we save the token as a key and the thirdPartyId as value, if we find the token => thirdPartyId, the token is valid
         String thirdPartyAppId = commands.get(secretKey);
 
-        if (Validator.isNullOrEmpty(thirdPartyAppId) || thirdPartyAppId.equals(appId) == Boolean.FALSE){
+        if (Validator.isNullOrEmpty(thirdPartyAppId) || appId.equals(thirdPartyAppId) == Boolean.FALSE){
             throw new TrackMeException(TrackMeError.NOT_VALID_SECRET_KEY);
         }
     }
 
     public UserWebAuth setUserAccessToken(D4HUser d4HUser){
         String userId = d4HUser.getId().toString();
-        String accessToken = this.createAccessToken(userId);
+        String accessToken = this.createToken(userId);
 
         SetArgs args = SetArgs.Builder.ex(DEFAULT_TTL_SECONDS);
         commands.set(accessToken, userId, args);
@@ -120,7 +119,7 @@ public class AuthenticationManager {
     public ThirdPartyApiAuth setThirdPartySecretKey(String seed){
         String appId = DigestUtils.md5Hex(seed);
 
-        String secretKey = this.createAccessToken(seed);
+        String secretKey = this.createToken(seed);
 
         // third parties secret key has not TTL
         commands.set(secretKey, appId);

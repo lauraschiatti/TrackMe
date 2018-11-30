@@ -10,7 +10,10 @@ import java.util.Collection;
 
 public class UserResource extends Resource<D4HUser> {
 
-    @TestOnly
+    /**
+     * Only for testing method
+     * @param dbManager
+     */
     public UserResource(DBManager dbManager){
         super(dbManager);
     }
