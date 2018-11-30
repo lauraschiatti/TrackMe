@@ -2,6 +2,7 @@ package avila.schiatti.virdi.resource;
 
 import avila.schiatti.virdi.database.DBManager;
 import org.bson.types.ObjectId;
+import org.jetbrains.annotations.TestOnly;
 import xyz.morphia.Datastore;
 
 import java.util.Collection;
@@ -10,24 +11,51 @@ abstract class Resource<T>  {
 
     private DBManager dbManager;
 
-    final void init(){
+    /**
+     * Only for test constructor
+     * @param dbManager
+     */
+    Resource(DBManager dbManager){
+        this.dbManager = dbManager;
+    }
+
+    Resource() {
         this.dbManager = DBManager.getInstance();
     }
 
-    protected final DBManager getDbManager() {
-        return dbManager;
-    }
-
-    final Datastore getDatastore() {
+    public Datastore getDatastore() {
         return dbManager.getDatastore();
     }
 
-    abstract Collection<T> getAll();
-    abstract T getById(String id);
-    abstract T getById(ObjectId id);
-    abstract void add(T o);
-    abstract void update(T o);
-    abstract void removeById(String id);
-    abstract void removeById(ObjectId id);
-    abstract void remove(T o);
+    Collection<T> getAll(){
+        throw new UnsupportedOperationException();
+    }
+
+    T getById(String id){
+        throw new UnsupportedOperationException();
+    }
+
+    T getById(ObjectId id){
+        throw new UnsupportedOperationException();
+    }
+
+    void add(T o){
+        throw new UnsupportedOperationException();
+    }
+
+    void update(T o){
+        throw new UnsupportedOperationException();
+    }
+
+    void removeById(String id){
+        throw new UnsupportedOperationException();
+    }
+
+    void removeById(ObjectId id){
+        throw new UnsupportedOperationException();
+    }
+
+    void remove(T o){
+        throw new UnsupportedOperationException();
+    }
 }

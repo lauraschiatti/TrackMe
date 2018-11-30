@@ -15,24 +15,20 @@ import spark.Response;
 import static spark.Spark.*;
 
 public class LoginService extends Service {
-    private static LoginService _instance = null;
     private UserResource userResource;
     private AuthenticationManager authManager;
 
     private LoginService() {
         authManager = AuthenticationManager.getInstance();
-        userResource = UserResource.getInstance();
+        userResource = UserResource.create();
     }
 
-    public static LoginService getInstance(){
-        if(_instance == null){
-            _instance = new LoginService();
-        }
-        return _instance;
+    public static LoginService create(){
+        return new LoginService();
     }
 
     private D4HUser validateCredentials(String email, String password){
-        String pass = authManager.hashPassword(password);
+        String pass = AuthenticationManager.hashPassword(password);
         return userResource.getByEmailAndPass(email, pass);
     }
 

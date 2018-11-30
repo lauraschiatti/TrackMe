@@ -27,15 +27,11 @@ import static spark.Spark.*;
 
 public class SignupService extends Service {
 
-    private static SignupService _instance;
-    private UserResource userResource = UserResource.getInstance();
+    private UserResource userResource = UserResource.create();
     private AuthenticationManager authManager = AuthenticationManager.getInstance();
 
-    public static SignupService getInstance(){
-        if(_instance == null){
-            _instance = new SignupService();
-        }
-        return _instance;
+    public static SignupService create(){
+        return new SignupService();
     }
 
     private SignupResponse signupIndividual(Request req, Response res){
@@ -52,13 +48,8 @@ public class SignupService extends Service {
             // create and authenticate the individual
             UserWebAuth auth = createAndAuthenticateUser(individual);
 
-            // build the SignupResponse
-            SignupResponse response = new SignupResponse();
-            response.setUserId(auth.getUserId());
-            response.setAccessToken(auth.getAccessToken());
-
-            // return the SignupResponse
-            return response;
+            // getInstance the SignupResponse
+            return createSignupResponse(auth);
         } catch(ValidationException validationEx){
             String msg = String.format(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION.getMessage(), validationEx.getMessage());
             throw new TrackMeException(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION, msg);
@@ -79,24 +70,29 @@ public class SignupService extends Service {
             // create and authenticate the thirdParty
             UserWebAuth auth = createAndAuthenticateUser(thirdParty);
 
-            // build the SignupResponse
-            SignupResponse response = new SignupResponse();
-            response.setUserId(auth.getUserId());
-            response.setAccessToken(auth.getAccessToken());
-
-            // return the SignupResponse
-            return response;
+            // getInstance the SignupResponse.
+            return createSignupResponse(auth);
         } catch(ValidationException validationEx){
             String msg = String.format(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION.getMessage(), validationEx.getMessage());
             throw new TrackMeException(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION, msg);
         }
     }
 
-    private UserWebAuth createAndAuthenticateUser(D4HUser thirdParty) {
+    private SignupResponse createSignupResponse(UserWebAuth auth) {
+        // getInstance the SignupResponse
+        SignupResponse response = new SignupResponse();
+        response.setUserId(auth.getUserId());
+        response.setAccessToken(auth.getAccessToken());
+
+        // return the SignupResponse
+        return response;
+    }
+
+    private UserWebAuth createAndAuthenticateUser(D4HUser user) {
         // add the individual to the database
-        userResource.add(thirdParty);
+        userResource.add(user);
         // create access credentials for the newly created user
-        return authManager.setUserAccessToken(thirdParty);
+        return authManager.setUserAccessToken(user);
     }
 
     private void validateIndividualSignupRequest(IndividualSignupRequest request) throws ValidationException {
@@ -114,7 +110,7 @@ public class SignupService extends Service {
     private Individual buildIndividual(IndividualSignupRequest request){
         Individual individual = new Individual();
         individual.setEmail(request.getEmail());
-        individual.setPassword(authManager.hashPassword(request.getPassword()));
+        individual.setPassword(AuthenticationManager.hashPassword(request.getPassword()));
         individual.setBirthDate(request.getBirthDate());
         individual.setBloodType(request.getBloodType());
         individual.setGender(request.getGender());
@@ -143,7 +139,7 @@ public class SignupService extends Service {
     private ThirdParty buildThirdParty(ThirdPartySignupRequest request){
         ThirdParty thirdParty = new ThirdParty();
         thirdParty.setEmail(request.getEmail());
-        thirdParty.setPassword(authManager.hashPassword(request.getPassword()));
+        thirdParty.setPassword(AuthenticationManager.hashPassword(request.getPassword()));
         thirdParty.setCertificate(request.getCertificate());
         thirdParty.setCode(request.getCode());
         thirdParty.setName(request.getName());

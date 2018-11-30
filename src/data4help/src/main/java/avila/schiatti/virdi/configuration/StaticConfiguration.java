@@ -40,10 +40,8 @@ public final class StaticConfiguration {
 
     private void configureConstants() {
         try {
-//            String filePath = new File("").getAbsolutePath();
-//            logger.debug(filePath);
-
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(CONFIGURATION_FILE));
+            FileReader fd = new FileReader(CONFIGURATION_FILE);
+            BufferedReader bufferedReader = new BufferedReader(fd);
 
             Gson gson = new Gson();
             TrackMeConfiguration tmConfig = gson.fromJson(bufferedReader, TrackMeConfiguration.class);

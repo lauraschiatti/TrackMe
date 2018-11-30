@@ -4,13 +4,12 @@ import avila.schiatti.virdi.configuration.StaticConfiguration;
 import avila.schiatti.virdi.exception.TrackMeError;
 import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.model.user.D4HUser;
-import avila.schiatti.virdi.model.user.ThirdParty;
 import avila.schiatti.virdi.utils.Validator;
 import io.lettuce.core.*;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.TestOnly;
 
 import java.util.Date;
 
@@ -31,7 +30,10 @@ public class AuthenticationManager {
         this.commands = connection.sync();
     }
 
-    @NotNull
+    private AuthenticationManager(RedisCommands<String, String> commands){
+        this.commands = commands;
+    }
+
     public static AuthenticationManager getInstance(){
         if(_instance == null){
             _instance = new AuthenticationManager();
@@ -39,7 +41,15 @@ public class AuthenticationManager {
         return _instance;
     }
 
-    @NotNull
+    /**
+     * Only for test method
+     * @param commands RedisCommands<String, String>
+     */
+    public static void createForTestingOnly(RedisCommands<String, String> commands){
+        _instance = new AuthenticationManager(commands);
+    }
+
+
     private String createAccessToken(String id){
         String stringToEncrypt = SECRET_PREFIX.concat(id).concat((new Date()).toString());
         return DigestUtils.sha512Hex(stringToEncrypt);
@@ -74,7 +84,7 @@ public class AuthenticationManager {
         }
     }
 
-    private void updateAccessToken(@NotNull String accessToken) {
+    private void updateAccessToken(String accessToken) {
         // set new expiration + 1 hour
         commands.expire(accessToken, DEFAULT_TTL_SECONDS);
     }
@@ -92,7 +102,7 @@ public class AuthenticationManager {
         }
     }
 
-    public UserWebAuth setUserAccessToken(@NotNull D4HUser d4HUser){
+    public UserWebAuth setUserAccessToken(D4HUser d4HUser){
         String userId = d4HUser.getId().toString();
         String accessToken = this.createAccessToken(userId);
 
@@ -107,7 +117,7 @@ public class AuthenticationManager {
      * @param seed Seed string used to generate the APP_ID and SECRET_KEY
      * @return ThirdPartyApiAuth object
      */
-    public ThirdPartyApiAuth setThirdPartySecretKey(@NotNull String seed){
+    public ThirdPartyApiAuth setThirdPartySecretKey(String seed){
         String appId = DigestUtils.md5Hex(seed);
 
         String secretKey = this.createAccessToken(seed);
@@ -122,7 +132,7 @@ public class AuthenticationManager {
         commands.del(accessToken);
     }
 
-    public String hashPassword(String password){
+    public static String hashPassword(String password){
         return DigestUtils.sha512Hex(password);
     }
 }

@@ -1,24 +1,26 @@
 package avila.schiatti.virdi.resource;
 
+import avila.schiatti.virdi.database.DBManager;
 import avila.schiatti.virdi.model.user.D4HUser;
 import org.bson.types.ObjectId;
+import org.jetbrains.annotations.TestOnly;
 import xyz.morphia.Key;
 
 import java.util.Collection;
 
 public class UserResource extends Resource<D4HUser> {
 
-    private static UserResource _instance;
-
-    private UserResource(){
-        this.init();
+    @TestOnly
+    public UserResource(DBManager dbManager){
+        super(dbManager);
     }
 
-    public static UserResource getInstance(){
-        if(_instance == null){
-            _instance = new UserResource();
-        }
-        return _instance;
+    private UserResource(){
+        super();
+    }
+
+    public static UserResource create(){
+        return new UserResource();
     }
 
     public D4HUser getByEmailAndPass(String email, String password){
@@ -32,42 +34,7 @@ public class UserResource extends Resource<D4HUser> {
     }
 
     @Override
-    public Collection<D4HUser> getAll() {
-        return null;
-    }
-
-    @Override
-    public D4HUser getById(String id) {
-        return null;
-    }
-
-    @Override
-    public D4HUser getById(ObjectId id) {
-        return null;
-    }
-
-    @Override
     public void add(D4HUser o) {
         this.getDatastore().save(o);
-    }
-
-    @Override
-    public void update(D4HUser o) {
-
-    }
-
-    @Override
-    public void removeById(String id) {
-
-    }
-
-    @Override
-    public void removeById(ObjectId id) {
-
-    }
-
-    @Override
-    public void remove(D4HUser o) {
-
     }
 }

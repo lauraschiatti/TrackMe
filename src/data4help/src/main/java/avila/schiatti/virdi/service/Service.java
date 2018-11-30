@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 abstract class Service {
-    protected Gson jsonTransformer = new GsonBuilder().setDateFormat("dd-MM-yyyy").setPrettyPrinting().create();
+    Gson jsonTransformer = new GsonBuilder().setDateFormat("dd-MM-yyyy").setPrettyPrinting().create();
 
     abstract void setupWebEndpoints();
     abstract void setupApiEndpoints();
