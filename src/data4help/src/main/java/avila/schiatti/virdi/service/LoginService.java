@@ -11,6 +11,7 @@ import avila.schiatti.virdi.service.authentication.*;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
 import spark.Response;
+import sun.rmi.runtime.Log;
 
 import static spark.Spark.*;
 
@@ -21,6 +22,16 @@ public class LoginService extends Service {
     private LoginService() {
         authManager = AuthenticationManager.getInstance();
         userResource = UserResource.create();
+    }
+
+    /**
+     * Only for testing.
+     * @param authManager
+     * @param userResource
+     */
+    public LoginService(AuthenticationManager authManager, UserResource userResource){
+        this.authManager = authManager;
+        this.userResource = userResource;
     }
 
     public static LoginService create(){

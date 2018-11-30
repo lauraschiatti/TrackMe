@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <mainClass>avila.schiatti.virdi.Main</mainClass>
+        <mainClass>avila.schiatti.virdi.Data4HelpApp</mainClass>
         <javasparkVersion>2.7.2</javasparkVersion>
         <slf4jVersion>1.7.25</slf4jVersion>
         <morphiaVersion>1.4.0</morphiaVersion>
@@ -20,6 +20,7 @@
         <apacheCommonsValidator>1.6</apacheCommonsValidator>
         <junit.version>5.3.2</junit.version>
         <mockito.version>2.23.4</mockito.version>
+        <apache.httpcomponents.version>4.5.6</apache.httpcomponents.version>
     </properties>
 
     <build>
@@ -150,6 +151,13 @@
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${apache.httpcomponents.version}</version>
+        </dependency>
+
     </dependencies>
 
 

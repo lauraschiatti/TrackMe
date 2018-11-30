@@ -9,10 +9,11 @@ import avila.schiatti.virdi.service.SignupService;
 import avila.schiatti.virdi.service.authentication.AuthenticationManager;
 import avila.schiatti.virdi.utils.SparkUtils;
 import org.eclipse.jetty.http.HttpStatus;
+import spark.servlet.SparkApplication;
 
 import static spark.Spark.*;
 
-public class Main {
+public class Data4HelpApp {
     private final static String STATUS_URL = "/status";
     private static final String APPLICATION_JSON = "application/json";
 
