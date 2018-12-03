@@ -182,6 +182,8 @@ be inferred using the available data.
 		\item{T4R}: Track4Run
 		\item{GUI}: Graphical User Interface
 		\item{MVC}: Model View Controller is a design pattern used for GUIs
+		\item{JMS}: Java Message Service 
+		\item{DSL}: Digital Subscriber Line
 	\end{itemize}
 	
 	\subsection{Abbreviations}
@@ -609,9 +611,10 @@ In order to start implementation process of the project, RASD and DD must be fin
 \textbf{Testing Tools} In order to achieve all the testing purposes we will use different testing tools:
 \begin{itemize}
 \item{} For unit testing of each component we will use \textit{JUnit} framework. It’s a good framework offered by Oracle itself so it’s well test and supported. It can test each functionality of component into an isolated environment. It can be used also to test some little interaction between components.
-\item{} \textit{Arquillian} tools will be used during integration testing: it offers different features that tests very well Java Enterprise components and containers. It also provides features for debugging servers functionalities.
-\item{} \textit{Grinder} software will be used to make load tests onWeb Server.
-\item{} \textit{HammerDB} will be used to test functionalities and performance of Database server.
+\item{}\textit{Mockito} tool will be used as it is a No expect-run-verify technique. Mockito is a mocking framework that tastes really good. It lets you write beautiful tests with a clean and simple API. Mockito doesn’t give you hangover because the tests are very readable and they produce clean verification errors.
+\item{} \textit{Arquillian} tools may be used during integration testing: it offers different features that tests very well Java Enterprise components and containers. It also provides features for debugging servers functionalities.
+\item{} \textit{Grinder} software may be used to make load tests onWeb Server.
+\item{} \textit{HammerDB} may be used to test functionalities and performance of Database server.
 \end{itemize}
 
 
@@ -625,14 +628,14 @@ The implementation of the \textit{TrackMe} system will be done module by module 
 Due to modularity of system components and to the adopted strategy there are no constraints on implementation order of components. But due to some critical aspects of a few components we want to prioritize implementation of those components.
 The most critical components of the system that could take more than others to be implemented may be:
 
-\begin{itemize}
+\begin{enumerate}
 \item{} Data4HelpWebService, Track4RunWebService
 \item{} LoginService and SignupService
 \item{} SearchManager, AuthenticationManager, DBManager, DataHandler
 \item{} RequestService, SubscriptionService, NotificationService
 \item{} HealthCareService, HealthCareConnector, AutomatedSOSDB
 \item{} UserService, TokenDB, Track4RunDB
-\end{itemize}
+\end{enumerate}
 (note that by specifying the names of interfaces of components, we are also considering the concrete implementations, in whichever number they exist)\\
 
 The Data4HelpWebService is proposed to be the first component that is implemented because all parts of the application server will be using some element of it and its role in allowing some service to communicate with the DBMS in the DBManager component is crucial to the whole application. The component releasing process should follow the integration order that will be described into the next section.
@@ -665,11 +668,11 @@ It should be noted that there will be no explicit integration of the Data4HelpWe
 \item{} SubscriptionService
 \end{itemize}
 
-Integration tests will check cases like addition of new user to database, accessing the system with correct credentials, the consistency of making request, the reachability of all notifications to accept/reject request in the dashboard, the modification of subscription chosen by the user (if he wants any) and the remove of an existing appointment and break of a Plan.
+Integration tests will check cases like addition of new user to database, accessing the system with correct credentials, the consistency of making request, the reachability of all notifications to accept/reject request in the dashboard, the modification of subscription chosen by the user (if he wants any).
 
 \item{} Then we could start to implement part of the \textit{AutomatedSOS} subsystem:
 \begin{itemize}
-\item{} HealthCareService (alarm interface), \textit{External component}
+\item{} HealthCareService (\textit{External component})
 \item{} HealthCareConnector 
 \item{} AutomatedSOSDB
 \item{} ThresholdCollection, UserCollection, HealthCareCollection
@@ -687,7 +690,7 @@ This integration step will check the communication of the Data4Help system with 
 
 \item{} After that, other components can be joined together into small subsystems to test their interactions:
 \begin{itemize}
-\item{} \textit{AuthenticationHandler} and \textit{LoginService} : their interactions must not brake the consistency of Account information and they have to check only authorized users can access information
+\item{} \textit{AuthenticationManager} and \textit{LoginService} : their interactions must not brake the consistency of Account information and they have to check only authorized users can access information
 \item{} \textit{SearchManager, RequestService} and \textit{SubscriptionService} : system will check consistency between search into a request and subscription of the same user
 \item{} \textit{DataHandler, DBManager} and \textit{HealthCareConnector} : system will continuously check latest data and verify with the ThresholdCollection, if varies, notifies HealthCareService through HealthCareConnector of the same user
 \item{} \textit{RunCollection} and \textit{ParticipantCollection} : system will check consistency between run created and allows users participated in the same run
@@ -703,7 +706,6 @@ with external services of User Interface and Health-Care Service
 and the synchronization of Data with threshold values when user's data is out of range, notifies using external alarm interfaces
 \end{itemize}
 \end{enumerate}
-
 	
 	\chapter{Effort spent}
 	\begin{table}[h]
