@@ -362,6 +362,108 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\caption{Component descriptions of ASOS}
 			\label{table:asos_component_descriptions}
 		\end{longtable}
+		
+	\section{Component interfaces}
+	In the following section all the interfaces of the systems (D4H, T4R, ASOS) are presented. It is stated the classes that are part of the components, the exposed methods, the expected input parameters and the expected outputs, and the different endpoints exposed to the web-sites and to the Third Parties.
+	\subsection{Data4Help interfaces}
+	The following is a list of all the components of D4H, and the classes that belong to them, with the exposed methods.
+	\begin{itemize}
+		\item{\textbf{Login}}
+			\begin{itemize}
+				\item{LoginService}
+					\begin{itemize}
+						\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|}
+						\item{\verb|void logout(Spark.Request req, Spark.Response response)|}
+					\end{itemize}
+				\item{UserResource}
+					\begin{itemize}
+						\item{\verb|D4HUser getByEmailAndPass(String email, String password)|}
+						\item{\verb|void add(D4HUser u)|}
+					\end{itemize}
+			\end{itemize}
+			\item{\textbf{Signup}}
+			\begin{itemize}
+				\item{SignupService}
+					\begin{itemize}
+						\item{\verb|SignupResponse signupIndividual(Spark.Request req, Spark.Response res)|}
+						\item{\verb|SignupResponse signupThirdParty(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+				\item{UserResource}
+					\begin{itemize}
+						\item{\verb|D4HUser getByEmailAndPass(String email, String password)|}
+						\item{\verb|void add(D4HUser u)|}
+					\end{itemize}
+			\end{itemize}
+			\item{\textbf{SearchManager}}
+			\begin{itemize}
+				\item{SearchService}
+					\begin{itemize}
+						\item{\verb|IndividualSearchResponse searchIndividual(Spark.Request req,|\\ \verb|Spark.Response res)|}
+						\item{\verb|BulkSearchResponse searchBulk(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+				\item{UserResource}
+					\begin{itemize}
+						\item{\verb|D4HUser getBySSN(String ssn)|}
+						\item{\verb|Collection<D4HUser> get(D4HQuery query)|}
+						\item{\verb|Collection<D4HUser> anonimize(List<D4HUser> users)|}
+					\end{itemize}
+			\end{itemize}
+			\item{\textbf{Request}}
+			\begin{itemize}
+				\item{RequestService}
+					\begin{itemize}
+						\item{\verb|RequestResponse createRequest(Spark.Request req, Spark.Response res)|}
+						\item{\verb|RequestResponse acceptRequest(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void rejectRequest(Spark.Request req, Spark.Response res)|}
+						\item{\verb|Collection<Request> getAllRequests(Spark.Request req,|\\ \verb|Spark.Response res)|}
+						\item{\verb|void removeRequest(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+				\item{RequestResource}
+					\begin{itemize}
+						\item{\verb|Request getById(String id)|}
+						\item{\verb|Collection<Request> getAll(String userId)|}
+						\item{\verb|Request add(Request request)|}
+						\item{\verb|Request delete(Request request)|}
+						\item{\verb|Request update(Request request)|}
+					\end{itemize}
+			\end{itemize}
+			\item{\textbf{Subscription}}
+			\begin{itemize}
+				\item{SubscriptionService}
+					\begin{itemize}
+						\item{\verb|SubscriptionResponse createSubscription(Spark.Request req,|\\ \verb|Spark.Response res)|}
+						\item{\verb|Collection<Subscription> getAllSubscriptions(Spark.Request req,|\\ \verb|Spark.Response res)|}
+						\item{\verb|void removeSubscription(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+				\item{SubscriptionResource}
+					\begin{itemize}
+						\item{\verb|Subscription getById(String id)|}
+						\item{\verb|Collection<Subscription> getAll(String userId)|}
+						\item{\verb|Subscription add(Subscription subscription)|}
+						\item{\verb|Subscription delete(Subscription subscription)|}
+					\end{itemize}
+			\end{itemize}
+			\item{\textbf{AuthenticatorManager}}
+			\begin{itemize}
+				\item{AuthenticationManager}
+					\begin{itemize}
+						\item{\verb|void validateAndUpdateAccessToken(String userId, String accessToken)|}
+						\item{\verb|void validateAccessToken(String userId, String accessToken)|}
+						\item{\verb|void validateSecretKey(String appId, String secretKey)|}
+						\item{\verb|void deleteAccessToken(String accessToken)|}
+						\item{\verb|UserWebAuth setUserAccessToken(D4HUser d4HUser)|}
+						\item{\verb|ThirdPartyApiAuth setThirdPartySecretKey(String seed)|}
+						\item{\verb|static String hashPassword(String password)|}
+					\end{itemize}
+			\end{itemize}
+			\item{\textbf{DBManager}}
+			\begin{itemize}
+				\item{DBManager}
+					\begin{itemize}
+						\item{\verb|Morphia.Datastore getDatastore()|}
+					\end{itemize}
+			\end{itemize}
+	\end{itemize}
 			
 	\section{Database view}
 	In the previous section, an architectural landscape of D4H, ASOS and T4R was provided by means of high-level component diagrams. Those diagrams showed how components communicate with the rest of the system (i.e. through interfaces). Now, it is also meaningful to describe data models involved using class diagrams. \\
@@ -393,7 +495,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 		\includegraphics[width=0.5\textwidth]{diagrams/t4r_class_diagram.png}
 		\caption[Track4Run Class Diagram]{Track4Run Class Diagram}
 		\label{fig:Track4Run Class Diagram}
-	\end{figure}
+	\end{figure}		
 			
 	\section{Deployment view}
 	In the current chapter the deployment diagrams of D4H, T4R and ASOS are shown. All diagrams follow the same structure and design: yellow nodes represent external nodes that interact with the system, green nodes represent hardware devices (i.e. web server, database server, etc.), pale orange nodes represent execution environments such as JVM, and blue boxes represent high level components. Finally, the protocols used to communicate between different nodes displayed as red links.
