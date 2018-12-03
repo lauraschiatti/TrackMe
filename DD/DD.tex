@@ -135,48 +135,53 @@
 	
 	\chapter{Introduction}
 	\section{Context}
-	\textbf{TrackMe} develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatch is synchronized with an app that gives users access to their data and stats. This document discuss more technical aspects of working of the TrackMe application.
+	\textbf{TrackMe} develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatches are synchronized with an app that gives users access to their data and stats. Also, TrackMe is offering new services to their customers, so as to exploit the data collected from those devices. 
 	
 	\section{Purpose}
-	The purpose of this document is to give more technical details than the RASD about TrackMe application system. While the RASD presented a general view of the system and what functions the system is supposed to execute, this document aims to present the implementation of the system including components, run-time processes and deployment. It also presents in more details the implementation and integration plan, as well as the testing plan.\\\\
-More precisely, the document presents:
+	The requirements elicitation and analysis activities concerning the whole TrackMe system are presented with detail in the RASD (see \textbf{References} section). Then, the purpose of this document is to discuss more technical aspects regarding architectural and design choices that must be made, so as to follow well-oriented implementation and testing processes. \\
+		
+	More precisely, the document presents:
 \begin{itemize}
 		\item{}Overview of the high level architecture
 		\item{}The main components and their interfaces provided one for another
-		\item{}The runtime behaviour
+		\item{}The runtime behavior
 		\item{}The design patterns
-		\item{}Implementation plan
+		\item{} Implementation plan
 		\item{}Integration plan
 		\item{}Testing Plan
-	\end{itemize}
-The purpose of this document is to provide an overall guidance to the architecture of the software product.
+	\end{itemize}.
 		
 	\section{Scope}
-	The TrackMe environment will be composed by three systems, whose scope are defined in this section. \\
+	The TrackMe environment is composed by three systems whose scope can be summarized as follows: \\
 	
-	\textbf{Data4Help} is a system capable to store the physical health data of any individual using any TrackMe wearable device. All the stored data will be available to any third party company, after request and approval of its use is sent to the TrackMe wearable device user, who will be able to accept or reject the request, under no condition. Also, third party companies will be able to request data of a group of users, and Data4Help will provide that information under the solely condition of be able to anonymize it.\\
+	\textbf{D4H} is a system capable to provide third parties the health data collected from individuals that wear TrackMe devices. This is, third parties can request data of a single individual (who can accept or reject it), and also of groups of users. The data is available only  under certain conditions and is being retrieved anonymized.\\
 	
-	In addition, \textbf{AutomatedSOS} is a system that will be built on top of Data4Help, and will send requests to every elderly individual and responds back, if accepted, it adds to ASOS database in order to access its physical health parameters. ASOS is able to respond only if a city is available for health-care service in that city, before creating a request to that user. ASOS automatically assigns emergency contact according to the city of the user. It will monitor the physical health status of all of its users in order to establish their health condition based on previously defined thresholds. If any of the user's health parameters is under or above its threshold, the system will contact the associated health-care service for that user. AutomatedSOS will do its best effort to contact the health-care service, but under no circumstances will follow-up the status of the health-care response, meaning that it will not know if the health-care service answered the notification or not. \\
+	Additionally, \textbf{D4H} sends invitations to individuals older than 60 years that live in certain cities, offering them a personalized 24/7 monitoring service called \textbf{ASOS}. To establish which cities are available, D4H requests them to ASOS those cities in which there is at least one health care service that has a contract with TrackMe. If a user accepts to activate this service, D4H sends his basic information and last measured health status to ASOS. After receiving the data, ASOS stores it and assigns to the user an emergency contact according to his address. \\
+			
+	The system monitors individuals by comparing their health status with previously defined thresholds. If any of the parameters of a user is out of its normal range, a notification will be send to his associated health care service by means of a predefined communication
+interface within the next five seconds. The health care service reaction time cannot be controlled by ASOS since it is out of the scope \\
 	
-	Finally, \textbf{Track4Run}, also a system built on top of Data4Help, will send requests to every user in order to access their location and let them participate in a defined running circuit. Track4Run organizer users, will be able to setup a race, define its running circuit and send invitations to all the TrackMe wearable device users. Also, the race spectators will be able to follow the participants' location using the Track4Run web site. The location of every participant will only be available during the race.
+	Finally, with \textbf{T4R} run organizers are able to setup runs, define their running circuit and send invitations to D4H users of their interest (i.e. according to some criteria), inviting them to participate in upcoming runs. The spectators are able to follow the participants' location using the T4R website. The location of every participant will only be available during the race.
 	
 	\section{Definitions, Acronyms, Abbreviations}
 	\subsection{Definitions}
 	\begin{itemize}
-		\item{\textbf{Data trading}}: Generate revenue from user data in a much more direct way, by selling user data to a third party.
+		\item{\textbf{Health status}}: Collection of the last measured overall physical health parameters of a user or a group of users.
+		\item{\textbf{Running circuit}}: Path defined by the organizer for the run, using the set of nodes.
+		\item{\textbf{Anonymize}}: The action of anonymize means that an individual’s identity cannot
+be inferred using the available data.
+		\item{\textbf{Parameter out of its normal range}}: Meaning that the parameter is under or above a defined threshold. 
 	\end{itemize}
 	
 	\subsection{Acronyms}
 	\begin{itemize}
 		\item{DD}: Design Document
+		\item{RASD}: Requirement Analysis and Specification Document
 		\item{D4H}: Data4Help
 		\item{ASOS}: AutomatedSOS
 		\item{T4R}: Track4Run
 		\item{GUI}: Graphical User Interface
 		\item{MVC}: Model View Controller is a design pattern used for GUIs
-		\item{RASD}: Requirements Analysis and Specifications Document
-		\item{JMS}: Java Message Service 
-		\item{DSL}: Digital Subscriber Line
 	\end{itemize}
 	
 	\subsection{Abbreviations}
@@ -219,22 +224,26 @@ and it also contains the most relevant architecture views: component view, class
 	\section{Overview}
 	Application architecture design is a process which has to be executed in a defined flow. High-level components and their interaction is displayed in Figure \ref{fig:High-level architecture Diagram}.
 	\begin{figure}[H]
-				\centering
-				\includegraphics[width=1\textwidth]{diagrams/architecture.png}
-				\caption[High-level architecture Diagram]{High-level architecture Diagram}
-				\label{fig:High-level architecture Diagram}
-			\end{figure}
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/architecture.png}
+		\caption[High-level architecture Diagram]{High-level architecture Diagram}
+		\label{fig:High-level architecture Diagram}
+	\end{figure}
 			
 The above architecture diagram depicts clearly that third party - Data4Help relation is a service oriented, when the third-party user asks for some specific data and it is an event based, when it is subscribed to the data. In addition, a CRON job runs every day at 00:00, if there is every user above age of 60 years - they receive an ASOS notification. The system uses MongoDB, that listens, watch collection and events. Apparently, all the APIs are RESTful.\\
 When the third-party users have subscribed to the bulk data subscription, they define an update time when they want to get the refreshed data (e.g. update data in every 'X' hours).
 
 	\section{Component view}
 		\subsection{Data4Help component diagram}
-		In the Figure \ref{fig:d4h_component_diagram} it can be seen the component diagram of D4H, with all its external interfaces. It can be noticed two main components: \textbf{DataBase} and \textbf{D4HBackend}, where the former one refers to the Data4Help database, and which provides an interface used by the \textbf{DBManager} component. \\\\
-		On the other hand, \textbf{D4HBackend} component, contains all the components related to D4H, which are needed to provide the interfaces used by the third parties and the web site. The following interfaces are used by the web site: \textbf{SignupWeb}, \textbf{LoginWeb}, \textbf{SearchWeb}, \textbf{RequestWeb} and  \textbf{SubscriptionWeb}, while the \textbf{RequestAPI} interface is used by the third parties. In this case, D4H provides the interface in order to let the third parties send requests for accessing the health status and location of the individuals to them.\\\\
-		Furthermore, \textbf{AuthenticatorManager} component has the responsibility of validate the different credentials, and to provide the secret codes to the third parties, to do so, it interacts with the \textbf{TokenDB} component using the \textbf{TokenConnector}.\\\\
-		Finally, it can be seen the different third parties related to D4H. It worth mentioning \textbf{Track4Run} and \textbf{AutomatedSOS} components which, even though they are part of the TrackMe environment, they are treated as third parties in the sense they are completely decoupled of D4H. Moreover, all third parties must provide an interface to D4H in order to let it communicate the incoming changes of the subscriptions.
+			\subsubsection{Overview}
+		In the Figure \ref{fig:d4h_component_diagram} it can be seen the component diagram of D4H, with all its external interfaces. It can be noticed two main components: \textbf{DataBase} and \textbf{D4HBackend}, where the former one refers to the Data4Help database, and which provides an interface used by the \textbf{DBManager} component. \\
 		
+		On the other hand, \textbf{D4HBackend} component, contains all the components related to D4H, which are needed to provide the interfaces used by the third parties and the web site. The following interfaces are used by the web site: \textbf{SignupWeb}, \textbf{LoginWeb}, \textbf{SearchWeb}, \textbf{RequestWeb} and  \textbf{SubscriptionWeb}, while the \textbf{RequestAPI} interface is used by the third parties. In this case, D4H provides the interface in order to let the third parties send requests for accessing the health status and location of the individuals to them.\\
+		
+		Furthermore, \textbf{AuthenticatorManager} component has the responsibility of validate the different credentials, and to provide the secret codes to the third parties, to do so, it interacts with the \textbf{TokenDB} component using the \textbf{TokenConnector}.\\
+		
+		Finally, it can be seen the different third parties related to D4H. It worth mentioning \textbf{Track4Run} and \textbf{AutomatedSOS} components which, even though they are part of the TrackMe environment, they are treated as third parties in the sense they are completely decoupled of D4H. Moreover, all third parties must provide an interface to D4H in order to let it communicate the incoming changes of the subscriptions.\\
+	
 			\begin{sidewaysfigure}
     				\centering
 				\includegraphics[width=1\textwidth]{diagrams/d4h_component_diagram.png}
@@ -242,8 +251,45 @@ When the third-party users have subscribed to the bulk data subscription, they d
 				\label{fig:d4h_component_diagram}
 			\end{sidewaysfigure}	
 			\clearpage
+			\subsubsection{Description}
+			In the Table \ref{table:d4h_component_descriptions} a description of the components involved in D4H is shown.
 			
-		\subsection{Track4Run component diagram}	
+		\begin{longtable}{l p{0.7\textwidth}}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Component descriptions}} \\
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endfirsthead
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endhead
+			Login & Component is responsible of the login and logout actions into the site. It provides the session access tokens to the users and removes them when the user performs a logout. \\
+			
+			Signup & Component responsible of register web-users, either Individuals or Third Party companies. It provides two different interfaces to the web-site, one for the Individual user and another one for the Third Party user, and provides a session access token and a secret key and application id to the Third Party users. \\
+			
+			SearchManager & Component responsible of handling the searches of Individuals or group of Individuals' information. It should be able to anonymize the information of the group of users, and to respond with an error message when the Third Party user tries to access an Individual's information who have not accepted the request. \\
+			
+			Request & Component responsible of adding the requests to a specific Individual and to accept or reject them. It should provide an internal interface, in order to send, accept and reject requests from within the web-site, and an external interface in order to let the Third Parties to send requests to specific users from their back-end. Finally, it should be capable of connecting to the notification API of the Third Parties in order to let them know that an Individual has accepted a Request.\\
+			
+			Subscription & Component responsible of sending the information of the users to the subscribed Third Parties. It should be able to connect to the Third Parties endpoints in order to send the information regarding the saved queries. Also, it should expose an internal interface in order to let the Third Party users to save a particular query, delete it or get all the saved queries.\\
+			
+			DBManager & Component responsible of connecting the database. It is related to all the other components since they depend on it.\\
+			
+			AuthenticatorManager & Component responsible of validate and generate the session access tokens, and to provide the secret key and application id to the Signup component.\\
+			
+			D4H Web site & Component that represent the frontier between the final user and the system. From this component, the Individual user is capable to accept or reject Requests, and the Third Party users are capable to search information of a particular Individual or a group of them, send Requests and/or creating subscriptions.\\
+			
+			DataBase & Component that contains the main database (TrackMe DB), with all its collections and the token database (TokenDB) which contains all the valid access tokens and secret keys.\\
+			
+			\hline
+			\caption{Component descriptions of D4H}
+			\label{table:d4h_component_descriptions}
+		\end{longtable}
+			
+		\subsection{Track4Run component diagram}
+		\subsubsection{Overview}
 			In the Figure \ref{fig:t4r_component_diagram} it can be seen the T4R components. As in the D4H component diagram, the \textit{DataBase} component provides an interface in order to let the \textbf{DBManager} component communicate to it.\\\\
 			The main structure of the system is similar to the structure seen in D4H component diagram. The web site communicates with the back-end using the following interfaces: \textbf{LoginWeb}, \textbf{SignupWeb}, \textbf{UserWeb} and \textbf{NotificationWeb}. On the other hand, T4R provides the \textbf{DataAPI} interface, which is responsibly of receiving all the data of the participants, and uses the \textbf{RequestAPI} interface, in order to send the requests for accessing the individuals' location and health status.\\\\
 			Finally, as in D4H, the \textbf{AuthenticatorManager} component is responsible of validate the users' credentials.
@@ -254,7 +300,38 @@ When the third-party users have subscribed to the bulk data subscription, they d
 				\label{fig:t4r_component_diagram}
 			\end{figure}	
 			
-			\subsection{AutomatedSOS component diagram}	
+			\subsubsection{Description}
+			In the Table \ref{table:t4r_component_descriptions} a description of the components involved in T4R is shown.
+			
+		\begin{longtable}{l p{0.7\textwidth}}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Component descriptions}} \\
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endfirsthead
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endhead
+			Login & Component is responsible of the login and logout to the site. It provides the session access tokens to the users and removes them when the user performs a logout. \\
+			Signup & Component responsible of register Participant and Organizer users. \\
+			AuthenticatorManager & Component responsible of validate and generate the session access tokens.\\
+			DBManager & Component responsible of connecting the database. It is related to all the other components since they depend on it.\\
+			T4R Web site & Component that represent the frontier between the final user and the system. From this component, the Participant user is capable to enrol in a Run, and the Organizer users are capable to create Run events, define the running circuit and send invites to Participant users.\\
+			DataBase & Component that contains the main database (Track4Run DB), with all its collections and the token database (TokenDB) which contains all the valid session access tokens.\\
+			Request & Component responsible of sending Request for accessing location of a specific Individual in D4H. It should be able to connect to D4H through the provided RequestAPI.\\
+			User & Component responsible of manage the Participant operations. It should be able to show all the enrolled and non-enrolled participants of a run.\\
+			Notification & Component responsible of manage the Notification operations. It should be able to send invitations to participants, and let them accept or reject it. \\
+			DataHandler & Component responsible to get the location and health data of the Individuals during a Race event. It should be able to obtain the information sent by D4H during a race event, and to get the information related to the Individuals who accepted the sent request.\\
+			
+			\hline
+			\caption{Component descriptions of T4R}
+			\label{table:t4r_component_descriptions}
+		\end{longtable}
+			
+			\subsection{AutomatedSOS component diagram}
+				\subsubsection{Overview}
 			In the Figure \ref{fig:asos_component_diagram} it can be seen the ASOS components. It can be noticed that the system has a similar structure of T4R: the \textbf{ASOSBackend} component communicates  with \textbf{DataBase} component through the \textbf{DBConnector} interface, and provides a \textbf{DataAPI} interface to receive the updated information of the individuals.\\\\
 			On the other hand, \textbf{ASOSBackend} component sends notifications to the different \textbf{Health Care Service} components using the provided \textbf{Alarm Interface}.
 			\begin{figure}[H]
@@ -263,13 +340,171 @@ When the third-party users have subscribed to the bulk data subscription, they d
 				\caption[AutomatedSOS Component Diagram]{AutomatedSOS Component Diagram}
 				\label{fig:asos_component_diagram}
 			\end{figure}	
+			\subsubsection{Description}
+			In the Table \ref{table:asos_component_descriptions} a description of the components involved in ASOS is shown.
 			
+		\begin{longtable}{l p{0.7\textwidth}}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Component descriptions}} \\
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endfirsthead
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endhead
+			DBManager & Component responsible of connecting the database. It is related to all the other components since they depend on it.\\
+			DataBase & Component that contains the main database (AutomatedSOS DB), with all its collections.\\
+			DataHandler & Component responsible to get the location and health data of the Individuals every time it has changes. It should be able to obtain the information sent by D4H, and to get the information related to the Individuals who accepted the request.\\
+			HealthCareConnector & Component responsible of connecting to the health-care service assigned to an Individual, when its parameters are out of normal range.\\
+			\hline
+			\caption{Component descriptions of ASOS}
+			\label{table:asos_component_descriptions}
+		\end{longtable}
+		
+	\section{Component interfaces}
+	In the following section all the interfaces of the systems (D4H, T4R, ASOS) are presented. It is stated the classes that are part of the components, the exposed methods, the expected input parameters and the expected outputs, and the different endpoints exposed to the web-sites and to the Third Parties.
+	\subsection{Data4Help interfaces}
+	The following is a list of all the components of D4H, and the classes that belong to them, with the exposed methods.
+	\begin{itemize}
+		\item{\textbf{Login}}
+			\begin{itemize}
+				\item{LoginService}
+					\begin{itemize}
+						\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|}
+						\item{\verb|void logout(Spark.Request req, Spark.Response response)|}
+					\end{itemize}
+				\item{UserResource}
+					\begin{itemize}
+						\item{\verb|D4HUser getByEmailAndPass(String email, String password)|}
+						\item{\verb|void add(D4HUser u)|}
+					\end{itemize}
+			\end{itemize}
+			\item{\textbf{Signup}}
+			\begin{itemize}
+				\item{SignupService}
+					\begin{itemize}
+						\item{\verb|SignupResponse signupIndividual(Spark.Request req, Spark.Response res)|}
+						\item{\verb|SignupResponse signupThirdParty(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+				\item{UserResource}
+					\begin{itemize}
+						\item{\verb|D4HUser getByEmailAndPass(String email, String password)|}
+						\item{\verb|void add(D4HUser u)|}
+					\end{itemize}
+			\end{itemize}
+			\item{\textbf{SearchManager}}
+			\begin{itemize}
+				\item{SearchService}
+					\begin{itemize}
+						\item{\verb|IndividualSearchResponse searchIndividual(Spark.Request req,|\\ \verb|Spark.Response res)|}
+						\item{\verb|BulkSearchResponse searchBulk(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+				\item{UserResource}
+					\begin{itemize}
+						\item{\verb|D4HUser getBySSN(String ssn)|}
+						\item{\verb|Collection<D4HUser> get(D4HQuery query)|}
+						\item{\verb|Collection<D4HUser> anonimize(List<D4HUser> users)|}
+					\end{itemize}
+			\end{itemize}
+			\item{\textbf{Request}}
+			\begin{itemize}
+				\item{RequestService}
+					\begin{itemize}
+						\item{\verb|RequestResponse createRequest(Spark.Request req, Spark.Response res)|}
+						\item{\verb|RequestResponse acceptRequest(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void rejectRequest(Spark.Request req, Spark.Response res)|}
+						\item{\verb|Collection<Request> getAllRequests(Spark.Request req,|\\ \verb|Spark.Response res)|}
+						\item{\verb|void removeRequest(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+				\item{RequestResource}
+					\begin{itemize}
+						\item{\verb|Request getById(String id)|}
+						\item{\verb|Collection<Request> getAll(String userId)|}
+						\item{\verb|Request add(Request request)|}
+						\item{\verb|Request delete(Request request)|}
+						\item{\verb|Request update(Request request)|}
+					\end{itemize}
+			\end{itemize}
+			\item{\textbf{Subscription}}
+			\begin{itemize}
+				\item{SubscriptionService}
+					\begin{itemize}
+						\item{\verb|SubscriptionResponse createSubscription(Spark.Request req,|\\ \verb|Spark.Response res)|}
+						\item{\verb|Collection<Subscription> getAllSubscriptions(Spark.Request req,|\\ \verb|Spark.Response res)|}
+						\item{\verb|void removeSubscription(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+				\item{SubscriptionResource}
+					\begin{itemize}
+						\item{\verb|Subscription getById(String id)|}
+						\item{\verb|Collection<Subscription> getAll(String userId)|}
+						\item{\verb|Subscription add(Subscription subscription)|}
+						\item{\verb|Subscription delete(Subscription subscription)|}
+					\end{itemize}
+			\end{itemize}
+			\item{\textbf{AuthenticatorManager}}
+			\begin{itemize}
+				\item{AuthenticationManager}
+					\begin{itemize}
+						\item{\verb|void validateAndUpdateAccessToken(String userId, String accessToken)|}
+						\item{\verb|void validateAccessToken(String userId, String accessToken)|}
+						\item{\verb|void validateSecretKey(String appId, String secretKey)|}
+						\item{\verb|void deleteAccessToken(String accessToken)|}
+						\item{\verb|UserWebAuth setUserAccessToken(D4HUser d4HUser)|}
+						\item{\verb|ThirdPartyApiAuth setThirdPartySecretKey(String seed)|}
+						\item{\verb|static String hashPassword(String password)|}
+					\end{itemize}
+			\end{itemize}
+			\item{\textbf{DBManager}}
+			\begin{itemize}
+				\item{DBManager}
+					\begin{itemize}
+						\item{\verb|Morphia.Datastore getDatastore()|}
+					\end{itemize}
+			\end{itemize}
+	\end{itemize}
+			
+	\section{Database view}
+	In the previous section, an architectural landscape of D4H, ASOS and T4R was provided by means of high-level component diagrams. Those diagrams showed how components communicate with the rest of the system (i.e. through interfaces). Now, it is also meaningful to describe data models involved using class diagrams. \\
+	
+	As explained in the RASD, the whole data model of TrackMe up to now will be treated as a ”black box”, this means \textbf{D4H} will have a local copy of the \textit{basic information} and \textit{collected data} only of users who activated this service. \\
+	 
+	Going into details D4H has five main classes: \textit{individual}, \textit{third party}, \textit{data}, \textit{request} and \textit{subscription}, their attributes, and associations are shown in Figure \ref{fig:Data4Help Class Diagram}. Individuals and third parties are the two main types of users interacting with the system, and it is easier to explain the other models involved from the point of view of what they can and cannot do. Thus, \textit{Individuals} are those wearing the devices, therefore are related to their collected\textit{data}. On the other hand, \textit{Third parties} can create \textit{requests} to get data of individuals and also, if any request is approved, they can \textit{subscribe} to receive more (i.e the query of the search they did needs to be stored). \\\\
+	
+	\begin{figure}[H]
+    		\centering
+		\includegraphics[width=1\textwidth]{diagrams/d4h_class_diagram.png}
+		\caption[Data4Help Class Diagram]{Data4Help Class Diagram}
+		\label{fig:Data4Help Class Diagram}
+	\end{figure}
+	
+	\textit{Individuals} subscribed to D4H that decided to activate \textbf{ASOS} service, are stored in ASOSUser after assigning them a \textit{status} so as to avoid duplicate notifications to the health care service. Each user is associated to an \textit{emergency contact} (assigned by the system). It is necessary to clarify that the parameters (i.e. users' data) are not stored, they are used exclusively to make comparisons with their corresponding  \textit{thresholds}.\\\\
+	
+	\begin{figure}[H]
+    		\centering
+		\includegraphics[width=0.5\textwidth]{diagrams/asos_class_diagram.png}
+		\caption[AutomatedSOS Class Diagram]{AutomatedSOS Class Diagram}
+		\label{fig:AutomatedSOS Class Diagram}
+	\end{figure}
+	
+	Regarding \textbf{T4R}, \textit{runs} are characterized by start and end times, and a path. Each run has an \textit{organizer} responsible for setting it up and individuals enrolled in any of them are considered \textit{participants}. The system does not need to keep record of the spectators.
+	
+	\begin{figure}[H]
+    		\centering
+		\includegraphics[width=0.5\textwidth]{diagrams/t4r_class_diagram.png}
+		\caption[Track4Run Class Diagram]{Track4Run Class Diagram}
+		\label{fig:Track4Run Class Diagram}
+	\end{figure}		
 			
 	\section{Deployment view}
 	In the current chapter the deployment diagrams of D4H, T4R and ASOS are shown. All diagrams follow the same structure and design: yellow nodes represent external nodes that interact with the system, green nodes represent hardware devices (i.e. web server, database server, etc.), pale orange nodes represent execution environments such as JVM, and blue boxes represent high level components. Finally, the protocols used to communicate between different nodes displayed as red links.
+	
 	\subsection{Data4Help deployment diagram}
-	In the Figure \ref{fig:d4h_deployment_diagram} can be seen the deployment diagram of D4H. As can be seen, the \textbf{Web Server} node, is a device which contains the execution environment that holds the \textbf{D4H Backend} component. The \textbf{Web Server} node, is related to two different devices: a \textbf{MongoDB Server} which is the environment of the \textbf{TrackMe DB}, and a \textbf{Redis Server} which is the environment of the \textbf{TokenDB}.\\\\
-	Moreover, the \textbf{Web Server} is related to three third parties: two of them are \textbf{Track4Run} execution environment, and \textbf{AutomatedSOS} execution environment. The third third party is a \textbf{Generic Third Party Backend} node that is external to the TrackMe environment.\\\\
+	In the Figure \ref{fig:d4h_deployment_diagram} can be seen the deployment diagram of D4H. As can be seen, the \textbf{Web Server} node, is a device which contains the execution environment that holds the \textbf{D4H Backend} component. The \textbf{Web Server} node, is related to two different devices: a \textbf{MongoDB Server} which is the environment of the \textbf{TrackMe DB}, and a \textbf{Redis Server} which is the environment of the \textbf{TokenDB}.\\
+	
+	Moreover, the \textbf{Web Server} is related to three third parties: two of them are \textbf{Track4Run} execution environment, and \textbf{AutomatedSOS} execution environment. The third third party is a \textbf{Generic Third Party Backend} node that is external to the TrackMe environment.\\
+	
 	Finally, the deployment diagram does not show the interaction between the web-users (individuals or third parties) with the system. This interaction is inherent to a web site, and it happens between the client and the \textbf{D4H Web page} component.
 		\begin{figure}[H]
 			\centering
@@ -277,6 +512,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\caption[Data4Help Deployment Diagram]{Data4Help Deployment Diagram}
 			\label{fig:d4h_deployment_diagram}
 		\end{figure}	
+		
 	\subsection{Track4Run deployment diagram}
 	In the Figure \ref{fig:t4r_deployment_diagram} the T4R deployment diagram is shown. It can be seen the interaction between \textbf{Data4Help} execution environment and the \textbf{Web Server} node. This interaction happens thanks to the different interfaces provided by D4H and T4R. \\\\
 	Furthermore, the \textbf{Web Server} node interacts with the \textbf{MongoDB Server} node using the TCP/IP protocol, and it works thanks to the \textbf{DBConnector} interface provided by the \textbf{T4R Database} component.
@@ -286,6 +522,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\caption[Track4Run Deployment Diagram]{Track4Run Deployment Diagram}
 			\label{fig:t4r_deployment_diagram}
 		\end{figure}	
+		
 	\subsection{AutomatedSOS deployment diagram}
 	In the Figure \ref{fig:asos_deployment_diagram} the ASOS deployment diagram is shown. Since ASOS does not have a web site, the main node is an \textbf{Application Server} that hosts the execution environment for the \textbf{ASOS Backend} component. The \textbf{Application Server} interacts with a \textbf{MongoDB Server} node, using the TCP/IP protocol. Moreover, it interacts with an external node which represent the different \textbf{Health Care Service}s, and with the execution environment of \textbf{Data4Help}.
 		\begin{figure}[H]
@@ -372,10 +609,9 @@ In order to start implementation process of the project, RASD and DD must be fin
 \textbf{Testing Tools} In order to achieve all the testing purposes we will use different testing tools:
 \begin{itemize}
 \item{} For unit testing of each component we will use \textit{JUnit} framework. It’s a good framework offered by Oracle itself so it’s well test and supported. It can test each functionality of component into an isolated environment. It can be used also to test some little interaction between components.
-\item{}\textit{Mockito} tool will be used as it is a No expect-run-verify technique. Mockito is a mocking framework that tastes really good. It lets you write beautiful tests with a clean and simple API. Mockito doesn’t give you hangover because the tests are very readable and they produce clean verification errors.
-\item{} \textit{Arquillian} tools may be used during integration testing: it offers different features that tests very well Java Enterprise components and containers. It also provides features for debugging servers functionalities.
-\item{} \textit{Grinder} software may be used to make load tests onWeb Server.
-\item{} \textit{HammerDB} may be used to test functionalities and performance of Database server.
+\item{} \textit{Arquillian} tools will be used during integration testing: it offers different features that tests very well Java Enterprise components and containers. It also provides features for debugging servers functionalities.
+\item{} \textit{Grinder} software will be used to make load tests onWeb Server.
+\item{} \textit{HammerDB} will be used to test functionalities and performance of Database server.
 \end{itemize}
 
 
@@ -389,14 +625,14 @@ The implementation of the \textit{TrackMe} system will be done module by module 
 Due to modularity of system components and to the adopted strategy there are no constraints on implementation order of components. But due to some critical aspects of a few components we want to prioritize implementation of those components.
 The most critical components of the system that could take more than others to be implemented may be:
 
-\begin{enumerate}
+\begin{itemize}
 \item{} Data4HelpWebService, Track4RunWebService
 \item{} LoginService and SignupService
 \item{} SearchManager, AuthenticationManager, DBManager, DataHandler
 \item{} RequestService, SubscriptionService, NotificationService
 \item{} HealthCareService, HealthCareConnector, AutomatedSOSDB
 \item{} UserService, TokenDB, Track4RunDB
-\end{enumerate}
+\end{itemize}
 (note that by specifying the names of interfaces of components, we are also considering the concrete implementations, in whichever number they exist)\\
 
 The Data4HelpWebService is proposed to be the first component that is implemented because all parts of the application server will be using some element of it and its role in allowing some service to communicate with the DBMS in the DBManager component is crucial to the whole application. The component releasing process should follow the integration order that will be described into the next section.
@@ -429,11 +665,11 @@ It should be noted that there will be no explicit integration of the Data4HelpWe
 \item{} SubscriptionService
 \end{itemize}
 
-Integration tests will check cases like addition of new user to database, accessing the system with correct credentials, the consistency of making request, the reachability of all notifications to accept/reject request in the dashboard, the modification of subscription chosen by the user (if he wants any).
+Integration tests will check cases like addition of new user to database, accessing the system with correct credentials, the consistency of making request, the reachability of all notifications to accept/reject request in the dashboard, the modification of subscription chosen by the user (if he wants any) and the remove of an existing appointment and break of a Plan.
 
 \item{} Then we could start to implement part of the \textit{AutomatedSOS} subsystem:
 \begin{itemize}
-\item{} HealthCareService (\textit{External component})
+\item{} HealthCareService (alarm interface), \textit{External component}
 \item{} HealthCareConnector 
 \item{} AutomatedSOSDB
 \item{} ThresholdCollection, UserCollection, HealthCareCollection
@@ -451,7 +687,7 @@ This integration step will check the communication of the Data4Help system with 
 
 \item{} After that, other components can be joined together into small subsystems to test their interactions:
 \begin{itemize}
-\item{} \textit{AuthenticationManager} and \textit{LoginService} : their interactions must not brake the consistency of Account information and they have to check only authorized users can access information
+\item{} \textit{AuthenticationHandler} and \textit{LoginService} : their interactions must not brake the consistency of Account information and they have to check only authorized users can access information
 \item{} \textit{SearchManager, RequestService} and \textit{SubscriptionService} : system will check consistency between search into a request and subscription of the same user
 \item{} \textit{DataHandler, DBManager} and \textit{HealthCareConnector} : system will continuously check latest data and verify with the ThresholdCollection, if varies, notifies HealthCareService through HealthCareConnector of the same user
 \item{} \textit{RunCollection} and \textit{ParticipantCollection} : system will check consistency between run created and allows users participated in the same run
