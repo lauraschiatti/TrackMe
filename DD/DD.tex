@@ -243,76 +243,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 		Furthermore, \textbf{AuthenticatorManager} component has the responsibility of validate the different credentials, and to provide the secret codes to the third parties, to do so, it interacts with the \textbf{TokenDB} component using the \textbf{TokenConnector}.\\
 		
 		Finally, it can be seen the different third parties related to D4H. It worth mentioning \textbf{Track4Run} and \textbf{AutomatedSOS} components which, even though they are part of the TrackMe environment, they are treated as third parties in the sense they are completely decoupled of D4H. Moreover, all third parties must provide an interface to D4H in order to let it communicate the incoming changes of the subscriptions.\\
-
-		The interfaces provided by D4H can be categorised in Internal and External. The Internal interfaces are those related to the D4H web-site, while the External interfaces are those related to third party components. In the Table \ref{table:d4h_internal_interfaces} more detail is provided regarding the internal interfaces provided by D4H, and in the Table \ref{table:d4h_external_interfaces} more detail is provided about the external interfaces.\\
-		
-	\begin{table}[H]
-		\centering
-		\begin{tabular}{l l p{0.5\textwidth}}
-			\hline\hline
-			\multicolumn{3}{c}{\textbf{Internal interfaces}} \\
-			\hline
-			\textbf{Method} & \textbf{Path} & \textbf{Description} \\ [0.5ex]
-			\hline
-			POST & \textbackslash{web}\textbackslash{login} & Let the user to login into the web-site \\
-			POST & \textbackslash{web}\textbackslash{logout} & Let the user to logout into the web-site \\
-			POST & \textbackslash{web}\textbackslash{individual}\textbackslash{signup} & Let an Individual create a D4H account \\
- 			POST & \textbackslash{web}\textbackslash{thirdparty}\textbackslash{signup} & Let a Third Party company to create a D4H account\\
-			GET & \textbackslash{web}\textbackslash{search} & Let the user to search a specific user information or a bulk of anonymised information\\
-			GET & \textbackslash{web}\textbackslash{request} & Let the user to get all requests sent to him\\
-			POST & \textbackslash{web}\textbackslash{request}\textbackslash{:requestId} & Let the user to accept a request\\
-			DELETE & \textbackslash{web}\textbackslash{request}\textbackslash{:requestId} & Let the user to reject a request\\
-			GET & \textbackslash{web}\textbackslash{subscription} & Let the user to get all the saved subscriptions\\
-			POST & \textbackslash{web}\textbackslash{subscription} & Let the user to save a search query\\
-			DELETE & \textbackslash{web}\textbackslash{subscription}\textbackslash{:queryId} & Let the user to remove a subscription\\
-			\hline
-		\end{tabular}
-		\caption{Internal interfaces provided by D4H}
-		\label{table:d4h_internal_interfaces}
-	\end{table}
 	
-	\begin{table}[h]
-		\centering
-		\begin{tabular}{l l p{0.6\textwidth}}
-			\hline\hline
-			\multicolumn{3}{c}{\textbf{External interfaces}} \\
-			\hline
-			\textbf{Method} & \textbf{Path} & \textbf{Description} \\ [0.5ex]
-			\hline
-			POST & \textbackslash{api}\textbackslash{request} & Let the third party send a request for accessing an individual's health data and location\\
-			DELETE & \textbackslash{api}\textbackslash{request}\textbackslash{:requestId} & Let a third party to remove a request sent to an individual\\
-			\hline
-		\end{tabular}
-		\caption{External interfaces provided by D4H}
-		\label{table:d4h_external_interfaces}
-	\end{table}
-	
-		\begin{sidewaysfigure}
-    			\centering
-			\includegraphics[width=1\textwidth]{diagrams/d4h_component_diagram.png}
-			\caption[Data4Help Component Diagram]{Data4Help Component Diagram}
-			\label{fig:d4h_component_diagram}
-		\end{sidewaysfigure}	
-		\clearpage
-			
-		\subsection{Track4Run component diagram}	
-	In the Figure \ref{fig:t4r_component_diagram} it can be seen the T4R components. As in the D4H component diagram, the \textit{DataBase} component provides an interface in order to let the \textbf{DBManager} component communicate to it.\\
-			
-	The main structure of the system is similar to the structure seen in D4H component diagram. The web site communicates with the back-end using the following interfaces: \textbf{LoginWeb}, \textbf{SignupWeb}, \textbf{UserWeb} and \textbf{NotificationWeb}. On the other hand, T4R provides the \textbf{DataAPI} interface, which is responsibly of receiving all the data of the participants, and uses the \textbf{RequestAPI} interface, in order to send the requests for accessing the individuals' location and health status.\\
-	
-	Finally, as in D4H, the \textbf{AuthenticatorManager} component is responsible of validate the users' credentials.
-		\begin{figure}[H]
-			\centering
-			\includegraphics[width=1\textwidth]{diagrams/t4r_component_diagram.png}
-			\caption[Track4Run Component Diagram]{Track4Run Component Diagram}
-			\label{fig:t4r_component_diagram}
-		\end{figure}	
-			
-	\subsection{AutomatedSOS component diagram}	
-	In the Figure \ref{fig:asos_component_diagram} it can be seen the ASOS components. It can be noticed that the system has a similar structure of T4R: the \textbf{ASOSBackend} component communicates  with \textbf{DataBase} component through the \textbf{DBConnector} interface, and provides a \textbf{DataAPI} interface to receive the updated information of the individuals.\\
-	
-	On the other hand, \textbf{ASOSBackend} component sends notifications to the different \textbf{Health Care Service} components using the provided \textbf{Alarm Interface}.
-
 			\begin{sidewaysfigure}
     				\centering
 				\includegraphics[width=1\textwidth]{diagrams/d4h_component_diagram.png}
@@ -431,14 +362,6 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\caption{Component descriptions of ASOS}
 			\label{table:asos_component_descriptions}
 		\end{longtable}
->>>>>>> 711bc7d45006b00cf0128d5c86472d8644d702eb
-			
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=1\textwidth]{diagrams/asos_component_diagram.png}
-		\caption[AutomatedSOS Component Diagram]{AutomatedSOS Component Diagram}
-		\label{fig:asos_component_diagram}
-	\end{figure}	
 			
 	\section{Database view}
 	In the previous section, an architectural landscape of D4H, ASOS and T4R was provided by means of high-level component diagrams. Those diagrams showed how components communicate with the rest of the system (i.e. through interfaces). Now, it is also meaningful to describe data models involved using class diagrams. \\
