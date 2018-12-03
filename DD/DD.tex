@@ -238,7 +238,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\subsubsection{Overview}
 		In the Figure \ref{fig:d4h_component_diagram} it can be seen the component diagram of D4H, with all its external interfaces. It can be noticed two main components: \textbf{DataBase} and \textbf{D4HBackend}, where the former one refers to the Data4Help database, and which provides an interface used by the \textbf{DBManager} component. \\
 		
-		On the other hand, \textbf{D4HBackend} component, contains all the components related to D4H, which are needed to provide the interfaces used by the third parties and the web site. The following interfaces are used by the web site: \textbf{SignupWeb}, \textbf{LoginWeb}, \textbf{SearchWeb}, \textbf{RequestWeb} and  \textbf{SubscriptionWeb}, while the \textbf{RequestAPI} interface is used by the third parties. In this case, D4H provides the interface in order to let the third parties send requests for accessing the health status and location of the individuals to them.\\
+		On the other hand, \textbf{D4HBackend} component, contains all the components related to D4H, which are needed to provide the interfaces used by the third parties and the web site. The following interfaces are used by the web site: \textbf{SignupWeb}, \textbf{LoginWeb}, \textbf{SearchWeb}, \textbf{RequestWeb} and  \textbf{SubscriptionWeb}, while the \textbf{RequestAPI} interface is used by the third parties. In this case, D4H provides the interface in order to let the third parties send requests for accessing the health status and location of the individuals to them. Is it important to notice that the \textit{RequestPort} is used to show the difference between the interfaces that are consumed by Third Parties, and the interfaces used internally by the web site. The same can be noticed in the third party components, like Track4Run and AutomatedSOS, with their \textit{DataPort} and \textit{NotificationPort}.\\
 		
 		Furthermore, \textbf{AuthenticatorManager} component has the responsibility of validate the different credentials, and to provide the secret codes to the third parties, to do so, it interacts with the \textbf{TokenDB} component using the \textbf{TokenConnector}.\\
 		
@@ -282,6 +282,8 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			D4H Web site & Component that represent the frontier between the final user and the system. From this component, the Individual user is capable to accept or reject Requests, and the Third Party users are capable to search information of a particular Individual or a group of them, send Requests and/or creating subscriptions.\\
 			
 			DataBase & Component that contains the main database (TrackMe DB), with all its collections and the token database (TokenDB) which contains all the valid access tokens and secret keys.\\
+			
+			APIManager & Component responsible of connecting to the configured services of the Third Party services. It is responsible of sending the data of the subscriptions to the Third Parties, and of sending the notification of requests sent by the Third Party.\\
 			
 			\hline
 			\caption{Component descriptions of D4H}
@@ -378,7 +380,6 @@ When the third-party users have subscribed to the bulk data subscription, they d
 				\item{UserResource}
 					\begin{itemize}
 						\item{\verb|D4HUser getByEmailAndPass(String email, String password)|}
-						\item{\verb|void add(D4HUser u)|}
 					\end{itemize}
 			\end{itemize}
 			\item{\textbf{Signup}}
@@ -443,6 +444,16 @@ When the third-party users have subscribed to the bulk data subscription, they d
 						\item{\verb|Subscription delete(Subscription subscription)|}
 					\end{itemize}
 			\end{itemize}
+			\item{\textbf{APIManager}}
+			\begin{itemize}
+				\item{APIManager}
+					\begin{itemize}
+						\item{\verb|APIConfiguration getAPIConfig(String thirdPartyId)|}
+						\item{\verb|void sendNotification(String thirdPartyId, Notification notification)|}
+						\item{\verb|void sendIndividualData(String thirdPartyId, Data data)|}
+						\item{\verb|void sendBulkData(String thirdPartyId, List<Data> data)|}
+					\end{itemize}
+			\end{itemize}
 			\item{\textbf{AuthenticatorManager}}
 			\begin{itemize}
 				\item{AuthenticationManager}
@@ -464,6 +475,145 @@ When the third-party users have subscribed to the bulk data subscription, they d
 					\end{itemize}
 			\end{itemize}
 	\end{itemize}
+	Almost all the components offer a way to communicate with the front-end (web site), or with the third parties. In particular, the Service classes have methods that are related to the external interfaces, which are endpoints used by the web site, in order to let the web user to interact with it, or by a third party services. Is it important to mention that \verb|Spark.Request| and \verb|Spark.Response| classes belong to the \textit{Java Spark Framework}, and does nothing to do with the \textit{Request} class of the TrackMe model. In the following list, all the service classes are listed showing the link between their methods and the endpoints, and the expected inputs and outputs:
+	\begin{itemize}
+		\item{LoginService}
+		\begin{itemize}
+			\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/login|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+			\verb|email: String| & \verb|userId: String| \\
+			\verb|password: String| & \verb|accessToken: String|
+			\end{tabular}\\
+			\item{\verb|void logout(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/logout|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+			\verb|userId: String| & \\
+			\verb|accessToken: String| & \\
+			\end{tabular}\\
+		\end{itemize}
+		\item{SignupService}
+		\begin{itemize}
+			\item{\verb|SignupResponse signupIndividual(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/individual/signup|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|email: String| & \verb|userId: String| \\
+				\verb|password: String| & \verb|accessToken: String| \\
+				\verb|name: String| & \\
+				\verb|ssn: String| & \\
+				\verb|birthDate: Date| & \\
+				\verb|gender: Gender| & \\
+				\verb|bloodType: BloodType| & \\
+				\verb|address: Address| & \\
+				\verb|address.country: String| & \\
+				\verb|address.province: String| & \\
+				\verb|address.city: String| & \\
+			\end{tabular}\\
+			\item{\verb|SignupResponse signupThirdParty(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/thirdparty/signup|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|email: String| & \verb|userId: String| \\
+				\verb|password: String| & \verb|accessToken: String| \\
+				\verb|certificate: File| & \\
+				\verb|name: String| & \\
+				\verb|phone: String| & \\
+				\verb|code: String| & \\
+				\verb|taxcode: String| & \\
+			\end{tabular}\\
+		\end{itemize}
+		\item{SearchService}
+		\begin{itemize}
+			\item{\verb|IndividualSearchResponse searchIndividual(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|POST /web/search|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|ssn: String| & \verb|ssn: String| \\
+				& \verb|name: String| \\
+				& \verb|data: Data| \\
+				& \verb|data.location: Location| \\
+				& \verb|data.location.longitude: Long| \\
+				& \verb|data.location.latitude: Long| \\
+				& \verb|data.healthStatus: HealtStatus| \\
+				& \verb|data.healthStatus.heartRate: Integer| \\
+				& \verb|data.healthStatus.bloodPreasure: Integer| \\
+				& \verb|data.healthStatus.bodyTemperature: Integer| \\
+				& \verb|data.healthStatus.bloodOxygen: Integer| \\
+			\end{tabular}\\
+			\item{\verb|BulkSearchResponse searchBulk(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/search|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|country: String| & \verb|data: List<Data>| \\
+				\verb|city: String| & \verb|data[*].healthStatus: HealtStatus| \\
+				\verb|gender: Gender| & \verb|data[*].healthStatus.heartRate: Integer| \\
+				\verb|age: Integer| & \verb|data[*].healthStatus.bloodPreasure: Integer| \\
+				\verb|bloodType: BloodType| & \verb|data[*].healthStatus.bodyTemperature: Integer| \\
+				\verb|province: String| & \verb|data[*].healthStatus.bloodOxygen: Integer| \\
+			\end{tabular}\\
+		\end{itemize}
+		\item{RequestService}
+		\begin{itemize}
+			\item{\verb|RequestResponse createRequest(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/request|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|ssn: String| & \verb|requestId: String| \\
+				\verb|secretKey: String| & \\
+				\verb|appId: String| & \\
+			\end{tabular}\\
+			\item{\verb|RequestResponse acceptRequest(Spark.Request req, Spark.Response res)|\\ \verb|PUT /web/request/:requestId|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				& \verb|requestId: String| \\
+				& \verb|status: String|\\
+			\end{tabular}\\
+			\item{\verb|void rejectRequest(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/request/:requestId|}
+			\item{\verb|Collection<Request> getAllRequests(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/request|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|ssn: String| & \verb|requests: List<Request>| \\
+				& \verb|requests[*].id: String| \\
+				& \verb|requests[*].status: RequestStatus| \\
+				& \verb|requests[*].thirdParty: ThirdParty| \\
+				& \verb|requests[*].thirdParty.name: String| \\
+			\end{tabular}\\
+			\item{\verb|void removeRequest(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /api/request/:requestId|}
+		\end{itemize}
+		\item{SubscriptionService}
+		\begin{itemize}
+			\item{\verb|SubscriptionResponse createSubscription(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|POST /web/subscription|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|ssn: String| & \verb|subscriptionId: String| \\
+				\verb|country: String| & \\
+				\verb|city: String| & \\
+				\verb|province: String| & \\
+				\verb|gender: Gender| & \\
+				\verb|age: Integer| & \\
+				\verb|bloodType: BloodType| & \\
+			\end{tabular}\\
+			\item{\verb|Collection<Subscription> getAllSubscriptions(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/subscription|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|ssn: String| & \verb|subscriptions: List<Subscription>| \\
+				& \verb|subscriptions[*].id: String| \\
+				& \verb|subscriptions[*].thirdParty: ThirdParty| \\
+				& \verb|subscriptions[*].thirdParty.name: String| \\
+				& \verb|subscriptions[*].individual: Individual| \\
+				& \verb|subscriptions[*].individual.name: String| \\
+				& \verb|subscriptions[*].individual.ssn: String| \\
+			\end{tabular}\\
+			\item{\verb|void removeSubscription(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/subscription/:subscriptionId|}
+		\end{itemize}
+	\end{itemize}	 
 			
 	\section{Database view}
 	In the previous section, an architectural landscape of D4H, ASOS and T4R was provided by means of high-level component diagrams. Those diagrams showed how components communicate with the rest of the system (i.e. through interfaces). Now, it is also meaningful to describe data models involved using class diagrams. \\
