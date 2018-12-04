@@ -649,30 +649,22 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\begin{itemize}
 				\item{UserService}
 					\begin{itemize}
-						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req, Spark.Response res)|}
+						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req,|\\ \verb|Spark.Response res)|}
 						\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|}
 						\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|}
-						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req, Spark.Response res)|}
+						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req,|\\ \verb|Spark.Response res)|}
 					\end{itemize}
 				\item{UserResource}
 					\begin{itemize}
 						\item{\verb|T4RUser getById(String userId)|}
 						\item{\verb|void update(T4RUser u)|}
 					\end{itemize}
-				\item{EventResource}
-					\begin{itemize}
-						\item{\verb|Event getById(String eventId)|}
-						\item{\verb|void add(Event e)|}
-						\item{\verb|void delete(String eventId)|}
-						\item{\verb|void update(Event e)|}
-						\item{\verb|Collection<Event> getAll()|}
-					\end{itemize}
 			\end{itemize}
 		\item{\textbf{Event}}
 			\begin{itemize}
 				\item{EventService}
 					\begin{itemize}
-						\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req, Spark.Response res)|}
+						\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req,|\\ \verb|Spark.Response res)|}
 						\item{\verb|void createEvent(Spark.Request req, Spark.Response res)|}
 						\item{\verb|void updateEvent(Spark.Request req, Spark.Response res)|}
 					\end{itemize}
@@ -894,8 +886,13 @@ When the third-party users have subscribed to the bulk data subscription, they d
 					\end{itemize}
 					\item{ThresholdResource}
 					\begin{itemize}
-						\item{\verb|Collection<Threshold> get()|}
+						\item{\verb|Collection<Threshold> getAll()|}
 						\item{\verb|Boolean isOutOfRange(Threshold threshold, Data data)|}
+					\end{itemize}
+					\item{UserResource}
+					\begin{itemize}
+						\item{\verb|ASOSUser getById(String userId)|}
+						\item{\verb|void delete(String userId)|}
 					\end{itemize}
 			\end{itemize}
 		\item{\textbf{HealthCareConnector}}
