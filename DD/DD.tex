@@ -188,7 +188,7 @@ be inferred using the available data.
 	
 	\subsection{Abbreviations}
 	\begin{itemize}
-		\item $[Gn]$: n-goal.
+		\item $[Rn]$: n-requirement.
 	\end{itemize}
 	
 	\section{Revision history}
@@ -956,7 +956,7 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\item{\textbf{Individual}}: users wearing the devices.
 		\item{\textbf{Data}}: health status and location collected from devices.
 		\item{\textbf{ThirdParty}}: companies requesting data of individuals or bulk data. For registering, all third parties must provide a certificate to verify that it is a legally constituted company.
-		\item{\textbf{TPConfiguration}}: an important issue to tackle is the way in which the system will communicate to third parties to send them notifications or the data they request. To make it easier, third parties will be asked to provide three URLs,
+		\item{\textbf{TPConfiguration}}: an important issue to tackle is the way in which the system will communicate to third parties to send them notifications or the data they request. To send information regarding saved queries, third parties will be asked to provide three endpoints,
 	 \textit{individualpushURL}, \textit{bulkPushURL} and \textit{notificationURL}.
 		\item{\textbf{Request}}: third parties can request data of a given individual. Each request has an associated \textit{status}, initially is \textit{pending} and can become either \textit{rejected} or \textit{approved} according to to whether the individual accepts or not. 
 		\textit{Requests for bulk data} are treated differently. The only constraints to provide that data to third parties are managed by the system (if they do not hold the third party is notified)
@@ -1102,7 +1102,7 @@ used, why, and how
 
 The above figure 3.6 displays the dashboard for individual users, this new page is responsive and a real-time view of the application for the individual user's point of view. the individual user have options to accept or reject any request for data acquisition. As soon as an action is taken upon the request, it gets deleted from the page.
 
-\begin{figure}[H]
+	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.35]{UI/db_thirdparty.png}
 		\caption[UI: Third party Dashboard Page]{Third party Dashboard Page}
@@ -1111,8 +1111,70 @@ The above figure 3.6 displays the dashboard for individual users, this new page 
 	The above figure 3.7 displays the dashboard for third party users, this new page is responsive and a real-time view of the application for the third party user's point of view. Third parties can  request for  data using the filtering criteria provided by the system such as: specific individual data or in bulk; furthermore, if its specific request then filtering is done by SSN/fiscal code and if its bulk data, then, filtering is done basis upon country, age and blood type.
 	
 	\chapter{Requirements traceability}
-	Explain how the requirements you have defined in the RASD map to the design elements that you have defined in this document.
+	In this section is shown how the goals and requirements specified in the RASD are mapped to the design components defined in this document.
 	
+\begin{itemize}
+	\item{\textbf{Data4Help}}
+	\begin{enumerate}
+		\requirement{1} The system must allow an individual to register a new account \\
+		\textbf{D4H::Signup}
+		\requirement{2} The system must allow an individual to access to their account \\
+		\textbf{D4H::Login}
+		\requirement{3} The system must allow an individual to accept or reject their requests of accessing personal data \\
+		\textbf{D4H::Request}
+		\requirement{4} The system must be able to communicate with TrackMe database in order to obtain the health status and location of an individual \\
+		\textbf{D4H::SearchManager}
+		\requirement{5} The system must allow a third party company to register a new account \\								\textbf{D4H::Signup}
+		\requirement{6} The system must allow a third party company to access to its account 	\\								\textbf{D4H::Login}
+		\requirement{7} The system must be able to notify the individual that a third party company wants to access its data \\
+		\textbf{D4H::Request}
+		\requirement{8} The system must allow a third party company to search for an individual health status and location using his/her SSN \\
+		 \textbf{D4H::SearchManager}
+		 \requirement{9} The system must allow a third party company to filter data of an anonymized group of individuals by country, age, gender and blood type parameters \\ 
+		 \textbf{D4H::SearchManager}
+		 \requirement{10} The system must be able to anonymize the data of a group of individuals \\
+		 \textbf{D4H::SearchManager}
+		 \requirement{11} The system must allow a third party company to subscribe to an individual health status and location \\ 
+		\textbf{D4H::Subscription}
+		\requirement{12} The system must allow a third party company to subscribe to data of an anonymized group of individuals \\
+		\textbf{D4H::Subscription}
+	\end{enumerate}	
+		
+	\item{\textbf{AutomatedSOS}}
+	\begin{enumerate}
+		\requirement{13} The system must be able to send a request for monitoring an individual's data when he/she is older than 60 years old \\
+		\textbf{ASOS::DataHandler}
+		\requirement{14} The system must be able to monitor, and compare against defined thresholds, the health status of an individual \\
+		\textbf{ASOS::DataHandler}
+		\requirement{15} The system must be able to contact the health-care service associated to an individual \\
+		\textbf{ASOS::HealthCareConnector}
+	\end{enumerate}
+	
+	\item{\textbf{Track4Run}}
+	\begin{enumerate}
+		\requirement{16} The system must allow a participant to register a new account \\
+		\textbf{T4R::Signup}
+		\requirement{17} The system must allow a participant to access to their account \\
+		\textbf{T4R::Login}
+		\requirement{18} The system must allow an organizer to register a new account \\
+		\textbf{T4R::Signup}
+		\requirement{19} The system must allow an organizer to access to their account \\
+		\textbf{T4R::Login}
+		\requirement{20} The system must allow an organizer to create a race event \\ 
+		\textbf{T4R::Event}
+		\requirement{21} The system must allow an organizer to define the running circuit of a race event \\
+		\textbf{T4R::Event}
+		\requirement{22} The system must allow an organizer to send invitations to participants to enroll in a race event \\
+		\textbf{T4R::Notification}
+		\requirement{23} The system must allow a participant to accept or reject an invitation to a race \\
+		\textbf{T4R::Notification, T4R::Request}
+		\requirement{24} The system must allow any spectator of a run to view in a map the participants' location \\ 
+		\textbf{T4R::DataHandler}
+		\requirement{25} The system must allow a spectator to click on a participant location in order to view his/her health status \\
+		\textbf{T4R::DataHandler}
+	\end{enumerate}
+\end{itemize}
+
 	\chapter{Implementation, integration and test plan}
 	\section{Requirements of implementation and testing}
 In order to start implementation process of the project, RASD and DD must be finished and available for all the teams of the project, so they will be informed about requirements and adopted design choices. A good analysis of each document is also required to be sure that implemented system will be secure and reliable.\\
