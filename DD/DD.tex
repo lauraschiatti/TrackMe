@@ -613,7 +613,114 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\end{tabular}\\
 			\item{\verb|void removeSubscription(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/subscription/:subscriptionId|}
 		\end{itemize}
-	\end{itemize}	 
+	\end{itemize}
+	
+	\subsection{Track4Run interfaces}
+	The following is a list of all the components of T4R, and the classes that belong to them, with the exposed methods.
+	\begin{itemize}
+		\item{\textbf{Login}}
+			\begin{itemize}
+				\item{LoginService}
+					\begin{itemize}
+						\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|}
+						\item{\verb|void logout(Spark.Request req, Spark.Response response)|}
+					\end{itemize}
+				\item{UserResource}
+					\begin{itemize}
+						\item{\verb|T4RUser getByEmailAndPass(String email, String password)|}
+					\end{itemize}
+			\end{itemize}
+		\item{\textbf{Signup}}
+			\begin{itemize}
+				\item{SignupService}
+					\begin{itemize}
+						\item{\verb|SignupResponse signupParticipant(Spark.Request req, Spark.Response res)|}
+						\item{\verb|SignupResponse signupOrganizer(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+				\item{UserResource}
+					\begin{itemize}
+						\item{\verb|void add(T4RUser u)|}
+					\end{itemize}
+			\end{itemize}
+		\item{\textbf{User}}
+			\begin{itemize}
+				\item{UserService}
+					\begin{itemize}
+						\item{\verb|List<Participant> getEnrolledParticipants(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|}
+						\item{\verb|List<Participant> getEnrolledParticipants(Spark.Request req, Spark.Response res)|}
+						\item{\verb|List<Event> getAvailableEvents(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void createEvent(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+				\item{UserResource}
+					\begin{itemize}
+						\item{\verb|T4RUser getById(String userId)|}
+						\item{\verb|void update(T4RUser u)|}
+					\end{itemize}
+				\item{EventResource}
+					\begin{itemize}
+						\item{\verb|Event getById(String eventId)|}
+						\item{\verb|void add(Event e)|}
+						\item{\verb|void delete(String eventId)|}
+						\item{\verb|void update(Event e)|}
+						\item{\verb|List<Event> getAll()|}
+					\end{itemize}
+			\end{itemize}
+		\item{\textbf{Notification}}
+			\begin{itemize}
+				\item{NotificationService}
+					\begin{itemize}
+						\item{\verb|List<Notification> getPendingNotifications(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void accept(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void delete(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void createNotification(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+				\item{NotificationResource}
+					\begin{itemize}
+						\item{\verb|Notification getByUserId(String userId)|}
+						\item{\verb|void update(Notification u)|}
+					\end{itemize}
+				\item{EventResource}
+					\begin{itemize}
+						\item{\verb|Event getById(String eventId)|}
+						\item{\verb|void addParticipant(String participantId)|}
+					\end{itemize}
+			\end{itemize}
+		\item{\textbf{DataHandler}}
+			\begin{itemize}
+				\item{DataHandler}
+					\begin{itemize}
+						\item{\verb|void getParticipantLocation(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+			\end{itemize}
+		\item{\textbf{Request}}
+			\begin{itemize}
+				\item{RequestService}
+					\begin{itemize}
+						\item{\verb|void sendRequestToParticipant(String ssn)|}
+					\end{itemize}
+			\end{itemize}
+		\item{\textbf{AuthenticatorManager}}
+			\begin{itemize}
+				\item{AuthenticationManager}
+					\begin{itemize}
+						\item{\verb|void validateAndUpdateAccessToken(String userId, String accessToken)|}
+						\item{\verb|void validateAccessToken(String userId, String accessToken)|}
+						\item{\verb|void deleteAccessToken(String accessToken)|}
+						\item{\verb|UserWebAuth setUserAccessToken(T4RUser d4HUser)|}
+						\item{\verb|static String hashPassword(String password)|}
+					\end{itemize}
+			\end{itemize}
+		\item{\textbf{DBManager}}
+			\begin{itemize}
+				\item{DBManager}
+					\begin{itemize}
+						\item{\verb|Morphia.Datastore getDatastore()|}
+					\end{itemize}
+			\end{itemize}
+	\end{itemize} 
 			
 	\section{Database view}
 	In the previous section, an architectural landscape of D4H, ASOS and T4R was provided by means of high-level component diagrams. Those diagrams showed how components communicate with the rest of the system (i.e. through interfaces). Now, it is also meaningful to describe data models involved using class diagrams. \\
