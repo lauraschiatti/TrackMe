@@ -326,6 +326,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			DataBase & Component that contains the main database (Track4Run DB), with all its collections and the token database (TokenDB) which contains all the valid session access tokens.\\
 			Request & Component responsible of sending Request for accessing location of a specific Individual in D4H. It should be able to connect to D4H through the provided RequestAPI.\\
 			User & Component responsible of manage the Participant operations. It should be able to show all the enrolled and non-enrolled participants of a run.\\
+			Event & Component responsible of manage the Event operations. It should be able to create running events, to define the running circuit, and to get all the available running events.\\
 			Notification & Component responsible of manage the Notification operations. It should be able to send invitations to participants, and let them accept or reject it. \\
 			DataHandler & Component responsible to get the location and health data of the Individuals during a Race event. It should be able to obtain the information sent by D4H during a race event, and to get the information related to the Individuals who accepted the sent request.\\
 			
@@ -652,8 +653,6 @@ When the third-party users have subscribed to the bulk data subscription, they d
 						\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|}
 						\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|}
 						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req, Spark.Response res)|}
-						\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void createEvent(Spark.Request req, Spark.Response res)|}
 					\end{itemize}
 				\item{UserResource}
 					\begin{itemize}
@@ -667,6 +666,22 @@ When the third-party users have subscribed to the bulk data subscription, they d
 						\item{\verb|void delete(String eventId)|}
 						\item{\verb|void update(Event e)|}
 						\item{\verb|Collection<Event> getAll()|}
+					\end{itemize}
+			\end{itemize}
+		\item{\textbf{Event}}
+			\begin{itemize}
+				\item{EventService}
+					\begin{itemize}
+						\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void createEvent(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void updateEvent(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+				\item{EventResource}
+					\begin{itemize}
+						\item{\verb|Event getById(String eventId)|}
+						\item{\verb|Collection<Event> getAll()|}
+						\item{\verb|void add(Event e)|}
+						\item{\verb|void update(Event e)|}
 					\end{itemize}
 			\end{itemize}
 		\item{\textbf{Notification}}
@@ -778,6 +793,9 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\end{tabular}\\
 			\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/participant/:userId/:eventId|}
 			\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/participant/:userId/:eventId|}
+		\end{itemize}
+		\item{EventService}
+			\begin{itemize}
 			\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req, Spark.Response res)|\\ \verb|GET /web/event|}\\
 			\begin{tabular}{l | l}
 			\textbf{Input} & \textbf{Output} \\
@@ -801,7 +819,18 @@ When the third-party users have subscribed to the bulk data subscription, they d
 				\verb|path[*].longitude: Long| & \\
 				\verb|path[*].latitude: Long| & \\
 			\end{tabular}\\
-		\end{itemize}
+			\item{\verb|void updateEvent(Spark.Request req, Spark.Response res)|\\ \verb|PUT /web/event/:eventId|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|name: String| & \\
+				\verb|startDate: Date| & \\
+				\verb|endtDate: Date| & \\
+				\verb|path: Collection<Coordinate>| & \\
+				\verb|path[*].longitude: Long| & \\
+				\verb|path[*].latitude: Long| & \\
+			\end{tabular}\\
+			\end{itemize}
 		\item{NotificationService}
 		\begin{itemize}
 			\item{\verb|Collection<Notification> getPendingNotifications(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/:userId/notification|}\\
@@ -862,6 +891,11 @@ When the third-party users have subscribed to the bulk data subscription, they d
 					\begin{itemize}
 						\item{\verb|void getIndividualData(Spark.Request req, Spark.Response res)|}
 						\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+					\item{ThresholdResource}
+					\begin{itemize}
+						\item{\verb|Collection<Threshold> get()|}
+						\item{\verb|Boolean isOutOfRange(Threshold threshold, Data data)|}
 					\end{itemize}
 			\end{itemize}
 		\item{\textbf{HealthCareConnector}}
