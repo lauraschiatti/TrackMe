@@ -852,7 +852,65 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\end{tabular}\\
 		\end{itemize}
 	\end{itemize}
-			
+	
+	\subsection{AutomatedSOS interfaces}
+	The following is a list of all the components of ASOS, and the classes that belong to them, with the exposed methods.
+	\begin{itemize}
+		\item{\textbf{DataHandler}}
+			\begin{itemize}
+				\item{DataHandler}
+					\begin{itemize}
+						\item{\verb|void getIndividualData(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+			\end{itemize}
+		\item{\textbf{HealthCareConnector}}
+			\begin{itemize}
+				\item{HealthCareConnector}
+					\begin{itemize}
+						\item{\verb|void notifyHealthcareService(String userId, Data data)|}
+					\end{itemize}
+			\end{itemize}
+		\item{\textbf{DBManager}}
+			\begin{itemize}
+				\item{DBManager}
+					\begin{itemize}
+						\item{\verb|Morphia.Datastore getDatastore()|}
+					\end{itemize}
+			\end{itemize}
+	\end{itemize}
+	ASOS has a different architecture as the ones seen in T4R and D4H, because it does not relays on a web-site nor a user. The system receives the data of the subscribed Individuals through the DataAPI, which is the interface provided to D4H, to which it connects. The NotificationAPI, let D4H connect to ASOS in order to send the status of the Requests sent to an Individual.  In the following list, the exposed interfaces are shown, linked with the classes and methods, and detailing the inputs and outputs:
+	
+	\begin{itemize}
+		\item{DataHandler}
+			\begin{itemize}
+				\item{\verb|void getIndividualData(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/individual/notification|}\\
+				\begin{tabular}{l | l}
+				\textbf{Input} & \textbf{Output} \\
+				\hline
+					\verb|ssn: String| & \\
+					\verb|data: Data| & \\
+					\verb|data.location: Location| & \\
+					\verb|data.location.longitude: Long| & \\
+					\verb|data.location.latitude: Long| & \\
+					\verb|data.healthStatus: HealtStatus| & \\
+					\verb|data.healthStatus.heartRate: Integer| & \\
+					\verb|data.healthStatus.bloodPreasure: Integer| & \\
+					\verb|data.healthStatus.bodyTemperature: Integer| & \\
+					\verb|data.healthStatus.bloodOxygen: Integer| & \\
+				\end{tabular}\\
+				\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/individual/notification|}\\
+				\begin{tabular}{l | l}
+				\textbf{Input} & \textbf{Output} \\
+				\hline
+					\verb|name: String| & \\
+					\verb|ssn: String| & \\
+					\verb|birthDate: Date| & \\
+					\verb|gender: Gender| & \\
+					\verb|status: RequestStatus| & \\
+				\end{tabular}\\
+			\end{itemize}
+	\end{itemize}
 	\section{Database view}
 In the previous section, an architectural landscape of D4H, ASOS and T4R was provided by means of high-level component diagrams. Those diagrams showed how components communicate with the rest of the system (i.e. through interfaces). Now, it is also meaningful to describe data models involved using class diagrams. 
 	
