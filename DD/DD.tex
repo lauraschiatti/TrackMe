@@ -468,12 +468,23 @@ When the third-party users have subscribed to the bulk data subscription, they d
 	\end{itemize}
 			
 	\section{Database view}
-	In the previous section, an architectural landscape of D4H, ASOS and T4R was provided by means of high-level component diagrams. Those diagrams showed how components communicate with the rest of the system (i.e. through interfaces). Now, it is also meaningful to describe data models involved using class diagrams. \\
+In the previous section, an architectural landscape of D4H, ASOS and T4R was provided by means of high-level component diagrams. Those diagrams showed how components communicate with the rest of the system (i.e. through interfaces). Now, it is also meaningful to describe data models involved using class diagrams. 
 	
-	As explained in the RASD, the whole data model of TrackMe up to now will be treated as a ”black box”, this means \textbf{D4H} will have a local copy of the \textit{basic information} and \textit{collected data} only of users who activated this service. \\
-	 
-	Going into details D4H has five main classes: \textit{individual}, \textit{third party}, \textit{data}, \textit{request} and \textit{subscription}, their attributes, and associations are shown in Figure \ref{fig:Data4Help Class Diagram}. Individuals and third parties are the two main types of users interacting with the system, and it is easier to explain the other models involved from the point of view of what they can and cannot do. Thus, \textit{Individuals} are those wearing the devices, therefore are related to their collected\textit{data}. On the other hand, \textit{Third parties} can create \textit{requests} to get data of individuals and also, if any request is approved, they can \textit{subscribe} to receive more (i.e the query of the search they did needs to be stored). \\\\
+	\subsection{Data4Help data model}
+	As explained in the RASD, the whole data model of TrackMe up to now will be treated as a "black box", this means \textbf{D4H} will have a local copy of the \textit{basic information} and \textit{collected data} only of users who activated this service. The classes considered in D4H, their attributes, and relationships are shown in Figure \ref{fig:Data4Help Class Diagram}.
 	
+	\begin{itemize}
+		\item{\textbf{User}}: basic attributes of all users interacting with the system.
+		\item{\textbf{Individual}}: users wearing the devices.
+		\item{\textbf{Data}}: health status and location collected from devices.
+		\item{\textbf{ThirdParty}}: companies requesting data of individuals or bulk data. For registering, all third parties must provide a certificate to verify that it is a legally constituted company.
+		\item{\textbf{TPConfiguration}}: an important issue to tackle is the way in which the system will communicate to third parties to send them notifications or the data they request. To make it easier, third parties will be asked to provide three URLs,
+	 \textit{individualpushURL}, \textit{bulkPushURL} and \textit{notificationURL}.
+		\item{\textbf{Request}}: third parties can request data of a given individual. Each request has an associated \textit{status}, initially is \textit{pending} and can become either \textit{rejected} or \textit{approved} according to to whether the individual accepts or not. 
+		\textit{Requests for bulk data} are treated differently. The only constraints to provide that data to third parties are managed by the system (if they do not hold the third party is notified)
+		\item{\textbf{Subscription}}:  third parties can \textit{subscribe} to receive new data, then the query of the search they did needs to be stored. \\
+	\end{itemize}
+
 	\begin{figure}[H]
     		\centering
 		\includegraphics[width=1\textwidth]{diagrams/d4h_class_diagram.png}
@@ -481,7 +492,14 @@ When the third-party users have subscribed to the bulk data subscription, they d
 		\label{fig:Data4Help Class Diagram}
 	\end{figure}
 	
-	\textit{Individuals} subscribed to D4H that decided to activate \textbf{ASOS} service, are stored in ASOSUser after assigning them a \textit{status} so as to avoid duplicate notifications to the health care service. Each user is associated to an \textit{emergency contact} (assigned by the system). It is necessary to clarify that the parameters (i.e. users' data) are not stored, they are used exclusively to make comparisons with their corresponding  \textit{thresholds}.\\\\
+	\subsection{AutomatedSOS data model}
+	\begin{itemize}
+		\item{\textbf{ASOSUser}}: individuals subscribed to D4H that decided to activate ASOS service. Each of them has a \textit{status} so as to avoid duplicate notifications to the health care service. 
+		\item{\textbf{EmergencyContact}}: available health care services by addresses.  Each health care service will receive notifications by means of a URL and only of users living in the same city.
+		\item {\textbf{Threshold}}: normal range for each health parameter (i.e. minimum and maximum values).
+	\end{itemize}
+	
+	It is necessary to clarify that the parameters (i.e. users' data) are not stored, they are used exclusively to make comparisons with their corresponding  \textit{thresholds}. \\
 	
 	\begin{figure}[H]
     		\centering
@@ -490,14 +508,21 @@ When the third-party users have subscribed to the bulk data subscription, they d
 		\label{fig:AutomatedSOS Class Diagram}
 	\end{figure}
 	
-	Regarding \textbf{T4R}, \textit{runs} are characterized by start and end times, and a path. Each run has an \textit{organizer} responsible for setting it up and individuals enrolled in any of them are considered \textit{participants}. The system does not need to keep record of the spectators.
+	\subsection{Track4Run data model}
+	\begin{itemize}
+		\item{\textbf{Run}}:  characterized by a name, start and end times, and a path.
+		\item{\textbf{Organizer}}: responsible for setting it up runs and send invitations to individuals.
+		\item {\textbf{Participant}}: individuals enrolled in any run.
+	\end{itemize}
+	
+	The system does not need to keep record of the spectators. \\
 	
 	\begin{figure}[H]
     		\centering
-		\includegraphics[width=0.5\textwidth]{diagrams/t4r_class_diagram.png}
+		\includegraphics[width=0.4\textwidth]{diagrams/t4r_class_diagram.png}
 		\caption[Track4Run Class Diagram]{Track4Run Class Diagram}
 		\label{fig:Track4Run Class Diagram}
-	\end{figure}		
+	\end{figure}	
 			
 	\section{Deployment view}
 	In the current chapter the deployment diagrams of D4H, T4R and ASOS are shown. All diagrams follow the same structure and design: yellow nodes represent external nodes that interact with the system, green nodes represent hardware devices (i.e. web server, database server, etc.), pale orange nodes represent execution environments such as JVM, and blue boxes represent high level components. Finally, the protocols used to communicate between different nodes displayed as red links.
