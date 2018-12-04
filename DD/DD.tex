@@ -408,7 +408,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 					\begin{itemize}
 						\item{\verb|D4HUser getBySSN(String ssn)|}
 						\item{\verb|Collection<D4HUser> get(D4HQuery query)|}
-						\item{\verb|Collection<D4HUser> anonimize(List<D4HUser> users)|}
+						\item{\verb|Collection<D4HUser> anonymize(Collection<D4HUser> users)|}
 					\end{itemize}
 			\end{itemize}
 			\item{\textbf{Request}}
@@ -648,11 +648,11 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\begin{itemize}
 				\item{UserService}
 					\begin{itemize}
-						\item{\verb|List<Participant> getEnrolledParticipants(Spark.Request req, Spark.Response res)|}
+						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req, Spark.Response res)|}
 						\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|}
 						\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|}
-						\item{\verb|List<Participant> getEnrolledParticipants(Spark.Request req, Spark.Response res)|}
-						\item{\verb|List<Event> getAvailableEvents(Spark.Request req, Spark.Response res)|}
+						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req, Spark.Response res)|}
+						\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req, Spark.Response res)|}
 						\item{\verb|void createEvent(Spark.Request req, Spark.Response res)|}
 					\end{itemize}
 				\item{UserResource}
@@ -666,14 +666,14 @@ When the third-party users have subscribed to the bulk data subscription, they d
 						\item{\verb|void add(Event e)|}
 						\item{\verb|void delete(String eventId)|}
 						\item{\verb|void update(Event e)|}
-						\item{\verb|List<Event> getAll()|}
+						\item{\verb|Collection<Event> getAll()|}
 					\end{itemize}
 			\end{itemize}
 		\item{\textbf{Notification}}
 			\begin{itemize}
 				\item{NotificationService}
 					\begin{itemize}
-						\item{\verb|List<Notification> getPendingNotifications(Spark.Request req, Spark.Response res)|}
+						\item{\verb|Collection<Notification> getPendingNotifications(Spark.Request req,|\\ \verb|Spark.Response res)|}
 						\item{\verb|void accept(Spark.Request req, Spark.Response res)|}
 						\item{\verb|void delete(Spark.Request req, Spark.Response res)|}
 						\item{\verb|void createNotification(Spark.Request req, Spark.Response res)|}
@@ -722,6 +722,134 @@ When the third-party users have subscribed to the bulk data subscription, they d
 						\item{\verb|Morphia.Datastore getDatastore()|}
 					\end{itemize}
 			\end{itemize}
+	\end{itemize}
+	As in D4H, the Service classes have methods that are related to the endpoints used by the web-site. A special case is the DataHandler component, which is responsible of getting the notifications from D4H and the data of the individuals. The  NotificationAPI and DataAPI refer to the interfaces exposed to D4H and to which it connects. On the other hand, the Request component connects to D4H by using the RequestAPI, in order to send Requests for accessing individual location during an event. In the following list, the exposed interfaces - used by the web-site and by D4H - are shown, linked with the classes and methods, and detailing the inputs and outputs:
+	
+	\begin{itemize}
+		\item{LoginService}
+		\begin{itemize}
+			\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/login|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+			\verb|email: String| & \verb|userId: String| \\
+			\verb|password: String| & \verb|accessToken: String| \\
+			& \verb|type: UserType| 
+			\end{tabular}\\
+			\item{\verb|void logout(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/logout|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+			\verb|userId: String| & \\
+			\verb|accessToken: String| & \\
+			\end{tabular}\\
+		\end{itemize}
+		\item{SignupService}
+		\begin{itemize}
+			\item{\verb|SignupResponse signupParticipant(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/individual/signup|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|email: String| & \verb|userId: String| \\
+				\verb|password: String| & \verb|accessToken: String| \\
+				\verb|name: String| & \\
+				\verb|ssn: String| & \\
+			\end{tabular}\\
+			\item{\verb|SignupResponse signupOrganizer(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/thirdparty/signup|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|email: String| & \verb|userId: String| \\
+				\verb|password: String| & \verb|accessToken: String| \\
+				\verb|name: String| & \\
+				\verb|phone: String| & \\
+				\verb|website: String| & \\
+			\end{tabular}\\
+		\end{itemize}
+		\item{UserService}
+		\begin{itemize}
+			\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req, |\\ \verb|Spark.Response res)|\\ \verb|GET /web/:eventId/participants|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				& \verb|participants: Collection<Participant>| \\
+				& \verb|participants[*].userId: String| \\
+				& \verb|participants[*].name: String| \\
+			\end{tabular}\\
+			\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/participant/:userId/:eventId|}
+			\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/participant/:userId/:eventId|}
+			\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req, Spark.Response res)|\\ \verb|GET /web/event|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				& \verb|events: Collection<Event>| \\
+				& \verb|events[*].eventId: String| \\
+				& \verb|events[*].name: String| \\
+				& \verb|events[*].startDate: Date| \\
+				& \verb|events[*].organizer: Organizer| \\
+				& \verb|events[*].organizer.name: String| \\
+			\end{tabular}\\
+			\item{\verb|void createEvent(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/event|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|name: String| & \\
+				\verb|organizerId: String| & \\
+				\verb|startDate: Date| & \\
+				\verb|endtDate: Date| & \\
+				\verb|path: Collection<Coordinate>| & \\
+				\verb|path[*].longitude: Long| & \\
+				\verb|path[*].latitude: Long| & \\
+			\end{tabular}\\
+		\end{itemize}
+		\item{NotificationService}
+		\begin{itemize}
+			\item{\verb|Collection<Notification> getPendingNotifications(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/:userId/notification|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				& \verb|notifications: Collection<Notification>| \\
+				& \verb|notifications[*].event: Event| \\
+				& \verb|notifications[*].event.eventId: String| \\
+				& \verb|notifications[*].event.name: String| \\
+			\end{tabular}\\
+			\item{\verb|void accept(Spark.Request req, Spark.Response res)|\\ \verb|PUT /web/:userId/notification/:notificationId|}
+			\item{\verb|void delete(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/:userId/notification/:notificationId|}
+			\item{\verb|void createNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/notification|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|userId: String| & \\
+				\verb|eventId: String| & \\
+			\end{tabular}\\
+		\end{itemize}
+		\item{DataHandler}
+		\begin{itemize}
+			\item{\verb|void getParticipantLocation(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/participant/data|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|ssn: String| & \\
+				\verb|data: Data| & \\
+				\verb|data.location: Location| & \\
+				\verb|data.location.longitude: Long| & \\
+				\verb|data.location.latitude: Long| & \\
+				\verb|data.healthStatus: HealtStatus| & \\
+				\verb|data.healthStatus.heartRate: Integer| & \\
+				\verb|data.healthStatus.bloodPreasure: Integer| & \\
+				\verb|data.healthStatus.bodyTemperature: Integer| & \\
+				\verb|data.healthStatus.bloodOxygen: Integer| & \\
+			\end{tabular}\\
+			\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/participant/notification|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|name: String| & \\
+				\verb|ssn: String| & \\
+				\verb|birthDate: Date| & \\
+				\verb|gender: Gender| & \\
+			\end{tabular}\\
+		\end{itemize}
 	\end{itemize}
 			
 	\section{Database view}
