@@ -13,33 +13,27 @@
           <h2 class="mb-4 text-black">Register Individuals</h2>
           <div class="row form-group">
             <div class="col-md-12 mb-3 mb-md-0">
-              <label class="font-weight-bold" for="fullname">Full Name</label>
+              <label class="font-weight-bold" for="fullname">Name</label>
               <input type="text" id="fullname" class="form-control rounded-0">
             </div>
           </div>
 
           <div class="row form-group">
             <div class="col-md-12">
-              <label class="font-weight-bold" for="gender">Gender</label>
-              <input type="gender" id="gender" class="form-control rounded-0">
+              <input type="radio" name="gender" value="male"> &nbsp; Male &nbsp;
+              <input type="radio" name="gender" value="female"> &nbsp; Female
             </div>
           </div>
           <div class="row form-group">
             <div class="col-md-12">
               <label class="font-weight-bold" for="dob">Date of birth</label>
-              <input type="dob" id="dob" class="form-control rounded-0">
+              <input type="date" id="dob" class="form-control rounded-0">
             </div>
           </div>
           <div class="row form-group">
             <div class="col-md-12">
               <label class="font-weight-bold" for="ssn">SSN</label>
-              <input type="ssn" id="ssn" class="form-control rounded-0">
-            </div>
-          </div>
-          <div class="row form-group">
-            <div class="col-md-12">
-              <label class="font-weight-bold" for="height">Height</label>
-              <input type="height" id="height" class="form-control rounded-0">
+              <input type="ssn" id="ssn" class="form-control rounded-0" pattern="/^\(\d{3}\)\-\d{3}\-\d{4}$/" placeholder="AAA-GGG-SSSS">
             </div>
           </div>
           <div class="row form-group">
@@ -50,34 +44,44 @@
           </div>
           <div class="row form-group">
             <div class="col-md-12">
-              <label class="font-weight-bold" for="blood">Blood Type</label>
-              <input type="blood" id="blood" class="form-control rounded-0">
+              <label class="font-weight-bold" for="height">Height</label>
+              <input type="height" id="height" class="form-control rounded-0">
             </div>
           </div>
           <div class="row form-group">
             <div class="col-md-12">
-              <label class="font-weight-bold" for="country">Country</label>
-              <input type="country" id="country" class="form-control rounded-0">
+              <label class="font-weight-bold" for="bloodtype">Blood type</label>
+              <select class="form-control" id="bloodtype">
+                <option>A+</option>
+                <option>A-</option>
+                <option>B+</option>
+                <option>B-</option>
+                <option>O+</option>
+                <option>O-</option>
+                <option>AB+</option>
+                <option>AB-</option>
+              </select>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-12">
+              <label class="font-weight-bold" for="address">Address</label>
+              <input type="text" id="address" class="form-control rounded-0">
             </div>
           </div>
           <div class="row form-group">
             <div class="col-md-12">
               <label class="font-weight-bold" for="email">Email</label>
-              <input type="email" id="email" class="form-control rounded-0">
+              <input type="email" id="emailind" class="form-control rounded-0">
             </div>
           </div>
           <div class="row form-group">
             <div class="col-md-12">
               <label class="font-weight-bold" for="password">Password</label>
-              <input type="password" id="password" class="form-control rounded-0">
+              <input type="password" id="passwordind" class="form-control rounded-0">
             </div>
           </div>
-          <div class="row form-group">
-            <div class="col-md-12">
-              <label class="font-weight-bold" for="password2">Re-type Password</label>
-              <input type="password" id="password2" class="form-control rounded-0">
-            </div>
-          </div>
+          <br>
 
           <div class="row form-group mb-5">
             <div class="col-md-12">
@@ -87,25 +91,19 @@
         </form>
       </div>
 
+
       <div class="col-md-12 col-lg-6 mb-5">
         <form action="#" class="p-5 bg-white">
           <h2 class="mb-4 text-black">Register Third Parties</h2>
           <div class="row form-group">
             <div class="col-md-12 mb-3 mb-md-0">
-              <label class="font-weight-bold" for="businessname">Business Name</label>
+              <label class="font-weight-bold" for="businessname">Company name</label>
               <input type="text" id="businessname" class="form-control rounded-0">
             </div>
           </div>
           <div class="row form-group">
             <div class="col-md-12">
-              <label class="font-weight-bold" for="code">Business Code</label>
-              <input type="code" id="code" class="form-control rounded-0">
-            </div>
-
-          </div>
-          <div class="row form-group">
-            <div class="col-md-12">
-              <label class="font-weight-bold" for="tax">Tax Number</label>
+              <label class="font-weight-bold" for="tax">Tax code</label>
               <input type="tax" id="tax" class="form-control rounded-0">
             </div>
           </div>
@@ -133,18 +131,36 @@
               <input type="password" id="password" class="form-control rounded-0">
             </div>
           </div>
+
+          <br>
+          <h6><strong>Configuration</strong></h6>
+          <small>Provide us the URLs where you want to receive data and notifications</small>
+          <hr>
           <div class="row form-group">
             <div class="col-md-12">
-              <label class="font-weight-bold" for="password2">Re-type Password</label>
-              <input type="password" id="password2" class="form-control rounded-0">
+              <label class="font-weight-bold" for="individualpushurl">Individuals data URL</label>
+              <input type="url" id="individualpushurl" class="form-control rounded-0">
             </div>
           </div>
+          <div class="row form-group">
+            <div class="col-md-12">
+              <label class="font-weight-bold" for="bulkpushurl">Bulk data URL</label>
+              <input type="url" id="bulkpushurl" class="form-control rounded-0">
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-12">
+              <label class="font-weight-bold" for="notificationurl">Notifications URL</label>
+              <input type="url" id="notificationurl" class="form-control rounded-0">
+            </div>
+          </div>
+          <br>
+
           <div class="row form-group">
             <div class="col-md-12">
               <input type="submit" value="Register" class="btn btn-primary  py-2 px-4 rounded-0">
             </div>
           </div>
-
         </form>
       </div>
     </div>
