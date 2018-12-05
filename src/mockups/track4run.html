@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="fonts/icomoon/style.css">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
+	      <link rel="stylesheet" href="css/main.css">
+
     <link rel="stylesheet" href="css/magnific-popup.css">
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/owl.carousel.min.css">
@@ -35,7 +37,7 @@
           <span class="icon-close2 js-menu-toggle"></span>
         </div>
       </div>
-      <div class="site-mobile-menu-body"></div>
+      
     </div> <!-- .site-mobile-menu -->
     
     
@@ -102,22 +104,159 @@
 
     <div class="site-section">
       <div class="container">
-        <div class="row mb-5">
-          
+        <div class="main-content full-range">
+       
+			<h3 style="margin-left:20px;">List of Available Runs</h3></div>
+            <div class="row" style="margin-left:0px;">
+                <div class="col-md-12">
+                    <div class="row">
+                            <!-- ngIf: $ctrl.events.length --><slick settings="$ctrl.slickConfig" ng-if="$ctrl.events.length" class="ng-scope ng-isolate-scope slick-initialized slick-slider" style="display: block;">
+                                <!-- ngRepeat: evt in $ctrl.events track by $index --><!-- end ngRepeat: evt in $ctrl.events track by $index --><!-- end ngRepeat: evt in $ctrl.events track by $index --><!-- end ngRepeat: evt in $ctrl.events track by $index --><!-- end ngRepeat: evt in $ctrl.events track by $index --><!-- end ngRepeat: evt in $ctrl.events track by $index --><!-- end ngRepeat: evt in $ctrl.events track by $index --><!-- end ngRepeat: evt in $ctrl.events track by $index --><!-- end ngRepeat: evt in $ctrl.events track by $index --><!-- end ngRepeat: evt in $ctrl.events track by $index --><!-- end ngRepeat: evt in $ctrl.events track by $index --><!-- end ngRepeat: evt in $ctrl.events track by $index --><!-- end ngRepeat: evt in $ctrl.events track by $index --><!-- end ngRepeat: evt in $ctrl.events track by $index -->
+                            <div aria-live="polite" class="slick-list draggable"><div class="slick-track" role="listbox" style="opacity: 1; width: 3198px; transform: translate3d(0px, 0px, 0px);"><div class="col-sm-12 col-md-6 col-lg-2 ng-scope slick-slide slick-current slick-active" ng-repeat="evt in $ctrl.events track by $index" style="width: 246px;" data-slick-index="0" aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide50">
+                                    <div class="card-container show-pointer">
+                                        <div class="card-image center md-slim" ng-style="{'background-image':'url(https://wmimg.azureedge.net/public/img/marathons/pisa-marathon/pisa-marathon_500.jpg)'}" style="background-image: url(&quot;https://wmimg.azureedge.net/public/img/marathons/pisa-marathon/pisa-marathon_500.jpg&quot;);">
+                                            <a target="_self" href="#" tabindex="0"></a>
+                                            <div class="small bucket-list-button" page-id="pisa-marathon">
+    <!-- ngIf: !$ctrl.loading --><button ng-if="!$ctrl.loading" ng-click="$ctrl.favorite()" ng-class="{ 'starred' : $ctrl.isSaved }" class="ng-scope" tabindex="0">
+        
+</div>
+                                        </div>
+                                        <div class="card-text sm-pad-top bg">
+                                            <a class="link-block-text underline" target="_self" href="#" tabindex="0">
+                                                <h4 style="margin:0;display:block" class="truncate ng-binding">Pisa Marathon</h4>
+                                            </a>
+                                            <div class="small event-rating-container ng-isolate-scope" rating="evt.rating" reviews-count="evt.reviewsCount" event-id="pisa-marathon">
+    
+</div>
+                                            <span class="ng-binding"> Italy, Pisa</span>
+                                            <span class="ng-binding">16 Dec, 2018</span>
+                                            <br>
+                                            <span><translate class="ng-scope">Distances</translate> <span distances="evt.meta.distances" measure-type="evt.measureType" class="ng-isolate-scope">
+    <!-- ngRepeat: distance in $ctrl.distances track by $index --><span class="race-type flex ng-binding ng-scope full" ng-repeat="distance in $ctrl.distances track by $index" ng-class="$ctrl.getClass(distance)">
+        F
+    </span><!-- end ngRepeat: distance in $ctrl.distances track by $index --><span class="race-type flex ng-binding ng-scope half" ng-repeat="distance in $ctrl.distances track by $index" ng-class="$ctrl.getClass(distance)">
+        H
+    </span><!-- end ngRepeat: distance in $ctrl.distances track by $index -->
+</span></span>
+                                            <div class="card-footer">
+                                                <div class="pull-right actions">
+                                                    
+                                                    <!-- ngIf: !evt.affiliate --><a class="btn btn-sm btn-success ng-scope" target="_self" href="#" ng-click="$ctrl.track(evt.eventId)" translate="" tabindex="0">View Participants</a><!-- end ngIf: !evt.affiliate -->
+                                                    <!-- ngIf: evt.affiliate -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><div class="col-sm-12 col-md-6 col-lg-2 ng-scope slick-slide slick-active" ng-repeat="evt in $ctrl.events track by $index" style="width: 246px;" data-slick-index="1" aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide51">
+                                    <div class="card-container show-pointer">
+                                        <div class="card-image center md-slim" ng-style="{'background-image':'url(https://wmimg.azureedge.net/public/img/marathons/akamas-blossom-trail-running-festival/akamas-blossom-trail-running-festival_500.jpg)'}" style="background-image: url(&quot;https://wmimg.azureedge.net/public/img/marathons/akamas-blossom-trail-running-festival/akamas-blossom-trail-running-festival_500.jpg&quot;);">
+                                            <a target="_self" href="#" tabindex="0"></a>
+                                            <div class="small bucket-list-button" page-id="akamas-blossom-trail-running-festival">
+    
+</div>
+                                        </div>
+                                        <div class="card-text sm-pad-top bg">
+                                            <a class="link-block-text underline" target="_self" href="#" tabindex="0">
+                                                <h4 style="margin:0;display:block" class="truncate ng-binding">53K Akamas Blossom Trail Running Festival, CYPRUS&nbsp;</h4>
+                                            </a>
+                                            <div class="small event-rating-container ng-isolate-scope" rating="evt.rating" reviews-count="evt.reviewsCount" event-id="akamas-blossom-trail-running-festival">
 
-          <div class="col-md-6 col-lg-4 mb-4" style="margin-left: 400px;">
-            <div class="post-entry bg-white">
-              <div class="image">
-                <img src="images/img_2.jpg" alt="Image" class="img-fluid">
-              </div>
-              <div class="text p-4">
-                <h2 class="h5 text-black"><a href="#">In Construction</a></h2>
-                <span class="text-uppercase date d-block mb-3"><small>By AvilaSchiattiVirdi &bullet; 2018</small></span>
-                <p class="mb-0">Work in progress</p>
-              </div>
+ 
+</div>
+                                            <span class="ng-binding">Cyprus, </span>
+                                            <span class="ng-binding">10 Mar, 2019</span>
+                                            <br>
+                                            <span><translate class="ng-scope">Distances</translate> <span distances="evt.meta.distances" measure-type="evt.measureType" class="ng-isolate-scope">
+    <!-- ngRepeat: distance in $ctrl.distances track by $index --><span class="race-type flex ng-binding ng-scope ultra wl" ng-repeat="distance in $ctrl.distances track by $index" ng-class="$ctrl.getClass(distance)">
+        53
+    </span><!-- end ngRepeat: distance in $ctrl.distances track by $index -->
+</span></span>
+                                            <div class="card-footer">
+                                                <div class="pull-right actions">
+                                                   
+                                                    <!-- ngIf: !evt.affiliate --><a class="btn btn-sm btn-success ng-scope" target="_self" href="#" ng-if="!evt.affiliate" ng-click="$ctrl.track(evt.eventId)" translate="" tabindex="0">View Participants</a><!-- end ngIf: !evt.affiliate -->
+                                                    <!-- ngIf: evt.affiliate -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><div class="col-sm-12 col-md-6 col-lg-2 ng-scope slick-slide slick-active" ng-repeat="evt in $ctrl.events track by $index" style="width: 246px;" data-slick-index="2" aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide52">
+                                    <div class="card-container show-pointer">
+                                        <div class="card-image center md-slim" ng-style="{'background-image':'url(https://wmimg.azureedge.net/public/img/marathons/the-angkor-empire-marathon/the-angkor-empire-marathon_500.jpg)'}" style="background-image: url(&quot;https://wmimg.azureedge.net/public/img/marathons/the-angkor-empire-marathon/the-angkor-empire-marathon_500.jpg&quot;);">
+                                            <a target="_self" href="#" tabindex="0"></a>
+                                            <div class="small bucket-list-button" page-id="the-angkor-empire-marathon">
+
+</div>
+                                        </div>
+                                        <div class="card-text sm-pad-top bg">
+                                            <a class="link-block-text underline" target="_self" href="#" tabindex="0">
+                                                <h4 style="margin:0;display:block" class="truncate ng-binding">Khmer Empire Marathon</h4>
+                                            </a>
+                                            <div class="small event-rating-container ng-isolate-scope" rating="evt.rating" reviews-count="evt.reviewsCount" event-id="the-angkor-empire-marathon">
+   
+</div>
+                                            <span class="ng-binding"> Cambodia, Angkor Wat</span>
+                                            <span class="ng-binding">4 Aug, 2019</span>
+                                            <br>
+                                            <span><translate class="ng-scope">Distances</translate> <span distances="evt.meta.distances" measure-type="evt.measureType" class="ng-isolate-scope">
+    <!-- ngRepeat: distance in $ctrl.distances track by $index --><span class="race-type flex ng-binding ng-scope full" ng-repeat="distance in $ctrl.distances track by $index" ng-class="$ctrl.getClass(distance)">
+        F
+    </span><!-- end ngRepeat: distance in $ctrl.distances track by $index --><span class="race-type flex ng-binding ng-scope half" ng-repeat="distance in $ctrl.distances track by $index" ng-class="$ctrl.getClass(distance)">
+        H
+    </span><!-- end ngRepeat: distance in $ctrl.distances track by $index --><span class="race-type flex ng-binding ng-scope custom" ng-repeat="distance in $ctrl.distances track by $index" ng-class="$ctrl.getClass(distance)">
+        10
+    </span><!-- end ngRepeat: distance in $ctrl.distances track by $index --><span class="race-type flex ng-binding ng-scope custom" ng-repeat="distance in $ctrl.distances track by $index" ng-class="$ctrl.getClass(distance)">
+        3
+    </span><!-- end ngRepeat: distance in $ctrl.distances track by $index -->
+</span></span>
+                                            <div class="card-footer">
+                                                <div class="pull-right actions">
+                                                    
+                                                    <!-- ngIf: !evt.affiliate --><a class="btn btn-sm btn-success ng-scope" target="_self" href="#" ng-if="!evt.affiliate" ng-click="$ctrl.track(evt.eventId)" translate="" tabindex="0">View Participants</a><!-- end ngIf: !evt.affiliate -->
+                                                    <!-- ngIf: evt.affiliate -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><div class="col-sm-12 col-md-6 col-lg-2 ng-scope slick-slide slick-active" ng-repeat="evt in $ctrl.events track by $index" style="width: 246px;" data-slick-index="3" aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide53">
+                                    <div class="card-container show-pointer">
+                                        <div class="card-image center md-slim" ng-style="{'background-image':'url(https://wmimg.azureedge.net/public/img/marathons/montepio-cascais-half-marathon/montepio-cascais-half-marathon_500.jpg)'}" style="background-image: url(&quot;https://wmimg.azureedge.net/public/img/marathons/montepio-cascais-half-marathon/montepio-cascais-half-marathon_500.jpg&quot;);">
+                                            <a target="_self" href="#" tabindex="0"></a>
+                                        
+                                        </div>
+                                        <div class="card-text sm-pad-top bg">
+                                            <a class="link-block-text underline" target="_self" href="#" tabindex="0">
+                                                <h4 style="margin:0;display:block" class="truncate ng-binding">Montepio Cascais Half Marathon</h4>
+                                            </a>
+                                            <div class="small event-rating-container ng-isolate-scope" rating="evt.rating" reviews-count="evt.reviewsCount" event-id="montepio-cascais-half-marathon">
+    
+
+</div>
+                                            <span class="ng-binding"> Portugal, Cascais</span>
+                                            <span class="ng-binding">3 Mar, 2019</span>
+                                            <br>
+                                            <span><translate class="ng-scope">Distances</translate> <span distances="evt.meta.distances" measure-type="evt.measureType" class="ng-isolate-scope">
+    <!-- ngRepeat: distance in $ctrl.distances track by $index --><span class="race-type flex ng-binding ng-scope half" ng-repeat="distance in $ctrl.distances track by $index" ng-class="$ctrl.getClass(distance)">
+        H
+    </span><!-- end ngRepeat: distance in $ctrl.distances track by $index --><span class="race-type flex ng-binding ng-scope custom" ng-repeat="distance in $ctrl.distances track by $index" ng-class="$ctrl.getClass(distance)">
+        5
+    </span><!-- end ngRepeat: distance in $ctrl.distances track by $index --><span class="race-type flex ng-binding ng-scope custom" ng-repeat="distance in $ctrl.distances track by $index" ng-class="$ctrl.getClass(distance)">
+        1
+    </span><!-- end ngRepeat: distance in $ctrl.distances track by $index -->
+</span></span>
+                                            <div class="card-footer">
+                                                <div class="pull-right actions">
+                                                    
+                                                    <!-- ngIf: !evt.affiliate --><a class="btn btn-sm btn-success ng-scope" target="_self" href="#" ng-if="!evt.affiliate" ng-click="$ctrl.track(evt.eventId)" translate="" tabindex="0">View Participants</a><!-- end ngIf: !evt.affiliate -->
+                                                    <!-- ngIf: evt.affiliate -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div></div></div>
+                    </div>
+                </div>               
             </div>
-          </div>
-  
         </div>
 
         
