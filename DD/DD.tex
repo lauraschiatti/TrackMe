@@ -1085,10 +1085,32 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	\end{figure}
 	
 	\section{Selected architectural styles and patterns}
-	Please explain which styles/patterns you
-used, why, and how 
+	\textbf{Client Server}\\
+	As shown in the architecture overview, the system is built in a way to permit the client-server paradigm. The user interfaces, web application, act as clients with their respective servers. Furthermore, the web server is a client when is requesting some
+information from the D4H server. In the last tier some components receive information from external resources across their APIs and this configuration could be seen as client server as well. Finally the data base system is a server for the multiple request made by the business server.\\\\
+
+\textbf{Stateful and stateless components}\\
+The components have different functions into the system. According to these functions and their importance, a pattern to be instantiated is defined. When user starts a session in TrackMe, there are components that must maintain his/her state from the beginning to the end. These components are stateful session. Also, these components have information about each specific user. Some examples of this type are the \textbf{:AuthenticationManager, :RequestManager} and \textbf{:SearchManager} components. Finally, it is important to clarify that these components do not use a big quantity of resources, meaning that the server can create and keep one instantiation for each User.\\
+On the another hand there are components that do not need to keep the state of the user during all the session because they are used in one specific moment. Also, they need an important quantity of resources, therefore the instantiation for each user
+would generate a performance problem. We can mention, for instance, the \textbf{:DataHandler, :Subscription} and \textbf{:Notification} components. Finally, the idea with this kind of components is to create a pool of instances from which the server chooses one of them in order to communicate with the client.
+\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.65]{diagrams/state_pool.png}
+		\caption[Design Pattern: Stateful and stateless patterns]{Stateful and stateless patterns}
+		\label{fig:Stateful and stateless patterns}
+	\end{figure}
+
+\textbf{MVC}\\
+The most web applications’ core operation is to retrieve data from a data store and update the user interface with the newly requested information based on the user inputs. The logical sense is to tie the user interface components with the data store components. However, since the user interface components are updated regularly to accommodate the changing user requirements and new technologies – more so than the data store components, we introduce extra coupling in our system. The aim of this pattern is to separate the components of user interface (View); core functionality and data (Model) and the response to user inputs (Controller).\\\\
+
+\textbf{Event Based}\\
+The ASOS service is an event-based service in the application. The \textbf{:DataHandler} component is used under this paradigm. The component carries out an alerting function such that when an event occurs in the world, it is in charge to tell the user what is happening (i.e., if he/she's vital signs are out of normal range). For all of these functionalities, \textbf{:DataHandler} sends asynchronous messages to the \textit{HealthCareConnector} which thus notifies to \textit{HealthCareService} via an alarm interface in precise moments, taking into account activation events. The eventbased
+paradigm consists in defining a publisher and some subscribers. The subscribers are interested in some changes of state or events (for example, the user location with respect to the next ambulance). When something happens, the publisher sends messages to all his subscribers. In this case the publisher is \textbf{:DataHandler} and the subscribers are the clients in the User’s devices.
 
 	\section{Other design decisions}
+	TrackMe is an application that combines different services for using data and constantly validates data against the pre-defined thresholds in order to guarantee a response time in case of emergency to the location. For this reason, external services are being used.\\\\
+The application primarily needs and integration with a map service. The best option will be chosen depending on the city for which the run is taken place, is being developed. One of the options is using Google Maps as it also helps with route and location.\\\\
+Moreover, Data4Help services are the key part of the   application. That is why all the services that are offering APIs will be integrated in the application. The services also depend on the location, but they will be integrated in the same way, using their APIs.
 	
 	\chapter{User interface design}
 	The following mock-ups represent a basic idea of what the web application will look like after the first release.
