@@ -1040,6 +1040,10 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	\subsection{Data4Help sequence diagrams}
 	
 	\subsection{Track4Run sequence diagrams}
+	
+	In the Figure \ref{fig:t4r_seq_signup} the signup process is shown. It can be seen the Signup component, which is responsible of getting the Participant information, and with the help of the DBManager component, save it into the data base. The AuthenticationManager component is responsible of create the access token for the session. Finally, the Signup component sends an message to the Request component which, asynchronously,  sends a request for accessing the individual's information to D4H. The process ends when the GUI redirects the new user to its dashboard.\\
+	
+	It worth mentioning, that the Organizer signup process is similar to the signup process of the Participant. The only difference is that, in the case of the Organizer, the Signup component does not send a message to the Request component.\\
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_signup_participant.png}
@@ -1047,6 +1051,9 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\label{fig:t4r_seq_signup}
 	\end{figure}
 	
+	In the Figure \ref{fig:t4r_seq_login} the login and logout processes are shown. It can be noticed that the actor is either a Participant or an Organizer, since the process is the same for both of them. If there exist a user that has an email and password as the one sent to the Login component, then it should ask the AuthenticationManager component to create an access token for that user. If the credentials are right, the GUI will redirect the user to its dashboard. Otherwise, it will show an error.\\
+	
+	In the case of logout, the GUI should send the access token and the userId to the Login component, which will send a message to the AuthenticationManager component in order to validate it. If it is valid, it will remove the access token in order to remove the session, and the GUI will redirect the user to the home page.\\ 
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_login_logout.png}
@@ -1054,13 +1061,17 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\label{fig:t4r_seq_login}
 	\end{figure}
 	
+	In the Figure \ref{fig:t4r_seq_create_run} the create a run process is shown. This process involves the Organizer, who should send the startDate, endDate and name for the event. These parameters will be handled by the Event component, which will save the new event in the data base with the help of DBManager component. Moreover, the Organizer can add the coordinates for the running circuit by updating the previously create event. After this step, the GUI will show the possible participants to invite, and the Organizer can skip this, or choose and send the invitations to selected participants. In that case, and after choosing which participants will receive an invite, the GUI will send a message to the Notification component, which will add the notifications into the data base. This final process is asynchronous.\\
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_create_run.png}
 		\caption[Track4Run create run sequence diagram]{Track4Run create run sequence diagram}
 		\label{fig:t4r_seq_create_run}
 	\end{figure}
+	
+	Finally, in the Figure \ref{fig:t4r_seq_accept_invitation}, the accept and reject invitation processes are shown. First, the Participant will ask the GUI for all the pending notifications, and it will ask to the Notification component for the notifications of the user. If a user decides to accept a notification, the GUI will send a message to the Event component, which will add the participant to the Event.\\
 
+	 On the other hand, if the Participant decides to reject the invitation, the GUI will send a message to the Notification component in order to delete it.\\
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_accept_reject_notification.png}
@@ -1201,7 +1212,7 @@ The above figure 3.6 displays the dashboard for individual users, this new page 
 	
 	\begin{figure}[H]
 		\centering
-%		\includegraphics[scale=0.35]{UI/spectators_map.png}
+		\includegraphics[scale=0.35]{UI/Spectators_map.png}
 		\caption[UI: Spectators' Map-view Page]{Spectators' Map-view Page}
 		\label{fig:Spectators' Map-view Page}
 	\end{figure}
