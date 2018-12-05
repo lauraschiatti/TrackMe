@@ -326,6 +326,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			DataBase & Component that contains the main database (Track4Run DB), with all its collections and the token database (TokenDB) which contains all the valid session access tokens.\\
 			Request & Component responsible of sending Request for accessing location of a specific Individual in D4H. It should be able to connect to D4H through the provided RequestAPI.\\
 			User & Component responsible of manage the Participant operations. It should be able to show all the enrolled and non-enrolled participants of a run.\\
+			Event & Component responsible of manage the Event operations. It should be able to create running events, to define the running circuit, and to get all the available running events.\\
 			Notification & Component responsible of manage the Notification operations. It should be able to send invitations to participants, and let them accept or reject it. \\
 			DataHandler & Component responsible to get the location and health data of the Individuals during a Race event. It should be able to obtain the information sent by D4H during a race event, and to get the information related to the Individuals who accepted the sent request.\\
 			
@@ -648,25 +649,31 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\begin{itemize}
 				\item{UserService}
 					\begin{itemize}
-						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req, Spark.Response res)|}
+						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req,|\\ \verb|Spark.Response res)|}
 						\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|}
 						\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|}
-						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req, Spark.Response res)|}
-						\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void createEvent(Spark.Request req, Spark.Response res)|}
+						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req,|\\ \verb|Spark.Response res)|}
 					\end{itemize}
 				\item{UserResource}
 					\begin{itemize}
 						\item{\verb|T4RUser getById(String userId)|}
 						\item{\verb|void update(T4RUser u)|}
 					\end{itemize}
+			\end{itemize}
+		\item{\textbf{Event}}
+			\begin{itemize}
+				\item{EventService}
+					\begin{itemize}
+						\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req,|\\ \verb|Spark.Response res)|}
+						\item{\verb|void createEvent(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void updateEvent(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
 				\item{EventResource}
 					\begin{itemize}
 						\item{\verb|Event getById(String eventId)|}
-						\item{\verb|void add(Event e)|}
-						\item{\verb|void delete(String eventId)|}
-						\item{\verb|void update(Event e)|}
 						\item{\verb|Collection<Event> getAll()|}
+						\item{\verb|void add(Event e)|}
+						\item{\verb|void update(Event e)|}
 					\end{itemize}
 			\end{itemize}
 		\item{\textbf{Notification}}
@@ -778,6 +785,9 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			\end{tabular}\\
 			\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/participant/:userId/:eventId|}
 			\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/participant/:userId/:eventId|}
+		\end{itemize}
+		\item{EventService}
+			\begin{itemize}
 			\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req, Spark.Response res)|\\ \verb|GET /web/event|}\\
 			\begin{tabular}{l | l}
 			\textbf{Input} & \textbf{Output} \\
@@ -801,7 +811,18 @@ When the third-party users have subscribed to the bulk data subscription, they d
 				\verb|path[*].longitude: Long| & \\
 				\verb|path[*].latitude: Long| & \\
 			\end{tabular}\\
-		\end{itemize}
+			\item{\verb|void updateEvent(Spark.Request req, Spark.Response res)|\\ \verb|PUT /web/event/:eventId|}\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|name: String| & \\
+				\verb|startDate: Date| & \\
+				\verb|endtDate: Date| & \\
+				\verb|path: Collection<Coordinate>| & \\
+				\verb|path[*].longitude: Long| & \\
+				\verb|path[*].latitude: Long| & \\
+			\end{tabular}\\
+			\end{itemize}
 		\item{NotificationService}
 		\begin{itemize}
 			\item{\verb|Collection<Notification> getPendingNotifications(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/:userId/notification|}\\
@@ -862,6 +883,16 @@ When the third-party users have subscribed to the bulk data subscription, they d
 					\begin{itemize}
 						\item{\verb|void getIndividualData(Spark.Request req, Spark.Response res)|}
 						\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|}
+					\end{itemize}
+					\item{ThresholdResource}
+					\begin{itemize}
+						\item{\verb|Collection<Threshold> getAll()|}
+						\item{\verb|Boolean isOutOfRange(Threshold threshold, Data data)|}
+					\end{itemize}
+					\item{UserResource}
+					\begin{itemize}
+						\item{\verb|ASOSUser getById(String userId)|}
+						\item{\verb|void delete(String userId)|}
 					\end{itemize}
 			\end{itemize}
 		\item{\textbf{HealthCareConnector}}
@@ -1074,6 +1105,23 @@ The above figure 3.6 displays the dashboard for individual users, this new page 
 		\label{fig:Dashboard for individuals}
 	\end{figure}
 	The above figure 3.7 displays the dashboard for third party users, this new page is responsive and a real-time view of the application for the third party user's point of view. Third parties can  request for  data using the filtering criteria provided by the system such as: specific individual data or in bulk; furthermore, if its specific request then filtering is done by SSN/fiscal code and if its bulk data, then, filtering is done basis upon country, age and blood type.
+	
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]{UI/db_organizer1.png}
+		\caption[UI: Organizers' Dashboard Page]{Organizers' Dashboard Page}
+		\label{fig:Dashboard for Organizer}
+	\end{figure}
+	In the figure 3.8, the organizer can see the number of pending invites for the already configured runs which are still pending to send to the targeted participants; also, organizer's are able to view the number of already configured runs from the past; In addition, they can start configuring a new run by clicking on 'Create new run' button.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.35]{UI/db_organizer2.png}
+		\caption[UI: Organizers' Dashboard Page]{Organizers' Dashboard Page}
+		\label{fig:Dashboard for Organizer}
+	\end{figure}
+	In the figure 3.9, Organizer's are able to define the parameters to define a complete running circuit such as: start and end time, name of the run, date of the run, nodes of the running circuit and here they can select whether to send invitations now or not by clicking the check-box; Thus, by clicking on 'Complete running circuit' button, the configuration gets completed and based on the details above, run is configured.
 	
 	\chapter{Requirements traceability}
 	In this section is shown how the goals and requirements specified in the RASD are mapped to the design components defined in this document.
