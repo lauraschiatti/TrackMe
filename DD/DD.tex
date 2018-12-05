@@ -1035,9 +1035,55 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\end{figure}	
 	
 	\section{Runtime view}
-	You can use sequence diagrams to describe the way components
-interact to accomplish specific tasks typically related to your use cases
+	In the following section sequence diagrams of D4H, T4R and ASOS are shown. 
+	
+	\subsection{Data4Help sequence diagrams}
+	
+	\subsection{Track4Run sequence diagrams}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_signup_participant.png}
+		\caption[Track4Run Signup sequence diagram]{Track4Run Signup sequence diagram}
+		\label{fig:t4r_seq_signup}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_login_logout.png}
+		\caption[Track4Run Login/logout sequence diagram]{Track4Run Login/logout sequence diagram}
+		\label{fig:t4r_seq_login}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_create_run.png}
+		\caption[Track4Run create run sequence diagram]{Track4Run create run sequence diagram}
+		\label{fig:t4r_seq_create_run}
+	\end{figure}
 
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_accept_reject_notification.png}
+		\caption[Track4Run accept/reject invitation sequence diagram]{Track4Run accept/reject invitation sequence diagram}
+		\label{fig:t4r_seq_accept_invitation}
+	\end{figure}	
+	
+	\subsection{AutomatedSOS sequence diagrams}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/asos_get_individual_notification.png}
+		\caption[AutomatedSOS get notification sequence diagram]{AutomatedSOS get notification sequence diagram}
+		\label{fig:asos_seq_get_notification}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/asos_receive_individual_data_and_notify_emergency_service.png}
+		\caption[AutomatedSOS receive data and notify emergency service sequence diagram]{AutomatedSOS receive data and notify emergency service sequence diagram}
+		\label{fig:asos_seq_receive_data}
+	\end{figure}
+	
 	\section{Selected architectural styles and patterns}
 	Please explain which styles/patterns you
 used, why, and how 
@@ -1133,7 +1179,7 @@ The above figure 3.6 displays the dashboard for individual users, this new page 
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{UI/spectators_map.png}
+%		\includegraphics[scale=0.35]{UI/spectators_map.png}
 		\caption[UI: Spectators' Map-view Page]{Spectators' Map-view Page}
 		\label{fig:Spectators' Map-view Page}
 	\end{figure}
