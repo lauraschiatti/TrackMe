@@ -988,13 +988,14 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\item{\textbf{Run}}:  characterized by a name, start and end times, and a path.
 		\item{\textbf{Organizer}}: responsible for setting it up runs and send invitations to individuals.
 		\item {\textbf{Participant}}: individuals enrolled in any run.
+		\item {\textbf{Invitation}}: invitations to participate on runs sent by organizers.
 	\end{itemize}
 	
 	The system does not need to keep record of the spectators. \\
 	
 	\begin{figure}[H]
     		\centering
-		\includegraphics[width=0.4\textwidth]{diagrams/t4r_class_diagram.png}
+		\includegraphics[width=0.9\textwidth]{diagrams/t4r_class_diagram.png}
 		\caption[Track4Run Class Diagram]{Track4Run Class Diagram}
 		\label{fig:Track4Run Class Diagram}
 	\end{figure}	
@@ -1058,16 +1059,14 @@ used, why, and how
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.4]{UI/d4h.png}
-		\includegraphics[scale=0.4]{UI/d4h2.png}
-		\includegraphics[scale=0.35]{UI/d4h_home4.png}
+		\includegraphics[scale=0.13]{UI/d4h.png}
 
 		\caption[UI: Data4Help Information Page]{Data4Help Information Page}
 		\label{fig:Data4Help Information Page}
 	\end{figure}
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.4]{UI/asos.png}
+		\includegraphics[scale=0.13]{UI/asos.png}
 
 		\caption[UI: ASOS Information Page]{ASOS Information Page}
 		\label{fig:ASOS Information Page}
@@ -1177,7 +1176,7 @@ The above figure 3.6 displays the dashboard for individual users, this new page 
 		 \requirement{9} The system must allow a third party company to filter data of an anonymized group of individuals by country, age, gender and blood type parameters \\ 
 		 \textbf{D4H::SearchManager}
 		 \requirement{10} The system must be able to anonymize the data of a group of individuals \\
-		 \textbf{D4H::SearchManager}
+		 \textbf{D4H::APIManager}
 		 \requirement{11} The system must allow a third party company to subscribe to an individual health status and location \\ 
 		\textbf{D4H::Subscription}
 		\requirement{12} The system must allow a third party company to subscribe to data of an anonymized group of individuals \\
