@@ -652,7 +652,6 @@ When the third-party users have subscribed to the bulk data subscription, they d
 						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req,|\\ \verb|Spark.Response res)|}
 						\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|}
 						\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|}
-						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req,|\\ \verb|Spark.Response res)|}
 					\end{itemize}
 				\item{UserResource}
 					\begin{itemize}
@@ -693,7 +692,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 				\item{EventResource}
 					\begin{itemize}
 						\item{\verb|Event getById(String eventId)|}
-						\item{\verb|void addParticipant(String participantId)|}
+						\item{\verb|void addParticipant(String eventId, String participantId)|}
 					\end{itemize}
 			\end{itemize}
 		\item{\textbf{DataHandler}}
@@ -1134,7 +1133,7 @@ The above figure 3.6 displays the dashboard for individual users, this new page 
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{UI/spectators_map.png}
+%		\includegraphics[scale=0.35]{UI/spectators_map.png}
 		\caption[UI: Spectators' Map-view Page]{Spectators' Map-view Page}
 		\label{fig:Spectators' Map-view Page}
 	\end{figure}
