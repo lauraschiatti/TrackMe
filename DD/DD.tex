@@ -407,7 +407,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 					\end{itemize}
 				\item{UserResource}
 					\begin{itemize}
-						\item{\verb|D4HUser getBySSN(String ssn)|}
+						\item{\verb|Individual getBySSN(String ssn)|}
 						\item{\verb|Collection<D4HUser> get(D4HQuery query)|}
 						\item{\verb|Collection<D4HUser> anonymize(Collection<D4HUser> users)|}
 					\end{itemize}
@@ -1029,7 +1029,7 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	In the Figure \ref{fig:asos_deployment_diagram} the ASOS deployment diagram is shown. Since ASOS does not have a web site, the main node is an \textbf{Application Server} that hosts the execution environment for the \textbf{ASOS Backend} component. The \textbf{Application Server} interacts with a \textbf{MongoDB Server} node, using the TCP/IP protocol. Moreover, it interacts with an external node which represent the different \textbf{Health Care Service}s, and with the execution environment of \textbf{Data4Help}.
 		\begin{figure}[H]
 			\centering
-			\includegraphics[width=1\textwidth]{diagrams/asos_deployment_diagram.png}
+			\includegraphics[width=0.9\textwidth]{diagrams/asos_deployment_diagram.png}
 			\caption[AutomatedSOS Deployment Diagram]{AutomatedSOS Deployment Diagram}
 			\label{fig:asos_deployment_diagram}
 		\end{figure}	
