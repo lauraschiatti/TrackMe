@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <mainClass>avila.schiatti.virdi.Data4HelpApp</mainClass>
+        <mainClass>avila.schiatti.virdi.Main</mainClass>
         <javasparkVersion>2.7.2</javasparkVersion>
         <slf4jVersion>1.7.25</slf4jVersion>
         <morphiaVersion>1.4.0</morphiaVersion>
@@ -152,10 +152,11 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://sites.google.com/site/javacornproject/corn-httpclient -->
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${apache.httpcomponents.version}</version>
+            <groupId>net.sf.corn</groupId>
+            <artifactId>corn-httpclient</artifactId>
+            <version>1.0.12</version>
         </dependency>
 
     </dependencies>

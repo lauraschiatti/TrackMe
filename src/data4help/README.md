@@ -10,7 +10,7 @@ The following are the steps needed to work on the back-end:
 1. Open a terminal and from this folder, run: `mvn compile`
 1. *[Optional]* To run the service:
     1. Make sure that MongoDB and Redis services are running.
-    1. Execute the following line: `mvn -X exec:java -Dexec.mainClass=avila.schiatti.virdi.Data4HelpApp -e`. You will be able to access the site/services by accessing to http://127.1.1.1:4567
+    1. Execute the following line: `mvn -X exec:java -Dexec.mainClass=avila.schiatti.virdi.Main -e`. You will be able to access the site/services by accessing to http://127.1.1.1:4567
     1. In order to be able to have the front end, you should follow the steps of the front-end section, without running it.
 
 ### How to run the test cases?
