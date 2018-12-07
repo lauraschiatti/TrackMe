@@ -1,24 +1,15 @@
 package avila.schiatti.virdi.utils;
 
-import avila.schiatti.virdi.configuration.StaticConfiguration;
 import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.exception.ValidationException;
-import avila.schiatti.virdi.service.LoginService;
 import avila.schiatti.virdi.service.RouteConfig;
 import avila.schiatti.virdi.service.Service;
-import avila.schiatti.virdi.service.SignupService;
 import avila.schiatti.virdi.service.authentication.AuthenticationManager;
 import org.eclipse.jetty.http.HttpStatus;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.util.thread.QueuedThreadPool;
-import org.eclipse.jetty.util.thread.ThreadPool;
 import spark.Spark;
-import spark.embeddedserver.jetty.EmbeddedJettyFactory;
-import spark.embeddedserver.jetty.JettyServerFactory;
 import spark.servlet.SparkApplication;
 
 import static spark.Spark.*;
-import static spark.Spark.before;
 
 public class Data4HelpApp implements SparkApplication {
     private final static String STATUS_URL = "/status";

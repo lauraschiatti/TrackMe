@@ -55,13 +55,13 @@ public class LoginService extends Service {
         throw new TrackMeException(TrackMeError.NOT_VALID_EMAIL_OR_PASSWORD);
     }
 
-    private Void logout(Request request, Response response) {
+    private String logout(Request request, Response response) {
         LogoutRequest body = jsonTransformer.fromJson(request.body(), LogoutRequest.class);
 
         authManager.deleteAccessToken(body.getAccessToken());
 
         response.status(HttpStatus.OK_200);
-        return null;
+        return "";
     }
 
     @Override

@@ -6,7 +6,6 @@ public class ThirdPartySignupRequest {
     private String certificate;
     private String name;
     private String phone;
-    private String code;
     private String taxCode;
 
     public String getEmail() {
@@ -47,14 +46,6 @@ public class ThirdPartySignupRequest {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getTaxCode() {

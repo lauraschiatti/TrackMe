@@ -8,13 +8,15 @@ import xyz.morphia.annotations.Embedded;
 import xyz.morphia.annotations.Entity;
 import xyz.morphia.annotations.Reference;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity("user")
 public class Individual extends D4HUser {
     private String name;
     private String ssn;
-    private Date birthDate;
+    private LocalDateTime birthDate;
     @Embedded
     private Gender gender;
     @Embedded
@@ -41,11 +43,11 @@ public class Individual extends D4HUser {
         this.ssn = ssn;
     }
 
-    public Date getBirthDate() {
+    public LocalDateTime getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDateTime birthDate) {
         this.birthDate = birthDate;
     }
 

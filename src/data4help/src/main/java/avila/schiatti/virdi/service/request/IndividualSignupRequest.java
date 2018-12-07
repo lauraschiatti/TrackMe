@@ -4,6 +4,8 @@ import avila.schiatti.virdi.model.data.Address;
 import avila.schiatti.virdi.model.data.BloodType;
 import avila.schiatti.virdi.model.data.Gender;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class IndividualSignupRequest {
@@ -11,7 +13,7 @@ public class IndividualSignupRequest {
     private String password;
     private String name;
     private String ssn;
-    private Date birthDate;
+    private LocalDateTime birthDate;
     private Gender gender;
     private Address address;
     private BloodType bloodType;
@@ -48,11 +50,11 @@ public class IndividualSignupRequest {
         this.ssn = ssn;
     }
 
-    public Date getBirthDate() {
+    public LocalDateTime getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDateTime birthDate) {
         this.birthDate = birthDate;
     }
 

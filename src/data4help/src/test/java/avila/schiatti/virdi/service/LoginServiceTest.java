@@ -3,16 +3,15 @@ package avila.schiatti.virdi.service;
 import avila.schiatti.virdi.configuration.StaticConfiguration;
 import avila.schiatti.virdi.database.DBManager;
 import avila.schiatti.virdi.exception.TrackMeError;
-import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.model.user.D4HUser;
 import avila.schiatti.virdi.model.user.Individual;
-import avila.schiatti.virdi.model.user.ThirdParty;
 import avila.schiatti.virdi.resource.UserResource;
 import avila.schiatti.virdi.service.authentication.AuthenticationManager;
 import avila.schiatti.virdi.service.request.LoginRequest;
+import avila.schiatti.virdi.service.request.LogoutRequest;
+import avila.schiatti.virdi.service.response.ErrorResponse;
 import avila.schiatti.virdi.service.response.LoginResponse;
 import avila.schiatti.virdi.utils.Data4HelpApp;
-import avila.schiatti.virdi.utils.ServiceApplication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mongodb.MongoClient;
@@ -24,21 +23,16 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 import net.sf.corn.httpclient.HttpClient;
 import net.sf.corn.httpclient.HttpResponse;
 import org.junit.jupiter.api.*;
-import spark.Spark;
-import sun.rmi.runtime.Log;
 import xyz.morphia.Datastore;
 import xyz.morphia.Morphia;
 import xyz.morphia.query.Query;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
 
 import static net.sf.corn.httpclient.HttpClient.HTTP_METHOD;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 
@@ -53,9 +47,7 @@ public class LoginServiceTest {
 
     private static final String SSN = "testing_ssn_number";
     private static final String INDIVIDUAL_NAME = "John Doe";
-    private static final String COMPANY_NAME = "My Company Name Inc.";
     private static final String INDIVIDUAL_EMAIL = "my_personal_email@address.com";
-    private static final String COMPANY_EMAIL = "my_company_email@address.com";
     private static final String PASSWORD = "My Pa22w0rd";
 
     private static Datastore datastore;
@@ -98,16 +90,6 @@ public class LoginServiceTest {
         return i;
     }
 
-    private ThirdParty createThirdPartyUser(){
-        ThirdParty tp = new ThirdParty();
-        tp.setName(COMPANY_NAME);
-        tp.setEmail(COMPANY_EMAIL);
-        tp.setPassword(AuthenticationManager.hashPassword(PASSWORD));
-
-        datastore.save(tp);
-        return tp;
-    }
-
     private <T> T doLogin(String email, String password, Class<T> clazz) throws Exception{
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail(email);
@@ -119,13 +101,11 @@ public class LoginServiceTest {
         return jsonTransformer.fromJson(response.getData(), clazz);
     }
 
-    private String doLogin(String email, String password) throws Exception {
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail(email);
-        loginRequest.setPassword(password);
+    private String doLogout(String accessToken) throws Exception {
+        LogoutRequest request = new LogoutRequest(accessToken);
 
-        HttpClient client = new HttpClient(new URI(TEST_APP_URL + "/login"));
-        HttpResponse response = client.sendData(HTTP_METHOD.POST, jsonTransformer.toJson(loginRequest));
+        HttpClient client = new HttpClient(new URI(TEST_APP_URL + "/logout"));
+        HttpResponse response = client.sendData(HTTP_METHOD.POST, jsonTransformer.toJson(request));
 
         return response.getData();
     }
@@ -145,7 +125,7 @@ public class LoginServiceTest {
 
     @AfterAll
     public static void afterAll() {
-        Spark.stop();
+        app.destroy();
     }
 
     @AfterEach
@@ -158,7 +138,7 @@ public class LoginServiceTest {
     }
 
     @Test
-    @DisplayName("Test /login endpoint using existing email and password")
+    @DisplayName("Test /web/login endpoint using existing email and password")
     public void testLoginEndpointWithCorrectEmailAndPass(){
         try {
             Individual individual = createIndividualUser();
@@ -178,17 +158,71 @@ public class LoginServiceTest {
     }
 
     @Test
-    @DisplayName("Test /login endpoint using existing email and password")
+    @DisplayName("Test /web/login endpoint using existing not valid email and password")
     public void testLoginEndpointWithWrongEmail(){
         try {
             createIndividualUser();
-            String response = doLogin("not_valid@email.com", PASSWORD);
+            ErrorResponse response = doLogin("not_valid@email.com", PASSWORD, ErrorResponse.class);
 
-            HashMap<String, String> stringStringHashMap = jsonTransformer.fromJson(response, HashMap.class);
-            assertEquals(stringStringHashMap.get("message"), TrackMeError.NOT_VALID_EMAIL_OR_PASSWORD.getMessage());
+            assertEquals(response.getMessage(), TrackMeError.NOT_VALID_EMAIL_OR_PASSWORD.getMessage());
         }catch (Exception ex){
             fail(ex.getMessage());
         }
     }
 
+    @Test
+    @DisplayName("Test /web/login endpoint using existing email and not valid password")
+    public void testLoginEndpointWithWrongPassword(){
+        try {
+            createIndividualUser();
+            ErrorResponse result = doLogin(INDIVIDUAL_EMAIL, "not_valid_password", ErrorResponse.class);
+
+            assertEquals(result.getMessage(), TrackMeError.NOT_VALID_EMAIL_OR_PASSWORD.getMessage());
+        }catch (Exception ex){
+            fail(ex.getMessage());
+        }
+    }
+
+    @Test
+    @Ignore
+    @DisplayName("Test /web/logout endpoint using existing access token")
+    public void testLogoutEndpointWithCorrectAT(){
+        try {
+            // prerequisites
+            Individual individual = createIndividualUser();
+            LoginResponse loginResponse = doLogin(INDIVIDUAL_EMAIL, PASSWORD, LoginResponse.class);
+            String userId = commands.get(loginResponse.getAccessToken());
+            assertEquals(individual.getId().toString(), userId);
+            //-------------------------
+            // do logout
+            doLogout(loginResponse.getAccessToken());
+            String notFoundId = commands.get(loginResponse.getAccessToken());
+            assertNull(notFoundId);
+
+        }catch (Exception ex){
+            fail(ex.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Test /web/logout endpoint using not valid access token")
+    public void testLogoutEndpointWithWrongAT(){
+        String NOT_VALID_ACCESS_TOKEN = "not_valid_access_token";
+        try {
+            // prerequisites
+            Individual individual = createIndividualUser();
+            LoginResponse loginResponse = doLogin(INDIVIDUAL_EMAIL, PASSWORD, LoginResponse.class);
+            String userId = commands.get(loginResponse.getAccessToken());
+            assertEquals(individual.getId().toString(), userId);
+            //-------------------------
+            // do logout
+            doLogout(NOT_VALID_ACCESS_TOKEN);
+
+            // nothing change..
+            userId = commands.get(loginResponse.getAccessToken());
+            assertEquals(individual.getId().toString(), userId);
+        }catch (Exception ex){
+            fail(ex.getMessage());
+        }
+    }
 }

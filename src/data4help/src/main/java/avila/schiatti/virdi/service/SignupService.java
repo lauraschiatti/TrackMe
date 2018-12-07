@@ -30,6 +30,18 @@ public class SignupService extends Service {
     private UserResource userResource = UserResource.create();
     private AuthenticationManager authManager = AuthenticationManager.getInstance();
 
+    public SignupService(){}
+
+    /**
+     * Only for testing.
+     * @param userResource
+     * @param authManager
+     */
+    public SignupService(UserResource userResource, AuthenticationManager authManager){
+        this.authManager = authManager;
+        this.userResource = userResource;
+    }
+
     public static SignupService create(){
         return new SignupService();
     }
@@ -129,7 +141,6 @@ public class SignupService extends Service {
         Validator.validateEmail(request.getEmail());
         Validator.isNullOrEmpty(request.getName(), "Business Name");
         Validator.isNullOrEmpty(request.getTaxCode(), "Tax Code");
-        Validator.isNullOrEmpty(request.getCode(), "Business Code");
         Validator.isNullOrEmpty(request.getPhone(), "Phone");
         Validator.isNullOrEmpty(request.getPassword(), "Password");
         //TODO Certificate is not validated, and it is set to empty string.
@@ -141,7 +152,6 @@ public class SignupService extends Service {
         thirdParty.setEmail(request.getEmail());
         thirdParty.setPassword(AuthenticationManager.hashPassword(request.getPassword()));
         thirdParty.setCertificate(request.getCertificate());
-        thirdParty.setCode(request.getCode());
         thirdParty.setName(request.getName());
         thirdParty.setPhone(request.getPhone());
         thirdParty.setTaxCode(request.getTaxCode());
