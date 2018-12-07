@@ -11,25 +11,21 @@ import avila.schiatti.virdi.service.request.LoginRequest;
 import avila.schiatti.virdi.service.request.LogoutRequest;
 import avila.schiatti.virdi.service.response.ErrorResponse;
 import avila.schiatti.virdi.service.response.LoginResponse;
-import avila.schiatti.virdi.utils.Data4HelpApp;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import avila.schiatti.virdi.Data4HelpApp;
+import avila.schiatti.virdi.utils.Mapper;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 import jdk.nashorn.internal.ir.annotations.Ignore;
-import net.sf.corn.httpclient.HttpClient;
-import net.sf.corn.httpclient.HttpResponse;
 import org.junit.jupiter.api.*;
 import xyz.morphia.Datastore;
 import xyz.morphia.Morphia;
 import xyz.morphia.query.Query;
 
-import java.net.URI;
-
-import static net.sf.corn.httpclient.HttpClient.HTTP_METHOD;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -95,26 +91,22 @@ public class LoginServiceTest {
         loginRequest.setEmail(email);
         loginRequest.setPassword(password);
 
-        HttpClient client = new HttpClient(new URI(TEST_APP_URL + "/login"));
-        HttpResponse response = client.sendData(HTTP_METHOD.POST, jsonTransformer.toJson(loginRequest));
-
-        return jsonTransformer.fromJson(response.getData(), clazz);
+        HttpResponse<T> response = Unirest.post(TEST_APP_URL + "/login").body(loginRequest).asObject(clazz);
+        return response.getBody();
     }
 
     private String doLogout(String accessToken) throws Exception {
         LogoutRequest request = new LogoutRequest(accessToken);
 
-        HttpClient client = new HttpClient(new URI(TEST_APP_URL + "/logout"));
-        HttpResponse response = client.sendData(HTTP_METHOD.POST, jsonTransformer.toJson(request));
-
-        return response.getData();
+        HttpResponse<String> response = Unirest.post(TEST_APP_URL + "/logout").body(request).asString();
+        return response.getBody();
     }
 
-    private static Data4HelpApp app = new Data4HelpApp();
-    private static Gson jsonTransformer = new GsonBuilder().create();
+    private static Data4HelpApp app = Data4HelpApp.getInstance();
 
     @BeforeAll
     public static void beforeAll(){
+        Unirest.setObjectMapper(new Mapper());
         setupAuthManager();
         LoginService service = new LoginService(AuthenticationManager.getInstance(), setupUserResource());
 

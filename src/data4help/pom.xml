@@ -21,6 +21,11 @@
         <junit.version>5.3.2</junit.version>
         <mockito.version>2.23.4</mockito.version>
         <apache.httpcomponents.version>4.5.6</apache.httpcomponents.version>
+        <apache.httpclient.version>4.3.6</apache.httpclient.version>
+        <apache.httpasyncclient.version>4.0.2</apache.httpasyncclient.version>
+        <apache.httpmime.version>4.3.6</apache.httpmime.version>
+        <json.version>20140107</json.version>
+        <unirest.version>1.4.9</unirest.version>
     </properties>
 
     <build>
@@ -152,11 +157,34 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://sites.google.com/site/javacornproject/corn-httpclient -->
         <dependency>
-            <groupId>net.sf.corn</groupId>
-            <artifactId>corn-httpclient</artifactId>
-            <version>1.0.12</version>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${apache.httpclient.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>${apache.httpasyncclient.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>${apache.httpmime.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${json.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>${unirest.version}</version>
         </dependency>
 
     </dependencies>

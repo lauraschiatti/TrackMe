@@ -1,13 +1,16 @@
-package avila.schiatti.virdi.utils;
+package avila.schiatti.virdi;
 
 import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.exception.ValidationException;
 import avila.schiatti.virdi.service.RouteConfig;
 import avila.schiatti.virdi.service.Service;
 import avila.schiatti.virdi.service.authentication.AuthenticationManager;
+import com.mashape.unirest.http.Unirest;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Spark;
 import spark.servlet.SparkApplication;
+
+import java.io.IOException;
 
 import static spark.Spark.*;
 
@@ -15,12 +18,14 @@ public class Data4HelpApp implements SparkApplication {
     private final static String STATUS_URL = "/status";
     private static final String APPLICATION_JSON = "application/json";
 
-    private static final AuthenticationManager authenticationManager = AuthenticationManager.getInstance();
+    private static AuthenticationManager authenticationManager;
     private static final RouteConfig routes = RouteConfig.getInstance();
 
     private static Data4HelpApp _instance;
 
-    public Data4HelpApp(){}
+    private Data4HelpApp(){
+        authenticationManager = AuthenticationManager.getInstance();
+    }
 
     public static Data4HelpApp getInstance() {
         if(_instance == null){
@@ -52,7 +57,14 @@ public class Data4HelpApp implements SparkApplication {
 
     @Override
     public void destroy() {
-        Spark.stop();
+        try {
+            Unirest.shutdown();
+        } catch (IOException e) {
+            // I dont know what to do in this case..
+            e.printStackTrace();
+        } finally {
+            Spark.stop();
+        }
     }
 
     public Data4HelpApp registerService(Service service) {
@@ -119,5 +131,13 @@ public class Data4HelpApp implements SparkApplication {
             res.status(HttpStatus.BAD_REQUEST_400);
             res.body("{\"message\": \""+e.getMessage()+"\"}");
         });
+    }
+
+    /**
+     * Only for testing
+     * @param am
+     */
+    public void setAuthenticationManager(AuthenticationManager am){
+        authenticationManager = am;
     }
 }

@@ -74,12 +74,12 @@ public class AuthenticationManager {
 
         // the token does not exist in the Redis DB
         if (Validator.isNullOrEmpty(storedUserId)){
-            throw new TrackMeException(TrackMeError.NOT_VALID_TOKEN);
+            throw new TrackMeException(TrackMeError.NOT_VALID_SESSION);
         }
 
         // the token belongs to a different user
         if(userId.equals(storedUserId) == Boolean.FALSE){
-            throw new TrackMeException(TrackMeError.NOT_VALID_SESSION);
+            throw new TrackMeException(TrackMeError.NOT_VALID_USER);
         }
     }
 
