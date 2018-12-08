@@ -603,7 +603,11 @@
 	
 	\begin{itemize}
 		\item{\textbf{Data4Help}} \\
-		In the Figure \ref{fig:d4h_use_cases} the Data4Help use cases are shown. The most important use cases are \textit{Manage requests}, \textit{Access individual data}, \textit{Access bulk data}, and \textit{Send a request}. As shown in the figure, the actors related to this system are the \textit{Individual}, who is the user of the TrackMe wearable device, and the \textit{Third party company}, which is the actor who will access the individual's data.
+		In the Figure \ref{fig:d4h_use_cases} the Data4Help use cases are shown. The most important use cases are \textit{Manage requests}, \textit{Access individual data}, \textit{Access bulk data}, and \textit{Send a request}. As shown in the figure, the actors related to this system are the \textit{Individual}, who is the user of the TrackMe wearable device, and the \textit{Third party company}, which is the actor who will access the individual's data.\\
+		
+		Two use cases deserve special attention: \textit{Send Individual's data} and \textit{Send ASOS Request}. The first one, is the use case in charge of sending to the Third Party the information regarding the Individual. This should happen, if and only if, the Individual has accepted the Third Party's Request, and for each Third Party that have subscriptions on that Individual. \\
+		
+		The second use case, is in charge of adding a Request for accessing the health data and location that relates an Individual with AutomatedSOS system. In this case, the actor is the Time (which represents the passage of time), and it will check once a day, all the Individuals who qualify as elderly, in order to add the Request. This is important because AutomatedSOS does not know which D4H Individuals are elderly or not.
 		
 		\begin{figure}[H]
 			\centering
@@ -613,7 +617,7 @@
 		\end{figure}
 		
 		\item{\textbf{AutomatedSOS}}\\
-		In the Figure \ref{fig:asos_use_cases} AutomatedSOS use cases are shown. In the case of ASOS, the system has two passive actors, one of them is the health-care service, that is affected by the use case \textit{Contact health-care service}, and D4H, which is affected by the use case \textit{Send request for subscription}. On the other hand, the use case \textit{Receive individual's data} is affected by D4H, since it is that service which sends the individual's information to ASOS.
+		In the Figure \ref{fig:asos_use_cases} AutomatedSOS use cases are shown. In the case of ASOS, the system has a passive actor: the health-care service, that is affected by the use case \textit{Contact health-care service}. On the other hand, the use case \textit{Receive individual's data} and \textit{Get Request notification} are affected by D4H, since it is that service which sends the individual's information to ASOS and notifies it when a Request has been approved or not.
 		
 		\begin{figure}[H]
 			\centering
@@ -623,7 +627,10 @@
 		\end{figure}
 		
 		\item{\textbf{Track4Run}}\\
-		In the Figure \ref{fig:t4r_use_cases} the Track4Run use cases are shown. The most important use cases are \textit{Manage invitations}, and \textit{Create a run}. In this system, the actors are the \textit{Participant}, who is the TrackMe wearable device user, the \textit{Organizer}, who will setup the run, and the \textit{Spectators}, who are the audience that may view the location of the participants during a given run.
+		In the Figure \ref{fig:t4r_use_cases} the Track4Run use cases are shown. The most important use cases are \textit{Manage invitations}, and \textit{Create a run}. In this system, the actors are the \textit{Participant}, who is the TrackMe wearable device user, the \textit{Organizer}, who will setup the run, and the \textit{Spectators}, who are the audience that may view the location of the participants during a given run.\\
+		
+		Two use cases deserve special attention: \textit{Get Request Notification} and \textit{Get Individual Data}. Both use cases have Data4Help system as actor, since it is it which should send the notification of the Individual's decision on the Request, and it should send the Location of the Individual.
+		
 		
 		\begin{figure}[H]
 			\centering
@@ -1005,7 +1012,7 @@
 		\end{itemize}
 		\textbf{Event flow}:
 		\begin{enumerate}
-			\item{The system gets the health-care service contact of the given individual}
+			\item{The system gets the emergency contact of the given individual}
 			\item{The system contacts the health-care service, and sends the health data and location of the given individual}
 		\end{enumerate}
 		\textbf{Exit conditions}:
@@ -1014,6 +1021,28 @@
 		\end{itemize}
 		\textbf{Exceptions}: - \\
 		\textbf{Scenario}: An individual subscribed to ASOS service is having a hart attack. ASOS has validated the individual's health status and compared the parameters with the defined thresholds, and has decided to call the health-care service. To do so, it contacts the health-care service associated to the individual, using a previously defined protocol and API, and sends to them all the data of the individual. \\
+		\rule{\linewidth}{0.4pt}
+		\textbf{ID}: \usecase{32} \\
+		\textbf{Name}: Get Request notification \\
+		\textbf{Actor}: Data4Help \\
+		\textbf{Entry conditions}:
+		\begin{itemize}
+			\item{An Individual has accepted or rejected the Request for accessing health data and location}
+		\end{itemize}
+		\textbf{Event flow}:
+		\begin{enumerate}
+			\item{If the Individual has accepted the request}:
+			\begin{enumerate}
+				\item{The system gets the request identification, plus basic information of the Individual, like: name, ssn, birth date, city, province, country, gender and blood type}
+				\item{The system stores the Individual information and assign him/her to an emergency contact based on his/her city/province}			
+			\end{enumerate}
+			\item{If the Individual has rejected the request nothing happen.}
+		\end{enumerate}
+		\textbf{Exit conditions}:
+		\begin{itemize}
+			\item{If the Individual has accepted the request, the system starts receiving Individual's health data and location.}
+		\end{itemize}
+		\textbf{Exceptions}: - \\
 		\rule{\linewidth}{0.4pt}
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		% TRACK4RUN USE CASE SPECIFICATION
@@ -1278,7 +1307,47 @@
 		\begin{enumerate}
 			\item{If an error occurs, the system will show an error message}
 		\end{enumerate}
+		\rule{\linewidth}{0.4pt}
+		\textbf{ID}: \usecase{33} \\
+		\textbf{Name}: Get Request notification \\
+		\textbf{Actor}: Data4Help \\
+		\textbf{Entry conditions}:
+		\begin{itemize}
+			\item{An Individual has accepted or rejected the Request for accessing health data and location}
 		\end{itemize}
+		\textbf{Event flow}:
+		\begin{enumerate}
+			\item{If the Individual has accepted the request}:
+			\begin{enumerate}
+				\item{The system gets the request identification, plus basic information of the Individual like: name, ssn, birth date, city, province, country, gender and blood type}
+				\item{The system stores the Individual information}			
+			\end{enumerate}
+			\item{If the Individual has rejected the request nothing happen.}
+		\end{enumerate}
+		\textbf{Exit conditions}:
+		\begin{itemize}
+			\item{If the Individual has accepted the request, the system starts receiving Individual's location.}
+		\end{itemize}
+		\textbf{Exceptions}: - \\
+		\rule{\linewidth}{0.4pt}
+		\textbf{ID}: \usecase{34} \\
+		\textbf{Name}: Get individual's data \\
+		\textbf{Actor}: D4H \\
+		\textbf{Entry conditions}:
+		\begin{itemize}
+			\item{The Individual has accepted the T4R Request}
+		\end{itemize}
+		\textbf{Event flow}:
+		\begin{enumerate}
+			\item{The system receives latest location and health status of the Individuals}
+			\item{If the Individual has enrolled into an event, and that event is taking place, the system adds the Participant location into the map.}
+		\end{enumerate}
+		\textbf{Exit conditions}: 
+		\begin{itemize}
+			\item{The map of the run is updated with the location of the individual}
+		\end{itemize}
+		\textbf{Exceptions}: -
+	\end{itemize}
 	
 	\subsection{Activity diagrams}
 	In order to describe in detail the flow followed by each one of the offered services, activity diagrams are highly useful. \\
@@ -1372,6 +1441,8 @@
 		& [R6] & [UC7] & \\ \cline{2-4}
 		& [R8] & [UC9] & \\ \cline{2-4}
 		& [R7] & [UC8] & \\
+		& \multirow{2}{*}{[R7.1]} & [UC32] & \\ \cline{3-4}
+		&						& [UC33] & \\
 		\hline
 		\multirow{4}{*}{} [G3]  & [R5] & [UC6] & \\ \cline{2-4}
 		& [R6] & [UC7] & \\ \cline{2-4}
@@ -1381,9 +1452,12 @@
 		\hline
 		\multirow{4}{*}{} [G4]  & [R5] & [UC6] & \\ \cline{2-4}
 		& [R6] & [UC7] & \\ \cline{2-4}
-		& \multirow{3}{*}{[R11]} & [UC9] & \\ \cline{3-4}
+		& \multirow{6}{*}{[R11]} & [UC9] & \\ \cline{3-4}
 		&                        & [UC10] & \\ \cline{3-4}
-		&                        & [UC31] & \\ \cline{2-4}
+		&                        & [UC31] & \\ \cline{3-4}
+		&                        & [UC32] & \\ \cline{3-4}
+		&                        & [UC33] & \\ \cline{3-4}
+		&                        & [UC34] & \\ \cline{2-4}
 		& \multirow{3}{*}{[R12]} & [UC10] & \\ \cline{3-4}
 		&                        & [UC11] & \\ \cline{3-4}
 		&                        & [UC12] & \\
@@ -1418,8 +1492,10 @@
 		&                        & [UC21] & \\ \cline{3-4}
 		&                        & [UC22] & \\ \cline{3-4}
 		&                        & [UC23] & \\ \cline{2-4}
-		& [R24] & [UC27] & \\ \cline{2-4}
-		& [R25] & [UC27] & \\
+		& \multirow{2}{*}{[R24]} & [UC27] & \\ \cline{3-4}
+		& 					    & [UC34] & \\ \cline{2-4}
+		& \multirow{2}{*}{[R25]} & [UC27] & \\ \cline{3-4}
+		& 					    & [UC34] & \\
 		\hline
 		\caption{Traceability matrix}
 		\label{fig:Traceability matrix}
