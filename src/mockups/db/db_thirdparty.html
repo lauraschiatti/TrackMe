@@ -22,7 +22,7 @@
       <div class="site-navbar-top">
         <div class="container py-2">
           <div class="row align-items-center">
-            
+
             <div class="col-6 col-md-6 col-lg-2">
               <a href="../index.html" class="d-flex align-items-center site-logo">
                 <span class="fl-bigmug-line-cube29 mr-3 cube-bg"></span>
@@ -31,13 +31,13 @@
             </div>
 
             <div class="col-6 col-md-6 col-lg-10">
-              
+
             </div>
 
-            
+
 
           </div>
-          
+
         </div>
       </div>
       <div class="site-navbar bg-dark">
@@ -49,24 +49,21 @@
                 <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a></div>
 
                 <ul class="site-menu js-clone-nav d-none d-lg-block">
-                  <li class="active">
-                    <a href="../index.html">Home</a>
-                  </li>
-                  <li><a href="../data4help.html">Data4Help</a></li>
+                  <li class="active"><a href="#">Data4Help</a></li>
                   <li >
                     <a href="../asos.html">AutomatedSOS</a>
-                    
+
                   </li>
                   <li><a href="../track4run.html">Track4Run</a></li>
-                  
+
                 </ul>
               </nav>
             </div>
-            <div class="col-8 col-md-8 col-lg-4 text-right">
+    <!--        <div class="col-8 col-md-8 col-lg-4 text-right">
               <a href="../register.html" class="btn btn-primary btn-outline-primary rounded-0 text-white py-2 px-4">Register</a>
               <a href="../login.html" class="btn btn-primary btn-primary rounded-0 py-2 px-4">Login</a>
             </div>
-
+-->
 
           </div>
         </div>
@@ -93,34 +90,10 @@
                 <i class="icon-wrench menu-icon"></i>
               </a>
             </li>
-            <li class="nav-item nav-category">
-              <span class="nav-link">SUBSCRIBERS</span>
-            </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                <span class="menu-title">Subscribed Users</span>
-                <i class="icon-layers menu-icon"></i>
-              </a>
-              <div class="collapse" id="ui-basic">
-                <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="#.html">Requests</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="#.html">Subscribers</a></li>
-                </ul>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#.html">
-                <span class="menu-title">Requests</span>
-                <i class="icon-grid menu-icon"></i>
-              </a>
-			  </li>
-            <li class="nav-item nav-category">
-              <span class="nav-link">RUNS</span>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#.html">
-                <span class="menu-title">Runs available</span>
-                <i class="icon-flag menu-icon"></i>
+              <a class="nav-link" href="#">
+                <span class="menu-title">Search</span>
+                <i class="icon-wrench menu-icon"></i>
               </a>
             </li>
             <li class="nav-item nav-category">
@@ -132,9 +105,6 @@
                 <i class="icon-pie-chart menu-icon"></i>
               </a>
             </li>
-            <li class="nav-item nav-category">
-              <span class="nav-link">PROFILE</span>
-            </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                 <span class="menu-title">General settings</span>
@@ -145,7 +115,7 @@
         </nav>
         <!-- partial -->
         <div class="content-wrapper">
-          
+
           <div class="row">
 						<div class="col-md-6 grid-margin">
 							<div class="card">
@@ -160,7 +130,7 @@
 													<small class=" ml-1 mb-0">Updated: 9:10am</small>
 												</div>
 											</div>
-											<small class="text-gray">Raised 89 requests so far.</small>
+											<small class="text-gray">Individuals who have not accepted your requests yet</small>
 										</div>
 										<div class="d-inline-block">
 											<div class="bg-success px-4 py-2 rounded">
@@ -174,11 +144,11 @@
 						<div class="col-md-6 grid-margin">
 							<div class="card">
 								<div class="card-body">
-									<h4 class="card-title mb-0">New data available from users</h4>
+									<h4 class="card-title mb-0">New data available from subscriptions</h4>
 									<div class="d-flex justify-content-between align-items-center">
 										<div class="d-inline-block pt-3">
 											<div class="d-flex">
-												<h2 class="mb-0">5</h2>
+												<h2 class="mb-0">3</h2>
 												<div class="d-flex align-items-center ml-2">
 													<i class="mdi mdi-clock text-muted"></i>
 													<small class=" ml-1 mb-0">Updated: 05:42pm</small>
@@ -201,35 +171,44 @@
             <div class="col-lg-12 grid-margin">
               <div class="card">
                 <div class="card-body">
-                  <h2 class="card-title">Make new requests by filtering:</h2>
+                  <h2 class="card-title">Make new search:</h2>
                   <div class="table-responsive">
                     <table class="table table-striped">
                       <thead>
                         <tr>
-                          <th>How much data required (Specific or Bulk)?</th>
                           <th>Filter Criteria</th>
                           <th>Enter Data</th>
-                          <th>Submit</th>
-                        
-                        
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td><select> <option> Specific</option> <option> Bulk</option></select></td>
-                          <td><select> <option> SSN</option></select></td>
-						  <td><input value="Enter Data"> </input></td>
-                          <td><button> Submit </button></td>
-                          
+                            <td>Country</td>
+						  <td><input value="Italy"> </input></td>
                         </tr>
                         <tr>
-                           <td><select> <option> Specific</option> <option> Bulk</option></select></td>
-                          <td><select> <option> Age</option><option> Country</option><option> Blood Type</option></select></td>
-						  <td><input value="Enter Data"> </input></td>
-                          <td><button> Submit </button></td>
-                        
+                            <td>Province</td>
+						  <td><input value="Milano"> </input></td>
                         </tr>
-                        
+                        <tr>
+                            <td>City</td>
+						  <td><input value="Milano"> </input></td>
+                        </tr>
+                        <tr>
+                            <td>Age</td>
+						    <td><input value=""> </input></td>
+                        </tr>
+                        <tr>
+                          <td>Blood type</td>
+						  <td><select> <option> Any</option><option> A+</option><option>B+</option></select></td>
+                        </tr>
+                        <tr style="border-top: 2px">
+                          <td style="color: gray">SSN</td>
+						  <td><input value="" disabled> </input></td>
+                        </tr>
+                        <tr>
+                          <td>Save query&nbsp;<input type="checkbox" checked></td>
+                          <td><a href="#" class="btn btn-primary btn-outline-primary rounded-2 text-black py-2 px-4">Search</a></td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
