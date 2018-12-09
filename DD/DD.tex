@@ -1141,6 +1141,17 @@ Resuming the high level architecture of the system briefly explained on \textit{
 	\end{itemize}
 	
 	\subsection{Event-driven architecture (EDA)}
+	The event-driven is a popular distributed asynchronous architecture, made up of highly decoupled, single-purpose event processing components that asynchronously receive and process events. Basically, a system sends event messages to notify other systems of a change in its domain and it does not really care much about the response. EDA are useful to simplify data management, so as to tackle real-time processing with minimum time lag (high volume and high velocity of data). 
+	
+	\begin{figure}[H]
+    		\centering
+		\includegraphics[width=0.9\textwidth]{diagrams/event_driven.png}
+		\caption[RESTful web services]{RESTful web services}
+		\label{fig:RESTful web services}
+	\end{figure}
+
+	For ASOS, a simple event processing will be implemented, this means that an event immediately triggers an action in the consumer. This is, after receiving  Individuals' data, and based on the defined thresholds it decides whether to notify or not their associated health care services. 
+	
 
 	\section{Other design decisions}
 	TrackMe is an application that combines different services for using data and constantly validates data against the pre-defined thresholds in order to guarantee a response time in case of emergency to the location. For this reason, external services are being used.\\\\
