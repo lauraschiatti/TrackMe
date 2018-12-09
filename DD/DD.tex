@@ -135,7 +135,7 @@
 	
 	\chapter{Introduction}
 	\section{Context}
-	\textbf{TrackMe} develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatches are synchronized with an app that gives users access to their data and stats. Also, TrackMe is offering new services to their customers, so as to exploit the data collected from those devices. 
+	\textbf{TrackMe} develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O\textsubscript{2} in the blood) and also their location. TrackMe health smartwatches are synchronized with an app that gives users access to their data and stats. Also, TrackMe is offering new services to their customers, so as to exploit the data collected from those devices. 
 	
 	\section{Purpose}
 	The requirements elicitation and analysis activities concerning the whole TrackMe system are presented with detail in the RASD (see \textbf{References} section). Then, the purpose of this document is to discuss more technical aspects regarding architectural and design choices that must be made, so as to follow well-oriented implementation and testing processes. \\
@@ -231,10 +231,10 @@ and it also contains the most relevant architecture views: component view, class
 		\caption[High-level architecture Diagram]{High-level architecture Diagram}
 		\label{fig:High-level architecture Diagram}
 	\end{figure}
-			
-The above architecture diagram depicts clearly that third party - Data4Help relation is a service oriented, when the third-party user asks for some specific data and it is an event based, when it is subscribed to the data. In addition, a CRON job runs every day at 00:00, if there is every user above age of 60 years - they receive an ASOS notification. The system uses MongoDB, that listens, watch collection and events. Apparently, all the APIs are RESTful.\\
-
-When the third-party users have subscribed to the bulk data subscription, they define an update time when they want to get the refreshed data (e.g. update data in every 'X' hours).
+	
+	As can be seen in the Figure \ref{fig:High-level architecture Diagram}, there are three main systems, which are Data4Help, AutomatedSOS and Track4Run. Two of the systems have an MVC architecture in which they provide an interface to the web users (Individuals, Third Parties, Participants, Organizers, and Spectators), and the last one (AutomatedSOS) does not provide any interface to them. All the communications between Data4Help and the Third Parties are done via HTTP messages in a RESTful way. \\
+	
+	Finally, AutomatedSOS can be presented as an event-driven application, which receives the Individuals' information, and based on the defined thresholds it decides to contact or not the assigned emergency contact.
 
 	\section{Component view}
 		\subsection{Data4Help component diagram}
@@ -286,7 +286,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			
 			DataBase & Component that contains the main database (TrackMe DB), with all its collections and the token database (TokenDB) which contains all the valid access tokens and secret keys.\\
 			
-			APIManager & Component responsible of connecting to the configured services of the Third Party services. It is responsible of sending the data of the subscriptions to the Third Parties, and of sending the notification of requests sent by the Third Party.\\
+			APIManager & Component responsible of connecting to the configured services of the Third Parties. It is responsible of sending the data of the subscriptions to the Third Parties, and of sending the notification of requests sent by the Third Party.\\
 			
 			\hline
 			\caption{Component descriptions of D4H}
