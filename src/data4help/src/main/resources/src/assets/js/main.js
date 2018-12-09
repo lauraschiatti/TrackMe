@@ -7,9 +7,6 @@
 jQuery(document).ready(function($) {
 
 	"use strict";
-
-	
-
 	var siteMenuClone = function() {
 
 		$('.js-clone-nav').each(function() {
@@ -19,26 +16,26 @@ jQuery(document).ready(function($) {
 
 
 		setTimeout(function() {
-			
-			var counter = 0;
-      $('.site-mobile-menu .has-children').each(function(){
-        var $this = $(this);
-        
-        $this.prepend('<span class="arrow-collapse collapsed">');
 
-        $this.find('.arrow-collapse').attr({
-          'data-toggle' : 'collapse',
-          'data-target' : '#collapseItem' + counter,
-        });
+		var counter = 0;
+		$('.site-mobile-menu .has-children').each(function(){
+		var $this = $(this);
 
-        $this.find('> ul').attr({
-          'class' : 'collapse',
-          'id' : 'collapseItem' + counter,
-        });
+		$this.prepend('<span class="arrow-collapse collapsed">');
 
-        counter++;
+		$this.find('.arrow-collapse').attr({
+		  'data-toggle' : 'collapse',
+		  'data-target' : '#collapseItem' + counter,
+		});
 
-      });
+		$this.find('> ul').attr({
+		  'class' : 'collapse',
+		  'id' : 'collapseItem' + counter,
+		});
+
+		counter++;
+
+	  });
 
     }, 1000);
 
@@ -261,4 +258,15 @@ jQuery(document).ready(function($) {
 	};
 	siteDatePicker();
 
+    /*** Track4Run show and hide list of runs and map of a specific active run ***/
+
+    $("#view_participants").click(function(){
+        $("#runs_list").hide();
+        $("#active_run").show();
+    });
+
+    $("#back").click(function(){
+        $("#runs_list").show();
+        $("#active_run").hide();
+    });
 });
