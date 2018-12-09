@@ -5,12 +5,9 @@ import avila.schiatti.virdi.exception.ValidationException;
 import avila.schiatti.virdi.service.RouteConfig;
 import avila.schiatti.virdi.service.Service;
 import avila.schiatti.virdi.service.authentication.AuthenticationManager;
-import com.mashape.unirest.http.Unirest;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Spark;
 import spark.servlet.SparkApplication;
-
-import java.io.IOException;
 
 import static spark.Spark.*;
 
@@ -57,14 +54,9 @@ public class Data4HelpApp implements SparkApplication {
 
     @Override
     public void destroy() {
-        try {
-            Unirest.shutdown();
-        } catch (IOException e) {
-            // I dont know what to do in this case..
-            e.printStackTrace();
-        } finally {
-            Spark.stop();
-        }
+        Spark.stop();
+        routes.destroy();
+        _instance = null;
     }
 
     public Data4HelpApp registerService(Service service) {

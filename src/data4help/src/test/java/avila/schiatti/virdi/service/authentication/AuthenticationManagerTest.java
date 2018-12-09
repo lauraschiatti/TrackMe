@@ -1,5 +1,6 @@
 package avila.schiatti.virdi.service.authentication;
 
+import avila.schiatti.virdi.Data4HelpApp;
 import avila.schiatti.virdi.configuration.StaticConfiguration;
 import avila.schiatti.virdi.exception.TrackMeError;
 import avila.schiatti.virdi.exception.TrackMeException;
@@ -7,20 +8,16 @@ import avila.schiatti.virdi.exception.ValidationException;
 import avila.schiatti.virdi.model.user.Individual;
 import avila.schiatti.virdi.service.Service;
 import avila.schiatti.virdi.service.response.ErrorResponse;
-import avila.schiatti.virdi.Data4HelpApp;
 import avila.schiatti.virdi.utils.Mapper;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.SetArgs;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 import org.bson.types.ObjectId;
 import org.eclipse.jetty.http.HttpStatus;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import unirest.HttpResponse;
+import unirest.Unirest;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -67,9 +64,10 @@ public class AuthenticationManagerTest {
 
     private static RedisCommands<String, String> commands;
     private static AuthenticationManager authManager;
+    private static Data4HelpApp app;
 
     private static void initD4H(){
-        Data4HelpApp app = Data4HelpApp.getInstance();
+        app = Data4HelpApp.getInstance();
         app.setAuthenticationManager(authManager);
         app.createServer(8888)
                 .registerService(new DummyService())
@@ -87,9 +85,16 @@ public class AuthenticationManagerTest {
         AuthenticationManager.createForTestingOnly(commands);
         authManager = AuthenticationManager.getInstance();
 
-        Unirest.setObjectMapper(new Mapper());
+        Unirest.config().setObjectMapper(new Mapper());
 
         initD4H();
+    }
+
+    @AfterAll
+    public static void afterAll(){
+        if(app != null){
+            app.destroy();
+        }
     }
 
     @AfterEach

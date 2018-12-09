@@ -1,5 +1,6 @@
 package avila.schiatti.virdi.service;
 
+import avila.schiatti.virdi.Data4HelpApp;
 import avila.schiatti.virdi.configuration.StaticConfiguration;
 import avila.schiatti.virdi.database.DBManager;
 import avila.schiatti.virdi.exception.TrackMeError;
@@ -11,17 +12,15 @@ import avila.schiatti.virdi.service.request.LoginRequest;
 import avila.schiatti.virdi.service.request.LogoutRequest;
 import avila.schiatti.virdi.service.response.ErrorResponse;
 import avila.schiatti.virdi.service.response.LoginResponse;
-import avila.schiatti.virdi.Data4HelpApp;
 import avila.schiatti.virdi.utils.Mapper;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.jupiter.api.*;
+import unirest.HttpResponse;
+import unirest.Unirest;
 import xyz.morphia.Datastore;
 import xyz.morphia.Morphia;
 import xyz.morphia.query.Query;
@@ -102,14 +101,15 @@ public class LoginServiceTest {
         return response.getBody();
     }
 
-    private static Data4HelpApp app = Data4HelpApp.getInstance();
+    private static Data4HelpApp app;
 
     @BeforeAll
     public static void beforeAll(){
-        Unirest.setObjectMapper(new Mapper());
+        Unirest.config().setObjectMapper(new Mapper());
         setupAuthManager();
         LoginService service = new LoginService(AuthenticationManager.getInstance(), setupUserResource());
 
+        app = Data4HelpApp.getInstance();
         app.createServer(PORT)
                 .registerService(service)
                 .init();
@@ -176,7 +176,6 @@ public class LoginServiceTest {
     }
 
     @Test
-    @Ignore
     @DisplayName("Test /web/logout endpoint using existing access token")
     public void testLogoutEndpointWithCorrectAT(){
         try {

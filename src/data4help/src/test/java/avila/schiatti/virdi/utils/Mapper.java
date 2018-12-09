@@ -2,7 +2,7 @@ package avila.schiatti.virdi.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mashape.unirest.http.ObjectMapper;
+import unirest.ObjectMapper;
 
 public class Mapper implements ObjectMapper {
     Gson jsonTransformer = new GsonBuilder().create();

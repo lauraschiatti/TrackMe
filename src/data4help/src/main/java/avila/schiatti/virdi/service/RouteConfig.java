@@ -48,4 +48,8 @@ public class RouteConfig {
             }
         });
     }
+
+    public void destroy(){
+        services.clear();
+    }
 }
