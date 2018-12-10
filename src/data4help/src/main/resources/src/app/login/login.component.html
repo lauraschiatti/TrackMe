@@ -9,7 +9,7 @@
   <div class="container">
     <div class="col-md-12 col-lg-6 mb-5" style="margin-left:300px; ">
 
-      <!--{{ loginForm.value | json }}-->
+      {{ loginForm.value | json }}
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="p-5 bg-white">
         <h2 class="mb-4 text-black">Sign in</h2>
@@ -53,7 +53,8 @@
 
         <div class="row form-group">
           <div class="col-md-12">
-            <input type="submit" value="Login" class="btn btn-primary py-2 px-4 rounded-0">  <!--[disabled]="!loginForm.valid">-->
+            <!--<input type="submit" class="btn btn-primary py-2 px-4 rounded-0"> -->
+            <a routerLink="/dashboard" type="button" class="btn btn-primary py-2 px-4 rounded-0"></a>
           </div>
         </div>
       </form>
