@@ -1,4 +1,4 @@
-% PACKAGES
+ % PACKAGES
 \documentclass[a4paper, hidelinks, 12pt]{report}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsfonts,amsmath,amssymb}
@@ -135,7 +135,7 @@
 	
 	\chapter{Introduction}
 	\section{Context}
-	\textbf{TrackMe} develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O2 in the blood) and also their location. TrackMe health smartwatches are synchronized with an app that gives users access to their data and stats. Also, TrackMe is offering new services to their customers, so as to exploit the data collected from those devices. 
+	\textbf{TrackMe} develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O\textsubscript{2} in the blood) and also their location. TrackMe health smartwatches are synchronized with an app that gives users access to their data and stats. Also, TrackMe is offering new services to their customers, so as to exploit the data collected from those devices. 
 	
 	\section{Purpose}
 	The requirements elicitation and analysis activities concerning the whole TrackMe system are presented with detail in the RASD (see \textbf{References} section). Then, the purpose of this document is to discuss more technical aspects regarding architectural and design choices that must be made, so as to follow well-oriented implementation and testing processes. \\
@@ -213,7 +213,6 @@ be inferred using the available data.
 		\item Chapter 1 gives an introduction of the design document. It contains the purpose and the scope of the document, as well as some abbreviation in order to provide a better understanding of the document to the reader.
 		\item Chapter 2  deals with the architectural design of the application. It gives an overview of the architecture
 and it also contains the most relevant architecture views: component view, class view, deployment view, runtime view and it shows the interaction of the component interfaces. Some of the used architectural designs and designs patterns are also presented here, with an explanation of each one of them and the purpose of their usage.
-
 		\item Chapter 3  refers to the mock-ups already presented in the RASD document.
 		\item Chapter 4 explains how the requirements that have been defined in the RASD map to the design elements that are defined in this document.
 		\item Chapter 5 presents the implementation, integration and test plan. It includes the how the different components of the application are integrated with each other, how they react, the testing strategy taken into account and analyse the risks in the application.
@@ -224,6 +223,7 @@ and it also contains the most relevant architecture views: component view, class
 	\chapter{Architectural design}
 	
 	\section{Overview}
+	\label{sec:overview}
 	Application architecture design is a process which has to be executed in a defined flow. High-level components and their interaction is displayed in Figure \ref{fig:High-level architecture Diagram}.
 	\begin{figure}[H]
 		\centering
@@ -231,9 +231,10 @@ and it also contains the most relevant architecture views: component view, class
 		\caption[High-level architecture Diagram]{High-level architecture Diagram}
 		\label{fig:High-level architecture Diagram}
 	\end{figure}
-			
-The above architecture diagram depicts clearly that third party - Data4Help relation is a service oriented, when the third-party user asks for some specific data and it is an event based, when it is subscribed to the data. In addition, a CRON job runs every day at 00:00, if there is every user above age of 60 years - they receive an ASOS notification. The system uses MongoDB, that listens, watch collection and events. Apparently, all the APIs are RESTful.\\
-When the third-party users have subscribed to the bulk data subscription, they define an update time when they want to get the refreshed data (e.g. update data in every 'X' hours).
+	
+	As can be seen in the Figure \ref{fig:High-level architecture Diagram}, there are three main systems, which are Data4Help, AutomatedSOS and Track4Run. Two of the systems have an MVC architecture in which they provide an interface to the web users (Individuals, Third Parties, Participants, Organizers, and Spectators), and the last one (AutomatedSOS) does not provide any interface to them. All the communications between Data4Help and the Third Parties are done via HTTP messages in a RESTful way. \\
+	
+	Finally, AutomatedSOS can be presented as an event-driven application, which receives the Individuals' information, and based on the defined thresholds it decides to contact or not the assigned emergency contact.
 
 	\section{Component view}
 		\subsection{Data4Help component diagram}
@@ -285,7 +286,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 			
 			DataBase & Component that contains the main database (TrackMe DB), with all its collections and the token database (TokenDB) which contains all the valid access tokens and secret keys.\\
 			
-			APIManager & Component responsible of connecting to the configured services of the Third Party services. It is responsible of sending the data of the subscriptions to the Third Parties, and of sending the notification of requests sent by the Third Party.\\
+			APIManager & Component responsible of connecting to the configured services of the Third Parties. It is responsible of sending the data of the subscriptions to the Third Parties, and of sending the notification of requests sent by the Third Party.\\
 			
 			\hline
 			\caption{Component descriptions of D4H}
@@ -407,7 +408,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 					\end{itemize}
 				\item{UserResource}
 					\begin{itemize}
-						\item{\verb|D4HUser getBySSN(String ssn)|}
+						\item{\verb|Individual getBySSN(String ssn)|}
 						\item{\verb|Collection<D4HUser> get(D4HQuery query)|}
 						\item{\verb|Collection<D4HUser> anonymize(Collection<D4HUser> users)|}
 					\end{itemize}
@@ -909,6 +910,7 @@ When the third-party users have subscribed to the bulk data subscription, they d
 					\end{itemize}
 			\end{itemize}
 	\end{itemize}
+	
 	ASOS has a different architecture as the ones seen in T4R and D4H, because it does not relays on a web-site nor a user. The system receives the data of the subscribed Individuals through the DataAPI, which is the interface provided to D4H, to which it connects. The NotificationAPI, let D4H connect to ASOS in order to send the status of the Requests sent to an Individual.  In the following list, the exposed interfaces are shown, linked with the classes and methods, and detailing the inputs and outputs:
 	
 	\begin{itemize}
@@ -1029,7 +1031,7 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	In the Figure \ref{fig:asos_deployment_diagram} the ASOS deployment diagram is shown. Since ASOS does not have a web site, the main node is an \textbf{Application Server} that hosts the execution environment for the \textbf{ASOS Backend} component. The \textbf{Application Server} interacts with a \textbf{MongoDB Server} node, using the TCP/IP protocol. Moreover, it interacts with an external node which represent the different \textbf{Health Care Service}s, and with the execution environment of \textbf{Data4Help}.
 		\begin{figure}[H]
 			\centering
-			\includegraphics[width=1\textwidth]{diagrams/asos_deployment_diagram.png}
+			\includegraphics[width=0.9\textwidth]{diagrams/asos_deployment_diagram.png}
 			\caption[AutomatedSOS Deployment Diagram]{AutomatedSOS Deployment Diagram}
 			\label{fig:asos_deployment_diagram}
 		\end{figure}	
@@ -1041,7 +1043,7 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	
 	\subsection{Track4Run sequence diagrams}
 	
-	In the Figure \ref{fig:t4r_seq_signup} the signup process is shown. It can be seen the Signup component, which is responsible of getting the Participant's information, and with the help of the DBManager component, save it into the data base. The AuthenticationManager component is responsible of create the access token for the session. Finally, the Signup component sends a message to the Request component which, asynchronously,  sends a request for accessing the individual's information to D4H. The process ends when the GUI redirects the new user to its dashboard.\\
+	In the Figure \ref{fig:t4r_seq_signup} the signup process is shown. It can be seen the Signup component, which is responsible of getting the Participant's information, and with the help of the DBManager component, save it into the database. The AuthenticationManager component is responsible of create the access token for the session. Finally, the Signup component sends a message to the Request component which, asynchronously,  sends a request for accessing the individual's information to D4H. The process ends when the GUI redirects the new user to its dashboard.\\
 	
 	It worth mentioning, that the Organizer signup process is similar to the signup process of the Participant. The only difference is that, in the case of the Organizer, the Signup component does not send a message to the Request component.\\
 	\begin{figure}[H]
@@ -1061,7 +1063,7 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\label{fig:t4r_seq_login}
 	\end{figure}
 	
-	In the Figure \ref{fig:t4r_seq_create_run} the create a run process is shown. This process involves the Organizer, who should send the startDate, endDate and name for the event. These parameters will be handled by the Event component, which will save the new event in the data base with the help of DBManager component. Moreover, the Organizer can add the coordinates for the running circuit by updating the previously create event. After this step, the GUI will show the possible participants to invite, and the Organizer can skip this, or choose and send the invitations to selected participants. In that case, and after choosing which participants will receive an invite, the GUI will send a message to the Notification component, which will add the notifications into the data base. This final process is asynchronous.\\
+	In the Figure \ref{fig:t4r_seq_create_run} the create a run process is shown. This process involves the Organizer, who should send the startDate, endDate and name for the event. These parameters will be handled by the Event component, which will save the new event in the database with the help of DBManager component. Moreover, the Organizer can add the coordinates for the running circuit by updating the previously create event. After this step, the GUI will show the possible participants to invite, and the Organizer can skip this, or choose and send the invitations to selected participants. In that case, and after choosing which participants will receive an invite, the GUI will send a message to the Notification component, which will add the notifications into the database. This final process is asynchronous.\\
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_create_run.png}
@@ -1080,16 +1082,18 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	\end{figure}	
 	
 	\subsection{AutomatedSOS sequence diagrams}
-	Since ASOS is an event-based service, it does not provide a GUI. That is why the main "actor" is Data4Help, which is the boundary of a different service. In the Figure \ref{fig:asos_seq_get_notification} the \textit{Get Request Notification} use case is shown. As mentioned before, the component that initiates the process is Data4Help, which sends a message every time an Individual accepts or rejects the ASOS request. If the individual has accepted the Request, the DataHandler component will update the information of the Individual in the data base, and will assign an Emergency Contact based on its Address.\\
+	Since ASOS is an event-based service, it does not provide a GUI. That is why the main "actor" is Data4Help, which is the boundary of a different service. In the Figure \ref{fig:asos_seq_get_notification} the \textit{Get Request Notification} use case is shown. As mentioned before, the component that initiates the process is Data4Help, which sends a message every time an Individual accepts or rejects the ASOS request. If the individual has accepted the Request, the DataHandler component will update the information of the Individual in the database, and will assign an Emergency Contact based on its Address.\\
 	
-	On the other hand, if the Individual has rejected the Request, DataHandler component will remove it from the data base.
+	On the other hand, if the Individual has rejected the Request, DataHandler component will remove it from the database.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/asos_get_individual_notification.png}
 		\caption[AutomatedSOS get notification sequence diagram]{AutomatedSOS get notification sequence diagram}
 		\label{fig:asos_seq_get_notification}
 	\end{figure}
-	Finally, the core functionality of ASOS is shown in the Figure \ref{fig:asos_seq_receive_data}. It can be seen that, as before, the "actor" that initiates the process is Data4Help service, which sends the Individual information. This message is handled by DataHandler component, which will compare the information with the previously defined Thresholds. If the Data is out of range, the DataHandler will send a message to the HealthCareConnector component in order notify the Emergency Contact assigned for the Individual. The HealthCareConnector component is responsible of getting the assigned Emergency Contact information from the data base, and send the Alert to the EmergencyService. It worth mentioning that the notification to the health-care service is done asynchronously. On the other hand, if the Data is \textit{\textbf{not}} out of range, the system will do nothing.
+	
+	Finally, the core functionality of ASOS is shown in the Figure \ref{fig:asos_seq_receive_data}. It can be seen that, as before, the "actor" that initiates the process is Data4Help service, which sends the Individual information. This message is handled by DataHandler component, which will compare the information with the previously defined Thresholds. If the Data is out of range, the DataHandler will send a message to the HealthCareConnector component in order notify the Emergency Contact assigned for the Individual. The HealthCareConnector component is responsible of getting the assigned Emergency Contact information from the database, and send the Alert to the EmergencyService. It worth mentioning that the notification to the health-care service is done asynchronously. On the other hand, if the Data is \textit{\textbf{not}} out of range, the system will do nothing.
+	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/asos_receive_individual_data_and_notify_emergency_service.png}
@@ -1098,35 +1102,69 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	\end{figure}
 	
 	\section{Selected architectural styles and patterns}
-	\textbf{Client Server}\\
-	As shown in the architecture overview, the system is built in a way to permit the client-server paradigm. The user interfaces, web application, act as clients with their respective servers. Furthermore, the web server is a client when is requesting some
-information from the D4H server. In the last tier some components receive information from external resources across their APIs and this configuration could be seen as client server as well. Finally the data base system is a server for the multiple request made by the business server.\\\\
+Resuming the high level architecture of the system briefly explained on \textit{ \autoref{sec:overview} Overview}, it is important to describe MVC	and event-driven design patterns, how they work and why are the proper ones to build up each subsystem.
 
-\textbf{Stateful and stateless components}\\
-The components have different functions into the system. According to these functions and their importance, a pattern to be instantiated is defined. When user starts a session in TrackMe, there are components that must maintain his/her state from the beginning to the end. These components are stateful session. Also, these components have information about each specific user. Some examples of this type are the \textbf{:AuthenticationManager, :RequestManager} and \textbf{:SearchManager} components. Finally, it is important to clarify that these components do not use a big quantity of resources, meaning that the server can create and keep one instantiation for each User.\\
-On the another hand there are components that do not need to keep the state of the user during all the session because they are used in one specific moment. Also, they need an important quantity of resources, therefore the instantiation for each user
-would generate a performance problem. We can mention, for instance, the \textbf{:DataHandler, :Subscription} and \textbf{:Notification} components. Finally, the idea with this kind of components is to create a pool of instances from which the server chooses one of them in order to communicate with the client.
-\begin{figure}[H]
-		\centering
-		\includegraphics[scale=0.65]{diagrams/state_pool.png}
-		\caption[Design Pattern: Stateful and stateless patterns]{Stateful and stateless patterns}
-		\label{fig:Stateful and stateless patterns}
+	\subsection{Model View Controller architecture (MVC)}
+	The Model View Controller (commonly known as MVC) design pattern helps  to build applications that are easier to test and maintain, is the way of structuring server side code 
+	It comprises of three major components:
+	
+	\begin{itemize}
+	\item {\textbf{Model}}: this is the layer that represents the application's data and define the logic for manipulating that data.
+	\item {\textbf{View}}: this represents the presentation or the user interface layer, something visible in the user interface.
+	\item{\textbf{Controller}}: this layer typically contains the business logic of your application, and acts as a mediator between model and view components.
+	\end{itemize}
+
+	In other words, the \textit{model} is the part of the application that is responsible for the logic needed for the treatment of data. Normally model objects retrieve data (and store data) from a database. The \textit{view} is the parts of the application that is responsible for the visualization of the data. Usually views are created from the model data. The \textit{controller} is the part of the application that is in charge of the interaction with the user. Normally, drivers read data from a view. \\
+	
+	MVC design pattern is perfect for D4H and T4R systems because it is based on \textit{separation of concerns}, this makes the application's code easier to test and maintain. In a typical MVC design, the request first arrives at the controller which binds the model with the corresponding view. This separation helps manage complex applications, because the developer can focus on one aspect at a time and also simplifies the development of group applications, different developers can work in parallel. 
+ 
+	\subsubsection{RESTful web services}
+	The communication between D4H/T4R with their users is done via HTTP requests following REST principles. REST (REpresentation State Transfer) is an architectural style for communication based on strict use of HTTP request types (Figure\ref{fig:RESTful web services}) .\\
+	
+	\begin{figure}[H]
+    		\centering
+		\includegraphics[width=1\textwidth]{diagrams/mvc.png}
+		\caption[RESTful web services]{RESTful web services}
+		\label{fig:RESTful web services}
+	\end{figure}
+	 
+	One of the most important REST principles is that the interaction between the client and server is stateless between requests. Each request from the client to the server must contain all of the information necessary to understand the request. The client wouldn't notice if the server were to be restarted at any point between the requests.\\
+	
+	On the server side, the application state and functionality are divided into resources. A resource is an item of interest, a conceptual identity that is exposed to the clients. Example resources include application objects, database records, algorithms, and so on. Every resource is uniquely addressable using a URI (Universal Resource Identifier). All resources share a uniform interface for the transfer of state between client and server. Standard HTTP methods such as GET, POST, PUT, and DELETE are used. \\
+	
+	The RESTful HTTP requests are categorized according to method types as the following:
+	\begin{itemize}
+	\item {\textbf{GET}}: used to retrieve resource representation/information only – and not to modify it in any way. 
+	\item {\textbf{POST}}: used to create a new resource into the collection of resources.
+	\item {\textbf{PUT}}: used primarily to update existing resource (if the resource does not exist then API may decide to create a new resource or not).
+	\item {\textbf{DELETE}}: used to delete resources (identified by the Request-URI).
+	\end{itemize}
+	
+	\subsection{Event-driven architecture (EDA)}
+	The event-driven is a popular distributed asynchronous architecture, made up of highly decoupled, single-purpose event processing components that asynchronously receive and process events. Basically, a system sends event messages to notify other systems of a change in its domain and it does not really care much about the response. EDA are useful to simplify data management, so as to tackle real-time processing with minimum time lag (high volume and high velocity of data). 
+	
+	\begin{figure}[H]
+    		\centering
+		\includegraphics[width=0.9\textwidth]{diagrams/event_driven.png}
+		\caption[RESTful web services]{RESTful web services}
+		\label{fig:RESTful web services}
 	\end{figure}
 
-\textbf{MVC}\\
-The most web applications’ core operation is to retrieve data from a data store and update the user interface with the newly requested information based on the user inputs. The logical sense is to tie the user interface components with the data store components. However, since the user interface components are updated regularly to accommodate the changing user requirements and new technologies – more so than the data store components, we introduce extra coupling in our system. The aim of this pattern is to separate the components of user interface (View); core functionality and data (Model) and the response to user inputs (Controller).\\\\
-
-\textbf{Event Based}\\
-The ASOS service is an event-based service in the application. The \textbf{:DataHandler} component is used under this paradigm. The component carries out an alerting function such that when an event occurs in the world, it is in charge to tell the user what is happening (i.e., if he/she's vital signs are out of normal range). For all of these functionalities, \textbf{:DataHandler} sends asynchronous messages to the \textit{HealthCareConnector} which thus notifies to \textit{HealthCareService} via an alarm interface in precise moments, taking into account activation events. The eventbased
-paradigm consists in defining a publisher and some subscribers. The subscribers are interested in some changes of state or events (for example, the user location with respect to the next ambulance). When something happens, the publisher sends messages to all his subscribers. In this case the publisher is \textbf{:DataHandler} and the subscribers are the clients in the User’s devices.
-
+	For ASOS, a simple event processing will be implemented, this means that an event immediately triggers an action in the consumer. This is, after receiving  Individuals' data, and based on the defined thresholds it decides whether to notify or not their associated health care services. 
+	
 	\section{Other design decisions}
-	TrackMe is an application that combines different services for using data and constantly validates data against the pre-defined thresholds in order to guarantee a response time in case of emergency to the location. For this reason, external services are being used.\\\\
-The application primarily needs and integration with a map service. The best option will be chosen depending on the city for which the run is taken place, is being developed. One of the options is using Google Maps as it also helps with route and location.\\\\
-Moreover, Data4Help services are the key part of the   application. That is why all the services that are offering APIs will be integrated in the application. The services also depend on the location, but they will be integrated in the same way, using their APIs.
+	In the following section a list of suggested development frameworks and technologies	are listed. The 3 systems, are designed to be highly decoupled so it is not necessary to develop them with the same technologies, even though it is recommended. Further details will be given in future documents.\\
+	
+	To begin with, it is suggested to build Java based applications, since developers have expertise working with this language. Moreover, it is proposed to use \textbf{Java Spark Framework}, which is a micro-framework for MVC applications, because pure Java web development has traditionally been very cumbersome. The configuration for this framework is minimal and with a short learning curve. \\
+	
+	Furthermore, for database management a suggestion is to use \textbf{Morphia} which is a highly active project to connect with MongoDB. Also, it is simple, straightforward to use, it supports type conversion and uses MongoDB aggregation framework. While for the Redis database, it is recommended to use \textbf{Lettuce}, which is a fully non-blocking Redis client, that provides reactive, asynchronous and synchronous data access. It has also, a highly active community and a very well written documentation.\\
+	
+	Besides, for the front-end development, it is suggested to use the last release of \textbf{Angular} (version 7.x), which is a very well known and widely used framework developed by Google. It is suggested to use Google Maps platform for displaying the running circuit and the participants in the T4R web-site.\\
+	
+	Finally, the only external APIs to whom TrackMe environment depends on, are the health-care services to which ASOS should contact in some cases. Both D4H and T4R do not depend on any external services.
 	
 	\chapter{User interface design}
-	The following mock-ups represent a basic idea of what the web application will look like after the first release.
+	The following mock-ups represent a basic idea of what the web application will look like after the first release.\\
 	As when new customers visits the home page of TrackMe, they can read about the work that the company does, what services it offers, what benefits users can achieve by joining the community. In addition, they can buy the wearables and get more information, how to use them, what is TrackMe, more details about D4H, ASOS and T4R is provided here. The full home page can be seen in Figure \ref{fig:Home_Page}. \\\\
 	Moreover, in the Figure \ref{fig:Data4Help Information Page} and Figure \ref{fig:ASOS Information Page} can be seen the information page for D4H and ASOS respectively.
 	
@@ -1171,67 +1209,73 @@ Moreover, Data4Help services are the key part of the   application. That is why 
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{UI/dashboard_individual.png}
+		\includegraphics[width=1\textwidth]{UI/dashboard_individual.png}
 		\caption[UI: Individual Dashboard Page]{Individual Dashboard Page}
 		\label{fig:Dashboard for individuals}
 	\end{figure}
 
-The above figure 3.6 displays the dashboard for individual users, this new page is responsive and a real-time view of the application for the individual user's point of view. the individual user have options to accept or reject any request for data acquisition. As soon as an action is taken upon the request, it gets deleted from the page.
+The above Figure \ref{fig:Dashboard for individuals} displays the dashboard for individual users, this page is responsive and a real-time view of the application for the individual user's point of view. Here, the user can seen his/her pending requests, accepted requests, and a list of all the requests he/she approved or rejected.
 
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{UI/db_thirdparty.png}
+		\includegraphics[width=1\textwidth]{UI/individual_manage_requests.png}
+		\caption[UI: Manage Requests Page]{Manage Requests Page}
+		\label{fig:manage_requests}
+	\end{figure}
+
+In the Figure \ref{fig:manage_requests} the individual user have options to accept or reject any request for data acquisition. As soon as an action is taken upon the request, it gets deleted from the page.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{UI/db_thirdparty.png}
 		\caption[UI: Third party Dashboard Page]{Third party Dashboard Page}
-		\label{fig:Dashboard for individuals}
+		\label{fig:third_party_dashboard}
 	\end{figure}
-	The above figure 3.7 displays the dashboard for third party users, this new page is responsive and a real-time view of the application for the third party user's point of view. Third parties can  request for  data using the filtering criteria provided by the system such as: specific individual data or in bulk; furthermore, if its specific request then filtering is done by SSN/fiscal code and if its bulk data, then, filtering is done basis upon country, age and blood type.
 	
+	The above Figure \ref{fig:third_party_dashboard} displays the dashboard for third party users, this page is responsive and a real-time view of the application for the third party user's point of view. Third parties can search for  data using the filtering criteria provided by the system such as country, province, city, age, blood type, or SSN. When the user fills in the SSN field, all the other fields are disabled since are related to bulk anonymized data. If the user wants to subscribe to the bulk anonymize data, he/she can do it by checking the Subscribe checkbox and setting the amount of time in between updates.	
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{UI/db_organizer1.png}
+		\includegraphics[width=1\textwidth]{UI/db_organizer1.png}
 		\caption[UI: Organizers' Dashboard Page]{Organizers' Dashboard Page}
-		\label{fig:Dashboard for Organizer}
+		\label{fig:organizer_dashboard_1}
 	\end{figure}
-	In the figure 3.8, the organizer can see the number of pending invites for the already configured runs which are still pending to send to the targeted participants; also, organizer's are able to view the number of already configured runs from the past; In addition, they can start configuring a new run by clicking on 'Create new run' button.
+	In the Figure \ref{fig:organizer_dashboard_1}, the organizer can see the number of pending invites for the already configured runs which are still pending to send to the targeted participants; also, organizer's are able to view the number of already configured runs from the past; In addition, they can start configuring a new run by clicking on 'Create new run' button.
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{UI/db_organizer2.png}
+		\includegraphics[width=1\textwidth]{UI/db_organizer2.png}
 		\caption[UI: Organizers' Dashboard Page]{Organizers' Dashboard Page}
-		\label{fig:Dashboard for Organizer}
+		\label{fig:organizer_dashboard_2}
 	\end{figure}
-	In the figure 3.9, Organizer's are able to define the parameters to define a complete running circuit such as: start and end time, name of the run, date of the run, nodes of the running circuit and here they can select whether to send invitations now or not by clicking the check-box; Thus, by clicking on 'Complete running circuit' button, the configuration gets completed and based on the details above, run is configured.
+	In the Figure \ref{fig:organizer_dashboard_2}, Organizer's are able to define the parameters to define a complete running circuit such as: start and end time, name of the run, date of the run, nodes of the running circuit and here they can select whether to send invitations now or not by clicking the check-box; Thus, by clicking on 'Complete running circuit' button, the configuration gets completed and based on the details above, run is configured.
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{UI/track4run.png}
+		\includegraphics[width=1\textwidth]{UI/track4run.png}
 		\caption[UI: Track4Run Web Page]{Track4Run Web Page}
 		\label{fig:Track4Run Web Page}
 	\end{figure}
-	In the figure 3.10, Spectators are able to view all the available runs in which are currently going on; and by clicking on 'view participants' button, they are redirected to the map-view of the selected run, where they can view the live location of the participant users.
 	
+	In the Figure \ref{fig:Track4Run Web Page}, Spectators are able to view all the available runs in which are currently going on; and by clicking on 'view participants' button, they are redirected to the map-view of the selected run, where they can view the live location of the participant users.	
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{UI/Spectators_map.png}
+		\includegraphics[width=1\textwidth]{UI/spectators_map.png}
 		\caption[UI: Spectators' Map-view Page]{Spectators' Map-view Page}
 		\label{fig:Spectators' Map-view Page}
 	\end{figure}
 	
-	In the figure 3.11, Spectators are able to view  the participants' live position during the run and time left for the race to end, because after the end of this time, spectators won't be able to view the map.
-	
-	
-	
+	In the Figure \ref{fig:Spectators' Map-view Page}, Spectators are able to view  the participants' live position during the run and time left for the race to end, because after the end of this time, spectators won't be able to view the map.
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{UI/spectator_invalid.png}
+		\includegraphics[width=1\textwidth]{UI/spectator_invalid.png}
 		\caption[UI: Spectators's invalid view]{Spectators's invalid view}
 		\label{fig:Spectators's invalid view}
 	\end{figure}
 	
-	In the figure 3.12, Spectators are able to view an error message when the race has been ended. 
+	In the Figure \ref{fig:Spectators's invalid view}, Spectators are able to view an error message when the race has been ended. 
 	
 	\chapter{Requirements traceability}
 	In this section is shown how the goals and requirements specified in the RASD are mapped to the design components defined in this document.
@@ -1412,10 +1456,10 @@ and the synchronization of Data with threshold values when user's data is out of
 			\hline
 			\textbf{Task} & \textbf{Hours} \\ [0.5ex]
 			\hline
-			Planning Architecture & 3  \\
-			Choosing Pattern & 2 \\
-			Algorithm Decisions & 8 \\
-			Checking document  & 4  \\
+			Planning Architecture & 8  \\
+			Architectural design overview & 4\\
+			Choosing Patterns & 3\\
+			Checking document  & 2  \\
 			\hline
 			\textbf{Total} & 17  \\
 			\hline
@@ -1438,13 +1482,33 @@ and the synchronization of Data with threshold values when user's data is out of
 			& \textbf{Task} & \textbf{Hours}
 			& \textbf{Task} & \textbf{Hours} \\ [0.5ex]
 			\hline
-			X &  X
-			& Layout & X
-			& X & X  \\
+			Component view &  10
+			& Scope & 2
+			& Purpose & 2  \\
 			\hline
-			\textbf{Total} & X
-			& \textbf{Total} & X
-			& \textbf{Total} & X  \\
+			Component interfaces &  13
+			& Database view & 5
+			& UI design & 15  \\
+			\hline
+			Deployment view &  5
+			& Runtime view & 8
+			& I and T plan & 6  \\
+			\hline
+			Runtime view  &  4
+			& R traceability & 3
+			& Design decisions & 2 \\
+			\hline
+			Corrections & 3  
+			& Final user interfaces & 6
+			& &   \\
+			\hline 
+			&  
+			& Architectural styles & 3
+			& &   \\
+			\hline
+			\textbf{Total} & 35
+			& \textbf{Total} & 27
+			& \textbf{Total} & 25  \\
 			\hline
 		\end{tabular}
 		\caption{Time spent by each team member}
@@ -1460,6 +1524,12 @@ and the synchronization of Data with threshold values when user's data is out of
 		\item IEEE. (1993). IEEE Recommended Practice for Software Requirements Specifications (IEEE 830-1993).
 		\\Retrieved from https://standards.ieee.org/standard/830-1993.html
 		\item Sloane, A. M. (2009). Software Abstractions: Logic, Language, and Analysis by Jackson Daniel, The MIT Press, 2006, 366pp, ISBN 978-0262101141.
+		\item{Spark. A Micro Framework For Creating Web Applications - http://sparkjava.com/}
+		\item{Morphia - http://morphiaorg.github.io/morphia/}
+		\item{Lettuce - https://lettuce.io/}
+		\item{Angular - https://angular.io/}
+		\item{Google Maps Platform - https://cloud.google.com/maps-platform/}
+		
 	\end{itemize}
 	
 \end{document}

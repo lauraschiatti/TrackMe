@@ -161,7 +161,7 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.5]{Diagrams/high_level.jpg}
+		\includegraphics[width=1\textwidth]{Diagrams/high_level_architecture.png}
 		\caption[High-level description of the problem]{High-level description of the problem. It is possible to observe the relationship between the current TrackMe system and Data4Help, and this system with the other two to be built}
 		\label{fig:High_level}
 	\end{figure}
@@ -245,20 +245,24 @@
 	\end{itemize}
 	
 	\section{Revision history}
-	It is important to keep track of the revisions made to this document: \\
+	It is important to keep track of the revisions made to this document, mainly because it helps to see exactly what changes have been made and focus only on them: \\
 	
 	\begin{table}[h]
 		\centering
-		\begin{tabular}{c c}
+		\begin{tabular}{c c c}
 			\hline\hline
-			\textbf{Version} & \textbf{Last modified date} \\ [0.5ex]
+			\textbf{Version} & \textbf{Last modified date} & \textbf{Comments} \\ [0.5ex]
 			\hline
-			1.0 &  \nth{11} November, 2018  \\
+			1.0 &  \nth{11} November, 2018  & \\
+			\hline
+			1.1 &  \nth{10} December, 2018 & \textit{ (a)} \\
 			\hline
 		\end{tabular}
 		\caption{Revision history timeline}
 		\label{fig:Revision history}
 	\end{table}
+	
+	\textit{(a) }In order to be more precise regarding the architectural design of the system and looking forward to make a correct implementation, some modifications to this document are needed. All of them are related to use cases, requirements traceability matrix and user interfaces.
 	
 	\section{Document structure}
 	This document is divided in six parts, each one devoted to approach each one of the steps required to apply requirements engineering techniques.
@@ -277,7 +281,7 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.6]{Diagrams/domain_model.png}
+		\includegraphics[width=1\textwidth]{Diagrams/domain_model.png}
 		\caption[Domain Model]{Domain Model}
 		\label{fig:domain_model}
 	\end{figure}
@@ -290,7 +294,7 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.55]{Diagrams/d4h_statechart.png}
+		\includegraphics[width=0.7\textwidth]{Diagrams/d4h_statechart.png}
 		\caption[Data4Help Statechart Diagram]{Data4Help Statechart Diagram}
 		\label{fig:d4h_statechart}
 	\end{figure}
@@ -301,7 +305,7 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.55]{Diagrams/asos_statechart.png}
+		\includegraphics[width=0.7\textwidth]{Diagrams/asos_statechart.png}
 		\caption[AutomatedSOS Statechart Diagram]{AutomatedSOS Statechart Diagram}
 		\label{fig:asos_statechart}
 	\end{figure}
@@ -310,7 +314,7 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.55]{Diagrams/t4r_statechart.png}
+		\includegraphics[width=0.7\textwidth]{Diagrams/t4r_statechart.png}
 		\caption[Track4Run Statechart Diagram]{Track4Run Statechart Diagram}
 		\label{fig:t4r_statechart}
 	\end{figure}
@@ -386,105 +390,80 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.4]{../Assets/Home_Page.png}
+		\includegraphics[width=1\textwidth]{Diagrams/ui/d4h_home_page.png}
 		\caption[UI: TrackMe's Home Page]{TrackMe's Home Page}
 		\label{fig:Home_Page}
 	\end{figure}
 	
 	As when new customers visits the home page of TrackMe, they can read about the work that our company does, what services we offer, what benefits users can achieve by joining the community. In addition, they can buy the wearables and get more information, how to use them.\\
 
-	Next, comes the web page through which users can Login into the system (if already registered). And if not, they can register themselves through the Register web-page. There are separate register forms for the Individual users and for third party users visible below:
+	In Figure \ref{fig:Login} can be seen the web page through which users can Login into the system (if already registered). And if not, they can register themselves through the Register web-page shown in Figure \ref{fig:Register}. There are separate register forms for the Individual users and for Third Party users visible below:
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{../Assets/Login.png}
+		\includegraphics[width=1\textwidth]{Diagrams/ui/d4h_login.png}
 		\caption[UI: Login Page]{Login Page}
 		\label{fig:Login}
 	\end{figure}
-	Next, comes the web page through which users can Login into the system (if already registered). And if not, they can register themselves through the Register web-page. There are separate register forms for the Individuals and third-parties.
+	
+	Registration is free for all the users and it doesn't take much time to complete the forms, as we can see. Figure \ref{fig:Register}, displays the registration form for the individual users and third party users, as they have different roles to play in the system, so there are different registration forms.\\
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{../Assets/Register.png}
-		\caption[UI: Individual User's Registration page]{Individual User's Registration page}
+		\includegraphics[width=0.8\textwidth]{Diagrams/ui/d4h_register.png}
+		\caption[UI: Registration page]{Registration page}
 		\label{fig:Register}
-	\end{figure}
-	Registration is free for all the users and it doesn't take much time to complete the forms, as we can see above. Figure 3.3, displays the registration form for the individual users.
+	\end{figure}	
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{../Assets/Register_third_party.png}
-		\caption[UI: Third Party's Registration page]{Third Party's Registration page}
-		\label{fig:Register_third_party}
-	\end{figure}
-	
-	Figure 3.3, displays the registration form for the third party users as they have different roles to play in the system, so there are different registration forms.\\
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[scale=0.35]{../Assets/Dashboard_individual.png}
+		\includegraphics[width=1\textwidth]{Diagrams/ui/registered_user_dashboard.png}
 		\caption[UI: Registered individual's Dashboard]{Registered user's Dashboard}
 		\label{fig:Dashboard_individual}
 	\end{figure}
 	
-	In the figure 3.5, it's personal dashboard for the individual users, it's clearly depicted from point(1) - user can view all the requests which are pending for the response, point (2) - this section notifies how many latest runs are available for the use and point(3) - users are able to view who all third parties who have subscribed to their data.
+	In the Figure \ref{fig:Dashboard_individual}, it's personal dashboard for the individual users, it's clearly depicted from point (1), user can view all the requests which are pending for the response; from point (2), can see all the requests that have been accepted; and from point (3), users are able to view all third parties who have subscribed to their data.
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{../Assets/Individual_Request.png}
+		\includegraphics[width=1\textwidth]{Diagrams/ui/registered_user_manage_requests.png}
 		\caption[UI: Registered user's Dashboard who can choose to Accept or Reject the requests]{Registered user's Dashboard who can choose to Accept or Reject the requests}
 		\label{fig:Individual_Request}
 	\end{figure}
 	
-	In figure 3.6, its clear from point(4), the individual user have options to accept or reject any request for data acquisition. As soon as an action is taken upon the request, it gets deleted from the page.\\
+	In Figure \ref{fig:Individual_Request}, its clear from point (4), the individual user have options to accept or reject any request for data acquisition. As soon as an action is taken upon the request, it gets deleted from the page.\\
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{../Assets/Make_Request.png}\caption[UI: Third party user's Dashboard to make requests]{Third party user's Dashboard to make requests}
+		\includegraphics[width=1\textwidth]{Diagrams/ui/registered_tp_search.png}\caption[UI: Third party user's Dashboard to make requests]{Third party user's Dashboard to make requests}
 		\label{fig:Make_Request}
 	\end{figure}
 	
-	In the figure 3.7, its clearly depicted from point(5) - the number of requests pending from the individual's end; point(6) - third parties get notifications about the new data available from the users; point(7),(8) - third parties can  request for  data using the filtering criteria provided by the system such as: specific individual data or in bulk; furthermore, if its specific request then filtering is done by SSN/fiscal code and if its bulk data, then, filtering is done basis upon country, age and blood type.
+	In the Figure \ref{fig:Make_Request}, its clearly depicted from point (5), the user can view the number of requests pending from the individual's end; from point(6), third parties get notifications about the new data available from subscriptions; from point (7) and (8), third parties can search for data using the filtering criteria provided by the system. At this stage, the third parties can search and subscribe for bulk data, or for an specific Individual, using his/her SSN. If the third party user searches for bulk data, the SSN number field is disabled. Moreover, if the third party user wants to subscribe to bulk data, he can check the Subscribe option and must specify the amount of time in between updates.
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{../Assets/organizer_dashboard_1.png}\caption[UI: Organizer's Dashboard - create new run]{Organizer's Dashboard- create new run}
-		\label{fig:Make_Request}
-	\end{figure}
+		\includegraphics[width=1\textwidth]{Diagrams/ui/t4r_organizer_new_event.png}\caption[UI: Organizer's Dashboard - Define running circuit]{Organizer's Dashboard- Define running circuit}
+		\label{fig:organizer_dashboard}
+	\end{figure}	
 	
-	In the figure 3.8, from point(9) - organizer can see the number of pending invites for the already configured runs which are still pending to send to the targeted participants; point(10) - organizer's are able to view the number of already configured runs from the past; point(11) - they can start configuring a new run by clicking on 'Create new run' button.
-	
-	 \begin{figure}[H]
-		\centering
-		\includegraphics[scale=0.35]{../Assets/organizer_dashboard_2.png}\caption[UI: Organizer's Dashboard - Define running circuit]{Organizer's Dashboard- Define running circuit}
-		\label{fig:Make_Request}
-	\end{figure}
-	
-	In the figure 3.9, from point(12) - Organizer's are able to define the parameters to define a complete running circuit such as: start and end time, name of the run, date of the run, nodes of the running circuit and here in point (13) - they can select whether to send invitations now or not by clicking the checkbox; point(14) - by clicking on 'Complete running circuit' button, the configuration gets completed and based on the details above, run is configured.
+	In the Figure \ref{fig:organizer_dashboard}, from point (9), the organizer can see the number of pending invites for the already configured runs; from point (10), organizers are able to view the number of already configured runs from the past; from point (11), organizers can start configuring a new run event;	from point (12), organizers are able to define the parameters to define a complete running circuit such as: start and end time, name of the run, date of the run and the nodes of the running circuit in point (13); from point (14) the organizers can select whether or not send the invitations for the run, and once finished the configuration, by clicking the \textit{Complete Running Circuit} button, the event must be stored.
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{../Assets/t4r_list_of_available_run.png}\caption[UI: Spectators' view List of available run]{Spectators' view List of available run}
-		\label{fig:Make_Request}
+		\includegraphics[width=1\textwidth]{Diagrams/ui/spectators_events.png}\caption[UI: Spectators' view List of available run]{Spectators' view List of available run}
+		\label{fig:t4r_list_of_available_run}
 	\end{figure}
 	
-	In the figure 3.10, point(15) - Spectators are able to view all the available runs in which are currently going on; point(16) - by clicking on 'view participants' button, they are redirected to the map-view of the selected run, where they can view the live location of the participant users. 
+	In the Figure \ref{fig:t4r_list_of_available_run}, point(15) - Spectators are able to view all the available runs in which are currently going on; point(16) - by clicking on 'view participants' button, they are redirected to the map-view of the selected run, where they can view the live location of the participant users. 
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{../Assets/spectators_valid_race.png}\caption[UI: Spectators' view during the race]{Spectators' view during the race}
-		\label{fig:Make_Request}
+		\includegraphics[width=1\textwidth]{Diagrams/ui/spectators_watch_event.png}\caption[UI: Spectators' view during the race]{Spectators' view during the race}
+		\label{fig:spectators_valid_race}
 	\end{figure}
 	
-	In the figure 3.11, point(17) - Spectators are able to view  the participants' live position during the run and point(18) - time left for the race to end, because after the end of this time, spectators won't be able to view the map. 
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[scale=0.35]{../Assets/spectators_invalid_race.png}\caption[UI: Spectators' view when race has ended]{Spectators' view when race has ended}
-		\label{fig:Make_Request}
-	\end{figure}
-	
-	In the figure 3.11, Spectators are able to view an error message when the race has been ended. 
+	In the Figure \ref{fig:spectators_valid_race}, point (17) spectators are able to view the participants' live position during the run and point(18) can see the time left for the race to end, because after the end of this time, spectators won't be able to view the map. 
 
 	\subsection{Hardware interfaces}
 	No such direct hardware interfaces are required by our system, as this is a web portal application. The physical GPS is managed by the TrackMe devices. And the hardware connection to the database server is managed by the underlying operating system on the web server. Thus, it can be easily accessible from any device or any location if \textbf{Internet service} is available.
@@ -603,31 +582,38 @@
 	
 	\begin{itemize}
 		\item{\textbf{Data4Help}} \\
-		In the Figure \ref{fig:d4h_use_cases} the Data4Help use cases are shown. The most important use cases are \textit{Manage requests}, \textit{Access individual data}, \textit{Access bulk data}, and \textit{Send a request}. As shown in the figure, the actors related to this system are the \textit{Individual}, who is the user of the TrackMe wearable device, and the \textit{Third party company}, which is the actor who will access the individual's data.
+		In the Figure \ref{fig:d4h_use_cases} the Data4Help use cases are shown. The most important use cases are \textit{Manage requests}, \textit{Access individual data}, \textit{Access bulk data}, and \textit{Send a request}. As shown in the figure, the actors related to this system are the \textit{Individual}, who is the user of the TrackMe wearable device, and the \textit{Third party company}, which is the actor who will access the individual's data.\\
+		
+		Two use cases deserve special attention: \textit{Send Individual's data} and \textit{Send ASOS Request}. The first one, is the use case in charge of sending to the Third Party the information regarding the Individual. This should happen, if and only if, the Individual has accepted the Third Party's Request, and for each Third Party that have subscriptions on that Individual. \\
+		
+		The second use case, is in charge of adding a Request for accessing the health data and location that relates an Individual with AutomatedSOS system. In this case, the actor is the Time (which represents the passage of time), and it will check once a day, all the Individuals who qualify as elderly, in order to add the Request. This is important because AutomatedSOS does not know which D4H Individuals are elderly or not.
 		
 		\begin{figure}[H]
 			\centering
-			\includegraphics[scale=0.5]{Diagrams/d4h_use_cases.png}
+			\includegraphics[width=1\textwidth]{Diagrams/d4h_use_cases.png}
 			\caption[Data4Help use case diagram]{Data4Help Use Case Diagram}
 			\label{fig:d4h_use_cases}
 		\end{figure}
 		
 		\item{\textbf{AutomatedSOS}}\\
-		In the Figure \ref{fig:asos_use_cases} AutomatedSOS use cases are shown. In the case of ASOS, the system has two passive actors, one of them is the health-care service, that is affected by the use case \textit{Contact health-care service}, and D4H, which is affected by the use case \textit{Send request for subscription}. On the other hand, the use case \textit{Receive individual's data} is affected by D4H, since it is that service which sends the individual's information to ASOS.
+		In the Figure \ref{fig:asos_use_cases} AutomatedSOS use cases are shown. In the case of ASOS, the system has a passive actor: the health-care service, that is affected by the use case \textit{Contact health-care service}. On the other hand, the use case \textit{Receive individual's data} and \textit{Get Request notification} are affected by D4H, since it is that service which sends the individual's information to ASOS and notifies it when a Request has been approved or not.
 		
 		\begin{figure}[H]
 			\centering
-			\includegraphics[scale=0.7]{Diagrams/asos_use_cases.png}
+			\includegraphics[width=0.5\textwidth]{Diagrams/asos_use_cases.png}
 			\caption[AutomatedSOS Use Case Diagram]{AutomatedSOS Use Case Diagram}
 			\label{fig:asos_use_cases}
 		\end{figure}
 		
 		\item{\textbf{Track4Run}}\\
-		In the Figure \ref{fig:t4r_use_cases} the Track4Run use cases are shown. The most important use cases are \textit{Manage invitations}, and \textit{Create a run}. In this system, the actors are the \textit{Participant}, who is the TrackMe wearable device user, the \textit{Organizer}, who will setup the run, and the \textit{Spectators}, who are the audience that may view the location of the participants during a given run.
+		In the Figure \ref{fig:t4r_use_cases} the Track4Run use cases are shown. The most important use cases are \textit{Manage invitations}, and \textit{Create a run}. In this system, the actors are the \textit{Participant}, who is the TrackMe wearable device user, the \textit{Organizer}, who will setup the run, and the \textit{Spectators}, who are the audience that may view the location of the participants during a given run.\\
+		
+		Two use cases deserve special attention: \textit{Get Request Notification} and \textit{Get Individual Data}. Both use cases have Data4Help system as actor, since it is it which should send the notification of the Individual's decision on the Request, and it should send the Location of the Individual.
+		
 		
 		\begin{figure}[H]
 			\centering
-			\includegraphics[scale=0.6]{Diagrams/t4r_use_cases.png}
+			\includegraphics[width=1\textwidth]{Diagrams/t4r_use_cases.png}
 			\caption[Track4Run Use Case Diagram]{Track4Run Use Case Diagram}
 			\label{fig:t4r_use_cases}
 		\end{figure}
@@ -731,7 +717,8 @@
 		\end{enumerate}
 		\textbf{Event flow}:
 		\begin{enumerate}
-			\item{The system adds a notification of the individual's decision to the third party company}
+			\item{The system connects to the Third Party's Notification API}
+			\item{The system sends a notification of the individual's decision to the third party company}
 		\end{enumerate}
 		\textbf{Exit conditions}:
 		\begin{enumerate}
@@ -920,28 +907,49 @@
   		\begin{enumerate}
 			\item{If there are no subscribed third party companies, a message is shown}
 		\end{enumerate}
+		\rule{\linewidth}{0.4pt}
+		\textbf{ID}: \usecase{13} \\
+		\textbf{Name}: Create ASOS Request \\
+		\textbf{Actor}: Time \\
+		\textbf{Entry conditions}:
+		\begin{itemize}
+			\item{The system has detected an Individual older than 60 years.}
+		\end{itemize}
+		\textbf{Event flow}:
+		\begin{enumerate}
+			\item{The system creates a Request to the Individual for AutomatedSOS system}
+		\end{enumerate}
+		\textbf{Exit conditions}:
+		\begin{enumerate}
+			\item{The system has placed a request for subscription to the individual}
+		\end{enumerate}
+		\textbf{Exceptions}: - \\
+		\rule{\linewidth}{0.4pt}
+		\textbf{ID}: \usecase{31} \\
+		\textbf{Name}: Send Individual's data \\
+		\textbf{Actor}: Time \\
+		\textbf{Entry conditions}:
+		\begin{itemize}
+			\item{New health data and location for an Individual has been stored in the data base}
+		\end{itemize}
+		\textbf{Event flow}:
+		\begin{enumerate}
+			\item{The system connects to the data base in order to get the newest health data and location for the Individual}
+			\item{For each Third Party that has a subscription on the Individual, in which he/she has accepted the corresponding request:}
+			\begin{enumerate}
+				\item{The system connects to the Third Party Data API}
+				\item{The system sends the new health data and location to the Third Party}
+			\end{enumerate}
+		\end{enumerate}
+		\textbf{Exit conditions}:
+		\begin{enumerate}
+			\item{The system has sent the newest health data and location information to the Third Parties}
+		\end{enumerate}
+		\textbf{Exceptions}: -
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		% AUTOMATEDSOS USE CASE SPECIFICATION
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		\item{\textbf{AutomatedSOS}}\\
-		\textbf{ID}: \usecase{13} \\
-		\textbf{Name}: Send request for subscription \\
-		\textbf{Actor}: D4H \\
-		\textbf{Entry conditions}:
-		\begin{itemize}
-			\item{The system knows the SSN of the elderly individual to be subscribed}
-		\end{itemize}
-		\textbf{Event flow}:
-		\begin{enumerate}
-			\item{The system sends a request to Data4Help in order to subscribe to the health status and location of the given individual}
-			\item{Data4Help sends an OK response to advice the system that the request was sent}
-		\end{enumerate}
-		\textbf{Exit conditions}:
-		\begin{enumerate}
-			\item{Data4Help placed a request for subscription to the individual}
-		\end{enumerate}
-		\textbf{Exceptions}: \\
-		\rule{\linewidth}{0.4pt}
 		\textbf{ID}: \usecase{14} \\
 		\textbf{Name}: Receive individual's data \\
 		\textbf{Actor}: D4H \\
@@ -952,7 +960,7 @@
 		\textbf{Event flow}:
 		\begin{enumerate}
 			\item{Every time the health status and location of the subscribed individual, D4H sends the data to ASOS}
-			\item{The system \textbf{Validate the health status} (\usecase(15)) of the individual}
+			\item{The system \textbf{Validate the health status} (\usecase{15}) of the individual}
 		\end{enumerate}
 		\textbf{Exit conditions}: \\
 		\textbf{Exceptions}: \\
@@ -969,7 +977,7 @@
 		\textbf{Event flow}:
 		\begin{enumerate}
 			\item{The system validates the health condition of the individual using the configured thresholds}
-			\item{The system \textbf{Contacts the health-care service} (\usecase(16)) if needed}
+			\item{The system \textbf{Contacts the health-care service} (\usecase{16}) if needed}
 		\end{enumerate}
 		\textbf{Exit conditions}: \\
 		\textbf{Exceptions}: \\
@@ -983,7 +991,7 @@
 		\end{itemize}
 		\textbf{Event flow}:
 		\begin{enumerate}
-			\item{The system gets the health-care service contact of the given individual}
+			\item{The system gets the emergency contact of the given individual}
 			\item{The system contacts the health-care service, and sends the health data and location of the given individual}
 		\end{enumerate}
 		\textbf{Exit conditions}:
@@ -992,6 +1000,28 @@
 		\end{itemize}
 		\textbf{Exceptions}: - \\
 		\textbf{Scenario}: An individual subscribed to ASOS service is having a hart attack. ASOS has validated the individual's health status and compared the parameters with the defined thresholds, and has decided to call the health-care service. To do so, it contacts the health-care service associated to the individual, using a previously defined protocol and API, and sends to them all the data of the individual. \\
+		\rule{\linewidth}{0.4pt}
+		\textbf{ID}: \usecase{32} \\
+		\textbf{Name}: Get Request notification \\
+		\textbf{Actor}: Data4Help \\
+		\textbf{Entry conditions}:
+		\begin{itemize}
+			\item{An Individual has accepted or rejected the Request for accessing health data and location}
+		\end{itemize}
+		\textbf{Event flow}:
+		\begin{enumerate}
+			\item{If the Individual has accepted the request}:
+			\begin{enumerate}
+				\item{The system gets the request identification, plus basic information of the Individual, like: name, ssn, birth date, city, province, country, gender and blood type}
+				\item{The system stores the Individual information and assign him/her to an emergency contact based on his/her city/province}			
+			\end{enumerate}
+			\item{If the Individual has rejected the request nothing happen.}
+		\end{enumerate}
+		\textbf{Exit conditions}:
+		\begin{itemize}
+			\item{If the Individual has accepted the request, the system starts receiving Individual's health data and location.}
+		\end{itemize}
+		\textbf{Exceptions}: - \\
 		\rule{\linewidth}{0.4pt}
 		%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		% TRACK4RUN USE CASE SPECIFICATION
@@ -1256,7 +1286,47 @@
 		\begin{enumerate}
 			\item{If an error occurs, the system will show an error message}
 		\end{enumerate}
+		\rule{\linewidth}{0.4pt}
+		\textbf{ID}: \usecase{33} \\
+		\textbf{Name}: Get Request notification \\
+		\textbf{Actor}: Data4Help \\
+		\textbf{Entry conditions}:
+		\begin{itemize}
+			\item{An Individual has accepted or rejected the Request for accessing health data and location}
 		\end{itemize}
+		\textbf{Event flow}:
+		\begin{enumerate}
+			\item{If the Individual has accepted the request}:
+			\begin{enumerate}
+				\item{The system gets the request identification, plus basic information of the Individual like: name, ssn, birth date, city, province, country, gender and blood type}
+				\item{The system stores the Individual information}			
+			\end{enumerate}
+			\item{If the Individual has rejected the request nothing happen.}
+		\end{enumerate}
+		\textbf{Exit conditions}:
+		\begin{itemize}
+			\item{If the Individual has accepted the request, the system starts receiving Individual's location.}
+		\end{itemize}
+		\textbf{Exceptions}: - \\
+		\rule{\linewidth}{0.4pt}
+		\textbf{ID}: \usecase{34} \\
+		\textbf{Name}: Get individual's data \\
+		\textbf{Actor}: D4H \\
+		\textbf{Entry conditions}:
+		\begin{itemize}
+			\item{The Individual has accepted the T4R Request}
+		\end{itemize}
+		\textbf{Event flow}:
+		\begin{enumerate}
+			\item{The system receives latest location and health status of the Individuals}
+			\item{If the Individual has enrolled into an event, and that event is taking place, the system adds the Participant location into the map.}
+		\end{enumerate}
+		\textbf{Exit conditions}: 
+		\begin{itemize}
+			\item{The map of the run is updated with the location of the individual}
+		\end{itemize}
+		\textbf{Exceptions}: -
+	\end{itemize}
 	
 	\subsection{Activity diagrams}
 	In order to describe in detail the flow followed by each one of the offered services, activity diagrams are highly useful. \\
@@ -1265,7 +1335,7 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.6]{Diagrams/d4h_activity_diagram.png}
+		\includegraphics[width=1\textwidth]{Diagrams/d4h_activity_diagram.png}
 		\caption[Data4Help - Provide Data To Third Parties Activity Diagram]{Data4Help - Provide Data To Third Parties Activity Diagram}
 		\label{fig:d4h_act_provide_data}
 	\end{figure}
@@ -1274,7 +1344,7 @@
 		
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.6]{Diagrams/asos_activity_diagram.png}
+		\includegraphics[width=1\textwidth]{Diagrams/asos_activity_diagram.png}
 		\caption[AutomatedSOS - Monitoring Individuals Activity Diagram]{AutomatedSOS - Monitoring Individuals Activity Diagram}
 		\label{fig:asos_act_monitoring}
 	\end{figure}
@@ -1283,21 +1353,21 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.55]{Diagrams/t4r_create_run_activity_diagram.png}
+		\includegraphics[width=1\textwidth]{Diagrams/t4r_create_run_activity_diagram.png}
 		\caption[Track4Run - Create a Run and Invite Individuals  Activity Diagram]{Track4Run - Create a Run and Invite Individuals Activity Diagram}
 		\label{fig:t4r_act_create_run}
 	\end{figure}
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.55]{Diagrams/t4r_enrolment_activity_diagram.png}
+		\includegraphics[width=1\textwidth]{Diagrams/t4r_enrolment_activity_diagram.png}
 		\caption[Track4Run - Enroll into a Run Activity Diagram]{Track4Run - Enroll into a Run Activity Diagram}
 		\label{fig:t4r_act_enrolment}
 	\end{figure}
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.55]{Diagrams/t4r_track_runners_activity_diagram.png}
+		\includegraphics[width=1\textwidth]{Diagrams/t4r_track_runners_activity_diagram.png}
 		\caption[Track4Run - Track Runners Activity Diagram]{Track4Run - Track Runners Activity Diagram}
 		\label{fig:t4r_act_track_runners}
 	\end{figure}
@@ -1309,7 +1379,7 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.6]{Diagrams/d4h_seq_accept_request.png}
+		\includegraphics[width=1\textwidth]{Diagrams/d4h_seq_accept_request.png}
 		\caption[Data4Help - Accept Request Sequence Diagram]{Data4Help - Accept Request Sequence Diagram}
 		\label{fig:d4h_seq_accept_request}
 	\end{figure}
@@ -1318,7 +1388,7 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.6]{Diagrams/d4h_seq_subscribe_to_bulk_query.png}
+		\includegraphics[width=1\textwidth]{Diagrams/d4h_seq_subscribe_to_bulk_query.png}
 		\caption[Data4Help - Access to bulk data and subscribe Sequence Diagram]{Data4Help - Access to bulk data and subscribe Sequence Diagram}
 		\label{fig:d4h_seq_bulk_data}
 	\end{figure}
@@ -1327,7 +1397,7 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.6]{Diagrams/t4r_seq_accept_invitation.png}
+		\includegraphics[width=1\textwidth]{Diagrams/t4r_seq_accept_invitation.png}
 		\caption[Track4Run - Accept Invitation Sequence Diagram]{Track4Run - Accept Invitation Sequence Diagram}
 		\label{fig:t4r_accept_invitation}
 	\end{figure}
@@ -1350,6 +1420,8 @@
 		& [R6] & [UC7] & \\ \cline{2-4}
 		& [R8] & [UC9] & \\ \cline{2-4}
 		& [R7] & [UC8] & \\
+		& \multirow{2}{*}{[R7.1]} & [UC32] & \\ \cline{3-4}
+		&						& [UC33] & \\
 		\hline
 		\multirow{4}{*}{} [G3]  & [R5] & [UC6] & \\ \cline{2-4}
 		& [R6] & [UC7] & \\ \cline{2-4}
@@ -1359,8 +1431,12 @@
 		\hline
 		\multirow{4}{*}{} [G4]  & [R5] & [UC6] & \\ \cline{2-4}
 		& [R6] & [UC7] & \\ \cline{2-4}
-		& \multirow{2}{*}{[R11]} & [UC9] & \\ \cline{3-4}
-		&                        & [UC10] & \\ \cline{2-4}
+		& \multirow{6}{*}{[R11]} & [UC9] & \\ \cline{3-4}
+		&                        & [UC10] & \\ \cline{3-4}
+		&                        & [UC31] & \\ \cline{3-4}
+		&                        & [UC32] & \\ \cline{3-4}
+		&                        & [UC33] & \\ \cline{3-4}
+		&                        & [UC34] & \\ \cline{2-4}
 		& \multirow{3}{*}{[R12]} & [UC10] & \\ \cline{3-4}
 		&                        & [UC11] & \\ \cline{3-4}
 		&                        & [UC12] & \\
@@ -1395,8 +1471,10 @@
 		&                        & [UC21] & \\ \cline{3-4}
 		&                        & [UC22] & \\ \cline{3-4}
 		&                        & [UC23] & \\ \cline{2-4}
-		& [R24] & [UC27] & \\ \cline{2-4}
-		& [R25] & [UC27] & \\
+		& \multirow{2}{*}{[R24]} & [UC27] & \\ \cline{3-4}
+		& 					    & [UC34] & \\ \cline{2-4}
+		& \multirow{2}{*}{[R25]} & [UC27] & \\ \cline{3-4}
+		& 					    & [UC34] & \\
 		\hline
 		\caption{Traceability matrix}
 		\label{fig:Traceability matrix}
@@ -1477,14 +1555,14 @@ In this case, D4H, ASOS and T4R will have a corresponding model with different p
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.55]{Diagrams/goal_2_world_1.png}
+		\includegraphics[width=1\textwidth]{Diagrams/goal_2_world_1.png}
 		\caption[D4H - First generated world]{D4H - 1\textsuperscript{st} generated world. It can be seen an Individual object with two Request objects of different ThirdParty objects. One Request has the status Pending, and the other one has the status Approved. The Query0, relates the ThirdParty whose Request is Pending, and so it has no QueryResponse associated. On the other hand, the Query1 object is associated to the ThirdParty whose Request was accepted, hence it has an associated QueryResponse.}
 		\label{fig:goal_2_world_1}
 	\end{figure}
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.55]{Diagrams/goal_2_world_2.png}
+		\includegraphics[width=1\textwidth]{Diagrams/goal_2_world_2.png}
 		\caption[D4H - Second generated world]{D4H - 2\textsuperscript{nd} generated world. It can be seen an Individual object with two Request objects of different ThirdParty objects. One Request has the status Rejected, and the other one has the status Approved. The Query0, relates the ThirdParty whose Request is Rejected, and so it has no QueryResponse associated. On the other hand, the Query1 object is associated to the ThirdParty whose Request was accepted, hence it has an associated QueryResponse.}
 		\label{fig:goal_2_world_2}
 	\end{figure}
@@ -1509,14 +1587,14 @@ In this case, D4H, ASOS and T4R will have a corresponding model with different p
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.55]{Diagrams/goal_5_world_1.png}
+		\includegraphics[width=1\textwidth]{Diagrams/goal_5_world_1.png}
 		\caption[ASOS - First generated world]{ASOS - 1\textsuperscript{st} generated world. It can be seen three Individual objects, two of them related to HealthcareService0 object, and the other one related to HealthcareService1 object. None of the Individual objects have a Data parameter below zero, therefore there are no HSNotification objects.}
 		\label{fig:goal_5_world_1}
 	\end{figure}
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.5]{Diagrams/goal_5_world_2.png}
+		\includegraphics[width=1\textwidth]{Diagrams/goal_5_world_2.png}
 		\caption[ASOS - Second generated world]{ASOS - 2\textsuperscript{nd} generated world. It can be seen three Individual objects, two of them related to HealthcareService1 and the other one related to HealthcareService0 object. In this case the Individual1 and Individual2 objects have Data parameters below zero, hence there are HSNotification objects that relate them with the corresponding HealthcareService objects. The Individual0 object has Data parameters above zero, therefore there is no HSNotification object for it.}
 		\label{fig:goal_5_world_2}
 	\end{figure}
