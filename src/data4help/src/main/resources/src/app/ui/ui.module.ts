@@ -16,6 +16,6 @@ import { NavbarComponent } from './navbar/navbar.component';
     CommonModule,
     RouterModule
   ],
-  exports: [HeaderComponent, FooterComponent]
+  exports: [HeaderComponent, FooterComponent, NavbarComponent]
 })
 export class UiModule { }
