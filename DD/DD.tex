@@ -488,7 +488,8 @@ and it also contains the most relevant architecture views: component view, class
 			\textbf{Input} & \textbf{Output} \\
 			\hline
 			\verb|email: String| & \verb|userId: String| \\
-			\verb|password: String| & \verb|accessToken: String|
+			\verb|password: String| & \verb|accessToken: String| \\
+			& \verb|type: UserType| 
 			\end{tabular}\\
 			\item{\verb|void logout(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/logout|}\\
 			\begin{tabular}{l | l}
@@ -968,22 +969,6 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\label{fig:Data4Help Class Diagram}
 	\end{figure}
 	
-	\subsection{AutomatedSOS data model}
-	\begin{itemize}
-		\item{\textbf{ASOSUser}}: individuals subscribed to D4H that decided to activate ASOS service. Each of them has a \textit{status} so as to avoid duplicate notifications to the health care service. 
-		\item{\textbf{EmergencyContact}}: available health care services by addresses.  Each health care service will receive notifications by means of a URL and only of users living in the same city.
-		\item {\textbf{Threshold}}: normal range for each health parameter (i.e. minimum and maximum values).
-	\end{itemize}
-	
-	It is necessary to clarify that the parameters (i.e. users' data) are not stored, they are used exclusively to make comparisons with their corresponding  \textit{thresholds}. \\
-	
-	\begin{figure}[H]
-    		\centering
-		\includegraphics[width=0.5\textwidth]{diagrams/asos_class_diagram.png}
-		\caption[AutomatedSOS Class Diagram]{AutomatedSOS Class Diagram}
-		\label{fig:AutomatedSOS Class Diagram}
-	\end{figure}
-	
 	\subsection{Track4Run data model}
 	\begin{itemize}
 		\item{\textbf{Run}}:  characterized by a name, start and end times, and a path.
@@ -1000,6 +985,22 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\caption[Track4Run Class Diagram]{Track4Run Class Diagram}
 		\label{fig:Track4Run Class Diagram}
 	\end{figure}	
+	
+	\subsection{AutomatedSOS data model}
+	\begin{itemize}
+		\item{\textbf{ASOSUser}}: individuals subscribed to D4H that decided to activate ASOS service. Each of them has a \textit{status} so as to avoid duplicate notifications to the health care service. 
+		\item{\textbf{EmergencyContact}}: available health care services by addresses.  Each health care service will receive notifications by means of a URL and only of users living in the same city.
+		\item {\textbf{Threshold}}: normal range for each health parameter (i.e. minimum and maximum values).
+	\end{itemize}
+	
+	It is necessary to clarify that the parameters (i.e. users' data) are not stored, they are used exclusively to make comparisons with their corresponding  \textit{thresholds}. \\
+	
+	\begin{figure}[H]
+    		\centering
+		\includegraphics[width=0.5\textwidth]{diagrams/asos_class_diagram.png}
+		\caption[AutomatedSOS Class Diagram]{AutomatedSOS Class Diagram}
+		\label{fig:AutomatedSOS Class Diagram}
+	\end{figure}
 			
 	\section{Deployment view}
 	In the current chapter the deployment diagrams of D4H, T4R and ASOS are shown. All diagrams follow the same structure and design: yellow nodes represent external nodes that interact with the system, green nodes represent hardware devices (i.e. web server, database server, etc.), pale orange nodes represent execution environments such as JVM, and blue boxes represent high level components. Finally, the protocols used to communicate between different nodes displayed as red links.
@@ -1010,6 +1011,7 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	Moreover, the \textbf{Web Server} is related to three third parties: two of them are \textbf{Track4Run} execution environment, and \textbf{AutomatedSOS} execution environment. The third third party is a \textbf{Generic Third Party Backend} node that is external to the TrackMe environment.\\
 	
 	Finally, the deployment diagram does not show the interaction between the web-users (individuals or third parties) with the system. This interaction is inherent to a web site, and it happens between the client and the \textbf{D4H Web page} component.
+	
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=1\textwidth]{diagrams/d4h_deployment_diagram.png}
@@ -1018,8 +1020,9 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\end{figure}	
 		
 	\subsection{Track4Run deployment diagram}
-	In the Figure \ref{fig:t4r_deployment_diagram} the T4R deployment diagram is shown. It can be seen the interaction between \textbf{Data4Help} execution environment and the \textbf{Web Server} node. This interaction happens thanks to the different interfaces provided by D4H and T4R. \\\\
-	Furthermore, the \textbf{Web Server} node interacts with the \textbf{MongoDB Server} node using the TCP/IP protocol, and it works thanks to the \textbf{DBConnector} interface provided by the \textbf{T4R Database} component.
+	In the Figure \ref{fig:t4r_deployment_diagram} the T4R deployment diagram is shown. It can be seen the interaction between \textbf{Data4Help} execution environment and the \textbf{Web Server} node. This interaction happens thanks to the different interfaces provided by D4H and T4R. \\
+	Furthermore, the \textbf{Web Server} node interacts with the \textbf{MongoDB Server} node using the TCP/IP protocol, and it works thanks to the \textbf{DBConnector} interface provided by the \textbf{T4R Database} component. \\
+	
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=1\textwidth]{diagrams/t4r_deployment_diagram.png}
@@ -1040,12 +1043,83 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	In the following section sequence diagrams of D4H, T4R and ASOS are shown. 
 	
 	\subsection{Data4Help sequence diagrams}
+	In D4H the \textbf{:Signup} component communicates with the \textbf{:DBManager} which stores the user in the database. After, the \textbf{:AuthenticationManager} creates a token for the session of the user, which is send to the \textbf{GUI} that redirects the user to his dashboard. This process applies for third parties as well. \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_signup.png}
+		\caption[Data4Help Signup sequence diagram]{Data4Help Signup sequence diagram}
+		\label{fig:d4h_seq_signup}
+	\end{figure}
+	
+	The system also provides login and logout mechanisms to both types of users: individuals and third parties. The \textbf{:Login} component is in charge of contacting the \\ \textbf{:AuthenticationManager} to create an access token. This token is retrieved to the \textbf{GUI} to be used for upcoming requests. The GUI decides whether to redirect the user to its corresponding dashboard or display an error according to credentials checking. \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_login_logout.png}
+		\caption[Data4Help Login and Logout sequence diagram]{Data4Help Login and Logout sequence diagram}
+		\label{fig:d4h_seq_login_logout}
+	\end{figure}
+	
+	After login into the system, any individual can check all requests he received from third parties. The \textbf{:Request} component is the responsible for this process. First of all, it gets the requests by means of the \textbf{:DBManager} and then :Request returns it to the \textbf{GUI} (Figure \ref{fig:d4h_seq_show_requests}). \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_show_requests.png}
+		\caption[Data4Help Show Requests sequence diagram]{Data4Help Show Requests sequence diagram}
+		\label{fig:d4h_seq_show_requests}
+	\end{figure}
+	
+	The \textbf{:Request} component provides to each individual a way to manage his own requests (i.e. accept or reject them). If a request is approved, :Request instructs \textbf{:Subscription} component to create a subscription allowing the third party associated to the request to receive new data. Otherwise, just an update of the status of the request is made by the \textbf{:DBManager}. In both cases, the third party who created the request will get a notification (Figure \ref{fig:d4h_seq_ notify_third_party}). \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_manage_requests.png}
+		\caption[Data4Help Manage Requests sequence diagram]{Data4Help Manage Requests sequence diagram}
+		\label{fig:d4h_seq_manage_requests}
+	\end{figure}
+	
+	Notifications to third parties are handled by the \textbf{:APIManager} component. In detail, :Request asks :APIManager to send a notification to a given third party, to do so this component aks to the :\textbf{DBManager} the \textit{APIConfiguration} (of the third party) that contains the URL to which the message will be posted. \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\textwidth]{diagrams/sequence_diagrams/d4h_notify_third_party.png}
+		\caption[Data4Help Notify Third Party sequence diagram]{Data4Help Notify Third Party sequence diagram}
+		\label{fig:d4h_seq_ notify_third_party}
+	\end{figure}
+	
+	As concerns to third parties, they can send requests (Figure \ref{fig:d4h_seq_send_request}) to individuals in order to have future access to their data. All this process is handled by \textbf{:Request} component. Each request is stored in the database by the \textbf{:DBManager}. \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\textwidth]{diagrams/sequence_diagrams/d4h_send_request.png}
+		\caption[Data4Help Send Request sequence diagram]{Data4Help Send Request sequence diagram}
+		\label{fig:d4h_seq_send_request}
+	\end{figure}
+	
+	Additionally, if third parties have approved requests to data of individuals, they can search for it using the ssn of the individual. This operation is carried out by the \textbf{:SearchManager}, which provides to the \textbf{GUI} information concerning the request. \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_access_individual_data.png}
+		\caption[Data4Help Access Individual Data sequence diagram]{Data4Help Access Individual Data sequence diagram}
+		\label{fig:d4h_access_individual_data}
+	\end{figure}
+	
+	In the case in which third parties want to search for bulk data (Figure \ref{fig:d4h_access_bulk_data}) they have several available filtering criteria. The query containing those parameters is received by the \textbf{:SearchManager}, which returns to the \textbf{GUI} the data anonymized.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_access_bulk_data.png}
+		\caption[Data4Help Access Bulk Data sequence diagram]{Data4Help Access Bulk Data sequence diagram}
+		\label{fig:d4h_access_bulk_data}
+	\end{figure}
 	
 	\subsection{Track4Run sequence diagrams}
+	In the Figure \ref{fig:t4r_seq_signup} the signup process is shown. It can be seen the \textbf{:Signup} component, which is responsible of getting the participant's information, and with the help of the\textbf{:DBManager} component, save it into the database. The \textbf{:AuthenticationManager} component is responsible of create the access token for the session. Finally, the :Signup component sends a message to the \textbf{:Request} component which, asynchronously,  sends a request for accessing the individual's information to D4H. The process ends when the \textbf{GUI} redirects the new user to its dashboard.\\
 	
-	In the Figure \ref{fig:t4r_seq_signup} the signup process is shown. It can be seen the Signup component, which is responsible of getting the Participant's information, and with the help of the DBManager component, save it into the database. The AuthenticationManager component is responsible of create the access token for the session. Finally, the Signup component sends a message to the Request component which, asynchronously,  sends a request for accessing the individual's information to D4H. The process ends when the GUI redirects the new user to its dashboard.\\
+	It worth mentioning, that the organizer signup process is similar to the signup process of the Participant. The only difference is that, in the case of the Organizer, the \textbf{:Signup} component does not send a message to the \textbf{:Request }component.\\
 	
-	It worth mentioning, that the Organizer signup process is similar to the signup process of the Participant. The only difference is that, in the case of the Organizer, the Signup component does not send a message to the Request component.\\
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_signup_participant.png}
@@ -1053,9 +1127,10 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\label{fig:t4r_seq_signup}
 	\end{figure}
 	
-	In the Figure \ref{fig:t4r_seq_login} the login and logout processes are shown. It can be noticed that the actor is either a Participant or an Organizer, since the process is the same for both of them. If there exist a user that has an email and password as the one sent to the Login component, then it should ask the AuthenticationManager component to create an access token for that user. If the credentials are right, the GUI will redirect the user to its dashboard. Otherwise, it will show an error.\\
+	In the Figure \ref{fig:t4r_seq_login} the login and logout processes are shown. It can be noticed that the actor is either a participant or an organizer, since the process is the same for both of them. If there exist a user that has an email and password as the one sent to the \textbf{:Login} component, then it should ask the \textbf{:AuthenticationManager} component to create an access token for that user. If the credentials are right, the \textbf{GUI} will redirect the user to its dashboard. Otherwise, it will show an error.\\
 	
-	In the case of logout, the GUI should send the access token and the userId to the Login component, which will send a message to the AuthenticationManager component in order to validate it. If it is valid, it will remove the access token in order to remove the session, and the GUI will redirect the user to the home page.\\ 
+	In the case of logout, the GUI should send the access token and the userId to the \textbf{: Login} component, which will send a message to the \textbf{:AuthenticationManager} component in order to validate it. If it is valid, it will remove the access token in order to remove the session, and the \textbf{GUI} will redirect the user to the home page.\\ 
+	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_login_logout.png}
@@ -1063,7 +1138,8 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\label{fig:t4r_seq_login}
 	\end{figure}
 	
-	In the Figure \ref{fig:t4r_seq_create_run} the create a run process is shown. This process involves the Organizer, who should send the startDate, endDate and name for the event. These parameters will be handled by the Event component, which will save the new event in the database with the help of DBManager component. Moreover, the Organizer can add the coordinates for the running circuit by updating the previously create event. After this step, the GUI will show the possible participants to invite, and the Organizer can skip this, or choose and send the invitations to selected participants. In that case, and after choosing which participants will receive an invite, the GUI will send a message to the Notification component, which will add the notifications into the database. This final process is asynchronous.\\
+	In the Figure \ref{fig:t4r_seq_create_run} the create a run process is shown. This process involves the organizer, who should send the startDate, endDate and name for the event. These parameters will be handled by the \textbf{:Event} component, which will save the new event in the database with the help of \textbf{:DBManager} component. Moreover, the organizer can add the coordinates for the running circuit by updating the previously create event. After this step, the \textbf{GUI} will show the possible participants to invite, and the organizer can skip this, or choose and send the invitations to selected participants. In that case, and after choosing which participants will receive an invite, the GUI will send a message to the \textbf{:Notification} component, which will add the notifications into the database. This final process is asynchronous.\\
+	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_create_run.png}
@@ -1071,9 +1147,10 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\label{fig:t4r_seq_create_run}
 	\end{figure}
 	
-	Finally, in the Figure \ref{fig:t4r_seq_accept_invitation}, the accept and reject invitation processes are shown. First, the Participant will ask the GUI for all the pending notifications, and it will ask to the Notification component for the notifications of the user. If a user decides to accept a notification, the GUI will send a message to the Event component, which will add the participant to the Event.\\
+	Finally, in the Figure \ref{fig:t4r_seq_accept_invitation}, the accept and reject invitation processes are shown. First, the participant will ask the \textbf{GUI} for all the pending notifications, and it will ask to the \textbf{:Notification} component for the notifications of the user. If a user decides to accept a notification, the GUI will send a message to the \textbf{:Event} component, which will add the participant to the :Event.\\
 
-	 On the other hand, if the Participant decides to reject the invitation, the GUI will send a message to the Notification component in order to delete it.\\
+	 On the other hand, if the participant decides to reject the invitation, the GUI will send a message to the :Notification component in order to delete it.\\
+	 
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_accept_reject_notification.png}
@@ -1082,9 +1159,10 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	\end{figure}	
 	
 	\subsection{AutomatedSOS sequence diagrams}
-	Since ASOS is an event-based service, it does not provide a GUI. That is why the main "actor" is Data4Help, which is the boundary of a different service. In the Figure \ref{fig:asos_seq_get_notification} the \textit{Get Request Notification} use case is shown. As mentioned before, the component that initiates the process is Data4Help, which sends a message every time an Individual accepts or rejects the ASOS request. If the individual has accepted the Request, the DataHandler component will update the information of the Individual in the database, and will assign an Emergency Contact based on its Address.\\
+	Since ASOS is an event-based service, it does not provide a GUI. That is why the main "actor" is Data4Help, which is the boundary of a different service. In the Figure \ref{fig:asos_seq_get_notification} the \textit{Get Request Notification} use case is shown. As mentioned before, the component that initiates the process is Data4Help, which sends a message every time an Individual accepts or rejects the ASOS request. If the individual has accepted the request, the \textbf{:DataHandler} component will update the information of the Individual in the database, and will assign an emergency contact based on its Address.\\
 	
-	On the other hand, if the Individual has rejected the Request, DataHandler component will remove it from the database.
+	On the other hand, if the individual has rejected the request, :DataHandler component will remove it from the database.\\
+	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/asos_get_individual_notification.png}
@@ -1092,7 +1170,9 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\label{fig:asos_seq_get_notification}
 	\end{figure}
 	
-	Finally, the core functionality of ASOS is shown in the Figure \ref{fig:asos_seq_receive_data}. It can be seen that, as before, the "actor" that initiates the process is Data4Help service, which sends the Individual information. This message is handled by DataHandler component, which will compare the information with the previously defined Thresholds. If the Data is out of range, the DataHandler will send a message to the HealthCareConnector component in order notify the Emergency Contact assigned for the Individual. The HealthCareConnector component is responsible of getting the assigned Emergency Contact information from the database, and send the Alert to the EmergencyService. It worth mentioning that the notification to the health-care service is done asynchronously. On the other hand, if the Data is \textit{\textbf{not}} out of range, the system will do nothing.
+	Finally, the core functionality of ASOS is shown in the Figure \ref{fig:asos_seq_receive_data}. It can be seen that, as before, the "actor" that initiates the process is Data4Help service, which sends the Individual information. This message is handled by \textbf{:DataHandler} component, which will compare the information with the previously defined thresholds. If the Data is out of range, the :DataHandler will send a message to the \textbf{:HealthCareConnector} component in order notify the emergency contact assigned for the Individual. The :HealthCareConnector component is responsible of getting the assigned emergency contact information from the database, and send the Alert to the \textbf{EmergencyService}.\\
+	
+	It worth mentioning that the notification to the health-care service is done asynchronously. On the other hand, if the data is \textit{\textbf{not}} out of range, the system will do nothing.
 	
 	\begin{figure}[H]
 		\centering
@@ -1119,7 +1199,7 @@ Resuming the high level architecture of the system briefly explained on \textit{
 	MVC design pattern is perfect for D4H and T4R systems because it is based on \textit{separation of concerns}, this makes the application's code easier to test and maintain. In a typical MVC design, the request first arrives at the controller which binds the model with the corresponding view. This separation helps manage complex applications, because the developer can focus on one aspect at a time and also simplifies the development of group applications, different developers can work in parallel. 
  
 	\subsubsection{RESTful web services}
-	The communication between D4H/T4R with their users is done via HTTP requests following REST principles. REST (REpresentation State Transfer) is an architectural style for communication based on strict use of HTTP request types (Figure\ref{fig:RESTful web services}) .\\
+	The communication between D4H/T4R with their users is done via HTTP requests following REST principles. REST (Representation State Transfer) is an architectural style for communication based on strict use of HTTP request types (Figure\ref{fig:RESTful web services}) .\\
 	
 	\begin{figure}[H]
     		\centering
@@ -1146,8 +1226,8 @@ Resuming the high level architecture of the system briefly explained on \textit{
 	\begin{figure}[H]
     		\centering
 		\includegraphics[width=0.9\textwidth]{diagrams/event_driven.png}
-		\caption[RESTful web services]{RESTful web services}
-		\label{fig:RESTful web services}
+		\caption[Event driven architecture]{Event driven architecture}
+		\label{fig:Event driven architecture}
 	\end{figure}
 
 	For ASOS, a simple event processing will be implemented, this means that an event immediately triggers an action in the consumer. This is, after receiving  Individuals' data, and based on the defined thresholds it decides whether to notify or not their associated health care services. 
@@ -1266,16 +1346,7 @@ In the Figure \ref{fig:manage_requests} the individual user have options to acce
 		\label{fig:Spectators' Map-view Page}
 	\end{figure}
 	
-	In the Figure \ref{fig:Spectators' Map-view Page}, Spectators are able to view  the participants' live position during the run and time left for the race to end, because after the end of this time, spectators won't be able to view the map.
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=1\textwidth]{UI/spectator_invalid.png}
-		\caption[UI: Spectators's invalid view]{Spectators's invalid view}
-		\label{fig:Spectators's invalid view}
-	\end{figure}
-	
-	In the Figure \ref{fig:Spectators's invalid view}, Spectators are able to view an error message when the race has been ended. 
+	In the Figure \ref{fig:Spectators' Map-view Page}, Spectators are able to view  the participants' live position only during the run and time left for the race to end, because after the end of this time, spectators won't be able to view the map.
 	
 	\chapter{Requirements traceability}
 	In this section is shown how the goals and requirements specified in the RASD are mapped to the design components defined in this document.
@@ -1346,20 +1417,19 @@ In the Figure \ref{fig:manage_requests} the individual user have options to acce
 	\section{Requirements of implementation and testing}
 In order to start implementation process of the project, RASD and DD must be finished and available for all the teams of the project, so they will be informed about requirements and adopted design choices. A good analysis of each document is also required to be sure that implemented system will be secure and reliable.\\
 
-\textbf{Development Tools} The Java programming language will be used to develop our system because it suits very well for communication among different platforms and devices. In addition, Java Enterprise Edition will be used to deploy our business functionalities and to build a reliable and powerful web tier to let users communicate with main server using a standard web browser or a Java application. Java Enterprise Edition offers also an enhanced version of JMS services useful for communication between client and server. Spark Framework will be used as it is built for productivity. Spark Framework is a simple and expressive Java/Kotlin web framework DSL built for rapid development. \\
+\textbf{Development Tools} The Java programming language is suggested to develop the system because it suits very well for communication among different platforms and devices. In addition, Java Standard Edition will be used to deploy our business functionalities and to build a reliable and powerful web tier to let users communicate with main server using a standard web browser. \\
 
-\textbf{Testing Tools} In order to achieve all the testing purposes we will use different testing tools:
+\textbf{Testing Tools} In order to achieve all the testing purposes we recommend to use different testing tools:
 \begin{itemize}
-\item{} For unit testing of each component we will use \textit{JUnit} framework. It’s a good framework offered by Oracle itself so it’s well test and supported. It can test each functionality of component into an isolated environment. It can be used also to test some little interaction between components.
-\item{}\textit{Mockito} tool will be used as it is a No expect-run-verify technique. Mockito is a mocking framework that tastes really good. It lets you write beautiful tests with a clean and simple API. Mockito doesn’t give you hangover because the tests are very readable and they produce clean verification errors.
-\item{} \textit{Arquillian} tools may be used during integration testing: it offers different features that tests very well Java Enterprise components and containers. It also provides features for debugging servers functionalities.
-\item{} \textit{Grinder} software may be used to make load tests onWeb Server.
+\item{} For unit testing of each component can be used \textit{JUnit} framework. It’s a good framework since it is well tested and supported. It can test each functionality of component into an isolated environment, and can be used also to test some little interaction between components.
+\item{}\textit{Mockito} tool is suggested as it is a No expect-run-verify technique. It is another well known and highly used framework, in which the produced tests are very readable.
+\item{} \textit{Grinder} software may be used to make load tests on Web Server.
 \item{} \textit{HammerDB} may be used to test functionalities and performance of Database server.
 \end{itemize}
 
-
 \section{Implementation Strategy}
 Implementation process will follow the bottom-up strategy: we plan to implement first single component isolated. Once at least 60\% of a component will be developed, its unit testing phase can start.\\
+
 Using \textit{Drivers} for tests allows different developer teams to complete its own work. Using this method we can be sure that component will be more reliable, so it will be more easy to reuse them into different part of the system.\\
 
 The implementation of the \textit{TrackMe} system will be done module by module and component by component. The order in which it is carried out depends on a number of factors like the complexity of the modules and services, the dependence of other modules on the component being implemented and to the system as a whole, and it should also take into account the possibility of discovering flaws with the proposed design. The later should be dealt in a way that, if such an unfortunate event does	happen, the flaws should be found and corrected as soon as possible, to limit the cost of the change of design. Identify here the order in which system plan to implement the subcomponents of your system and the order in which system plan to integrate such subcomponents and test the integration.\\
@@ -1483,11 +1553,11 @@ and the synchronization of Data with threshold values when user's data is out of
 			& \textbf{Task} & \textbf{Hours} \\ [0.5ex]
 			\hline
 			Component view &  10
-			& Scope & 2
+			& Scope & 3
 			& Purpose & 2  \\
 			\hline
 			Component interfaces &  13
-			& Database view & 5
+			& Database view & 6
 			& UI design & 15  \\
 			\hline
 			Deployment view &  5
@@ -1499,15 +1569,15 @@ and the synchronization of Data with threshold values when user's data is out of
 			& Design decisions & 2 \\
 			\hline
 			Corrections & 3  
-			& Final user interfaces & 6
+			& Final user interfaces & 7
 			& &   \\
 			\hline 
 			&  
-			& Architectural styles & 3
+			& Architectural styles & 4
 			& &   \\
 			\hline
 			\textbf{Total} & 35
-			& \textbf{Total} & 27
+			& \textbf{Total} & 31
 			& \textbf{Total} & 25  \\
 			\hline
 		\end{tabular}
