@@ -488,7 +488,8 @@ and it also contains the most relevant architecture views: component view, class
 			\textbf{Input} & \textbf{Output} \\
 			\hline
 			\verb|email: String| & \verb|userId: String| \\
-			\verb|password: String| & \verb|accessToken: String|
+			\verb|password: String| & \verb|accessToken: String| \\
+			& \verb|type: UserType| 
 			\end{tabular}\\
 			\item{\verb|void logout(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/logout|}\\
 			\begin{tabular}{l | l}
@@ -968,22 +969,6 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\label{fig:Data4Help Class Diagram}
 	\end{figure}
 	
-	\subsection{AutomatedSOS data model}
-	\begin{itemize}
-		\item{\textbf{ASOSUser}}: individuals subscribed to D4H that decided to activate ASOS service. Each of them has a \textit{status} so as to avoid duplicate notifications to the health care service. 
-		\item{\textbf{EmergencyContact}}: available health care services by addresses.  Each health care service will receive notifications by means of a URL and only of users living in the same city.
-		\item {\textbf{Threshold}}: normal range for each health parameter (i.e. minimum and maximum values).
-	\end{itemize}
-	
-	It is necessary to clarify that the parameters (i.e. users' data) are not stored, they are used exclusively to make comparisons with their corresponding  \textit{thresholds}. \\
-	
-	\begin{figure}[H]
-    		\centering
-		\includegraphics[width=0.5\textwidth]{diagrams/asos_class_diagram.png}
-		\caption[AutomatedSOS Class Diagram]{AutomatedSOS Class Diagram}
-		\label{fig:AutomatedSOS Class Diagram}
-	\end{figure}
-	
 	\subsection{Track4Run data model}
 	\begin{itemize}
 		\item{\textbf{Run}}:  characterized by a name, start and end times, and a path.
@@ -1000,6 +985,22 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\caption[Track4Run Class Diagram]{Track4Run Class Diagram}
 		\label{fig:Track4Run Class Diagram}
 	\end{figure}	
+	
+	\subsection{AutomatedSOS data model}
+	\begin{itemize}
+		\item{\textbf{ASOSUser}}: individuals subscribed to D4H that decided to activate ASOS service. Each of them has a \textit{status} so as to avoid duplicate notifications to the health care service. 
+		\item{\textbf{EmergencyContact}}: available health care services by addresses.  Each health care service will receive notifications by means of a URL and only of users living in the same city.
+		\item {\textbf{Threshold}}: normal range for each health parameter (i.e. minimum and maximum values).
+	\end{itemize}
+	
+	It is necessary to clarify that the parameters (i.e. users' data) are not stored, they are used exclusively to make comparisons with their corresponding  \textit{thresholds}. \\
+	
+	\begin{figure}[H]
+    		\centering
+		\includegraphics[width=0.5\textwidth]{diagrams/asos_class_diagram.png}
+		\caption[AutomatedSOS Class Diagram]{AutomatedSOS Class Diagram}
+		\label{fig:AutomatedSOS Class Diagram}
+	\end{figure}
 			
 	\section{Deployment view}
 	In the current chapter the deployment diagrams of D4H, T4R and ASOS are shown. All diagrams follow the same structure and design: yellow nodes represent external nodes that interact with the system, green nodes represent hardware devices (i.e. web server, database server, etc.), pale orange nodes represent execution environments such as JVM, and blue boxes represent high level components. Finally, the protocols used to communicate between different nodes displayed as red links.
@@ -1010,6 +1011,7 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	Moreover, the \textbf{Web Server} is related to three third parties: two of them are \textbf{Track4Run} execution environment, and \textbf{AutomatedSOS} execution environment. The third third party is a \textbf{Generic Third Party Backend} node that is external to the TrackMe environment.\\
 	
 	Finally, the deployment diagram does not show the interaction between the web-users (individuals or third parties) with the system. This interaction is inherent to a web site, and it happens between the client and the \textbf{D4H Web page} component.
+	
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=1\textwidth]{diagrams/d4h_deployment_diagram.png}
@@ -1018,8 +1020,9 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\end{figure}	
 		
 	\subsection{Track4Run deployment diagram}
-	In the Figure \ref{fig:t4r_deployment_diagram} the T4R deployment diagram is shown. It can be seen the interaction between \textbf{Data4Help} execution environment and the \textbf{Web Server} node. This interaction happens thanks to the different interfaces provided by D4H and T4R. \\\\
-	Furthermore, the \textbf{Web Server} node interacts with the \textbf{MongoDB Server} node using the TCP/IP protocol, and it works thanks to the \textbf{DBConnector} interface provided by the \textbf{T4R Database} component.
+	In the Figure \ref{fig:t4r_deployment_diagram} the T4R deployment diagram is shown. It can be seen the interaction between \textbf{Data4Help} execution environment and the \textbf{Web Server} node. This interaction happens thanks to the different interfaces provided by D4H and T4R. \\
+	Furthermore, the \textbf{Web Server} node interacts with the \textbf{MongoDB Server} node using the TCP/IP protocol, and it works thanks to the \textbf{DBConnector} interface provided by the \textbf{T4R Database} component. \\
+	
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=1\textwidth]{diagrams/t4r_deployment_diagram.png}
@@ -1040,12 +1043,83 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	In the following section sequence diagrams of D4H, T4R and ASOS are shown. 
 	
 	\subsection{Data4Help sequence diagrams}
+	In D4H the \textbf{:Signup} component communicates with the \textbf{:DBManager} which stores the user in the database. After, the \textbf{:AuthenticationManager} creates a token for the session of the user, which is send to the \textbf{GUI} that redirects the user to his dashboard. This process applies for third parties as well. \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_signup.png}
+		\caption[Data4Help Signup sequence diagram]{Data4Help Signup sequence diagram}
+		\label{fig:d4h_seq_signup}
+	\end{figure}
+	
+	The system also provides login and logout mechanisms to both types of users: individuals and third parties. The \textbf{:Login} component is in charge of contacting the \\ \textbf{:AuthenticationManager} to create an access token. This token is retrieved to the \textbf{GUI} to be used for upcoming requests. The GUI decides whether to redirect the user to its corresponding dashboard or display an error according to credentials checking. \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_login_logout.png}
+		\caption[Data4Help Login and Logout sequence diagram]{Data4Help Login and Logout sequence diagram}
+		\label{fig:d4h_seq_login_logout}
+	\end{figure}
+	
+	After login into the system, any individual can check all requests he received from third parties. The \textbf{:Request} component is the responsible for this process. First of all, it gets the requests by means of the \textbf{:DBManager} and then :Request returns it to the \textbf{GUI} (Figure \ref{fig:d4h_seq_show_requests}). \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_show_requests.png}
+		\caption[Data4Help Show Requests sequence diagram]{Data4Help Show Requests sequence diagram}
+		\label{fig:d4h_seq_show_requests}
+	\end{figure}
+	
+	The \textbf{:Request} component provides to each individual a way to manage his own requests (i.e. accept or reject them). If a request is approved, :Request instructs \textbf{:Subscription} component to create a subscription allowing the third party associated to the request to receive new data. Otherwise, just an update of the status of the request is made by the \textbf{:DBManager}. In both cases, the third party who created the request will get a notification (Figure \ref{fig:d4h_seq_ notify_third_party}). \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_manage_requests.png}
+		\caption[Data4Help Manage Requests sequence diagram]{Data4Help Manage Requests sequence diagram}
+		\label{fig:d4h_seq_manage_requests}
+	\end{figure}
+	
+	Notifications to third parties are handled by the \textbf{:APIManager} component. In detail, :Request asks :APIManager to send a notification to a given third party, to do so this component aks to the :\textbf{DBManager} the \textit{APIConfiguration} (of the third party) that contains the URL to which the message will be posted. \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\textwidth]{diagrams/sequence_diagrams/d4h_notify_third_party.png}
+		\caption[Data4Help Notify Third Party sequence diagram]{Data4Help Notify Third Party sequence diagram}
+		\label{fig:d4h_seq_ notify_third_party}
+	\end{figure}
+	
+	As concerns to third parties, they can send requests (Figure \ref{fig:d4h_seq_send_request}) to individuals in order to have future access to their data. All this process is handled by \textbf{:Request} component. Each request is stored in the database by the \textbf{:DBManager}. \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\textwidth]{diagrams/sequence_diagrams/d4h_send_request.png}
+		\caption[Data4Help Send Request sequence diagram]{Data4Help Send Request sequence diagram}
+		\label{fig:d4h_seq_send_request}
+	\end{figure}
+	
+	Additionally, if third parties have approved requests to data of individuals, they can search for it using the ssn of the individual. This operation is carried out by the \textbf{:SearchManager}, which provides to the \textbf{GUI} information concerning the request. \\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_access_individual_data.png}
+		\caption[Data4Help Access Individual Data sequence diagram]{Data4Help Access Individual Data sequence diagram}
+		\label{fig:d4h_access_individual_data}
+	\end{figure}
+	
+	In the case in which third parties want to search for bulk data (Figure \ref{fig:d4h_access_bulk_data}) they have several available filtering criteria. The query containing those parameters is received by the \textbf{:SearchManager}, which returns to the \textbf{GUI} the data anonymized.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_access_bulk_data.png}
+		\caption[Data4Help Access Bulk Data sequence diagram]{Data4Help Access Bulk Data sequence diagram}
+		\label{fig:d4h_access_bulk_data}
+	\end{figure}
 	
 	\subsection{Track4Run sequence diagrams}
-	
 	In the Figure \ref{fig:t4r_seq_signup} the signup process is shown. It can be seen the Signup component, which is responsible of getting the Participant's information, and with the help of the DBManager component, save it into the database. The AuthenticationManager component is responsible of create the access token for the session. Finally, the Signup component sends a message to the Request component which, asynchronously,  sends a request for accessing the individual's information to D4H. The process ends when the GUI redirects the new user to its dashboard.\\
 	
 	It worth mentioning, that the Organizer signup process is similar to the signup process of the Participant. The only difference is that, in the case of the Organizer, the Signup component does not send a message to the Request component.\\
+	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_signup_participant.png}
