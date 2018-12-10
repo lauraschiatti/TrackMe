@@ -1199,7 +1199,7 @@ Resuming the high level architecture of the system briefly explained on \textit{
 	MVC design pattern is perfect for D4H and T4R systems because it is based on \textit{separation of concerns}, this makes the application's code easier to test and maintain. In a typical MVC design, the request first arrives at the controller which binds the model with the corresponding view. This separation helps manage complex applications, because the developer can focus on one aspect at a time and also simplifies the development of group applications, different developers can work in parallel. 
  
 	\subsubsection{RESTful web services}
-	The communication between D4H/T4R with their users is done via HTTP requests following REST principles. REST (REpresentation State Transfer) is an architectural style for communication based on strict use of HTTP request types (Figure\ref{fig:RESTful web services}) .\\
+	The communication between D4H/T4R with their users is done via HTTP requests following REST principles. REST (Representation State Transfer) is an architectural style for communication based on strict use of HTTP request types (Figure\ref{fig:RESTful web services}) .\\
 	
 	\begin{figure}[H]
     		\centering
@@ -1226,8 +1226,8 @@ Resuming the high level architecture of the system briefly explained on \textit{
 	\begin{figure}[H]
     		\centering
 		\includegraphics[width=0.9\textwidth]{diagrams/event_driven.png}
-		\caption[RESTful web services]{RESTful web services}
-		\label{fig:RESTful web services}
+		\caption[Event driven architecture]{Event driven architecture}
+		\label{fig:Event driven architecture}
 	\end{figure}
 
 	For ASOS, a simple event processing will be implemented, this means that an event immediately triggers an action in the consumer. This is, after receiving  Individuals' data, and based on the defined thresholds it decides whether to notify or not their associated health care services. 
@@ -1417,20 +1417,19 @@ In the Figure \ref{fig:manage_requests} the individual user have options to acce
 	\section{Requirements of implementation and testing}
 In order to start implementation process of the project, RASD and DD must be finished and available for all the teams of the project, so they will be informed about requirements and adopted design choices. A good analysis of each document is also required to be sure that implemented system will be secure and reliable.\\
 
-\textbf{Development Tools} The Java programming language will be used to develop our system because it suits very well for communication among different platforms and devices. In addition, Java Enterprise Edition will be used to deploy our business functionalities and to build a reliable and powerful web tier to let users communicate with main server using a standard web browser or a Java application. Java Enterprise Edition offers also an enhanced version of JMS services useful for communication between client and server. Spark Framework will be used as it is built for productivity. Spark Framework is a simple and expressive Java/Kotlin web framework DSL built for rapid development. \\
+\textbf{Development Tools} The Java programming language is suggested to develop the system because it suits very well for communication among different platforms and devices. In addition, Java Standard Edition will be used to deploy our business functionalities and to build a reliable and powerful web tier to let users communicate with main server using a standard web browser. \\
 
-\textbf{Testing Tools} In order to achieve all the testing purposes we will use different testing tools:
+\textbf{Testing Tools} In order to achieve all the testing purposes we recommend to use different testing tools:
 \begin{itemize}
-\item{} For unit testing of each component we will use \textit{JUnit} framework. It’s a good framework offered by Oracle itself so it’s well test and supported. It can test each functionality of component into an isolated environment. It can be used also to test some little interaction between components.
-\item{}\textit{Mockito} tool will be used as it is a No expect-run-verify technique. Mockito is a mocking framework that tastes really good. It lets you write beautiful tests with a clean and simple API. Mockito doesn’t give you hangover because the tests are very readable and they produce clean verification errors.
-\item{} \textit{Arquillian} tools may be used during integration testing: it offers different features that tests very well Java Enterprise components and containers. It also provides features for debugging servers functionalities.
-\item{} \textit{Grinder} software may be used to make load tests onWeb Server.
+\item{} For unit testing of each component can be used \textit{JUnit} framework. It’s a good framework since it is well tested and supported. It can test each functionality of component into an isolated environment, and can be used also to test some little interaction between components.
+\item{}\textit{Mockito} tool is suggested as it is a No expect-run-verify technique. It is another well known and highly used framework, in which the produced tests are very readable.
+\item{} \textit{Grinder} software may be used to make load tests on Web Server.
 \item{} \textit{HammerDB} may be used to test functionalities and performance of Database server.
 \end{itemize}
 
-
 \section{Implementation Strategy}
 Implementation process will follow the bottom-up strategy: we plan to implement first single component isolated. Once at least 60\% of a component will be developed, its unit testing phase can start.\\
+
 Using \textit{Drivers} for tests allows different developer teams to complete its own work. Using this method we can be sure that component will be more reliable, so it will be more easy to reuse them into different part of the system.\\
 
 The implementation of the \textit{TrackMe} system will be done module by module and component by component. The order in which it is carried out depends on a number of factors like the complexity of the modules and services, the dependence of other modules on the component being implemented and to the system as a whole, and it should also take into account the possibility of discovering flaws with the proposed design. The later should be dealt in a way that, if such an unfortunate event does	happen, the flaws should be found and corrected as soon as possible, to limit the cost of the change of design. Identify here the order in which system plan to implement the subcomponents of your system and the order in which system plan to integrate such subcomponents and test the integration.\\
