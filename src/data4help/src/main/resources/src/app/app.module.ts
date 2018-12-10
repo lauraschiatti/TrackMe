@@ -12,6 +12,7 @@ import { RegisterComponent } from './register/register.component';
 import { Data4helpComponent } from './data4help/data4help.component';
 import { AutomatedSOSComponent } from './automated-sos/automated-sos.component';
 import { Track4runComponent } from './track4run/track4run.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { Track4runComponent } from './track4run/track4run.component';
     Data4helpComponent,
     AutomatedSOSComponent,
     Track4runComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
