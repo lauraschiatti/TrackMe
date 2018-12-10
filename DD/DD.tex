@@ -1043,7 +1043,7 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	
 	\subsection{Track4Run sequence diagrams}
 	
-	In the Figure \ref{fig:t4r_seq_signup} the signup process is shown. It can be seen the Signup component, which is responsible of getting the Participant's information, and with the help of the DBManager component, save it into the data base. The AuthenticationManager component is responsible of create the access token for the session. Finally, the Signup component sends a message to the Request component which, asynchronously,  sends a request for accessing the individual's information to D4H. The process ends when the GUI redirects the new user to its dashboard.\\
+	In the Figure \ref{fig:t4r_seq_signup} the signup process is shown. It can be seen the Signup component, which is responsible of getting the Participant's information, and with the help of the DBManager component, save it into the database. The AuthenticationManager component is responsible of create the access token for the session. Finally, the Signup component sends a message to the Request component which, asynchronously,  sends a request for accessing the individual's information to D4H. The process ends when the GUI redirects the new user to its dashboard.\\
 	
 	It worth mentioning, that the Organizer signup process is similar to the signup process of the Participant. The only difference is that, in the case of the Organizer, the Signup component does not send a message to the Request component.\\
 	\begin{figure}[H]
@@ -1063,7 +1063,7 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\label{fig:t4r_seq_login}
 	\end{figure}
 	
-	In the Figure \ref{fig:t4r_seq_create_run} the create a run process is shown. This process involves the Organizer, who should send the startDate, endDate and name for the event. These parameters will be handled by the Event component, which will save the new event in the data base with the help of DBManager component. Moreover, the Organizer can add the coordinates for the running circuit by updating the previously create event. After this step, the GUI will show the possible participants to invite, and the Organizer can skip this, or choose and send the invitations to selected participants. In that case, and after choosing which participants will receive an invite, the GUI will send a message to the Notification component, which will add the notifications into the data base. This final process is asynchronous.\\
+	In the Figure \ref{fig:t4r_seq_create_run} the create a run process is shown. This process involves the Organizer, who should send the startDate, endDate and name for the event. These parameters will be handled by the Event component, which will save the new event in the database with the help of DBManager component. Moreover, the Organizer can add the coordinates for the running circuit by updating the previously create event. After this step, the GUI will show the possible participants to invite, and the Organizer can skip this, or choose and send the invitations to selected participants. In that case, and after choosing which participants will receive an invite, the GUI will send a message to the Notification component, which will add the notifications into the database. This final process is asynchronous.\\
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/t4r_create_run.png}
@@ -1082,9 +1082,9 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	\end{figure}	
 	
 	\subsection{AutomatedSOS sequence diagrams}
-	Since ASOS is an event-based service, it does not provide a GUI. That is why the main "actor" is Data4Help, which is the boundary of a different service. In the Figure \ref{fig:asos_seq_get_notification} the \textit{Get Request Notification} use case is shown. As mentioned before, the component that initiates the process is Data4Help, which sends a message every time an Individual accepts or rejects the ASOS request. If the individual has accepted the Request, the DataHandler component will update the information of the Individual in the data base, and will assign an Emergency Contact based on its Address.\\
+	Since ASOS is an event-based service, it does not provide a GUI. That is why the main "actor" is Data4Help, which is the boundary of a different service. In the Figure \ref{fig:asos_seq_get_notification} the \textit{Get Request Notification} use case is shown. As mentioned before, the component that initiates the process is Data4Help, which sends a message every time an Individual accepts or rejects the ASOS request. If the individual has accepted the Request, the DataHandler component will update the information of the Individual in the database, and will assign an Emergency Contact based on its Address.\\
 	
-	On the other hand, if the Individual has rejected the Request, DataHandler component will remove it from the data base.
+	On the other hand, if the Individual has rejected the Request, DataHandler component will remove it from the database.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/asos_get_individual_notification.png}
@@ -1092,7 +1092,7 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\label{fig:asos_seq_get_notification}
 	\end{figure}
 	
-	Finally, the core functionality of ASOS is shown in the Figure \ref{fig:asos_seq_receive_data}. It can be seen that, as before, the "actor" that initiates the process is Data4Help service, which sends the Individual information. This message is handled by DataHandler component, which will compare the information with the previously defined Thresholds. If the Data is out of range, the DataHandler will send a message to the HealthCareConnector component in order notify the Emergency Contact assigned for the Individual. The HealthCareConnector component is responsible of getting the assigned Emergency Contact information from the data base, and send the Alert to the EmergencyService. It worth mentioning that the notification to the health-care service is done asynchronously. On the other hand, if the Data is \textit{\textbf{not}} out of range, the system will do nothing.
+	Finally, the core functionality of ASOS is shown in the Figure \ref{fig:asos_seq_receive_data}. It can be seen that, as before, the "actor" that initiates the process is Data4Help service, which sends the Individual information. This message is handled by DataHandler component, which will compare the information with the previously defined Thresholds. If the Data is out of range, the DataHandler will send a message to the HealthCareConnector component in order notify the Emergency Contact assigned for the Individual. The HealthCareConnector component is responsible of getting the assigned Emergency Contact information from the database, and send the Alert to the EmergencyService. It worth mentioning that the notification to the health-care service is done asynchronously. On the other hand, if the Data is \textit{\textbf{not}} out of range, the system will do nothing.
 	
 	\begin{figure}[H]
 		\centering
@@ -1152,14 +1152,19 @@ Resuming the high level architecture of the system briefly explained on \textit{
 
 	For ASOS, a simple event processing will be implemented, this means that an event immediately triggers an action in the consumer. This is, after receiving  Individuals' data, and based on the defined thresholds it decides whether to notify or not their associated health care services. 
 	
-
 	\section{Other design decisions}
-	TrackMe is an application that combines different services for using data and constantly validates data against the pre-defined thresholds in order to guarantee a response time in case of emergency to the location. For this reason, external services are being used.\\\\
-The application primarily needs and integration with a map service. The best option will be chosen depending on the city for which the run is taken place, is being developed. One of the options is using Google Maps as it also helps with route and location.\\\\
-Moreover, Data4Help services are the key part of the   application. That is why all the services that are offering APIs will be integrated in the application. The services also depend on the location, but they will be integrated in the same way, using their APIs.
+	In the following section a list of suggested development frameworks and technologies	are listed. The 3 systems, are designed to be highly decoupled so it is not necessary to develop them with the same technologies, even though it is recommended. Further details will be given in future documents.\\
+	
+	To begin with, it is suggested to build Java based applications, since developers have expertise working with this language. Moreover, it is proposed to use \textbf{Java Spark Framework}, which is a micro-framework for MVC applications, because pure Java web development has traditionally been very cumbersome. The configuration for this framework is minimal and with a short learning curve. \\
+	
+	Furthermore, for database management a suggestion is to use \textbf{Morphia} which is a highly active project to connect with MongoDB. Also, it is simple, straightforward to use, it supports type conversion and uses MongoDB aggregation framework. While for the Redis database, it is recommended to use \textbf{Lettuce}, which is a fully non-blocking Redis client, that provides reactive, asynchronous and synchronous data access. It has also, a highly active community and a very well written documentation.\\
+	
+	Besides, for the front-end development, it is suggested to use the last release of \textbf{Angular} (version 7.x), which is a very well known and widely used framework developed by Google. It is suggested to use Google Maps platform for displaying the running circuit and the participants in the T4R web-site.\\
+	
+	Finally, the only external APIs to whom TrackMe environment depends on, are the health-care services to which ASOS should contact in some cases. Both D4H and T4R do not depend on any external services.
 	
 	\chapter{User interface design}
-	The following mock-ups represent a basic idea of what the web application will look like after the first release.
+	The following mock-ups represent a basic idea of what the web application will look like after the first release.\\
 	As when new customers visits the home page of TrackMe, they can read about the work that the company does, what services it offers, what benefits users can achieve by joining the community. In addition, they can buy the wearables and get more information, how to use them, what is TrackMe, more details about D4H, ASOS and T4R is provided here. The full home page can be seen in Figure \ref{fig:Home_Page}. \\\\
 	Moreover, in the Figure \ref{fig:Data4Help Information Page} and Figure \ref{fig:ASOS Information Page} can be seen the information page for D4H and ASOS respectively.
 	
@@ -1477,32 +1482,32 @@ and the synchronization of Data with threshold values when user's data is out of
 			& \textbf{Task} & \textbf{Hours}
 			& \textbf{Task} & \textbf{Hours} \\ [0.5ex]
 			\hline
-			Component view &  8
+			Component view &  10
 			& Scope & 2
 			& Purpose & 2  \\
 			\hline
-			Component interfaces &  10
-			& Database view & 4
+			Component interfaces &  13
+			& Database view & 5
 			& UI design & 15  \\
 			\hline
 			Deployment view &  5
-			& Runtime view & 6
+			& Runtime view & 8
 			& I and T plan & 6  \\
 			\hline
 			Runtime view  &  4
 			& R traceability & 3
 			& Design decisions & 2 \\
 			\hline
-			 &  
+			Corrections & 3  
 			& Final user interfaces & 6
 			& &   \\
 			\hline 
 			&  
-			& Architectural styles & 2
+			& Architectural styles & 3
 			& &   \\
 			\hline
-			\textbf{Total} & 27
-			& \textbf{Total} & 23
+			\textbf{Total} & 35
+			& \textbf{Total} & 27
 			& \textbf{Total} & 25  \\
 			\hline
 		\end{tabular}
@@ -1519,6 +1524,12 @@ and the synchronization of Data with threshold values when user's data is out of
 		\item IEEE. (1993). IEEE Recommended Practice for Software Requirements Specifications (IEEE 830-1993).
 		\\Retrieved from https://standards.ieee.org/standard/830-1993.html
 		\item Sloane, A. M. (2009). Software Abstractions: Logic, Language, and Analysis by Jackson Daniel, The MIT Press, 2006, 366pp, ISBN 978-0262101141.
+		\item{Spark. A Micro Framework For Creating Web Applications - http://sparkjava.com/}
+		\item{Morphia - http://morphiaorg.github.io/morphia/}
+		\item{Lettuce - https://lettuce.io/}
+		\item{Angular - https://angular.io/}
+		\item{Google Maps Platform - https://cloud.google.com/maps-platform/}
+		
 	\end{itemize}
 	
 \end{document}
