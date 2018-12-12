@@ -15,6 +15,11 @@ public class ThirdParty extends D4HUser {
     @Embedded
     private TPConfiguration config;
 
+    @Override
+    public UserRole getRole() {
+        return UserRole.THIRD_PARTY;
+    }
+
     public String getCertificate() {
         return certificate;
     }

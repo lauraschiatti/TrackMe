@@ -49,7 +49,7 @@ public class LoginService extends Service {
 
         if(user != null){
             UserWebAuth uAuth = authManager.setUserAccessToken(user);
-            return new LoginResponse(uAuth.getUserId(), uAuth.getAccessToken());
+            return new LoginResponse(uAuth.getUserId(), uAuth.getAccessToken(), user.getRole());
         }
 
         throw new TrackMeException(TrackMeError.NOT_VALID_EMAIL_OR_PASSWORD);

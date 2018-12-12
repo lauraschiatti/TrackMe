@@ -25,6 +25,11 @@ public class Individual extends D4HUser {
     @Embedded
     private Data data;
 
+    @Override
+    public UserRole getRole() {
+        return UserRole.INDIVIDUAL;
+    }
+
     public String getName() {
         return name;
     }

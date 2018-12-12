@@ -17,7 +17,7 @@ import avila.schiatti.virdi.service.request.IndividualSignupRequestForTest;
 import avila.schiatti.virdi.service.request.ThirdPartySignupRequest;
 import avila.schiatti.virdi.service.response.ErrorResponse;
 import avila.schiatti.virdi.service.response.SignupResponse;
-import avila.schiatti.virdi.utils.LocalDateAdapter;
+import avila.schiatti.virdi.utils.adapter.LocalDateAdapter;
 import avila.schiatti.virdi.utils.Mapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

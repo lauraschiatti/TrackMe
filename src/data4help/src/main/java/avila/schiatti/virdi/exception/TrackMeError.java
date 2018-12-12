@@ -5,6 +5,7 @@ public enum TrackMeError {
     NOT_VALID_USER(40001, "The provided user id is not valid or null"),
     NOT_VALID_SIGNUP_REQUEST(40002, "The provided fields for signup are not valid."),
     VALIDATION_ERROR(40002, "The following error has occurred: %s"),
+    NOT_VALID_REQUEST_ID(40003, "The provided request id is not valid"),
 
     // FORBIDDEN
     NOT_VALID_TOKEN(40301, "The provided token does not exist"),

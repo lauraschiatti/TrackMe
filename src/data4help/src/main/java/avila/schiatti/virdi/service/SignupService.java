@@ -6,10 +6,7 @@ import avila.schiatti.virdi.exception.ValidationError;
 import avila.schiatti.virdi.exception.ValidationException;
 import avila.schiatti.virdi.model.data.Address;
 import avila.schiatti.virdi.model.data.Data;
-import avila.schiatti.virdi.model.user.D4HUser;
-import avila.schiatti.virdi.model.user.Individual;
-import avila.schiatti.virdi.model.user.TPConfiguration;
-import avila.schiatti.virdi.model.user.ThirdParty;
+import avila.schiatti.virdi.model.user.*;
 import avila.schiatti.virdi.resource.UserResource;
 import avila.schiatti.virdi.service.authentication.AuthenticationManager;
 import avila.schiatti.virdi.service.authentication.ThirdPartyApiAuth;
@@ -64,7 +61,7 @@ public class SignupService extends Service {
             UserWebAuth auth = createAndAuthenticateUser(individual);
 
             // getInstance the SignupResponse
-            return createSignupResponse(auth);
+            return createSignupResponse(auth, individual.getRole());
         } catch(ValidationException validationEx){
             String msg = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), validationEx.getMessage());
             throw new TrackMeException(TrackMeError.VALIDATION_ERROR, msg);
@@ -86,18 +83,19 @@ public class SignupService extends Service {
             UserWebAuth auth = createAndAuthenticateUser(thirdParty);
 
             // getInstance the SignupResponse.
-            return createSignupResponse(auth);
+            return createSignupResponse(auth, thirdParty.getRole());
         } catch(ValidationException validationEx){
             String msg = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), validationEx.getMessage());
             throw new TrackMeException(TrackMeError.VALIDATION_ERROR, msg);
         }
     }
 
-    private SignupResponse createSignupResponse(UserWebAuth auth) {
+    private SignupResponse createSignupResponse(UserWebAuth auth, UserRole role) {
         // getInstance the SignupResponse
         SignupResponse response = new SignupResponse();
         response.setUserId(auth.getUserId());
         response.setAccessToken(auth.getAccessToken());
+        response.setRole(role);
 
         // return the SignupResponse
         return response;

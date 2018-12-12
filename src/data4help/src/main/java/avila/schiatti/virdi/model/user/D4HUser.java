@@ -35,4 +35,6 @@ public abstract class D4HUser{
     public void setId(ObjectId id) {
         this.id = id;
     }
+
+    public abstract UserRole getRole();
 }

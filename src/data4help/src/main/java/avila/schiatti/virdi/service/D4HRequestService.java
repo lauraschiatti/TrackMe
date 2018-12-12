@@ -6,21 +6,24 @@ import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.exception.ValidationException;
 import avila.schiatti.virdi.model.request.D4HRequest;
 import avila.schiatti.virdi.model.request.D4HRequestStatus;
+import avila.schiatti.virdi.model.subscription.D4HQuery;
+import avila.schiatti.virdi.model.subscription.Subscription;
 import avila.schiatti.virdi.model.user.Individual;
 import avila.schiatti.virdi.model.user.ThirdParty;
 import avila.schiatti.virdi.resource.D4HRequestResource;
 import avila.schiatti.virdi.resource.SubscriptionResource;
 import avila.schiatti.virdi.resource.UserResource;
-import avila.schiatti.virdi.service.request.D4HRRequest;
-import avila.schiatti.virdi.service.response.D4HRResponse;
+import avila.schiatti.virdi.service.request.D4HReqRequest;
+import avila.schiatti.virdi.service.response.D4HReqResponse;
+import avila.schiatti.virdi.service.response.ResponseWrapper;
 import avila.schiatti.virdi.utils.Validator;
 import spark.Request;
 import spark.Response;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
+import static spark.Spark.*;
 
 public class D4HRequestService extends Service {
 
@@ -52,28 +55,106 @@ public class D4HRequestService extends Service {
 
     @Override
     public void setupWebEndpoints() {
-        get("/request", this::getAllRequests, jsonTransformer::toJson);
+        get("/requests", this::getAllRequests, jsonTransformer::toJson);
+
+        patch("/requests/:id", this::updateRequestStatus, jsonTransformer::toJson);
     }
 
-    private Collection<D4HRequest> getAllRequests(Request request, Response response) {
+    private ResponseWrapper<D4HReqResponse> updateRequestStatus(Request request, Response response) {
+        D4HReqRequest body = jsonTransformer.fromJson(request.body(), D4HReqRequest.class);
+        String userId = request.headers(Data4HelpApp.USER_ID);
+        String rid = request.params(":id");
+
+        D4HRequest req = requestResource.getById(rid);
+
+        // if the request is not found
+        if(req == null){
+            throw new TrackMeException(TrackMeError.NOT_VALID_REQUEST_ID);
+        }
+        // if the individual of the request does not belong to the logged in user
+        if(!req.getIndividual().getId().toString().equals(userId)){
+            throw new TrackMeException(TrackMeError.NOT_VALID_USER);
+        }
+
+        if(D4HRequestStatus.APPROVED.equals(body.getStatus())) {
+            requestResource.accept(req);
+            // If the user accepts the request, we should create a subscription.
+            Subscription subscription = createSubscription(req.getIndividual(), req.getThirdParty());
+            subscriptionResource.add(subscription);
+        } else{
+            // TODO should I remove the subscription when I reject the Request??
+            requestResource.reject(req);
+        }
+
+        return new ResponseWrapper<>(new D4HReqResponse(req));
+    }
+
+    private ResponseWrapper<Collection<D4HReqResponse>> getAllRequests(Request request, Response response) {
         D4HRequestStatus status = D4HRequestStatus.fromString(request.queryParams("status"));
         String userId = request.headers(Data4HelpApp.USER_ID);
 
+        Collection<D4HRequest> requests;
         if(status == null){
-            return requestResource.getByUserId(userId);
+            requests = requestResource.getByUserId(userId);
+        } else{
+            requests = requestResource.getByUserId(userId, status);
         }
 
-        return requestResource.getByUserId(userId, status);
+        return new ResponseWrapper<>(transformCollection(requests));
+    }
+
+    private Collection<D4HReqResponse> transformCollection(Collection<D4HRequest> requests) {
+        ArrayList<D4HReqResponse> list = new ArrayList<>();
+
+        requests.forEach((r) -> {
+            D4HReqResponse res = new D4HReqResponse(r);
+            list.add(res);
+        });
+
+        return list;
+    }
+
+    private Subscription createSubscription(Individual individual, ThirdParty thirdParty) {
+        Subscription subscription = new Subscription();
+        D4HQuery filter = new D4HQuery();
+        filter.setIndividual(individual);
+
+        subscription.setFilter(filter);
+        subscription.setThirdParty(thirdParty);
+
+        return subscription;
     }
 
     @Override
     public void setupApiEndpoints() {
-        post("/request", this::createRequest, jsonTransformer::toJson);
+        post("/requests", this::createRequest, jsonTransformer::toJson);
+
+        delete("/requests/:id", this::deleteRequest, jsonTransformer::toJson);
     }
 
-    private D4HRResponse createRequest(Request request, Response response) {
+    private ResponseWrapper<String> deleteRequest(Request request, Response response) {
+        String rid = request.params(":id");
+        String secret = request.headers(Data4HelpApp.SECRET_KEY);
+        ThirdParty tp = userResource.getThirdPartyBySecretKey(secret);
+
+        D4HRequest req = requestResource.getById(rid);
+
+        // if the request is not found
+        if(req == null){
+            throw new TrackMeException(TrackMeError.NOT_VALID_REQUEST_ID);
+        }
+        // if the individual of the request does not belong to the logged in user
+        if(!req.getThirdParty().getId().equals(tp.getId())){
+            throw new TrackMeException(TrackMeError.NOT_VALID_SECRET_KEY);
+        }
+
+        requestResource.removeById(rid);
+        return new ResponseWrapper<>(rid);
+    }
+
+    private ResponseWrapper<D4HReqResponse> createRequest(Request request, Response response) {
         try {
-            D4HRRequest body = jsonTransformer.fromJson(request.body(), D4HRRequest.class);
+            D4HReqRequest body = jsonTransformer.fromJson(request.body(), D4HReqRequest.class);
             String secret = request.headers(Data4HelpApp.SECRET_KEY);
 
             Validator.isNullOrEmpty(body.getSsn(), "SSN");
@@ -88,11 +169,9 @@ public class D4HRequestService extends Service {
 
             requestResource.add(d4HRequest);
 
-            D4HRResponse res = new D4HRResponse();
-            res.setId(d4HRequest.getId().toString());
-            res.setSsn(i.getSsn());
+            D4HReqResponse res = new D4HReqResponse(d4HRequest);
 
-            return res;
+            return new ResponseWrapper<>(res);
 
         }catch(ValidationException vex){
             String msg = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), vex.getMessage());

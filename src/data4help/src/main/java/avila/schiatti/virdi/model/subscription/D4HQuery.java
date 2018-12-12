@@ -2,11 +2,14 @@ package avila.schiatti.virdi.model.subscription;
 
 import avila.schiatti.virdi.model.data.BloodType;
 import avila.schiatti.virdi.model.data.Gender;
-import xyz.morphia.annotations.Embedded;
+import avila.schiatti.virdi.model.user.Individual;
+import xyz.morphia.annotations.*;
 
 @Embedded
+@Indexes(@Index(fields = { @Field("individual") }))
 public class D4HQuery {
-    private String ssn;
+    @Reference(idOnly = true)
+    private Individual individual;
     private String country;
     private String city;
     private String province;
@@ -18,12 +21,12 @@ public class D4HQuery {
     @Embedded
     private BloodType bloodType;
 
-    public String getSsn() {
-        return ssn;
+    public Individual getIndividual() {
+        return individual;
     }
 
-    public void setSsn(String ssn) {
-        this.ssn = ssn;
+    public void setIndividual(Individual individual) {
+        this.individual = individual;
     }
 
     public String getCountry() {
