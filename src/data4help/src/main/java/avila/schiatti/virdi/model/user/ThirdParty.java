@@ -40,6 +40,10 @@ public class ThirdParty extends D4HUser {
     }
 
     public TPConfiguration getConfig() {
+        if(config == null){
+            config = new TPConfiguration();
+        }
+
         return config;
     }
 

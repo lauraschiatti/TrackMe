@@ -2,12 +2,10 @@ package avila.schiatti.virdi.model.subscription;
 
 import avila.schiatti.virdi.model.user.ThirdParty;
 import org.bson.types.ObjectId;
-import xyz.morphia.annotations.Embedded;
-import xyz.morphia.annotations.Entity;
-import xyz.morphia.annotations.Id;
-import xyz.morphia.annotations.Reference;
+import xyz.morphia.annotations.*;
 
 @Entity("subscription")
+@Indexes(@Index(fields = { @Field("thirdParty") }))
 public class Subscription {
     @Id
     private ObjectId id;

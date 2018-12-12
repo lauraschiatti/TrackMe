@@ -23,14 +23,17 @@ import spark.Response;
 
 import java.time.LocalDateTime;
 
-import static spark.Spark.*;
+import static spark.Spark.post;
 
 public class SignupService extends Service {
 
-    private UserResource userResource = UserResource.create();
-    private AuthenticationManager authManager = AuthenticationManager.getInstance();
+    private UserResource userResource;
+    private AuthenticationManager authManager;
 
-    public SignupService(){}
+    private SignupService(){
+        userResource = UserResource.create();
+        authManager = AuthenticationManager.getInstance();
+    }
 
     /**
      * Only for testing.
@@ -63,8 +66,8 @@ public class SignupService extends Service {
             // getInstance the SignupResponse
             return createSignupResponse(auth);
         } catch(ValidationException validationEx){
-            String msg = String.format(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION.getMessage(), validationEx.getMessage());
-            throw new TrackMeException(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION, msg);
+            String msg = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), validationEx.getMessage());
+            throw new TrackMeException(TrackMeError.VALIDATION_ERROR, msg);
         }
     }
 
@@ -85,8 +88,8 @@ public class SignupService extends Service {
             // getInstance the SignupResponse.
             return createSignupResponse(auth);
         } catch(ValidationException validationEx){
-            String msg = String.format(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION.getMessage(), validationEx.getMessage());
-            throw new TrackMeException(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION, msg);
+            String msg = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), validationEx.getMessage());
+            throw new TrackMeException(TrackMeError.VALIDATION_ERROR, msg);
         }
     }
 

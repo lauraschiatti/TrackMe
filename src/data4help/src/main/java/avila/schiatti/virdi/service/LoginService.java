@@ -1,19 +1,19 @@
 package avila.schiatti.virdi.service;
 
+import avila.schiatti.virdi.Data4HelpApp;
 import avila.schiatti.virdi.exception.TrackMeError;
 import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.model.user.D4HUser;
-import avila.schiatti.virdi.service.request.LoginRequest;
-import avila.schiatti.virdi.service.request.LogoutRequest;
 import avila.schiatti.virdi.resource.UserResource;
+import avila.schiatti.virdi.service.authentication.AuthenticationManager;
+import avila.schiatti.virdi.service.authentication.UserWebAuth;
+import avila.schiatti.virdi.service.request.LoginRequest;
 import avila.schiatti.virdi.service.response.LoginResponse;
-import avila.schiatti.virdi.service.authentication.*;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
 import spark.Response;
-import sun.rmi.runtime.Log;
 
-import static spark.Spark.*;
+import static spark.Spark.post;
 
 public class LoginService extends Service {
     private UserResource userResource;
@@ -56,9 +56,9 @@ public class LoginService extends Service {
     }
 
     private String logout(Request request, Response response) {
-        LogoutRequest body = jsonTransformer.fromJson(request.body(), LogoutRequest.class);
+        String accessToken = request.headers(Data4HelpApp.ACCESS_TOKEN);
 
-        authManager.deleteAccessToken(body.getAccessToken());
+        authManager.deleteAccessToken(accessToken);
 
         response.status(HttpStatus.OK_200);
         return "";

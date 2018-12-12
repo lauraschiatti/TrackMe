@@ -1,10 +1,10 @@
 package avila.schiatti.virdi.model.user;
 
 import org.bson.types.ObjectId;
-import xyz.morphia.annotations.Entity;
-import xyz.morphia.annotations.Id;
+import xyz.morphia.annotations.*;
 
 @Entity("user")
+@Indexes(@Index(fields = @Field("email"), options = @IndexOptions(unique = true)))
 public abstract class D4HUser{
     @Id
     private ObjectId id;

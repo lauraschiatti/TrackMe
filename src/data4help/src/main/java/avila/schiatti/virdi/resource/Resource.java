@@ -2,7 +2,6 @@ package avila.schiatti.virdi.resource;
 
 import avila.schiatti.virdi.database.DBManager;
 import org.bson.types.ObjectId;
-import org.jetbrains.annotations.TestOnly;
 import xyz.morphia.Datastore;
 
 import java.util.Collection;
@@ -10,21 +9,25 @@ import java.util.Collection;
 abstract class Resource<T>  {
 
     private DBManager dbManager;
+    protected Datastore datastore;
 
     /**
      * Only for test constructor
      * @param dbManager
+     * @param datastore
      */
-    Resource(DBManager dbManager){
+    Resource(DBManager dbManager, Datastore datastore){
         this.dbManager = dbManager;
+        this.datastore = datastore;
     }
 
     Resource() {
         this.dbManager = DBManager.getInstance();
+        this.datastore = dbManager.getDatastore();
     }
 
-    public Datastore getDatastore() {
-        return dbManager.getDatastore();
+    public Datastore getDatastore(){
+        return datastore;
     }
 
     Collection<T> getAll(){

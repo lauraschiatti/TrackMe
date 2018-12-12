@@ -1,7 +1,7 @@
 package avila.schiatti.virdi.model.subscription;
 
-import avila.schiatti.virdi.model.data.Gender;
 import avila.schiatti.virdi.model.data.BloodType;
+import avila.schiatti.virdi.model.data.Gender;
 import xyz.morphia.annotations.Embedded;
 
 @Embedded
@@ -12,6 +12,8 @@ public class D4HQuery {
     private String province;
     @Embedded
     private Gender gender;
+    @Embedded
+    private Comparison ageComparison;
     private Integer age;
     @Embedded
     private BloodType bloodType;

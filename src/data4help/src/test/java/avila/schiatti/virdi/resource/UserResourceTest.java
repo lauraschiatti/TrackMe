@@ -18,7 +18,7 @@ import xyz.morphia.query.Query;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 public class UserResourceTest {
     private final static String MODELS_PACKAGE = "avila.schiatti.virdi.model";
@@ -47,9 +47,8 @@ public class UserResourceTest {
     @BeforeAll
     public static void before() {
         DBManager dbManager = mock(DBManager.class);
-        resource = new UserResource(dbManager);
         datastore = createDatastore();
-        when(resource.getDatastore()).thenReturn(datastore);
+        resource = new UserResource(dbManager, datastore);
     }
 
     @AfterEach

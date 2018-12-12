@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
-import static spark.Spark.*;
+import static spark.Spark.path;
 
 public class RouteConfig {
     private Logger logger = LoggerFactory.getLogger(RouteConfig.class);

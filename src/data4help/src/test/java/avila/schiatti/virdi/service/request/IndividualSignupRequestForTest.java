@@ -1,29 +1,36 @@
-package avila.schiatti.virdi.model.user;
+package avila.schiatti.virdi.service.request;
 
 import avila.schiatti.virdi.model.data.Address;
 import avila.schiatti.virdi.model.data.BloodType;
-import avila.schiatti.virdi.model.data.Data;
 import avila.schiatti.virdi.model.data.Gender;
-import xyz.morphia.annotations.Embedded;
-import xyz.morphia.annotations.Entity;
-import xyz.morphia.annotations.Reference;
 
 import java.time.LocalDate;
 
-@Entity("user")
-public class Individual extends D4HUser {
+public class IndividualSignupRequestForTest {
+    private String email;
+    private String password;
     private String name;
     private String ssn;
-    private LocalDate birthDate;
-    @Embedded
+    private String birthDate;
     private Gender gender;
-    @Embedded
     private Address address;
-    @Embedded
     private BloodType bloodType;
-    @Reference(idOnly = true)
-    @Embedded
-    private Data data;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getName() {
         return name;
@@ -41,12 +48,12 @@ public class Individual extends D4HUser {
         this.ssn = ssn;
     }
 
-    public LocalDate getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
     public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
+        this.birthDate = birthDate.toString();
     }
 
     public Gender getGender() {
@@ -71,17 +78,5 @@ public class Individual extends D4HUser {
 
     public void setBloodType(BloodType bloodType) {
         this.bloodType = bloodType;
-    }
-
-    public Data getData() {
-        return data;
-    }
-
-    public void setData(Data data) {
-        this.data = data;
-    }
-
-    public Boolean hasSsn(){
-        return ssn != null;
     }
 }

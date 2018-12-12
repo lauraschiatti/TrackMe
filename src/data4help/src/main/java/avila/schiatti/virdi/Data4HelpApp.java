@@ -14,6 +14,11 @@ import static spark.Spark.*;
 public class Data4HelpApp implements SparkApplication {
     private final static String STATUS_URL = "/status";
     private static final String APPLICATION_JSON = "application/json";
+    public static final String ACCESS_TOKEN = "ACCESS-TOKEN";
+    public static final String USER_ID = "USER_ID";
+    public static final String SECRET_KEY = "SECRET_KEY";
+    public static final String APP_ID = "APP_ID";
+    public static final String QUERY_PARAM_APP_ID = "app_id";
 
     private static AuthenticationManager authenticationManager;
     private static final RouteConfig routes = RouteConfig.getInstance();
@@ -70,8 +75,8 @@ public class Data4HelpApp implements SparkApplication {
         // everything done from the front-end should pass through WEB endpoint
         before("/web/*", (req, res) -> {
             String path = req.pathInfo();
-            String accessToken = req.headers("ACCESS-TOKEN");
-            String userId = req.headers("USER_ID");
+            String accessToken = req.headers(ACCESS_TOKEN);
+            String userId = req.headers(USER_ID);
 
             // TODO: improve this if.
             if(path.contains("login") == Boolean.FALSE && path.contains("signup") == Boolean.FALSE) {
@@ -81,9 +86,9 @@ public class Data4HelpApp implements SparkApplication {
 
         // ONLY third party companies has access to the API endpoints
         before("/api/*", (req, res) -> {
-            String secretKey = req.headers("SECRET_KEY");
+            String secretKey = req.headers(SECRET_KEY);
             // APP ID can be sent via query parameters or headers
-            String appId = req.queryParams("app_id") != null ? req.queryParams("app_id") : req.headers("APP_ID");
+            String appId = req.queryParams(QUERY_PARAM_APP_ID) != null ? req.queryParams(QUERY_PARAM_APP_ID) : req.headers(APP_ID);
 
             authenticationManager.validateSecretKey(appId, secretKey);
         });

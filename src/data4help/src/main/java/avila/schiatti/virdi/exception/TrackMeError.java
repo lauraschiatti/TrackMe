@@ -1,12 +1,10 @@
 package avila.schiatti.virdi.exception;
 
-import org.eclipse.jetty.http.HttpStatus;
-
 public enum TrackMeError {
     // BAD REQUEST 400
     NOT_VALID_USER(40001, "The provided user id is not valid or null"),
     NOT_VALID_SIGNUP_REQUEST(40002, "The provided fields for signup are not valid."),
-    NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION(40002, "The following error has occurred: %s"),
+    VALIDATION_ERROR(40002, "The following error has occurred: %s"),
 
     // FORBIDDEN
     NOT_VALID_TOKEN(40301, "The provided token does not exist"),

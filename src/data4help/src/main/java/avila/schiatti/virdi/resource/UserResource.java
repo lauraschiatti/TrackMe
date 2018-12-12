@@ -2,20 +2,19 @@ package avila.schiatti.virdi.resource;
 
 import avila.schiatti.virdi.database.DBManager;
 import avila.schiatti.virdi.model.user.D4HUser;
-import org.bson.types.ObjectId;
-import org.jetbrains.annotations.TestOnly;
-import xyz.morphia.Key;
-
-import java.util.Collection;
+import avila.schiatti.virdi.model.user.Individual;
+import avila.schiatti.virdi.model.user.ThirdParty;
+import xyz.morphia.Datastore;
 
 public class UserResource extends Resource<D4HUser> {
 
     /**
      * Only for testing method
      * @param dbManager
+     * @param datastore
      */
-    public UserResource(DBManager dbManager){
-        super(dbManager);
+    public UserResource(DBManager dbManager, Datastore datastore){
+        super(dbManager, datastore);
     }
 
     private UserResource(){
@@ -27,7 +26,7 @@ public class UserResource extends Resource<D4HUser> {
     }
 
     public D4HUser getByEmailAndPass(String email, String password){
-        return this.getDatastore()
+        return this.datastore
                 .find(D4HUser.class)
                 .field("email")
                 .equal(email)
@@ -38,6 +37,20 @@ public class UserResource extends Resource<D4HUser> {
 
     @Override
     public void add(D4HUser o) {
-        this.getDatastore().save(o);
+        this.datastore.save(o);
+    }
+
+    public ThirdParty getThirdPartyBySecretKey(String secretKey){
+        return this.datastore.find(ThirdParty.class)
+                .field("secretKey")
+                .equal(secretKey)
+                .get();
+    }
+
+    public Individual getBySSN(String ssn){
+        return this.datastore.find(Individual.class)
+                .field("ssn")
+                .equal(ssn)
+                .get();
     }
 }

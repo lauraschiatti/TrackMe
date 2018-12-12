@@ -13,11 +13,14 @@ import avila.schiatti.virdi.model.user.Individual;
 import avila.schiatti.virdi.model.user.ThirdParty;
 import avila.schiatti.virdi.resource.UserResource;
 import avila.schiatti.virdi.service.authentication.AuthenticationManager;
-import avila.schiatti.virdi.service.request.IndividualSignupRequest;
+import avila.schiatti.virdi.service.request.IndividualSignupRequestForTest;
 import avila.schiatti.virdi.service.request.ThirdPartySignupRequest;
 import avila.schiatti.virdi.service.response.ErrorResponse;
 import avila.schiatti.virdi.service.response.SignupResponse;
+import avila.schiatti.virdi.utils.LocalDateAdapter;
 import avila.schiatti.virdi.utils.Mapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import io.lettuce.core.RedisClient;
@@ -30,12 +33,11 @@ import xyz.morphia.Datastore;
 import xyz.morphia.Morphia;
 import xyz.morphia.query.Query;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 
 
 public class SignupServiceTest {
@@ -54,7 +56,7 @@ public class SignupServiceTest {
     private static final String INDIVIDUAL_NAME = "John Doe";
     private static final String INDIVIDUAL_EMAIL = "my_personal_email@address.com";
     private static final String PASSWORD = "My Pa22w0rd";
-    private static final LocalDateTime INDIVIDUAL_BIRTHDATE = LocalDateTime.now();
+    private static final LocalDate INDIVIDUAL_BIRTHDATE = LocalDate.now();
     private static final Gender INDIVIDUAL_GENDER = Gender.MALE;
     private static final Address INDIVIDUAL_ADDRESS = new Address();
     private static final BloodType INDIVIDUAL_BLOOD_TYPE = BloodType.A_POSITIVE;
@@ -65,6 +67,12 @@ public class SignupServiceTest {
     private static final String COMPANY_NAME = "my company name inc.";
     private static final String COMPANY_PHONE = "+393332233123";
     private static final String COMPANY_TAX_CODE = "2344COMPANYTAXCODE";
+
+    Gson jsonTransformer = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd")
+            .setPrettyPrinting()
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter())
+            .create();
 
     private static Datastore datastore;
     private static RedisCommands<String, String> commands;
@@ -88,14 +96,13 @@ public class SignupServiceTest {
 
     private static UserResource setupUserResource() {
         DBManager dbManager = mock(DBManager.class);
-        UserResource userResource = new UserResource(dbManager);
         datastore = createDatastore();
-        when(userResource.getDatastore()).thenReturn(datastore);
+        UserResource userResource = new UserResource(dbManager, datastore);
 
         return userResource;
     }
 
-    private <T> T doIndividualSignup(IndividualSignupRequest body, Class<T> clazz) {
+    private <T> T doIndividualSignup(IndividualSignupRequestForTest body, Class<T> clazz) {
         HttpResponse<T> response = Unirest.post(TEST_APP_URL + "/individual/signup").body(body).asObject(clazz);
         return response.getBody();
     }
@@ -136,7 +143,7 @@ public class SignupServiceTest {
     @Test
     @DisplayName("Test /web/individual/signup is ok")
     public void testIndividualSignupOK(){
-        IndividualSignupRequest req = new IndividualSignupRequest();
+        IndividualSignupRequestForTest req = new IndividualSignupRequestForTest();
         req.setAddress(INDIVIDUAL_ADDRESS);
         req.getAddress().setCity("city");
         req.getAddress().setProvince("province");
@@ -211,7 +218,7 @@ public class SignupServiceTest {
     @Test
     @DisplayName("Test /web/individual/signup returns an error when not valid email is passed")
     public void testIfSignupReturnsAnErrorWhenInvalidEmail(){
-        IndividualSignupRequest req = new IndividualSignupRequest();
+        IndividualSignupRequestForTest req = new IndividualSignupRequestForTest();
         req.setAddress(INDIVIDUAL_ADDRESS);
         req.getAddress().setCity("city");
         req.getAddress().setProvince("province");
@@ -232,7 +239,7 @@ public class SignupServiceTest {
             assertNull(i);
 
             // check message
-            String expected = String.format(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION.getMessage(), ValidationError.NOT_VALID_EMAIL.getMessage());
+            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), ValidationError.NOT_VALID_EMAIL.getMessage());
             assertEquals(expected, res.getMessage());
 
         }catch (Exception ex){
@@ -243,7 +250,7 @@ public class SignupServiceTest {
     @Test
     @DisplayName("Test /web/individual/signup returns an error when not valid ssn")
     public void testIfSignupReturnsAnErrorWhenSSNNotPresent(){
-        IndividualSignupRequest req = new IndividualSignupRequest();
+        IndividualSignupRequestForTest req = new IndividualSignupRequestForTest();
         req.setAddress(INDIVIDUAL_ADDRESS);
         req.getAddress().setCity("city");
         req.getAddress().setProvince("province");
@@ -264,7 +271,7 @@ public class SignupServiceTest {
             assertNull(i);
 
             // check message
-            String expected = String.format(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "SSN"));
+            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "SSN"));
             assertEquals(expected, res.getMessage());
 
         }catch (Exception ex){
@@ -275,7 +282,7 @@ public class SignupServiceTest {
     @Test
     @DisplayName("Test /web/individual/signup returns an error when not valid name")
     public void testIfSignupReturnsAnErrorWhenEmptyName(){
-        IndividualSignupRequest req = new IndividualSignupRequest();
+        IndividualSignupRequestForTest req = new IndividualSignupRequestForTest();
         req.setAddress(INDIVIDUAL_ADDRESS);
         req.getAddress().setCity("city");
         req.getAddress().setProvince("province");
@@ -296,7 +303,7 @@ public class SignupServiceTest {
             assertNull(i);
 
             // check message
-            String expected = String.format(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Name"));
+            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Name"));
             assertEquals(expected, res.getMessage());
 
         }catch (Exception ex){
@@ -307,7 +314,7 @@ public class SignupServiceTest {
     @Test
     @DisplayName("Test /web/individual/signup returns an error when empty password")
     public void testIfSignupReturnsAnErrorWhenEmptyPassword(){
-        IndividualSignupRequest req = new IndividualSignupRequest();
+        IndividualSignupRequestForTest req = new IndividualSignupRequestForTest();
         req.setAddress(INDIVIDUAL_ADDRESS);
         req.getAddress().setCity("city");
         req.getAddress().setProvince("province");
@@ -328,7 +335,7 @@ public class SignupServiceTest {
             assertNull(i);
 
             // check message
-            String expected = String.format(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Password"));
+            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Password"));
             assertEquals(expected, res.getMessage());
 
         }catch (Exception ex){
@@ -354,7 +361,7 @@ public class SignupServiceTest {
             assertNull(tp);
 
             // check message
-            String expected = String.format(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION.getMessage(), ValidationError.NOT_VALID_EMAIL.getMessage());
+            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), ValidationError.NOT_VALID_EMAIL.getMessage());
             assertEquals(expected, res.getMessage());
 
         }catch (Exception ex){
@@ -380,7 +387,7 @@ public class SignupServiceTest {
             assertNull(tp);
 
             // check message
-            String expected = String.format(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Business Name"));
+            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Business Name"));
             assertEquals(expected, res.getMessage());
 
         }catch (Exception ex){
@@ -406,7 +413,7 @@ public class SignupServiceTest {
             assertNull(tp);
 
             // check message
-            String expected = String.format(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Password"));
+            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Password"));
             assertEquals(expected, res.getMessage());
 
         }catch (Exception ex){
@@ -432,7 +439,7 @@ public class SignupServiceTest {
             assertNull(tp);
 
             // check message
-            String expected = String.format(TrackMeError.NOT_VALID_SIGNUP_REQUEST_FROM_VALIDATION.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Tax Code"));
+            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Tax Code"));
             assertEquals(expected, res.getMessage());
 
         }catch (Exception ex){

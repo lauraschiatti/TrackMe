@@ -3,13 +3,11 @@ package avila.schiatti.virdi.model.request;
 import avila.schiatti.virdi.model.user.Individual;
 import avila.schiatti.virdi.model.user.ThirdParty;
 import org.bson.types.ObjectId;
-import xyz.morphia.annotations.Embedded;
-import xyz.morphia.annotations.Entity;
-import xyz.morphia.annotations.Id;
-import xyz.morphia.annotations.Reference;
+import xyz.morphia.annotations.*;
 
 @Entity("request")
-public class Request {
+@Indexes(@Index(fields = { @Field("thirdParty"), @Field("individual") }, options = @IndexOptions(unique = true)))
+public class D4HRequest {
     @Id
     private ObjectId id;
 
@@ -18,7 +16,7 @@ public class Request {
     @Reference(idOnly = true)
     private Individual individual;
     @Embedded
-    private RequestStatus status;
+    private D4HRequestStatus status = D4HRequestStatus.PENDING;
 
     public ObjectId getId() {
         return id;
@@ -44,11 +42,14 @@ public class Request {
         this.individual = individual;
     }
 
-    public RequestStatus getStatus() {
+    public D4HRequestStatus getStatus() {
+        if(this.status == null){
+            this.status = D4HRequestStatus.PENDING;
+        }
         return status;
     }
 
-    public void setStatus(RequestStatus status) {
+    public void setStatus(D4HRequestStatus status) {
         this.status = status;
     }
 }

@@ -9,7 +9,6 @@ import avila.schiatti.virdi.model.user.Individual;
 import avila.schiatti.virdi.resource.UserResource;
 import avila.schiatti.virdi.service.authentication.AuthenticationManager;
 import avila.schiatti.virdi.service.request.LoginRequest;
-import avila.schiatti.virdi.service.request.LogoutRequest;
 import avila.schiatti.virdi.service.response.ErrorResponse;
 import avila.schiatti.virdi.service.response.LoginResponse;
 import avila.schiatti.virdi.utils.Mapper;
@@ -27,8 +26,6 @@ import xyz.morphia.query.Query;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 
 
 public class LoginServiceTest {
@@ -67,9 +64,8 @@ public class LoginServiceTest {
 
     private static UserResource setupUserResource() {
         DBManager dbManager = mock(DBManager.class);
-        UserResource userResource = new UserResource(dbManager);
         datastore = createDatastore();
-        when(userResource.getDatastore()).thenReturn(datastore);
+        UserResource userResource = new UserResource(dbManager, datastore);
 
         return userResource;
     }
@@ -95,9 +91,7 @@ public class LoginServiceTest {
     }
 
     private String doLogout(String accessToken) throws Exception {
-        LogoutRequest request = new LogoutRequest(accessToken);
-
-        HttpResponse<String> response = Unirest.post(TEST_APP_URL + "/logout").body(request).asString();
+        HttpResponse<String> response = Unirest.post(TEST_APP_URL + "/logout").header(Data4HelpApp.ACCESS_TOKEN, accessToken).asString();
         return response.getBody();
     }
 
