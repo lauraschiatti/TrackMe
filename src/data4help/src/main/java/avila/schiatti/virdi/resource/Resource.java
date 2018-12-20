@@ -6,7 +6,7 @@ import xyz.morphia.Datastore;
 
 import java.util.Collection;
 
-abstract class Resource<T>  {
+public abstract class Resource<T>  {
 
     private DBManager dbManager;
     protected Datastore datastore;
@@ -16,12 +16,12 @@ abstract class Resource<T>  {
      * @param dbManager
      * @param datastore
      */
-    Resource(DBManager dbManager, Datastore datastore){
+    public Resource(DBManager dbManager, Datastore datastore){
         this.dbManager = dbManager;
         this.datastore = datastore;
     }
 
-    Resource() {
+    public Resource() {
         this.dbManager = DBManager.getInstance();
         this.datastore = dbManager.getDatastore();
     }

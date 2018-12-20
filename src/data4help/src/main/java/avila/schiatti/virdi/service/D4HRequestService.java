@@ -13,6 +13,7 @@ import avila.schiatti.virdi.model.user.ThirdParty;
 import avila.schiatti.virdi.resource.D4HRequestResource;
 import avila.schiatti.virdi.resource.SubscriptionResource;
 import avila.schiatti.virdi.resource.UserResource;
+import avila.schiatti.virdi.resource.APIManager;
 import avila.schiatti.virdi.service.request.D4HReqRequest;
 import avila.schiatti.virdi.service.response.D4HReqResponse;
 import avila.schiatti.virdi.service.response.ResponseWrapper;
@@ -30,6 +31,7 @@ public class D4HRequestService extends Service {
     private D4HRequestResource requestResource;
     private SubscriptionResource subscriptionResource;
     private UserResource userResource;
+    private APIManager apiManager;
 
     /**
      * Only for testing
@@ -47,6 +49,7 @@ public class D4HRequestService extends Service {
         requestResource = D4HRequestResource.create();
         subscriptionResource = SubscriptionResource.create();
         userResource = UserResource.create();
+        apiManager = APIManager.create();
     }
 
     public static D4HRequestService create(){
@@ -85,6 +88,9 @@ public class D4HRequestService extends Service {
             // TODO should I remove the subscription when I reject the Request??
             requestResource.reject(req);
         }
+
+        // sends a notification to the third party regarding the status of the request
+        apiManager.sendNotification(req.getThirdParty(), req);
 
         return new ResponseWrapper<>(new D4HReqResponse(req));
     }

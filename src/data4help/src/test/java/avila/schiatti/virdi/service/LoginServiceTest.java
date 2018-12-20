@@ -11,7 +11,7 @@ import avila.schiatti.virdi.service.authentication.AuthenticationManager;
 import avila.schiatti.virdi.service.request.LoginRequest;
 import avila.schiatti.virdi.service.response.ErrorResponse;
 import avila.schiatti.virdi.service.response.LoginResponse;
-import avila.schiatti.virdi.utils.Mapper;
+import avila.schiatti.virdi.utils.JSONObjectMapper;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import io.lettuce.core.RedisClient;
@@ -99,7 +99,7 @@ public class LoginServiceTest {
 
     @BeforeAll
     public static void beforeAll(){
-        Unirest.config().setObjectMapper(new Mapper());
+        Unirest.config().setObjectMapper(new JSONObjectMapper());
         setupAuthManager();
         LoginService service = new LoginService(AuthenticationManager.getInstance(), setupUserResource());
 

@@ -18,7 +18,7 @@ import avila.schiatti.virdi.service.request.ThirdPartySignupRequest;
 import avila.schiatti.virdi.service.response.ErrorResponse;
 import avila.schiatti.virdi.service.response.SignupResponse;
 import avila.schiatti.virdi.utils.adapter.LocalDateAdapter;
-import avila.schiatti.virdi.utils.Mapper;
+import avila.schiatti.virdi.utils.JSONObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mongodb.MongoClient;
@@ -68,12 +68,6 @@ public class SignupServiceTest {
     private static final String COMPANY_PHONE = "+393332233123";
     private static final String COMPANY_TAX_CODE = "2344COMPANYTAXCODE";
 
-    Gson jsonTransformer = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd")
-            .setPrettyPrinting()
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter())
-            .create();
-
     private static Datastore datastore;
     private static RedisCommands<String, String> commands;
 
@@ -97,9 +91,8 @@ public class SignupServiceTest {
     private static UserResource setupUserResource() {
         DBManager dbManager = mock(DBManager.class);
         datastore = createDatastore();
-        UserResource userResource = new UserResource(dbManager, datastore);
 
-        return userResource;
+        return new UserResource(dbManager, datastore);
     }
 
     private <T> T doIndividualSignup(IndividualSignupRequestForTest body, Class<T> clazz) {
@@ -116,7 +109,7 @@ public class SignupServiceTest {
 
     @BeforeAll
     public static void beforeAll(){
-        Unirest.config().setObjectMapper(new Mapper());
+        Unirest.config().setObjectMapper(new JSONObjectMapper());
         setupAuthManager();
         SignupService service = new SignupService(setupUserResource(), AuthenticationManager.getInstance());
 

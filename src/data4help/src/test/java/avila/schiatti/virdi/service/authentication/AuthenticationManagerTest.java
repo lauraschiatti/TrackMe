@@ -8,7 +8,7 @@ import avila.schiatti.virdi.exception.ValidationException;
 import avila.schiatti.virdi.model.user.Individual;
 import avila.schiatti.virdi.service.Service;
 import avila.schiatti.virdi.service.response.ErrorResponse;
-import avila.schiatti.virdi.utils.Mapper;
+import avila.schiatti.virdi.utils.JSONObjectMapper;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.SetArgs;
 import io.lettuce.core.api.StatefulRedisConnection;
@@ -85,7 +85,7 @@ public class AuthenticationManagerTest {
         AuthenticationManager.createForTestingOnly(commands);
         authManager = AuthenticationManager.getInstance();
 
-        Unirest.config().setObjectMapper(new Mapper());
+        Unirest.config().setObjectMapper(new JSONObjectMapper());
 
         initD4H();
     }

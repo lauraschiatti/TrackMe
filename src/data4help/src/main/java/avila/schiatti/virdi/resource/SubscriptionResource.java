@@ -6,6 +6,8 @@ import org.bson.types.ObjectId;
 import xyz.morphia.Datastore;
 import xyz.morphia.query.Query;
 
+import java.util.Collection;
+
 public class SubscriptionResource extends Resource<Subscription> {
 
     /**
@@ -33,11 +35,25 @@ public class SubscriptionResource extends Resource<Subscription> {
     public void removeById(String id) {
         Query<Subscription> q = datastore.createQuery(Subscription.class)
                 .filter("id", new ObjectId(id));
-        this.datastore.delete(q);
+        datastore.delete(q);
     }
 
     @Override
     public void remove(Subscription o) {
         this.datastore.delete(o);
+    }
+
+    public Collection<Subscription> getAllByIndividual(String individualId){
+        return datastore.find(Subscription.class)
+                .field("filter.individual")
+                .equal(new ObjectId(individualId))
+                .asList();
+    }
+
+    public Collection<Subscription> getAllByOwner(String thirPartyId){
+        return datastore.find(Subscription.class)
+                .field("thirdParty")
+                .equal(new ObjectId(thirPartyId))
+                .asList();
     }
 }
