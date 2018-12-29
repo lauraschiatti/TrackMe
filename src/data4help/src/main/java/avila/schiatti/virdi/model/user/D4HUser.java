@@ -36,5 +36,5 @@ public abstract class D4HUser{
         this.id = id;
     }
 
-    public abstract UserRole getRole();
+    public abstract D4HUserRole getRole();
 }

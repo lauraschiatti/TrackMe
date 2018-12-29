@@ -90,7 +90,7 @@ public class SignupService extends Service {
         }
     }
 
-    private SignupResponse createSignupResponse(UserWebAuth auth, UserRole role) {
+    private SignupResponse createSignupResponse(UserWebAuth auth, D4HUserRole role) {
         // getInstance the SignupResponse
         SignupResponse response = new SignupResponse();
         response.setUserId(auth.getUserId());

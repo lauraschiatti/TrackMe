@@ -15,6 +15,8 @@ public class Subscription {
     @Embedded
     private D4HQuery filter;
 
+    private Integer timeSpan = 6;
+
     public ObjectId getId() {
         return id;
     }
@@ -37,5 +39,13 @@ public class Subscription {
 
     public void setFilter(D4HQuery filter) {
         this.filter = filter;
+    }
+
+    public Integer getTimeSpan() {
+        return timeSpan;
+    }
+
+    public void setTimeSpan(Integer timeSpan) {
+        this.timeSpan = (timeSpan < 6 ? 6 : timeSpan);
     }
 }

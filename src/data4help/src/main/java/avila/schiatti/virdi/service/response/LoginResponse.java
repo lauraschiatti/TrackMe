@@ -1,13 +1,13 @@
 package avila.schiatti.virdi.service.response;
 
-import avila.schiatti.virdi.model.user.UserRole;
+import avila.schiatti.virdi.model.user.D4HUserRole;
 
 public class LoginResponse {
     private String userId;
     private String accessToken;
-    private UserRole role;
+    private D4HUserRole role;
 
-    public LoginResponse(String userId, String accessToken, UserRole role) {
+    public LoginResponse(String userId, String accessToken, D4HUserRole role) {
         this.userId = userId;
         this.accessToken = accessToken;
         this.role = role;
@@ -21,7 +21,7 @@ public class LoginResponse {
         return accessToken;
     }
 
-    public UserRole getRole() {
+    public D4HUserRole getRole() {
         return role;
     }
 }

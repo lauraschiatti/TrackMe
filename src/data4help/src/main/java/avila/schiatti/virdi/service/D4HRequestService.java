@@ -58,9 +58,11 @@ public class D4HRequestService extends Service {
 
     @Override
     public void setupWebEndpoints() {
-        get("/requests", this::getAllRequests, jsonTransformer::toJson);
+        path("/requests", ()->{
+            get("/", this::getAllRequests, jsonTransformer::toJson);
 
-        patch("/requests/:id", this::updateRequestStatus, jsonTransformer::toJson);
+            patch("/:id", this::updateRequestStatus, jsonTransformer::toJson);
+        });
     }
 
     private ResponseWrapper<D4HReqResponse> updateRequestStatus(Request request, Response response) {
@@ -133,9 +135,11 @@ public class D4HRequestService extends Service {
 
     @Override
     public void setupApiEndpoints() {
-        post("/requests", this::createRequest, jsonTransformer::toJson);
+        path("/requests", ()->{
+            post("/", this::createRequest, jsonTransformer::toJson);
 
-        delete("/requests/:id", this::deleteRequest, jsonTransformer::toJson);
+            delete("/:id", this::deleteRequest, jsonTransformer::toJson);
+        });
     }
 
     private ResponseWrapper<String> deleteRequest(Request request, Response response) {

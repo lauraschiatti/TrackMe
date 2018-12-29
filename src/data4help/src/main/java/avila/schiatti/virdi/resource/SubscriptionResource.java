@@ -56,4 +56,13 @@ public class SubscriptionResource extends Resource<Subscription> {
                 .equal(new ObjectId(thirPartyId))
                 .asList();
     }
+
+    public Subscription getByOwnerAndId(String thirdPartyId, String sid){
+        return datastore.find(Subscription.class)
+                .field("id")
+                .equal(new ObjectId(sid))
+                .field("thirdParty")
+                .equal(new ObjectId(thirdPartyId))
+                .get();
+    }
 }

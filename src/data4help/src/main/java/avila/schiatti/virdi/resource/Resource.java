@@ -34,15 +34,15 @@ public abstract class Resource<T>  {
         throw new UnsupportedOperationException();
     }
 
-    T getById(String id){
+    public T getById(String id){
         throw new UnsupportedOperationException();
     }
 
-    T getById(ObjectId id){
+    public T getById(ObjectId id){
         throw new UnsupportedOperationException();
     }
 
-    void add(T o){
+    public void add(T o){
         throw new UnsupportedOperationException();
     }
 
@@ -54,7 +54,7 @@ public abstract class Resource<T>  {
         throw new UnsupportedOperationException();
     }
 
-    void removeById(ObjectId id){
+    public void removeById(ObjectId id){
         throw new UnsupportedOperationException();
     }
 

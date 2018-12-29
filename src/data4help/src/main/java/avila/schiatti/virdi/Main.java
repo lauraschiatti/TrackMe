@@ -4,6 +4,7 @@ import avila.schiatti.virdi.configuration.StaticConfiguration;
 import avila.schiatti.virdi.service.D4HRequestService;
 import avila.schiatti.virdi.service.LoginService;
 import avila.schiatti.virdi.service.SignupService;
+import avila.schiatti.virdi.service.SubscriptionService;
 
 public class Main {
     private final static String STATIC_FILES_PATH = "public";
@@ -16,6 +17,7 @@ public class Main {
                 .registerService(LoginService.create())
                 .registerService(SignupService.create())
                 .registerService(D4HRequestService.create())
+                .registerService(SubscriptionService.create())
                 .setAuthHandlers()
                 .init();
     }

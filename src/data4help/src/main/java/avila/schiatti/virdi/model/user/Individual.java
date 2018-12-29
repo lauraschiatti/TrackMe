@@ -14,6 +14,8 @@ import java.time.LocalDate;
 public class Individual extends D4HUser {
     private String name;
     private String ssn;
+    private Float weight;
+    private Float height;
     private LocalDate birthDate;
     @Embedded
     private Gender gender;
@@ -26,8 +28,8 @@ public class Individual extends D4HUser {
     private Data data;
 
     @Override
-    public UserRole getRole() {
-        return UserRole.INDIVIDUAL;
+    public D4HUserRole getRole() {
+        return D4HUserRole.INDIVIDUAL;
     }
 
     public String getName() {
@@ -88,5 +90,21 @@ public class Individual extends D4HUser {
 
     public Boolean hasSsn(){
         return ssn != null;
+    }
+
+    public Float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Float weight) {
+        this.weight = weight;
+    }
+
+    public Float getHeight() {
+        return height;
+    }
+
+    public void setHeight(Float height) {
+        this.height = height;
     }
 }

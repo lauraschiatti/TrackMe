@@ -4,6 +4,7 @@ import avila.schiatti.virdi.database.DBManager;
 import avila.schiatti.virdi.model.user.D4HUser;
 import avila.schiatti.virdi.model.user.Individual;
 import avila.schiatti.virdi.model.user.ThirdParty;
+import org.bson.types.ObjectId;
 import xyz.morphia.Datastore;
 
 public class UserResource extends Resource<D4HUser> {
@@ -38,6 +39,19 @@ public class UserResource extends Resource<D4HUser> {
     @Override
     public void add(D4HUser o) {
         this.datastore.save(o);
+    }
+
+    @Override
+    public D4HUser getById(String id) {
+        return getById(new ObjectId(id));
+    }
+
+    @Override
+    public D4HUser getById(ObjectId id) {
+        return datastore.find(D4HUser.class)
+                .field("id")
+                .equal(id)
+                .get();
     }
 
     public ThirdParty getThirdPartyBySecretKey(String secretKey){

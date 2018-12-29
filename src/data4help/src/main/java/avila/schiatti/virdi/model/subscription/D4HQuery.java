@@ -76,4 +76,12 @@ public class D4HQuery {
     public void setBloodType(BloodType bloodType) {
         this.bloodType = bloodType;
     }
+
+    public Comparison getAgeComparison() {
+        return ageComparison;
+    }
+
+    public void setAgeComparison(Comparison ageComparison) {
+        this.ageComparison = ageComparison;
+    }
 }
