@@ -1,0 +1,351 @@
+ % PACKAGES
+\documentclass[a4paper, hidelinks, 12pt]{report}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsfonts,amsmath,amssymb}
+\usepackage[none]{hyphenat}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage[font=footnotesize]{caption}
+\usepackage[flushleft]{threeparttable}
+\usepackage{amsmath}
+\usepackage{relsize}
+\usepackage[super,negative]{nth}
+\usepackage{enumerate}
+\usepackage{float}
+\usepackage{rotating}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
+%%%%%%%%%%%%
+
+% DOC STYLES
+\makeatletter
+\def\thickhrulefill{\leavevmode \leaders \hrule height 1ex \hfill \kern \z@}
+\def\@makechapterhead#1{
+	\vspace*{4\p@}
+	{\parindent \z@ \centering \reset@font
+		\thickhrulefill\quad
+		\scshape \@chapapp{} \thechapter
+		\quad \thickhrulefill
+		\par\nobreak
+		\vspace*{4\p@}
+		\interlinepenalty\@M
+		\hrule
+		\vspace*{4\p@}
+		\Huge \bfseries #1\par\nobreak
+		\par
+		\vspace*{4\p@}
+		\hrule
+		\vskip 50\p@
+}}
+\def\@makeschapterhead#1{
+	\vspace*{4\p@}
+	{\parindent \z@ \centering \reset@font
+		\thickhrulefill
+		\par\nobreak
+		\vspace*{4\p@}
+		\interlinepenalty\@M
+		\hrule
+		\vspace*{4\p@}
+		\Huge \bfseries #1\par\nobreak
+		\par
+		\vspace*{4\p@}
+		\hrule
+		\vskip 50\p@
+}}
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{\slshape\MakeUppercase{\textbf{DD}}}
+\fancyhead[R]{\slshape{Avila, Schiatti, Virdi}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\headrulewidth}{1pt}
+\linespread{1.3}
+%\floatstyle{boxed}
+\restylefloat{figure}
+\parindent 0ex
+%\renewcommand{baselinestretch}{1.5}
+
+%%%%%%%%%%%%
+
+% COMMANDS
+\newcommand\requirement[1]{\item[{[R#1]}] }
+\newcommand\goal[1]{\item[{[G#1]}] }
+\newcommand\assumption[1]{\item[{[D#1]}] }
+\newcommand\usecase[1]{ [UC#1] }
+
+%%%%%%%%%%%%
+
+%BODY
+\begin{document}
+	\begin{titlepage}
+		\centering
+		\vspace*{0.7 cm}
+		\includegraphics[scale = 0.85]{../Assets/PolimiLogo.png}\\[1.6 cm]
+		\textsc{\large Department of Computer Science and Engineering}\\[1.8 cm]
+		
+		\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+		{ \huge \bfseries Integration Test Plan Document}\\
+		\rule{\linewidth}{0.2 mm} \\[1.5 cm]
+		
+		\textsc{\Large TrackMe}\\[0.5 cm]
+		\textsc{\large - v1.0 -}\\[1 cm]
+		
+		\begin{minipage}{0.4\textwidth}
+			\begin{flushleft} \large
+				\emph{Authors:}\\
+				\textbf{Avila}, Diego \\
+				\textbf{Schiatti}, Laura \\
+				\textbf{Virdi}, Sukhpreet
+			\end{flushleft}
+		\end{minipage}~
+		\begin{minipage}{0.4\textwidth}
+			\begin{flushright} \large
+				%\emph{Student Number:} \\
+				903988 \\
+				904738 \\
+				904204
+			\end{flushright}
+		\end{minipage}\\[2 cm]
+		
+		{\large January \nth{13} , 2019}\\[2 cm]
+		
+		\vfill
+	\end{titlepage}
+	
+	\pagenumbering{roman}
+	\tableofcontents
+%	\thispagestyle{empty}
+	\newpage
+	\listoffigures
+	\listoftables
+%	\thispagestyle{empty}
+	\clearpage
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+	
+	\chapter{Introduction}
+	\section{Context}
+	\textbf{TrackMe} develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O\textsubscript{2} in the blood) and also their location. TrackMe health smartwatches are synchronized with an app that gives users access to their data and stats. Also, TrackMe is offering new services to their customers, so as to exploit the data collected from those devices. 
+	
+	\section{Purpose and Scope}
+	This document represents the Integration Testing Plan Document for TrackMe Service. \\\\
+	Integration testing is a key activity to guarantee that all the different subsystems composing Data4Help and AutomatedSOS interoperate consistently with the requirements they are supposed to fulfil and without exhibiting unexpected behaviours. The purpose of this document is to outline, in a clear and comprehensive way, the main aspects concerning the organization of the integration testing activity for all the components that make up the system.	\\	
+	More precisely, the document presents:
+	
+\begin{itemize}
+		\item{}A list of the subsystems and their subcomponents involved in the integration activity that will have to be tested
+		\item{}The criteria that must be met by the project status before integration testing of the outlined elements may begin
+		\item{}A description of the integration testing approach and the rationale behind it
+		\item{}The sequence in which components and subsystems will be integrated
+		\item{} A description of the planned testing activities for each integration step, including their input data and the expected output
+		\item{}Some performance measures that should be performed on the components to check they are fulfilling the requirements
+		\item{}A list of all the tools that will have to be employed during the testing activities, together with a description of the operational environment in which the tests will be executed
+	\end{itemize}.
+		
+
+	
+	\section{Definitions, Acronyms, Abbreviations}
+	\subsection{Definitions}
+	\begin{itemize}
+		\item{\textbf{Health status}}: Collection of the last measured overall physical health parameters of a user or a group of users.
+		\item{\textbf{Running circuit}}: Path defined by the organizer for the run, using the set of nodes.
+		\item{\textbf{Anonymize}}: The action of anonymize means that an individual’s identity cannot
+be inferred using the available data.
+		\item{\textbf{Parameter out of its normal range}}: Meaning that the parameter is under or above a defined threshold. 
+	\end{itemize}
+	
+	\subsection{Acronyms}
+	\begin{itemize}
+		\item{DD}: Design Document
+		\item{RASD}: Requirement Analysis and Specification Document
+		\item{D4H}: Data4Help
+		\item{ASOS}: AutomatedSOS
+		\item{T4R}: Track4Run
+		\item{GUI}: Graphical User Interface
+		\item{MVC}: Model View Controller is a design pattern used for GUIs
+		\item{JMS}: Java Message Service 
+		\item{DSL}: Digital Subscriber Line
+	\end{itemize}
+	
+	\subsection{Abbreviations}
+	\begin{itemize}
+		\item $[Rn]$: n-requirement.
+	\end{itemize}
+	
+	\section{Revision history}
+	It is important to keep track of the revisions made to this document: \\
+	
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{c c}
+			\hline\hline
+			\textbf{Version} & \textbf{Last modified date} \\ [0.5ex]
+			\hline
+			1.0 &  \nth{13} January, 2019  \\
+			\hline
+		\end{tabular}
+		\caption{Revision history timeline}
+		\label{fig:Revision history}
+	\end{table}
+	
+	
+	
+	\chapter{Integration Strategy}
+	
+	\section{Entry Criteria}
+	\label{sec:Entry Criteria}
+	In order for the integration testing to be possible and to produce meaningful results, there are a number of conditions on the progress of the project that have to be met.\\
+	\quad First of all, the \textbf{Requirements Analysis and Specification Document} and the \textbf{Design Document} must have been fully written. This is a required step in order to have a complete picture of the interactions between the different components of the system and of the functionalities they offer.\\
+	\quad Secondly, the integration process should start only when the estimated percentage of completion of every component with respect to its functionalities is:
+	\begin{itemize}
+		\item{}\textbf{100\%} for the \textbf{Data4HelpWebService} component
+		\item{}At least \textbf{90\%} for the \textbf{LoginService and RegisterService} subsystem
+		\item{}At least \textbf{70\%} for the \textbf{SearchManager and RequestService} subsystem
+		\item{}At least \textbf{50\%} for the \textbf{ASOSService} applications
+		
+	\end{itemize}
+	It should be noted that these percentages refer to the status of the project at the beginning of the integration testing phase and they do not represent the minimum completion percentage necessary to consider a component for integration, which must be at least \textbf{90\%}. The choice of having different completion percentages for the different components has been made to reflect
+their order of integration and to take into account the required time to fully perform integration testing.
+
+	
+	
+	\section{Elements to be integrated}
+	In the following paragraph we're going to provide a list of all the components that need to be integrated together.\\
+	As specified in TrackMe Design Document, the system is built upon the interactions of many high-level components, each one implementing a specific set of functionalities. For the sake of modularity, each subsystem is further obtained by the combination of several lower-level components. Because of this software architecture, the integration phase will involve the integration of components at two different levels of abstraction.\\\\
+		cntd....
+			
+			\section{Integration testing strategy}
+			
+			
+			
+			\section{Sequence of Component/Function Integration}
+				
+			\subsection{Software Integration Sequence}
+			\subsection{Subsystem Integration Sequence}
+			
+			
+	
+		
+	\chapter{Individual Steps and Test Description}
+	
+	\chapter{Performance Analysis}
+	While a full fledged performance analysis of the entire TrackMe infrastructure will be executed only in the system integration phase, it is still useful to perform some preliminary measures on components whose performances can be tested in isolation\\
+	
+
+	\chapter{Tools and Testing equipment}
+	\section{Tools}
+	In order to test the various components of TrackMe more effectively, we are going to make usage of a number of automated testing tools.\\
+	For what concerns the business logic components running in the Java Enterprise Edition runtime environment, we are going to take advantage of two tools.\\
+	The first one is the \textbf{Arquillian integration testing framework}. This tool enables us to execute tests against a Java container in order to check that the interaction between a component and its surrounding execution environment is happening correctly (as far as the Java application server is involved). Specifically, we are going to use Arquillian to verify that the right components are injected when dependency injection is specified, that the connections with the database are properly managed and similar container-level tests.\\
+	The second tool is the \textbf{JUnit framework}. Though this tool is primarily devoted to unit testing activities, it's still a valid instrument to verify that the interactions between components are producing the expected results. In particular, we are going to use it in order to verify that the correct objects are returned after a method invocation, that appropriate exceptions are raised when invalid parameters are passed to a method and other issues that may arise when components interact with each other.\\
+	Finally, it should be noted that despite the usage of automated testing tools, some of the planned testing activities will also require a significant amount of manual operations, especially to devise the appropriate set of testing data.
+	
+
+
+\section{Test Equipment}
+All the integration testing activities have to be performed within a specific testing environment.
+
+\chapter{Required Program Stubs and Test Data}
+\section{Program Stubs and Drivers}
+As we have mentioned in the Integration Testing Strategy section of this document, we are going to adopt a bottom-up approach to component integration and testing.\\
+Because of this choice, we are going to need a number of drivers to actually perform the necessary method invocations on the components to be tested; this will be mainly accomplished in conjunction with the JUnit framework.\\
+
+\section{Test Data}
+
+	
+	\chapter{Effort spent}
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{l c}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Team Work}} \\
+			\hline
+			\textbf{Task} & \textbf{Hours} \\ [0.5ex]
+			\hline
+			Planning Architecture & 8  \\
+			Architectural design overview & 4\\
+			Choosing Patterns & 3\\
+			Checking document  & 2  \\
+			\hline
+			\textbf{Total} & 17  \\
+			\hline
+		\end{tabular}
+		\caption{Time spent by all team members}
+		\label{fig:Time spent by all team members}
+	\end{table}
+	
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{l c l c l c}
+			\hline\hline
+			\multicolumn{6}{c}{\textbf{Individual Work}} \\
+			\hline
+			\multicolumn{2}{c |}{\textbf{Diego Avila}}  &
+			\multicolumn{2}{c |}{\textbf{Laura Schiatti}} &
+			\multicolumn{2}{c}{\textbf{Sukhpreet Kaur}}  \\
+			\hline
+			\textbf{Task} & \textbf{Hours}
+			& \textbf{Task} & \textbf{Hours}
+			& \textbf{Task} & \textbf{Hours} \\ [0.5ex]
+			\hline
+			Component view &  10
+			& Scope & 3
+			& Purpose & 2  \\
+			\hline
+			Component interfaces &  13
+			& Database view & 6
+			& UI design & 15  \\
+			\hline
+			Deployment view &  5
+			& Runtime view & 8
+			& I and T plan & 6  \\
+			\hline
+			Runtime view  &  4
+			& R traceability & 3
+			& Design decisions & 2 \\
+			\hline
+			Corrections & 3  
+			& Final user interfaces & 7
+			& &   \\
+			\hline 
+			&  
+			& Architectural styles & 4
+			& &   \\
+			\hline
+			\textbf{Total} & 35
+			& \textbf{Total} & 31
+			& \textbf{Total} & 25  \\
+			\hline
+		\end{tabular}
+		\caption{Time spent by each team member}
+		\label{fig:Time spent by each team member}
+	\end{table}
+	
+	\chapter{References}
+	\begin{itemize}
+		\item Requirement Analysis and Specification Document: AA 2017-2018.pdf”. Version 1.0 - 26.10.2017
+		\item Henriksen, A., Haugen Mikalsen, M., Woldaregay, A. Z., Muzny, M., Hartvigsen, G., Hopstock, L. A., Grimsgaard, S. (2018)
+		\\Using Fitness Trackers and Smartwatches to Measure Physical Activity in Research: Analysis of Consumer Wrist-Worn Wearables. Journal of medical Internet research, 20(3), e110. doi:10.2196/jmir.9157.
+		\\Retrieved from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5887043/
+		\item IEEE. (1993). IEEE Recommended Practice for Software Requirements Specifications (IEEE 830-1993).
+		\\Retrieved from https://standards.ieee.org/standard/830-1993.html
+		\item Sloane, A. M. (2009). Software Abstractions: Logic, Language, and Analysis by Jackson Daniel, The MIT Press, 2006, 366pp, ISBN 978-0262101141.
+		\item{Spark. A Micro Framework For Creating Web Applications - http://sparkjava.com/}
+		\item{Morphia - http://morphiaorg.github.io/morphia/}
+		\item{Lettuce - https://lettuce.io/}
+		\item{Angular - https://angular.io/}
+		\item{Google Maps Platform - https://cloud.google.com/maps-platform/}
+		
+	\end{itemize}
+	
+\end{document}
