@@ -8,6 +8,8 @@ import avila.schiatti.virdi.model.request.D4HRequest;
 import avila.schiatti.virdi.model.request.D4HRequestStatus;
 import avila.schiatti.virdi.model.subscription.D4HQuery;
 import avila.schiatti.virdi.model.subscription.Subscription;
+import avila.schiatti.virdi.model.user.D4HUser;
+import avila.schiatti.virdi.model.user.D4HUserRole;
 import avila.schiatti.virdi.model.user.Individual;
 import avila.schiatti.virdi.model.user.ThirdParty;
 import avila.schiatti.virdi.resource.D4HRequestResource;
@@ -100,12 +102,14 @@ public class D4HRequestService extends Service {
     private ResponseWrapper<Collection<D4HReqResponse>> getAllRequests(Request request, Response response) {
         D4HRequestStatus status = D4HRequestStatus.fromString(request.queryParams("status"));
         String userId = request.headers(Data4HelpApp.USER_ID);
+        D4HUser user = userResource.getById(userId);
 
         Collection<D4HRequest> requests;
-        if(status == null){
-            requests = requestResource.getByUserId(userId);
-        } else{
+
+        if(D4HUserRole.INDIVIDUAL.equals(user.getRole())){
             requests = requestResource.getByUserId(userId, status);
+        }else{
+            requests = requestResource.getByThirdPartyId(userId, status);
         }
 
         return new ResponseWrapper<>(transformCollection(requests));

@@ -3,11 +3,13 @@ package avila.schiatti.virdi.resource;
 import avila.schiatti.virdi.database.DBManager;
 import org.bson.types.ObjectId;
 import xyz.morphia.Datastore;
+import xyz.morphia.query.Query;
 
 import java.util.Collection;
 
 public abstract class Resource<T>  {
 
+    private Class<T> clazz;
     private DBManager dbManager;
     protected Datastore datastore;
 
@@ -15,50 +17,56 @@ public abstract class Resource<T>  {
      * Only for test constructor
      * @param dbManager
      * @param datastore
+     * @param aClass
      */
-    public Resource(DBManager dbManager, Datastore datastore){
+    public Resource(DBManager dbManager, Datastore datastore, Class<T> aClass){
         this.dbManager = dbManager;
         this.datastore = datastore;
+        this.clazz = aClass;
     }
 
-    public Resource() {
+    public Resource(Class<T> aClass) {
         this.dbManager = DBManager.getInstance();
         this.datastore = dbManager.getDatastore();
+        this.clazz = aClass;
     }
 
-    public Datastore getDatastore(){
-        return datastore;
-    }
-
-    Collection<T> getAll(){
-        throw new UnsupportedOperationException();
+    public Collection<T> getAll(){
+        return datastore.find(clazz).asList();
     }
 
     public T getById(String id){
-        throw new UnsupportedOperationException();
+        return this.getById(new ObjectId(id));
     }
 
     public T getById(ObjectId id){
-        throw new UnsupportedOperationException();
+        return datastore.find(clazz)
+                .field("id")
+                .equal(id)
+                .get();
     }
 
     public void add(T o){
-        throw new UnsupportedOperationException();
+        datastore.save(o);
     }
 
-    void update(T o){
-        throw new UnsupportedOperationException();
+    public void update(T o){
+        datastore.save(o);
     }
 
-    void removeById(String id){
-        throw new UnsupportedOperationException();
+    public void removeById(String id){
+        removeById(new ObjectId(id));
     }
 
     public void removeById(ObjectId id){
-        throw new UnsupportedOperationException();
+        Query<T> query = datastore.createQuery(clazz)
+                .field("id")
+                .equal(id);
+
+        this.datastore.delete(query);
     }
 
-    void remove(T o){
-        throw new UnsupportedOperationException();
+    public void remove(T o){
+        this.datastore.delete(o);
     }
 }

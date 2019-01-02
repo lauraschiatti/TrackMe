@@ -11,32 +11,13 @@ public class D4HReqResponse {
     private Individual individual;
     private D4HRequestStatus status;
 
-    public D4HReqResponse(D4HRequest request) {
-        // remove third party private attributes
-        request.getThirdParty().setAppId(null);
-        request.getThirdParty().setConfig(null);
-        request.getThirdParty().setPhone(null);
-        request.getThirdParty().setSecretKey(null);
-        request.getThirdParty().setTaxCode(null);
-        request.getThirdParty().setCode(null);
-        request.getThirdParty().setEmail(null);
-        request.getThirdParty().setPassword(null);
-        request.getThirdParty().setCertificate(null);
-
-        // remove individual private attributes
-        request.getIndividual().setPassword(null);
-        request.getIndividual().setSsn(null);
-        request.getIndividual().setAddress(null);
-        request.getIndividual().setBirthDate(null);
-        request.getIndividual().setData(null);
-        request.getIndividual().setGender(null);
-        request.getIndividual().setEmail(null);
-        request.getIndividual().setBloodType(null);
-
-        this.id = request.getId().toString();
-        this.thirdParty = request.getThirdParty();
-        this.individual = request.getIndividual();
-        this.status = request.getStatus();
+    public D4HReqResponse(D4HRequest d4hreq) {
+        id = d4hreq.getId().toString();
+        thirdParty = new ThirdParty();
+        thirdParty.setName(d4hreq.getThirdParty().getName());
+        individual = new Individual();
+        individual.setName(d4hreq.getIndividual().getName());
+        status = d4hreq.getStatus();
     }
 
     public String getId() {

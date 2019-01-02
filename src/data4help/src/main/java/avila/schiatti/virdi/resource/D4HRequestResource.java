@@ -18,45 +18,15 @@ public class D4HRequestResource extends Resource<D4HRequest> {
      * @param datastore
      */
     public D4HRequestResource(DBManager dbManager, Datastore datastore) {
-        super(dbManager, datastore);
+        super(dbManager, datastore, D4HRequest.class);
     }
 
     private D4HRequestResource() {
-        super();
+        super(D4HRequest.class);
     }
 
     public static D4HRequestResource create(){
         return new D4HRequestResource();
-    }
-
-    @Override
-    public D4HRequest getById(String id) {
-        return this.datastore
-                .find(D4HRequest.class)
-                .field("id")
-                .equal(new ObjectId(id))
-                .get();
-    }
-
-    @Override
-    public void update(D4HRequest o) {
-        datastore.save(o);
-    }
-
-    @Override
-    public void add(D4HRequest o) {
-        this.datastore.save(o);
-    }
-
-    @Override
-    public void removeById(String id) {
-        this.removeById(new ObjectId(id));
-    }
-
-    @Override
-    public void removeById(ObjectId id) {
-        Query<D4HRequest> query = this.datastore.createQuery(D4HRequest.class).field("id").equal(id);
-        this.datastore.delete(query);
     }
 
     public D4HRequest reject(D4HRequest r){
@@ -93,7 +63,11 @@ public class D4HRequestResource extends Resource<D4HRequest> {
     }
 
     public Collection<D4HRequest> getByUserId(String userId, D4HRequestStatus status){
-        return this.datastore.find(D4HRequest.class)
+        if(status == null){
+            return getByUserId(userId);
+        }
+
+        return datastore.find(D4HRequest.class)
                 .field("individual")
                 .equal(new ObjectId(userId))
                 .field("status")
@@ -102,7 +76,7 @@ public class D4HRequestResource extends Resource<D4HRequest> {
     }
 
     public D4HRequest getByUserIdAndThirdPartyId(String userId, String thirdPartyId){
-        return this.datastore.find(D4HRequest.class)
+        return datastore.find(D4HRequest.class)
                 .field("individual")
                 .equal(new ObjectId(userId))
                 .field("thirdParty")
@@ -111,11 +85,15 @@ public class D4HRequestResource extends Resource<D4HRequest> {
     }
 
     public Collection<D4HRequest> getByThirdPartyId(String thirdPartyId, D4HRequestStatus status){
-        return this.datastore.find(D4HRequest.class)
+        Query<D4HRequest> query = datastore.find(D4HRequest.class)
                 .field("thirdParty")
-                .equal(new ObjectId(thirdPartyId))
-                .field("status")
-                .equal(status)
-                .asList();
+                .equal(new ObjectId(thirdPartyId));
+
+        if(status != null){
+            query.field("status")
+                    .equal(status);
+        }
+
+        return query.asList();
     }
 }

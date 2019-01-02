@@ -16,23 +16,12 @@ import xyz.morphia.Datastore;
 
 import java.util.Collection;
 
-public class APIManager extends Resource {
+public class APIManager {
     private static Logger logger = LoggerFactory.getLogger(APIManager.class);
 
     private static final String APPLICATION_JSON = "application/json";
 
-    /**
-     * Only for testing
-     * @param dbManager
-     * @param datastore
-     */
-    public APIManager(DBManager dbManager, Datastore datastore) {
-        super(dbManager, datastore);
-        Unirest.config().setObjectMapper(new JSONObjectMapper());
-    }
-
     private APIManager() {
-        super();
         Unirest.config().setObjectMapper(new JSONObjectMapper());
     }
 

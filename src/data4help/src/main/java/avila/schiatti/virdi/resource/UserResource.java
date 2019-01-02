@@ -15,11 +15,11 @@ public class UserResource extends Resource<D4HUser> {
      * @param datastore
      */
     public UserResource(DBManager dbManager, Datastore datastore){
-        super(dbManager, datastore);
+        super(dbManager, datastore, D4HUser.class);
     }
 
     private UserResource(){
-        super();
+        super(D4HUser.class);
     }
 
     public static UserResource create(){
@@ -33,24 +33,6 @@ public class UserResource extends Resource<D4HUser> {
                 .equal(email)
                 .field("password")
                 .equal(password)
-                .get();
-    }
-
-    @Override
-    public void add(D4HUser o) {
-        this.datastore.save(o);
-    }
-
-    @Override
-    public D4HUser getById(String id) {
-        return getById(new ObjectId(id));
-    }
-
-    @Override
-    public D4HUser getById(ObjectId id) {
-        return datastore.find(D4HUser.class)
-                .field("id")
-                .equal(id)
                 .get();
     }
 
