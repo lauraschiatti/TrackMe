@@ -10,6 +10,9 @@ RUN npm --version
 
 WORKDIR /code
 
+RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh --output wait-for-it.sh
+RUN chmod +x wait-for-it.sh
+
 # Prepare by downloading dependencies
 ADD pom.xml /code/pom.xml
 RUN ["mvn", "dependency:resolve"]
@@ -27,7 +30,7 @@ RUN ng build
 
 # Package the code
 WORKDIR /code
-RUN ["mvn", "package"]
+RUN ["mvn", "-Dmaven.test.skip=true", "package"]
 
 EXPOSE 4567
-CMD ["/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", "target/data4help-jar-with-dependencies.jar"]
+# RUN ["/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", "target/data4help-jar-with-dependencies.jar"]

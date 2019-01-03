@@ -7,7 +7,11 @@ services:
   d4h:
     build: ./data4help
     ports:
-    - "4567:4567"
+        - "4567:4567"
     environment:
-    - MONGODB_URI=mongodb://mongodb:27017
-    - REDIS_URL=redis://redis:6379/
+        - MONGODB_URI=mongodb://mongodb:27017
+        - REDIS_URL=redis://redis:6379/
+    depends_on:
+        - "mongodb"
+        - "redis"
+    command: ["./wait-for-it.sh", "mongodb:27017", "--", "./wait-for-it.sh", "redis:6379", "--", "/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", "target/data4help-jar-with-dependencies.jar"]
