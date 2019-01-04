@@ -11,23 +11,22 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-    individualForm: FormGroup;
-    submitted = false;
+    iForm: FormGroup;
+    tpForm: FormGroup;
+    iFormSubmitted = false;
+    tpFormSubmitted = false;
     bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
     constructor(
-        private formBuilder: FormBuilder,
+        private iFormBuilder: FormBuilder,
+        private tpFormBuilder: FormBuilder,
         // private route: ActivatedRoute,
         // private router: Router,
-        // private individualnService: IndividualService,
-    ) {
-        // this.individualForm = this.formBuilder.group({
-        //     bloodTypes: this.bloodTypes
-        // });
-    }
+        // private individualService: IndividualService,
+    ) {}
 
     ngOnInit() {
-        this.individualForm = this.formBuilder.group({
+        this.iForm = this.iFormBuilder.group({
             name: ['', Validators.required],
             gender: ['', Validators.required],
             birthDate: ['', Validators.required],
@@ -40,21 +39,47 @@ export class RegisterComponent implements OnInit {
             password: ['', [Validators.required, Validators.minLength(6)]],
         });
 
-        // this.returnUrl =  '/';
+        this.tpForm = this.tpFormBuilder.group({
+            companyname: ['', Validators.required],
+            taxcode: ['', Validators.required],
+            phone: ['', Validators.required],
+            certificate: ['', Validators.required],
+            emailtp: ['', [Validators.required, Validators.email]],
+            passwordtp: ['', [Validators.required, Validators.minLength(6)]],
+
+            // TPConfiguration
+            individualpushurl: [''],
+            bulkpushurl: [''],
+            notificationurl: ['']
+        });
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.individualForm.controls; }
+    get iControls() { return this.iForm.controls; }
+    get tpControls() { return this.tpForm.controls; }
 
-    onSubmit() {
-        this.submitted = true;
+    onSubmitIndividuals() {
+        this.iFormSubmitted = true;
 
         // stop here if form is invalid
-        if (this.individualForm.invalid) {
+        if (this.iForm.invalid) {
             return;
         }
+        alert('INDIVIDUAL!! :-)\n\n' + JSON.stringify(this.iForm.value));
 
-        alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.individualForm.value));
+        // http.get(baseUrl + 'api/SampleData/GetSummaries').subscribe(result => {
+        //     this.summaries = result.json() as any[];
+        // }, error => console.error(error));
+    }
+
+    onSubmitThirdParties() {
+        this.tpFormSubmitted = true;
+
+        // stop here if form is invalid
+        if (this.tpForm.invalid) {
+            return;
+        }
+        alert('THIRD PARTY!! :-)\n\n' + JSON.stringify(this.tpForm.value));
 
         // http.get(baseUrl + 'api/SampleData/GetSummaries').subscribe(result => {
         //     this.summaries = result.json() as any[];
