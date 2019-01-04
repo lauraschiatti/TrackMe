@@ -48,6 +48,7 @@ public final class Data4HelpApp implements SparkApplication {
 
     @Override
     public void init() {
+        enableCors();
         setGlobalExceptionHandlers();
         setExceptionHandlers();
         setSpecialRoutes();
@@ -103,6 +104,13 @@ public final class Data4HelpApp implements SparkApplication {
 
     private void setSpecialRoutes() {
         head(STATUS_URL, (req, res) -> "");
+    }
+
+    private void enableCors(){
+        before("*", (req, res) -> {
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "*");
+        });
     }
 
     private void setRoutes() {
