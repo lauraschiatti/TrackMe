@@ -6,12 +6,11 @@ import avila.schiatti.virdi.service.RouteConfig;
 import avila.schiatti.virdi.service.Service;
 import avila.schiatti.virdi.service.authentication.AuthenticationManager;
 import org.eclipse.jetty.http.HttpStatus;
-import spark.Spark;
 import spark.servlet.SparkApplication;
 
 import static spark.Spark.*;
 
-public class Data4HelpApp implements SparkApplication {
+public final class Data4HelpApp implements SparkApplication {
     private final static String STATUS_URL = "/status";
     private static final String APPLICATION_JSON = "application/json";
     public static final String ACCESS_TOKEN = "ACCESS-TOKEN";
@@ -37,13 +36,13 @@ public class Data4HelpApp implements SparkApplication {
     }
 
     public Data4HelpApp setPublicPath(String path){
-        Spark.staticFileLocation(path);
+        staticFileLocation(path);
         return this;
     }
 
     public Data4HelpApp createServer(int port){
-        Spark.port(port);
-        Spark.threadPool(10000, 10,30000);
+        port(port);
+        threadPool(100, 10,30000);
         return this;
     }
 
@@ -54,14 +53,20 @@ public class Data4HelpApp implements SparkApplication {
         setSpecialRoutes();
         setRoutes();
 
-        Spark.awaitInitialization();
+        awaitInitialization();
     }
 
     @Override
     public void destroy() {
-        Spark.stop();
-        routes.destroy();
-        _instance = null;
+        try {
+            Thread.sleep(2000);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally {
+            stop();
+            routes.destroy();
+            _instance = null;
+        }
     }
 
     public Data4HelpApp registerService(Service service) {

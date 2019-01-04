@@ -1,6 +1,5 @@
 package avila.schiatti.virdi.resource;
 
-import avila.schiatti.virdi.database.DBManager;
 import avila.schiatti.virdi.model.data.Data;
 import avila.schiatti.virdi.model.request.D4HRequest;
 import avila.schiatti.virdi.model.user.Individual;
@@ -12,7 +11,6 @@ import avila.schiatti.virdi.utils.JSONObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unirest.Unirest;
-import xyz.morphia.Datastore;
 
 import java.util.Collection;
 

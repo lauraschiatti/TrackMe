@@ -25,7 +25,7 @@ import static spark.Spark.get;
 
 public class AuthenticationManagerTest {
 
-    private static class DummyService extends Service{
+    private static class DummyService extends Service {
 
         static final String OK_RESPONSE = "OK";
         static final String DUMMY_VALIDATION_EXCEPTION = "dummy validation exception";
@@ -51,7 +51,8 @@ public class AuthenticationManagerTest {
         }
 
         @Override
-        public void setupExceptionHandlers() {}
+        public void setupExceptionHandlers() {
+        }
     }
 
     private static final StaticConfiguration config = StaticConfiguration.getInstance();
@@ -66,7 +67,7 @@ public class AuthenticationManagerTest {
     private static AuthenticationManager authManager;
     private static Data4HelpApp app;
 
-    private static void initD4H(){
+    private static void initD4H() {
         app = Data4HelpApp.getInstance();
         app.setAuthenticationManager(authManager);
         app.createServer(8888)
@@ -76,7 +77,7 @@ public class AuthenticationManagerTest {
     }
 
     @BeforeAll
-    public static void beforeAll(){
+    public static void beforeAll() {
         String redisConnectionString = config.getRedisUrl().concat(TESTING_REDIS_DB);
         RedisClient redisClient = RedisClient.create(redisConnectionString);
         StatefulRedisConnection<String, String> connection = redisClient.connect();
@@ -91,14 +92,12 @@ public class AuthenticationManagerTest {
     }
 
     @AfterAll
-    public static void afterAll(){
-        if(app != null){
-            app.destroy();
-        }
+    public static void afterAll() {
+        app.destroy();
     }
 
     @AfterEach
-    public void afterEach(){
+    public void afterEach() {
         commands.flushdb();
     }
 
@@ -112,7 +111,7 @@ public class AuthenticationManagerTest {
             String userId = commands.get(ACCESS_TOKEN);
 
             assertEquals(userId, USER_ID);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             fail();
         }
     }
@@ -132,7 +131,7 @@ public class AuthenticationManagerTest {
 
             assertEquals(userId, USER_ID);
             assertEquals(AuthenticationManager.DEFAULT_TTL_SECONDS, remainingTTL);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             fail();
         }
     }
@@ -146,7 +145,7 @@ public class AuthenticationManagerTest {
             authManager.validateAccessToken(null, ACCESS_TOKEN);
 
             fail("TrackMeException was not thrown");
-        }catch (TrackMeException tex){
+        } catch (TrackMeException tex) {
             assertEquals(tex.getMessage(), TrackMeError.NOT_VALID_USER.getMessage());
         }
     }
@@ -160,7 +159,7 @@ public class AuthenticationManagerTest {
             authManager.validateAccessToken("", ACCESS_TOKEN);
 
             fail("TrackMeException was not thrown");
-        }catch (TrackMeException tex){
+        } catch (TrackMeException tex) {
             assertEquals(tex.getMessage(), TrackMeError.NOT_VALID_USER.getMessage());
         }
     }
@@ -174,7 +173,7 @@ public class AuthenticationManagerTest {
             authManager.validateAccessToken(USER_ID, null);
 
             fail("TrackMeException was not thrown");
-        }catch (TrackMeException tex){
+        } catch (TrackMeException tex) {
             assertEquals(tex.getMessage(), TrackMeError.NULL_TOKEN.getMessage());
         }
     }
@@ -188,7 +187,7 @@ public class AuthenticationManagerTest {
             authManager.validateAccessToken(USER_ID, "");
 
             fail("TrackMeException was not thrown");
-        }catch (TrackMeException tex){
+        } catch (TrackMeException tex) {
             assertEquals(tex.getMessage(), TrackMeError.NULL_TOKEN.getMessage());
         }
     }
@@ -202,7 +201,7 @@ public class AuthenticationManagerTest {
             authManager.validateAccessToken("not_valid_user_id", ACCESS_TOKEN);
 
             fail("TrackMeException was not thrown");
-        }catch (TrackMeException tex){
+        } catch (TrackMeException tex) {
             assertEquals(tex.getMessage(), TrackMeError.NOT_VALID_USER.getMessage());
         }
     }
@@ -216,7 +215,7 @@ public class AuthenticationManagerTest {
             authManager.validateAccessToken(USER_ID, "not_valid_access_token");
 
             fail("TrackMeException was not thrown");
-        }catch (TrackMeException tex){
+        } catch (TrackMeException tex) {
             assertEquals(tex.getMessage(), TrackMeError.NOT_VALID_SESSION.getMessage());
         }
     }
@@ -232,7 +231,7 @@ public class AuthenticationManagerTest {
             String appId = commands.get(SECRET_KEY);
 
             assertEquals(appId, APP_ID);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             fail();
         }
     }
@@ -246,7 +245,7 @@ public class AuthenticationManagerTest {
             authManager.validateSecretKey(null, SECRET_KEY);
 
             fail();
-        }catch (TrackMeException tex){
+        } catch (TrackMeException tex) {
             assertEquals(tex.getMessage(), TrackMeError.NOT_VALID_SECRET_KEY.getMessage());
         }
     }
@@ -260,7 +259,7 @@ public class AuthenticationManagerTest {
             authManager.validateSecretKey("", SECRET_KEY);
 
             fail();
-        }catch (TrackMeException tex){
+        } catch (TrackMeException tex) {
             assertEquals(tex.getMessage(), TrackMeError.NOT_VALID_SECRET_KEY.getMessage());
         }
     }
@@ -274,7 +273,7 @@ public class AuthenticationManagerTest {
             authManager.validateSecretKey(APP_ID, null);
 
             fail();
-        }catch (TrackMeException tex){
+        } catch (TrackMeException tex) {
             assertEquals(tex.getMessage(), TrackMeError.NOT_VALID_SECRET_KEY.getMessage());
         }
     }
@@ -288,7 +287,7 @@ public class AuthenticationManagerTest {
             authManager.validateSecretKey(APP_ID, "");
 
             fail();
-        }catch (TrackMeException tex){
+        } catch (TrackMeException tex) {
             assertEquals(tex.getMessage(), TrackMeError.NOT_VALID_SECRET_KEY.getMessage());
         }
     }
@@ -302,7 +301,7 @@ public class AuthenticationManagerTest {
             authManager.validateSecretKey("not_valid_app_id", SECRET_KEY);
 
             fail();
-        }catch (TrackMeException tex){
+        } catch (TrackMeException tex) {
             assertEquals(tex.getMessage(), TrackMeError.NOT_VALID_SECRET_KEY.getMessage());
         }
     }
@@ -316,14 +315,14 @@ public class AuthenticationManagerTest {
             authManager.validateSecretKey(APP_ID, "not_valid_secret_key");
 
             fail();
-        }catch (TrackMeException tex){
+        } catch (TrackMeException tex) {
             assertEquals(tex.getMessage(), TrackMeError.NOT_VALID_SECRET_KEY.getMessage());
         }
     }
 
     @Test
     @DisplayName("Test that setUserAccessToken creates the access token for a given individual")
-    public void testIfSetUserAccessTokenCreatesAndStoresAccessTokenForGivenIndividual(){
+    public void testIfSetUserAccessTokenCreatesAndStoresAccessTokenForGivenIndividual() {
         ObjectId objectId = new ObjectId();
         Individual individual = createIndividual(objectId);
         AuthenticationManager spyAuthManager = spy(authManager);
@@ -344,7 +343,7 @@ public class AuthenticationManagerTest {
 
     @Test
     @DisplayName("Test that setThirdPartySecretKey creates the secret key and app id for a third party")
-    public void testIfSetThirdPartySecretKeyCreatesAndStoresSecretKeyForGivenThirdParty(){
+    public void testIfSetThirdPartySecretKeyCreatesAndStoresSecretKeyForGivenThirdParty() {
         String seed = "seed_value";
         String APP_ID = "752a2cde31a23eeae28f59d7ad3762a1";
         AuthenticationManager spyAuthManager = spy(authManager);
@@ -365,7 +364,7 @@ public class AuthenticationManagerTest {
 
     @Test
     @DisplayName("Test that deleteAccessToken removes the access token from the DB")
-    public void testIfDeleteAccessTokenIsOk(){
+    public void testIfDeleteAccessTokenIsOk() {
         createAndStoreToken();
 
         authManager.deleteAccessToken(ACCESS_TOKEN);
@@ -376,200 +375,154 @@ public class AuthenticationManagerTest {
 
     @Test
     @DisplayName("Test authentication middleware when calling web endpoints")
-    public void testAuthOfWebEndpoints(){
+    public void testAuthOfWebEndpoints() {
         createAndStoreToken();
 
-        try {
-            HttpResponse<String> res = Unirest.get(TEST_APP_URL + "/web/dummy/endpoint")
-                    .header("USER_ID", USER_ID)
-                    .header("ACCESS-TOKEN", ACCESS_TOKEN)
-                    .asString();
+        HttpResponse<String> res = Unirest.get(TEST_APP_URL + "/web/dummy/endpoint")
+                .header("USER_ID", USER_ID)
+                .header("ACCESS-TOKEN", ACCESS_TOKEN)
+                .asString();
 
-            assertEquals(res.getBody(), DummyService.OK_RESPONSE);
+        assertEquals(res.getBody(), DummyService.OK_RESPONSE);
 
-        }catch(Exception ex){
-            fail(ex.getMessage());
-        }
     }
 
     @Test
     @DisplayName("Test not valid user id")
-    public void testNotValidUserId(){
+    public void testNotValidUserId() {
         createAndStoreToken();
 
-        try {
-            HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/web/dummy/endpoint")
-                    .header("USER_ID", "not_valid_user_id")
-                    .header("ACCESS-TOKEN", ACCESS_TOKEN)
-                    .asObject(ErrorResponse.class);
+        HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/web/dummy/endpoint")
+                .header("USER_ID", "not_valid_user_id")
+                .header("ACCESS-TOKEN", ACCESS_TOKEN)
+                .asObject(ErrorResponse.class);
 
-            assertEquals(res.getBody().getMessage(), TrackMeError.NOT_VALID_USER.getMessage());
-        }catch(Exception ex){
-            fail(ex.getMessage());
-        }
+        assertEquals(res.getBody().getMessage(), TrackMeError.NOT_VALID_USER.getMessage());
+
     }
 
     @Test
     @DisplayName("Test null user id")
-    public void testNullUserId(){
+    public void testNullUserId() {
         createAndStoreToken();
 
-        try {
-            HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/web/dummy/endpoint")
-                    .header("ACCESS-TOKEN", ACCESS_TOKEN)
-                    .asObject(ErrorResponse.class);
+        HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/web/dummy/endpoint")
+                .header("ACCESS-TOKEN", ACCESS_TOKEN)
+                .asObject(ErrorResponse.class);
 
-            assertEquals(res.getBody().getMessage(), TrackMeError.NOT_VALID_USER.getMessage());
-        }catch(Exception ex){
-            fail(ex.getMessage());
-        }
+        assertEquals(res.getBody().getMessage(), TrackMeError.NOT_VALID_USER.getMessage());
+
     }
 
     @Test
     @DisplayName("Test not valid access token")
-    public void testNotValidAT(){
+    public void testNotValidAT() {
         createAndStoreToken();
 
-        try {
-            HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/web/dummy/endpoint")
-                    .header("USER_ID", USER_ID)
-                    .header("ACCESS-TOKEN", "not_valid_access_token")
-                    .asObject(ErrorResponse.class);
+        HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/web/dummy/endpoint")
+                .header("USER_ID", USER_ID)
+                .header("ACCESS-TOKEN", "not_valid_access_token")
+                .asObject(ErrorResponse.class);
 
-            assertEquals(res.getBody().getMessage(), TrackMeError.NOT_VALID_SESSION.getMessage());
-        }catch(Exception ex){
-            fail(ex.getMessage());
-        }
+        assertEquals(res.getBody().getMessage(), TrackMeError.NOT_VALID_SESSION.getMessage());
     }
 
     @Test
     @DisplayName("Test empty access token")
-    public void testEmptyAccessToken(){
+    public void testEmptyAccessToken() {
         createAndStoreToken();
+        HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/web/dummy/endpoint")
+                .header("USER_ID", USER_ID)
+                .header("ACCESS-TOKEN", "")
+                .asObject(ErrorResponse.class);
 
-        try {
-            HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/web/dummy/endpoint")
-                    .header("USER_ID", USER_ID)
-                    .header("ACCESS-TOKEN", "")
-                    .asObject(ErrorResponse.class);
+        assertEquals(res.getBody().getMessage(), TrackMeError.NULL_TOKEN.getMessage());
 
-            assertEquals(res.getBody().getMessage(), TrackMeError.NULL_TOKEN.getMessage());
-        }catch(Exception ex){
-            fail(ex.getMessage());
-        }
     }
 
     @Test
     @DisplayName("Test null access token")
-    public void testNullAccessToken(){
+    public void testNullAccessToken() {
         createAndStoreToken();
+        HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/web/dummy/endpoint")
+                .header("USER_ID", USER_ID)
+                .asObject(ErrorResponse.class);
 
-        try {
-            HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/web/dummy/endpoint")
-                    .header("USER_ID", USER_ID)
-                    .asObject(ErrorResponse.class);
+        assertEquals(res.getBody().getMessage(), TrackMeError.NULL_TOKEN.getMessage());
 
-            assertEquals(res.getBody().getMessage(), TrackMeError.NULL_TOKEN.getMessage());
-        }catch(Exception ex){
-            fail(ex.getMessage());
-        }
     }
 
     @Test
     @DisplayName("Test sending secret key and app it to api calls")
-    public void testApiCallsWithSecretAndAppId(){
+    public void testApiCallsWithSecretAndAppId() {
         createAndStoreScretKeyAndAppId();
 
-        try {
-            HttpResponse<String> res = Unirest.get(TEST_APP_URL + "/api/dummy/endpoint")
-                    .header("SECRET_KEY", SECRET_KEY)
-                    .header("APP_ID", APP_ID)
-                    .asString();
+        HttpResponse<String> res = Unirest.get(TEST_APP_URL + "/api/dummy/endpoint")
+                .header("SECRET_KEY", SECRET_KEY)
+                .header("APP_ID", APP_ID)
+                .asString();
 
-            assertEquals(res.getBody(), DummyService.OK_RESPONSE);
-        }catch(Exception ex){
-            fail(ex.getMessage());
-        }
+        assertEquals(res.getBody(), DummyService.OK_RESPONSE);
     }
 
     @Test
     @DisplayName("Test null secret key")
-    public void testNullSecretKey(){
+    public void testNullSecretKey() {
         createAndStoreScretKeyAndAppId();
 
-        try {
-            HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/api/dummy/endpoint")
-                    .header("APP_ID", APP_ID)
-                    .asObject(ErrorResponse.class);
+        HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/api/dummy/endpoint")
+                .header("APP_ID", APP_ID)
+                .asObject(ErrorResponse.class);
 
-            assertEquals(res.getBody().getMessage(), TrackMeError.NOT_VALID_SECRET_KEY.getMessage());
-        }catch(Exception ex){
-            fail(ex.getMessage());
-        }
+        assertEquals(res.getBody().getMessage(), TrackMeError.NOT_VALID_SECRET_KEY.getMessage());
     }
 
     @Test
     @DisplayName("Test null app id")
-    public void testNullAppId(){
+    public void testNullAppId() {
         createAndStoreScretKeyAndAppId();
 
-        try {
-            HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/api/dummy/endpoint")
-                    .header("SECRET_KEY", SECRET_KEY)
-                    .asObject(ErrorResponse.class);
+        HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/api/dummy/endpoint")
+                .header("SECRET_KEY", SECRET_KEY)
+                .asObject(ErrorResponse.class);
 
-            assertEquals(res.getBody().getMessage(), TrackMeError.NOT_VALID_SECRET_KEY.getMessage());
-        }catch(Exception ex){
-            fail(ex.getMessage());
-        }
+        assertEquals(res.getBody().getMessage(), TrackMeError.NOT_VALID_SECRET_KEY.getMessage());
     }
 
     @Test
     @DisplayName("Test sending not valid secret key")
-    public void testNotValidSecret(){
+    public void testNotValidSecret() {
         createAndStoreScretKeyAndAppId();
 
-        try {
-            HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/api/dummy/endpoint")
-                    .header("SECRET_KEY", "not_valid_secret_key")
-                    .header("APP_ID", APP_ID)
-                    .asObject(ErrorResponse.class);
+        HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/api/dummy/endpoint")
+                .header("SECRET_KEY", "not_valid_secret_key")
+                .header("APP_ID", APP_ID)
+                .asObject(ErrorResponse.class);
 
-            assertEquals(res.getBody().getMessage(), TrackMeError.NOT_VALID_SECRET_KEY.getMessage());
-        }catch(Exception ex){
-            fail(ex.getMessage());
-        }
+        assertEquals(res.getBody().getMessage(), TrackMeError.NOT_VALID_SECRET_KEY.getMessage());
     }
 
     @Test
     @DisplayName("Test sending not valid app id to api calls")
-    public void testNotValidAppId(){
+    public void testNotValidAppId() {
         createAndStoreScretKeyAndAppId();
 
-        try {
-            HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/api/dummy/endpoint")
-                    .header("SECRET_KEY", SECRET_KEY)
-                    .header("APP_ID", "not_valid_app_id")
-                    .asObject(ErrorResponse.class);
+        HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/api/dummy/endpoint")
+                .header("SECRET_KEY", SECRET_KEY)
+                .header("APP_ID", "not_valid_app_id")
+                .asObject(ErrorResponse.class);
 
-            assertEquals(res.getBody().getMessage(), TrackMeError.NOT_VALID_SECRET_KEY.getMessage());
-        }catch(Exception ex){
-            fail(ex.getMessage());
-        }
+        assertEquals(res.getBody().getMessage(), TrackMeError.NOT_VALID_SECRET_KEY.getMessage());
     }
 
     @Test
     @DisplayName("Test uncached validation exceptions")
-    public void testUncachedValidationExceptions(){
-        try {
-            HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/web/some/path/with/login/word/to/avoid/auth/middleware")
-                    .asObject(ErrorResponse.class);
+    public void testUncachedValidationExceptions() {
+        HttpResponse<ErrorResponse> res = Unirest.get(TEST_APP_URL + "/web/some/path/with/login/word/to/avoid/auth/middleware")
+                .asObject(ErrorResponse.class);
 
-            assertEquals(res.getStatus(), HttpStatus.BAD_REQUEST_400);
-            assertEquals(res.getBody().getMessage(), DummyService.DUMMY_VALIDATION_EXCEPTION);
-        }catch(Exception ex){
-            fail(ex.getMessage());
-        }
+        assertEquals(res.getStatus(), HttpStatus.BAD_REQUEST_400);
+        assertEquals(res.getBody().getMessage(), DummyService.DUMMY_VALIDATION_EXCEPTION);
     }
 
     private Individual createIndividual(ObjectId objectId) {
@@ -578,12 +531,12 @@ public class AuthenticationManagerTest {
         return i;
     }
 
-    private void createAndStoreToken(){
+    private void createAndStoreToken() {
         SetArgs args = SetArgs.Builder.ex(AuthenticationManager.DEFAULT_TTL_SECONDS);
         commands.set(ACCESS_TOKEN, USER_ID, args);
     }
 
-    private void createAndStoreScretKeyAndAppId(){
+    private void createAndStoreScretKeyAndAppId() {
         commands.set(SECRET_KEY, APP_ID);
     }
 }
