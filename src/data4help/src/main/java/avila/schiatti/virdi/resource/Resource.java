@@ -10,24 +10,21 @@ import java.util.Collection;
 public abstract class Resource<T>  {
 
     private Class<T> clazz;
-    private DBManager dbManager;
     protected Datastore datastore;
 
     /**
      * Only for test constructor
-     * @param dbManager
      * @param datastore
      * @param aClass
      */
-    public Resource(DBManager dbManager, Datastore datastore, Class<T> aClass){
-        this.dbManager = dbManager;
+    public Resource(Datastore datastore, Class<T> aClass){
         this.datastore = datastore;
         this.clazz = aClass;
     }
 
     public Resource(Class<T> aClass) {
-        this.dbManager = DBManager.getInstance();
-        this.datastore = dbManager.getDatastore();
+        this.datastore = DBManager.getInstance()
+                .getDatastore();
         this.clazz = aClass;
     }
 

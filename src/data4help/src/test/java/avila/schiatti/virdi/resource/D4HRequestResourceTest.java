@@ -51,9 +51,8 @@ public class D4HRequestResourceTest {
 
     @BeforeAll
     public static void before() {
-        DBManager dbManager = mock(DBManager.class);
         datastore = createDatastore();
-        resource = new D4HRequestResource(dbManager, datastore);
+        resource = new D4HRequestResource(datastore);
     }
 
     @AfterEach

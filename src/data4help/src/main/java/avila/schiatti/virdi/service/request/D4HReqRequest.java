@@ -3,7 +3,6 @@ package avila.schiatti.virdi.service.request;
 import avila.schiatti.virdi.model.request.D4HRequestStatus;
 
 public class D4HReqRequest {
-    private String id;
     private String ssn;
     private D4HRequestStatus status;
 
@@ -21,13 +20,5 @@ public class D4HReqRequest {
 
     public void setStatus(D4HRequestStatus status) {
         this.status = status;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }

@@ -32,7 +32,7 @@ public class LoginServiceTest {
 
     private static final StaticConfiguration config = StaticConfiguration.getInstance();
     private static final Integer PORT = 8888;
-    private static final String TEST_APP_URL = "http://localhost:"+PORT+"/web";
+    private static final String TEST_APP_URL = "http://localhost:" + PORT + "/web";
     private static final String TESTING_REDIS_DB = "10";
     private final static String MODELS_PACKAGE = "avila.schiatti.virdi.model";
     private final static String MONGODB_TEST_DATABASE = "test_data4help";
@@ -45,7 +45,7 @@ public class LoginServiceTest {
     private static Datastore datastore;
     private static RedisCommands<String, String> commands;
 
-    private static Datastore createDatastore(){
+    private static Datastore createDatastore() {
         Morphia morphia = new Morphia();
         morphia.mapPackage(MODELS_PACKAGE);
         MongoClientURI mongoClientURI = new MongoClientURI(config.getMongoDBConnectionString());
@@ -63,14 +63,13 @@ public class LoginServiceTest {
     }
 
     private static UserResource setupUserResource() {
-        DBManager dbManager = mock(DBManager.class);
         datastore = createDatastore();
-        UserResource userResource = new UserResource(dbManager, datastore);
+        UserResource userResource = new UserResource(datastore);
 
         return userResource;
     }
 
-    private Individual createIndividualUser(){
+    private Individual createIndividualUser() {
         Individual i = new Individual();
         i.setSsn(SSN);
         i.setName(INDIVIDUAL_NAME);
@@ -81,7 +80,7 @@ public class LoginServiceTest {
         return i;
     }
 
-    private <T> T doLogin(String email, String password, Class<T> clazz) throws Exception{
+    private <T> T doLogin(String email, String password, Class<T> clazz) {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail(email);
         loginRequest.setPassword(password);
@@ -90,7 +89,7 @@ public class LoginServiceTest {
         return response.getBody();
     }
 
-    private String doLogout(String accessToken) throws Exception {
+    private String doLogout(String accessToken) {
         HttpResponse<String> response = Unirest.post(TEST_APP_URL + "/logout").header(Data4HelpApp.ACCESS_TOKEN, accessToken).asString();
         return response.getBody();
     }
@@ -98,7 +97,7 @@ public class LoginServiceTest {
     private static Data4HelpApp app;
 
     @BeforeAll
-    public static void beforeAll(){
+    public static void beforeAll() {
         Unirest.config().setObjectMapper(new JSONObjectMapper());
         setupAuthManager();
         LoginService service = new LoginService(AuthenticationManager.getInstance(), setupUserResource());
@@ -115,7 +114,7 @@ public class LoginServiceTest {
     }
 
     @AfterEach
-    public void afterEach(){
+    public void afterEach() {
         // remove all created users.
         Query<D4HUser> query = datastore.createQuery(D4HUser.class);
         datastore.delete(query);
@@ -125,89 +124,68 @@ public class LoginServiceTest {
 
     @Test
     @DisplayName("Test /web/login endpoint using existing email and password")
-    public void testLoginEndpointWithCorrectEmailAndPass(){
-        try {
-            Individual individual = createIndividualUser();
+    public void testLoginEndpointWithCorrectEmailAndPass() {
+        Individual individual = createIndividualUser();
 
-            LoginResponse response = doLogin(INDIVIDUAL_EMAIL, PASSWORD, LoginResponse.class);
+        LoginResponse response = doLogin(INDIVIDUAL_EMAIL, PASSWORD, LoginResponse.class);
 
-            assertEquals(individual.getId().toString(), response.getUserId());
+        assertEquals(individual.getId().toString(), response.getUserId());
 
-            String userId = commands.get(response.getAccessToken());
-            long ttl = commands.ttl(response.getAccessToken());
+        String userId = commands.get(response.getAccessToken());
+        long ttl = commands.ttl(response.getAccessToken());
 
-            assertEquals(individual.getId().toString(), userId);
-            assertEquals(3600L, ttl);
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+        assertEquals(individual.getId().toString(), userId);
+        assertEquals(3600L, ttl);
     }
 
     @Test
     @DisplayName("Test /web/login endpoint using existing not valid email and password")
-    public void testLoginEndpointWithWrongEmail(){
-        try {
-            createIndividualUser();
-            ErrorResponse response = doLogin("not_valid@email.com", PASSWORD, ErrorResponse.class);
+    public void testLoginEndpointWithWrongEmail() {
+        createIndividualUser();
+        ErrorResponse response = doLogin("not_valid@email.com", PASSWORD, ErrorResponse.class);
 
-            assertEquals(response.getMessage(), TrackMeError.NOT_VALID_EMAIL_OR_PASSWORD.getMessage());
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+        assertEquals(response.getMessage(), TrackMeError.NOT_VALID_EMAIL_OR_PASSWORD.getMessage());
     }
 
     @Test
     @DisplayName("Test /web/login endpoint using existing email and not valid password")
-    public void testLoginEndpointWithWrongPassword(){
-        try {
-            createIndividualUser();
-            ErrorResponse result = doLogin(INDIVIDUAL_EMAIL, "not_valid_password", ErrorResponse.class);
+    public void testLoginEndpointWithWrongPassword() {
+        createIndividualUser();
+        ErrorResponse result = doLogin(INDIVIDUAL_EMAIL, "not_valid_password", ErrorResponse.class);
 
-            assertEquals(result.getMessage(), TrackMeError.NOT_VALID_EMAIL_OR_PASSWORD.getMessage());
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+        assertEquals(result.getMessage(), TrackMeError.NOT_VALID_EMAIL_OR_PASSWORD.getMessage());
     }
 
     @Test
     @DisplayName("Test /web/logout endpoint using existing access token")
-    public void testLogoutEndpointWithCorrectAT(){
-        try {
-            // prerequisites
-            Individual individual = createIndividualUser();
-            LoginResponse loginResponse = doLogin(INDIVIDUAL_EMAIL, PASSWORD, LoginResponse.class);
-            String userId = commands.get(loginResponse.getAccessToken());
-            assertEquals(individual.getId().toString(), userId);
-            //-------------------------
-            // do logout
-            doLogout(loginResponse.getAccessToken());
-            String notFoundId = commands.get(loginResponse.getAccessToken());
-            assertNull(notFoundId);
-
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+    public void testLogoutEndpointWithCorrectAT() {
+        // prerequisites
+        Individual individual = createIndividualUser();
+        LoginResponse loginResponse = doLogin(INDIVIDUAL_EMAIL, PASSWORD, LoginResponse.class);
+        String userId = commands.get(loginResponse.getAccessToken());
+        assertEquals(individual.getId().toString(), userId);
+        //-------------------------
+        // do logout
+        doLogout(loginResponse.getAccessToken());
+        String notFoundId = commands.get(loginResponse.getAccessToken());
+        assertNull(notFoundId);
     }
 
     @Test
     @DisplayName("Test /web/logout endpoint using not valid access token")
-    public void testLogoutEndpointWithWrongAT(){
+    public void testLogoutEndpointWithWrongAT() {
         String NOT_VALID_ACCESS_TOKEN = "not_valid_access_token";
-        try {
-            // prerequisites
-            Individual individual = createIndividualUser();
-            LoginResponse loginResponse = doLogin(INDIVIDUAL_EMAIL, PASSWORD, LoginResponse.class);
-            String userId = commands.get(loginResponse.getAccessToken());
-            assertEquals(individual.getId().toString(), userId);
-            //-------------------------
-            // do logout
-            doLogout(NOT_VALID_ACCESS_TOKEN);
+        // prerequisites
+        Individual individual = createIndividualUser();
+        LoginResponse loginResponse = doLogin(INDIVIDUAL_EMAIL, PASSWORD, LoginResponse.class);
+        String userId = commands.get(loginResponse.getAccessToken());
+        assertEquals(individual.getId().toString(), userId);
+        //-------------------------
+        // do logout
+        doLogout(NOT_VALID_ACCESS_TOKEN);
 
-            // nothing change..
-            userId = commands.get(loginResponse.getAccessToken());
-            assertEquals(individual.getId().toString(), userId);
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+        // nothing change..
+        userId = commands.get(loginResponse.getAccessToken());
+        assertEquals(individual.getId().toString(), userId);
     }
 }

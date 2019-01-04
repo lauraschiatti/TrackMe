@@ -47,10 +47,10 @@ public final class StaticConfiguration {
 
             logger.info("Setting up configuration variables");
 
-            DATABASE_NAME = tmConfig.getMongoDBName();
-            LOCAL_MONGODB_URI = tmConfig.getMongoURI();
-            REDIS_URL = tmConfig.getRedisURI();
-            REDIS_DB = tmConfig.getRedisDBNumber();
+            DATABASE_NAME = (configVars.get("MONGODB_DATABASE") != null) ? configVars.get("MONGODB_DATABASE") : tmConfig.getMongoDBName();
+            LOCAL_MONGODB_URI = (configVars.get("MONGODB_URI") != null) ? configVars.get("MONGODB_URI") : tmConfig.getMongoURI();
+            REDIS_URL = (configVars.get("REDIS_URL") != null) ? configVars.get("REDIS_URL") : tmConfig.getRedisURI();
+            REDIS_DB = (configVars.get("REDIS_DB") != null) ? configVars.get("REDIS_DB") : tmConfig.getRedisDBNumber();
         }catch(Exception ex) {
             logger.error(ex.getMessage(), ex);
 
@@ -59,6 +59,9 @@ public final class StaticConfiguration {
             REDIS_URL = "";
             REDIS_DB = "";
         }
+
+        logger.debug(LOCAL_MONGODB_URI);
+        logger.debug(REDIS_URL);
     }
 
     @NotNull
@@ -67,22 +70,22 @@ public final class StaticConfiguration {
     }
 
     public String getMongoDBConnectionString(){
-        return (configVars.get("MONGODB_URI") != null) ? configVars.get("MONGODB_URI") : LOCAL_MONGODB_URI;
+        return LOCAL_MONGODB_URI;
     }
 
     public String getMongoDBDatabase(){
-        return (configVars.get("MONGODB_DATABASE") != null) ? configVars.get("MONGODB_DATABASE") : DATABASE_NAME;
+        return DATABASE_NAME;
     }
 
     public String getRedisConnectionString(){
-        return (configVars.get("REDIS_URL") != null && configVars.get("REDIS_DB") != null) ? configVars.get("REDIS_URL").concat(configVars.get("REDIS_DB")) : REDIS_URL.concat(REDIS_DB);
+        return getRedisUrl().concat(getRedisDb());
     }
 
     public String getRedisUrl(){
-        return (configVars.get("REDIS_URL") != null) ? configVars.get("REDIS_URL") : REDIS_URL;
+        return REDIS_URL;
     }
 
     public String getRedisDb(){
-        return (configVars.get("REDIS_DB") != null) ? configVars.get("REDIS_DB") : REDIS_DB;
+        return REDIS_DB;
     }
 }

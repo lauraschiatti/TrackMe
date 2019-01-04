@@ -17,10 +17,7 @@ import avila.schiatti.virdi.service.request.IndividualSignupRequestForTest;
 import avila.schiatti.virdi.service.request.ThirdPartySignupRequest;
 import avila.schiatti.virdi.service.response.ErrorResponse;
 import avila.schiatti.virdi.service.response.SignupResponse;
-import avila.schiatti.virdi.utils.adapter.LocalDateAdapter;
 import avila.schiatti.virdi.utils.JSONObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import io.lettuce.core.RedisClient;
@@ -34,7 +31,6 @@ import xyz.morphia.Morphia;
 import xyz.morphia.query.Query;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -43,10 +39,8 @@ import static org.mockito.Mockito.mock;
 public class SignupServiceTest {
 
     private static final StaticConfiguration config = StaticConfiguration.getInstance();
-    // there is a problem between this test cases and the loginservice tests, when using the
-    // same port, even though the server is destroyed
-    private static final Integer PORT = 9999;
-    private static final String TEST_APP_URL = "http://localhost:"+PORT+"/web";
+    private static final Integer PORT = 8888;
+    private static final String TEST_APP_URL = "http://localhost:" + PORT + "/web";
     private static final String TESTING_REDIS_DB = "10";
     private final static String MODELS_PACKAGE = "avila.schiatti.virdi.model";
     private final static String MONGODB_TEST_DATABASE = "test_data4help";
@@ -71,7 +65,7 @@ public class SignupServiceTest {
     private static Datastore datastore;
     private static RedisCommands<String, String> commands;
 
-    private static Datastore createDatastore(){
+    private static Datastore createDatastore() {
         Morphia morphia = new Morphia();
         morphia.mapPackage(MODELS_PACKAGE);
         MongoClientURI mongoClientURI = new MongoClientURI(config.getMongoDBConnectionString());
@@ -89,10 +83,9 @@ public class SignupServiceTest {
     }
 
     private static UserResource setupUserResource() {
-        DBManager dbManager = mock(DBManager.class);
         datastore = createDatastore();
 
-        return new UserResource(dbManager, datastore);
+        return new UserResource(datastore);
     }
 
     private <T> T doIndividualSignup(IndividualSignupRequestForTest body, Class<T> clazz) {
@@ -108,7 +101,7 @@ public class SignupServiceTest {
     private static Data4HelpApp app;
 
     @BeforeAll
-    public static void beforeAll(){
+    public static void beforeAll() {
         Unirest.config().setObjectMapper(new JSONObjectMapper());
         setupAuthManager();
         SignupService service = new SignupService(setupUserResource(), AuthenticationManager.getInstance());
@@ -125,7 +118,7 @@ public class SignupServiceTest {
     }
 
     @AfterEach
-    public void afterEach(){
+    public void afterEach() {
         // remove all created users.
         Query<D4HUser> query = datastore.createQuery(D4HUser.class);
         datastore.delete(query);
@@ -135,7 +128,7 @@ public class SignupServiceTest {
 
     @Test
     @DisplayName("Test /web/individual/signup is ok")
-    public void testIndividualSignupOK(){
+    public void testIndividualSignupOK() {
         IndividualSignupRequestForTest req = new IndividualSignupRequestForTest();
         req.setAddress(INDIVIDUAL_ADDRESS);
         req.getAddress().setCity("city");
@@ -149,30 +142,25 @@ public class SignupServiceTest {
         req.setPassword(PASSWORD);
         req.setSsn(SSN);
 
-        try {
-            SignupResponse res = doIndividualSignup(req, SignupResponse.class);
-            Individual i = datastore.find(Individual.class).field("ssn").equal(req.getSsn()).get();
+        SignupResponse res = doIndividualSignup(req, SignupResponse.class);
+        Individual i = datastore.find(Individual.class).field("ssn").equal(req.getSsn()).get();
 
-            // the user is stored in the DB
-            assertEquals(i.getSsn(), SSN);
-            assertEquals(i.getName(), INDIVIDUAL_NAME);
-            assertEquals(i.getEmail(), INDIVIDUAL_EMAIL);
-            assertEquals(i.getId().toString(), res.getUserId());
-            // the user is stored in the RedisDB
-            String userId = commands.get(res.getAccessToken());
-            Long ttl = commands.ttl(res.getAccessToken());
+        // the user is stored in the DB
+        assertEquals(i.getSsn(), SSN);
+        assertEquals(i.getName(), INDIVIDUAL_NAME);
+        assertEquals(i.getEmail(), INDIVIDUAL_EMAIL);
+        assertEquals(i.getId().toString(), res.getUserId());
+        // the user is stored in the RedisDB
+        String userId = commands.get(res.getAccessToken());
+        Long ttl = commands.ttl(res.getAccessToken());
 
-            assertEquals(userId, res.getUserId());
-            assertEquals(ttl, DEFAULT_TTL);
-
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+        assertEquals(userId, res.getUserId());
+        assertEquals(ttl, DEFAULT_TTL);
     }
 
     @Test
     @DisplayName("Test /web/thirdparty/signup is ok")
-    public void testThirdPartySignupOK(){
+    public void testThirdPartySignupOK() {
         ThirdPartySignupRequest req = new ThirdPartySignupRequest();
         req.setEmail(COMPANY_EMAIL);
         req.setName(COMPANY_NAME);
@@ -180,37 +168,32 @@ public class SignupServiceTest {
         req.setPhone(COMPANY_PHONE);
         req.setTaxCode(COMPANY_TAX_CODE);
 
-        try {
-            SignupResponse res = doThirdPartySignup(req, SignupResponse.class);
-            ThirdParty tp = datastore.find(ThirdParty.class).field("email").equal(req.getEmail()).get();
+        SignupResponse res = doThirdPartySignup(req, SignupResponse.class);
+        ThirdParty tp = datastore.find(ThirdParty.class).field("email").equal(req.getEmail()).get();
 
-            // the user is stored in the DB
-            assertEquals(tp.getName(), COMPANY_NAME);
-            assertEquals(tp.getEmail(), COMPANY_EMAIL);
-            assertEquals(tp.getId().toString(), res.getUserId());
+        // the user is stored in the DB
+        assertEquals(tp.getName(), COMPANY_NAME);
+        assertEquals(tp.getEmail(), COMPANY_EMAIL);
+        assertEquals(tp.getId().toString(), res.getUserId());
 
-            // the user is stored in the RedisDB
-            String userId = commands.get(res.getAccessToken());
-            Long sessionTtl = commands.ttl(res.getAccessToken());
-            String appId = commands.get(tp.getSecretKey());
-            long ttl = commands.ttl(tp.getSecretKey());
+        // the user is stored in the RedisDB
+        String userId = commands.get(res.getAccessToken());
+        Long sessionTtl = commands.ttl(res.getAccessToken());
+        String appId = commands.get(tp.getSecretKey());
+        long ttl = commands.ttl(tp.getSecretKey());
 
-            // check if the login session token is ok.
-            assertEquals(userId, res.getUserId());
-            assertEquals(sessionTtl, DEFAULT_TTL);
+        // check if the login session token is ok.
+        assertEquals(userId, res.getUserId());
+        assertEquals(sessionTtl, DEFAULT_TTL);
 
-            // check if it has created a secret key + app id
-            assertEquals(appId, tp.getAppId());
-            assertEquals(ttl, -1L);
-
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+        // check if it has created a secret key + app id
+        assertEquals(appId, tp.getAppId());
+        assertEquals(ttl, -1L);
     }
 
     @Test
     @DisplayName("Test /web/individual/signup returns an error when not valid email is passed")
-    public void testIfSignupReturnsAnErrorWhenInvalidEmail(){
+    public void testIfSignupReturnsAnErrorWhenInvalidEmail() {
         IndividualSignupRequestForTest req = new IndividualSignupRequestForTest();
         req.setAddress(INDIVIDUAL_ADDRESS);
         req.getAddress().setCity("city");
@@ -224,25 +207,20 @@ public class SignupServiceTest {
         req.setPassword(PASSWORD);
         req.setSsn(SSN);
 
-        try {
-            ErrorResponse res = doIndividualSignup(req, ErrorResponse.class);
+        ErrorResponse res = doIndividualSignup(req, ErrorResponse.class);
 
-            // the user is NOT stored in the DB
-            Individual i = datastore.find(Individual.class).field("ssn").equal(req.getSsn()).get();
-            assertNull(i);
+        // the user is NOT stored in the DB
+        Individual i = datastore.find(Individual.class).field("ssn").equal(req.getSsn()).get();
+        assertNull(i);
 
-            // check message
-            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), ValidationError.NOT_VALID_EMAIL.getMessage());
-            assertEquals(expected, res.getMessage());
-
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+        // check message
+        String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), ValidationError.NOT_VALID_EMAIL.getMessage());
+        assertEquals(expected, res.getMessage());
     }
 
     @Test
     @DisplayName("Test /web/individual/signup returns an error when not valid ssn")
-    public void testIfSignupReturnsAnErrorWhenSSNNotPresent(){
+    public void testIfSignupReturnsAnErrorWhenSSNNotPresent() {
         IndividualSignupRequestForTest req = new IndividualSignupRequestForTest();
         req.setAddress(INDIVIDUAL_ADDRESS);
         req.getAddress().setCity("city");
@@ -256,25 +234,20 @@ public class SignupServiceTest {
         req.setPassword(PASSWORD);
         req.setSsn(null);
 
-        try {
-            ErrorResponse res = doIndividualSignup(req, ErrorResponse.class);
+        ErrorResponse res = doIndividualSignup(req, ErrorResponse.class);
 
-            // the user is NOT stored in the DB
-            Individual i = datastore.find(Individual.class).field("ssn").equal(req.getSsn()).get();
-            assertNull(i);
+        // the user is NOT stored in the DB
+        Individual i = datastore.find(Individual.class).field("ssn").equal(req.getSsn()).get();
+        assertNull(i);
 
-            // check message
-            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "SSN"));
-            assertEquals(expected, res.getMessage());
-
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+        // check message
+        String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "SSN"));
+        assertEquals(expected, res.getMessage());
     }
 
     @Test
     @DisplayName("Test /web/individual/signup returns an error when not valid name")
-    public void testIfSignupReturnsAnErrorWhenEmptyName(){
+    public void testIfSignupReturnsAnErrorWhenEmptyName() {
         IndividualSignupRequestForTest req = new IndividualSignupRequestForTest();
         req.setAddress(INDIVIDUAL_ADDRESS);
         req.getAddress().setCity("city");
@@ -288,25 +261,20 @@ public class SignupServiceTest {
         req.setPassword(PASSWORD);
         req.setSsn(SSN);
 
-        try {
-            ErrorResponse res = doIndividualSignup(req, ErrorResponse.class);
+        ErrorResponse res = doIndividualSignup(req, ErrorResponse.class);
 
-            // the user is NOT stored in the DB
-            Individual i = datastore.find(Individual.class).field("ssn").equal(req.getSsn()).get();
-            assertNull(i);
+        // the user is NOT stored in the DB
+        Individual i = datastore.find(Individual.class).field("ssn").equal(req.getSsn()).get();
+        assertNull(i);
 
-            // check message
-            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Name"));
-            assertEquals(expected, res.getMessage());
-
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+        // check message
+        String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Name"));
+        assertEquals(expected, res.getMessage());
     }
 
     @Test
     @DisplayName("Test /web/individual/signup returns an error when empty password")
-    public void testIfSignupReturnsAnErrorWhenEmptyPassword(){
+    public void testIfSignupReturnsAnErrorWhenEmptyPassword() {
         IndividualSignupRequestForTest req = new IndividualSignupRequestForTest();
         req.setAddress(INDIVIDUAL_ADDRESS);
         req.getAddress().setCity("city");
@@ -320,25 +288,20 @@ public class SignupServiceTest {
         req.setPassword("");
         req.setSsn(SSN);
 
-        try {
-            ErrorResponse res = doIndividualSignup(req, ErrorResponse.class);
+        ErrorResponse res = doIndividualSignup(req, ErrorResponse.class);
 
-            // the user is NOT stored in the DB
-            Individual i = datastore.find(Individual.class).field("ssn").equal(req.getSsn()).get();
-            assertNull(i);
+        // the user is NOT stored in the DB
+        Individual i = datastore.find(Individual.class).field("ssn").equal(req.getSsn()).get();
+        assertNull(i);
 
-            // check message
-            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Password"));
-            assertEquals(expected, res.getMessage());
-
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+        // check message
+        String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Password"));
+        assertEquals(expected, res.getMessage());
     }
 
     @Test
     @DisplayName("Test /web/thirdparty/signup is ok")
-    public void test_1(){
+    public void test_1() {
         ThirdPartySignupRequest req = new ThirdPartySignupRequest();
         req.setEmail("not_valid_email");
         req.setName(COMPANY_NAME);
@@ -346,25 +309,20 @@ public class SignupServiceTest {
         req.setPhone(COMPANY_PHONE);
         req.setTaxCode(COMPANY_TAX_CODE);
 
-        try {
-            ErrorResponse res = doThirdPartySignup(req, ErrorResponse.class);
-            ThirdParty tp = datastore.find(ThirdParty.class).field("email").equal(req.getEmail()).get();
+        ErrorResponse res = doThirdPartySignup(req, ErrorResponse.class);
+        ThirdParty tp = datastore.find(ThirdParty.class).field("email").equal(req.getEmail()).get();
 
-            // the user is stored in the DB
-            assertNull(tp);
+        // the user is stored in the DB
+        assertNull(tp);
 
-            // check message
-            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), ValidationError.NOT_VALID_EMAIL.getMessage());
-            assertEquals(expected, res.getMessage());
-
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+        // check message
+        String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), ValidationError.NOT_VALID_EMAIL.getMessage());
+        assertEquals(expected, res.getMessage());
     }
 
     @Test
     @DisplayName("Test /web/thirdparty/signup is ok")
-    public void test_2(){
+    public void test_2() {
         ThirdPartySignupRequest req = new ThirdPartySignupRequest();
         req.setEmail(COMPANY_EMAIL);
         req.setName(null);
@@ -372,25 +330,20 @@ public class SignupServiceTest {
         req.setPhone(COMPANY_PHONE);
         req.setTaxCode(COMPANY_TAX_CODE);
 
-        try {
-            ErrorResponse res = doThirdPartySignup(req, ErrorResponse.class);
-            ThirdParty tp = datastore.find(ThirdParty.class).field("email").equal(req.getEmail()).get();
+        ErrorResponse res = doThirdPartySignup(req, ErrorResponse.class);
+        ThirdParty tp = datastore.find(ThirdParty.class).field("email").equal(req.getEmail()).get();
 
-            // the user is stored in the DB
-            assertNull(tp);
+        // the user is stored in the DB
+        assertNull(tp);
 
-            // check message
-            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Business Name"));
-            assertEquals(expected, res.getMessage());
-
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+        // check message
+        String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Business Name"));
+        assertEquals(expected, res.getMessage());
     }
 
     @Test
     @DisplayName("Test /web/thirdparty/signup is ok")
-    public void test_3(){
+    public void test_3() {
         ThirdPartySignupRequest req = new ThirdPartySignupRequest();
         req.setEmail(COMPANY_EMAIL);
         req.setName(COMPANY_NAME);
@@ -398,25 +351,20 @@ public class SignupServiceTest {
         req.setPhone(COMPANY_PHONE);
         req.setTaxCode(COMPANY_TAX_CODE);
 
-        try {
-            ErrorResponse res = doThirdPartySignup(req, ErrorResponse.class);
-            ThirdParty tp = datastore.find(ThirdParty.class).field("email").equal(req.getEmail()).get();
+        ErrorResponse res = doThirdPartySignup(req, ErrorResponse.class);
+        ThirdParty tp = datastore.find(ThirdParty.class).field("email").equal(req.getEmail()).get();
 
-            // the user is stored in the DB
-            assertNull(tp);
+        // the user is stored in the DB
+        assertNull(tp);
 
-            // check message
-            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Password"));
-            assertEquals(expected, res.getMessage());
-
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+        // check message
+        String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Password"));
+        assertEquals(expected, res.getMessage());
     }
 
     @Test
     @DisplayName("Test /web/thirdparty/signup is ok")
-    public void test_4(){
+    public void test_4() {
         ThirdPartySignupRequest req = new ThirdPartySignupRequest();
         req.setEmail(COMPANY_EMAIL);
         req.setName(COMPANY_NAME);
@@ -424,20 +372,15 @@ public class SignupServiceTest {
         req.setPhone(COMPANY_PHONE);
         req.setTaxCode("");
 
-        try {
-            ErrorResponse res = doThirdPartySignup(req, ErrorResponse.class);
-            ThirdParty tp = datastore.find(ThirdParty.class).field("email").equal(req.getEmail()).get();
+        ErrorResponse res = doThirdPartySignup(req, ErrorResponse.class);
+        ThirdParty tp = datastore.find(ThirdParty.class).field("email").equal(req.getEmail()).get();
 
-            // the user is stored in the DB
-            assertNull(tp);
+        // the user is stored in the DB
+        assertNull(tp);
 
-            // check message
-            String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Tax Code"));
-            assertEquals(expected, res.getMessage());
-
-        }catch (Exception ex){
-            fail(ex.getMessage());
-        }
+        // check message
+        String expected = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), String.format(ValidationError.NOT_VALID_FIELD.getMessage(), "Tax Code"));
+        assertEquals(expected, res.getMessage());
     }
 
 }

@@ -23,6 +23,7 @@ import avila.schiatti.virdi.utils.Validator;
 import spark.Request;
 import spark.Response;
 
+import javax.sound.midi.Track;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -37,14 +38,16 @@ public class D4HRequestService extends Service {
 
     /**
      * Only for testing
+     *
      * @param requestResource
      * @param subscriptionResource
      * @param userResource
      */
-    public D4HRequestService(D4HRequestResource requestResource, SubscriptionResource subscriptionResource, UserResource userResource) {
+    public D4HRequestService(D4HRequestResource requestResource, SubscriptionResource subscriptionResource, UserResource userResource, APIManager apiManager) {
         this.requestResource = requestResource;
         this.subscriptionResource = subscriptionResource;
         this.userResource = userResource;
+        this.apiManager = apiManager;
     }
 
     private D4HRequestService() {
@@ -54,13 +57,13 @@ public class D4HRequestService extends Service {
         apiManager = APIManager.create();
     }
 
-    public static D4HRequestService create(){
+    public static D4HRequestService create() {
         return new D4HRequestService();
     }
 
     @Override
     public void setupWebEndpoints() {
-        path("/requests", ()->{
+        path("/requests", () -> {
             get("/", this::getAllRequests, jsonTransformer::toJson);
 
             patch("/:id", this::updateRequestStatus, jsonTransformer::toJson);
@@ -75,20 +78,20 @@ public class D4HRequestService extends Service {
         D4HRequest req = requestResource.getById(rid);
 
         // if the request is not found
-        if(req == null){
+        if (req == null) {
             throw new TrackMeException(TrackMeError.NOT_VALID_REQUEST_ID);
         }
         // if the individual of the request does not belong to the logged in user
-        if(!req.getIndividual().getId().toString().equals(userId)){
+        if (!req.getIndividual().getId().toString().equals(userId)) {
             throw new TrackMeException(TrackMeError.NOT_VALID_USER);
         }
 
-        if(D4HRequestStatus.APPROVED.equals(body.getStatus())) {
+        if (D4HRequestStatus.APPROVED.equals(body.getStatus())) {
             requestResource.accept(req);
             // If the user accepts the request, we should create a subscription.
             Subscription subscription = createSubscription(req.getIndividual(), req.getThirdParty());
             subscriptionResource.add(subscription);
-        } else{
+        } else {
             // TODO should I remove the subscription when I reject the Request??
             requestResource.reject(req);
         }
@@ -104,11 +107,15 @@ public class D4HRequestService extends Service {
         String userId = request.headers(Data4HelpApp.USER_ID);
         D4HUser user = userResource.getById(userId);
 
+        if (user == null) {
+            throw new TrackMeException(TrackMeError.NOT_VALID_USER);
+        }
+
         Collection<D4HRequest> requests;
 
-        if(D4HUserRole.INDIVIDUAL.equals(user.getRole())){
+        if (D4HUserRole.INDIVIDUAL.equals(user.getRole())) {
             requests = requestResource.getByUserId(userId, status);
-        }else{
+        } else {
             requests = requestResource.getByThirdPartyId(userId, status);
         }
 
@@ -139,7 +146,7 @@ public class D4HRequestService extends Service {
 
     @Override
     public void setupApiEndpoints() {
-        path("/requests", ()->{
+        path("/requests", () -> {
             post("/", this::createRequest, jsonTransformer::toJson);
 
             delete("/:id", this::deleteRequest, jsonTransformer::toJson);
@@ -154,11 +161,11 @@ public class D4HRequestService extends Service {
         D4HRequest req = requestResource.getById(rid);
 
         // if the request is not found
-        if(req == null){
+        if (req == null) {
             throw new TrackMeException(TrackMeError.NOT_VALID_REQUEST_ID);
-        }
-        // if the individual of the request does not belong to the logged in user
-        if(!req.getThirdParty().getId().equals(tp.getId())){
+        } else if (tp == null || !req.getThirdParty().getId().equals(tp.getId())) {
+            // if the third party does not exit
+            // if the individual of the request does not belong to the logged in user
             throw new TrackMeException(TrackMeError.NOT_VALID_SECRET_KEY);
         }
 
@@ -187,7 +194,7 @@ public class D4HRequestService extends Service {
 
             return new ResponseWrapper<>(res);
 
-        }catch(ValidationException vex){
+        } catch (ValidationException vex) {
             String msg = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), vex.getMessage());
             throw new TrackMeException(TrackMeError.VALIDATION_ERROR, msg);
         }

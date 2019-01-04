@@ -4,7 +4,7 @@ services:
     image: "redis:4.0"
   mongodb:
     image: "mongo:4.0.4"
-  d4h:
+  d4h_test:
     build: ./data4help
     ports:
         - "4567:4567"
@@ -14,4 +14,4 @@ services:
     depends_on:
         - "mongodb"
         - "redis"
-    command: ["./wait-for-it.sh", "mongodb:27017", "--", "./wait-for-it.sh", "redis:6379", "--", "/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", "target/data4help-jar-with-dependencies.jar"]
+    command: ["./wait-for-it.sh", "mongodb:27017", "--", "./wait-for-it.sh", "redis:6379", "--", "mvn", "test"]

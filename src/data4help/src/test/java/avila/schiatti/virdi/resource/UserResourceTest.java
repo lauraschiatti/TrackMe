@@ -46,9 +46,8 @@ public class UserResourceTest {
 
     @BeforeAll
     public static void before() {
-        DBManager dbManager = mock(DBManager.class);
         datastore = createDatastore();
-        resource = new UserResource(dbManager, datastore);
+        resource = new UserResource(datastore);
     }
 
     @AfterEach

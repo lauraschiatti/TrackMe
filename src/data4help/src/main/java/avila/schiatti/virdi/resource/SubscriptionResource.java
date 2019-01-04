@@ -1,10 +1,8 @@
 package avila.schiatti.virdi.resource;
 
-import avila.schiatti.virdi.database.DBManager;
 import avila.schiatti.virdi.model.subscription.Subscription;
 import org.bson.types.ObjectId;
 import xyz.morphia.Datastore;
-import xyz.morphia.query.Query;
 
 import java.util.Collection;
 
@@ -12,10 +10,9 @@ public class SubscriptionResource extends Resource<Subscription> {
 
     /**
      * Only for testing
-     * @param dbManager
      */
-    public SubscriptionResource(DBManager dbManager, Datastore datastore) {
-        super(dbManager, datastore, Subscription.class);
+    public SubscriptionResource(Datastore datastore) {
+        super(datastore, Subscription.class);
     }
 
     private SubscriptionResource() {
