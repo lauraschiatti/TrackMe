@@ -76,7 +76,7 @@
               <label class="font-weight-bold">Blood type</label>
               <select class="form-control" formControlName="bloodType" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.bloodType.errors }">
                 <option value="" disabled>Choose a blood type</option>
-                <option *ngFor="let bt of bloodTypes" [ngValue]="bt">{{ bt }}</option>
+                <option *ngFor="let bt of bloodTypes" [ngValue]="bt.value">{{ bt.label }}</option>
               </select>
               <div *ngIf="iFormSubmitted && iControls.bloodType.errors" class="invalid-feedback">
                 <div *ngIf="iControls.bloodType.errors.required">It is required to select a blood type</div>
@@ -124,6 +124,7 @@
           </div>
         </form>
       </div>
+
 
 
       <div class="col-md-12 col-lg-6 mb-5">

@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-// import { HttpClient } from '@angular/common/http';
-
+// import { SignupService } from '../_services/signup.service';
 // import { Router } from '@angular/router';
-// import { IndividualService } from '../_services/individual.service';
 
 @Component({
   selector: 'app-register',
@@ -15,14 +13,23 @@ export class RegisterComponent implements OnInit {
     tpForm: FormGroup;
     iFormSubmitted = false;
     tpFormSubmitted = false;
-    bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+    bloodTypes = [
+        {value: 'A_POSITIVE', label: 'A+'},
+        {value: 'A_NEGATIVE', label: 'A-'},
+        {value: 'B_POSITIVE', label: 'B+'},
+        {value: 'B_NEGATIVE', label: 'B-'},
+        {value: 'AB_POSITIVE', label: 'AB+'},
+        {value: 'AB_NEGATIVE', label: 'AB-'},
+        {value: 'ZERO_POSITIVE', label: 'O+'},
+        {value: 'ZERO_NEGATIVE', label: 'O-'}
+    ];
 
     constructor(
         private iFormBuilder: FormBuilder,
         private tpFormBuilder: FormBuilder,
         // private route: ActivatedRoute,
         // private router: Router,
-        // private individualService: IndividualService,
+        // private signupService: SignupService,
     ) {}
 
     ngOnInit() {
@@ -67,9 +74,30 @@ export class RegisterComponent implements OnInit {
         }
         alert('INDIVIDUAL!! :-)\n\n' + JSON.stringify(this.iForm.value));
 
-        // http.get(baseUrl + 'api/SampleData/GetSummaries').subscribe(result => {
-        //     this.summaries = result.json() as any[];
-        // }, error => console.error(error));
+        // this.signupService.signupIndividual(
+        //     this.iControls.name.value,
+        //     this.iControls.gender.value,
+        //     this.iControls.birthDate.value,
+        //     this.iControls.ssn.value,
+        //     this.iControls.weight.value,
+        //     this.iControls.height.value,
+        //     this.iControls.bloodType.value,
+        //     this.iControls.address.value,
+        //     this.iControls.email.value,
+        //     this.iControls.password.value
+        // );
+
+        // this.authenticationService.login(this.f.username.value, this.f.password.value)
+        //     .pipe(first())
+        //     .subscribe(
+        //         data => {
+        //             this.router.navigate([this.returnUrl]);
+        //         },
+        //         error => {
+        //             this.alertService.error(error);
+        //             this.loading = false;
+        //         });
+
     }
 
     onSubmitThirdParties() {
@@ -80,10 +108,6 @@ export class RegisterComponent implements OnInit {
             return;
         }
         alert('THIRD PARTY!! :-)\n\n' + JSON.stringify(this.tpForm.value));
-
-        // http.get(baseUrl + 'api/SampleData/GetSummaries').subscribe(result => {
-        //     this.summaries = result.json() as any[];
-        // }, error => console.error(error));
     }
 
 }
