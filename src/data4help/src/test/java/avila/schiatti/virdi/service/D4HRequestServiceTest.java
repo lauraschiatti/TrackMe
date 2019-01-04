@@ -14,7 +14,6 @@ import avila.schiatti.virdi.resource.APIManager;
 import avila.schiatti.virdi.resource.D4HRequestResource;
 import avila.schiatti.virdi.resource.SubscriptionResource;
 import avila.schiatti.virdi.resource.UserResource;
-import avila.schiatti.virdi.service.authentication.AuthenticationManager;
 import avila.schiatti.virdi.service.request.D4HReqRequest;
 import avila.schiatti.virdi.service.response.ErrorResponse;
 import avila.schiatti.virdi.utils.JSONObjectMapper;
@@ -31,8 +30,6 @@ import xyz.morphia.Morphia;
 import xyz.morphia.query.Query;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -71,17 +68,17 @@ public class D4HRequestServiceTest {
         datastore = morphia.createDatastore(mongoClient, MONGODB_TEST_DATABASE);
     }
 
-    private static UserResource setupUserResource(DBManager dbManager) {
-        return new UserResource(dbManager, datastore);
+    private static UserResource setupUserResource() {
+        return new UserResource(datastore);
     }
 
-    private static SubscriptionResource setupSubscriptionResource(DBManager dbManager) {
-        subscriptionResource = new SubscriptionResource(dbManager, datastore);
+    private static SubscriptionResource setupSubscriptionResource() {
+        subscriptionResource = new SubscriptionResource(datastore);
         return subscriptionResource;
     }
 
-    private static D4HRequestResource setupD4HRequestResource(DBManager dbManager) {
-        d4HRequestResource = new D4HRequestResource(dbManager, datastore);
+    private static D4HRequestResource setupD4HRequestResource() {
+        d4HRequestResource = new D4HRequestResource(datastore);
         return d4HRequestResource;
     }
 
@@ -93,9 +90,8 @@ public class D4HRequestServiceTest {
 
         createDatastore();
 
-        DBManager dbManager = null;
         apiManager = mock(APIManager.class);
-        D4HRequestService service = new D4HRequestService(setupD4HRequestResource(dbManager), setupSubscriptionResource(dbManager), setupUserResource(dbManager), apiManager);
+        D4HRequestService service = new D4HRequestService(setupD4HRequestResource(), setupSubscriptionResource(), setupUserResource(), apiManager);
 
         app = Data4HelpApp.getInstance();
         app.createServer(PORT)

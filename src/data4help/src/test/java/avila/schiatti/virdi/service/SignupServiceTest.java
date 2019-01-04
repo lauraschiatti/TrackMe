@@ -83,10 +83,9 @@ public class SignupServiceTest {
     }
 
     private static UserResource setupUserResource() {
-        DBManager dbManager = mock(DBManager.class);
         datastore = createDatastore();
 
-        return new UserResource(dbManager, datastore);
+        return new UserResource(datastore);
     }
 
     private <T> T doIndividualSignup(IndividualSignupRequestForTest body, Class<T> clazz) {

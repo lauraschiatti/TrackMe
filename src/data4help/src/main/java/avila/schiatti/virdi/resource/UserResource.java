@@ -1,21 +1,18 @@
 package avila.schiatti.virdi.resource;
 
-import avila.schiatti.virdi.database.DBManager;
 import avila.schiatti.virdi.model.user.D4HUser;
 import avila.schiatti.virdi.model.user.Individual;
 import avila.schiatti.virdi.model.user.ThirdParty;
-import org.bson.types.ObjectId;
 import xyz.morphia.Datastore;
 
 public class UserResource extends Resource<D4HUser> {
 
     /**
      * Only for testing method
-     * @param dbManager
      * @param datastore
      */
-    public UserResource(DBManager dbManager, Datastore datastore){
-        super(dbManager, datastore, D4HUser.class);
+    public UserResource(Datastore datastore){
+        super(datastore, D4HUser.class);
     }
 
     private UserResource(){

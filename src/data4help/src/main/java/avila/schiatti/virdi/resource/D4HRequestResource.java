@@ -1,6 +1,5 @@
 package avila.schiatti.virdi.resource;
 
-import avila.schiatti.virdi.database.DBManager;
 import avila.schiatti.virdi.model.request.D4HRequest;
 import avila.schiatti.virdi.model.request.D4HRequestStatus;
 import org.bson.types.ObjectId;
@@ -14,11 +13,10 @@ public class D4HRequestResource extends Resource<D4HRequest> {
 
     /**
      * Only for testing
-     * @param dbManager
      * @param datastore
      */
-    public D4HRequestResource(DBManager dbManager, Datastore datastore) {
-        super(dbManager, datastore, D4HRequest.class);
+    public D4HRequestResource(Datastore datastore) {
+        super(datastore, D4HRequest.class);
     }
 
     private D4HRequestResource() {

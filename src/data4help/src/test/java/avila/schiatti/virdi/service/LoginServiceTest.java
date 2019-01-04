@@ -63,9 +63,8 @@ public class LoginServiceTest {
     }
 
     private static UserResource setupUserResource() {
-        DBManager dbManager = mock(DBManager.class);
         datastore = createDatastore();
-        UserResource userResource = new UserResource(dbManager, datastore);
+        UserResource userResource = new UserResource(datastore);
 
         return userResource;
     }

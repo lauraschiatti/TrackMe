@@ -29,8 +29,8 @@ public class DBManager {
         return _instance;
     }
 
-    public Datastore getDatastore(){
-        return this.datastore;
+    public final Datastore getDatastore(){
+        return _instance.datastore;
     }
 
 }
