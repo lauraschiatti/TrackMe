@@ -99,6 +99,8 @@ public final class Data4HelpApp implements SparkApplication {
             authenticationManager.validateSecretKey(appId, secretKey);
         });
 
+        // TODO internal endpoints should have some kind of authentication.
+
         return this;
     }
 
@@ -114,9 +116,10 @@ public final class Data4HelpApp implements SparkApplication {
     }
 
     private void setRoutes() {
-        // set configured api and web endpoints for all registered services
+        // set configured api, web and internal endpoints for all registered services
         routes.setApiEndpoints();
         routes.setWebEndpoints();
+        routes.setInternalEndpoints();
     }
 
     private void setGlobalExceptionHandlers() {

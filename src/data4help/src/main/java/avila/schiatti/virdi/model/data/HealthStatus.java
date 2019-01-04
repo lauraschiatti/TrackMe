@@ -4,40 +4,49 @@ import xyz.morphia.annotations.Embedded;
 
 @Embedded
 public class HealthStatus {
-    private Float heartRate;
-    private Float bloodPressure;
-    private Float bodyTemperature;
-    private Float bloodOxygen;
+    private Integer heartRate;
+    private Double systolic;
+    private Double diastolic;
+    private Double bodyTemperature;
+    private Integer bloodOxygen;
 
-    public Float getHeartRate() {
+    public Integer getHeartRate() {
         return heartRate;
     }
 
-    public void setHeartRate(Float heartRate) {
+    public void setHeartRate(Integer heartRate) {
         this.heartRate = heartRate;
     }
 
-    public Float getBloodPressure() {
-        return bloodPressure;
+    public Double getSystolic() {
+        return systolic;
     }
 
-    public void setBloodPressure(Float bloodPressure) {
-        this.bloodPressure = bloodPressure;
+    public void setSystolic(Double systolic) {
+        this.systolic = systolic;
     }
 
-    public Float getBodyTemperature() {
+    public Double getDiastolic() {
+        return diastolic;
+    }
+
+    public void setDiastolic(Double diastolic) {
+        this.diastolic = diastolic;
+    }
+
+    public Double getBodyTemperature() {
         return bodyTemperature;
     }
 
-    public void setBodyTemperature(Float bodyTemperature) {
+    public void setBodyTemperature(Double bodyTemperature) {
         this.bodyTemperature = bodyTemperature;
     }
 
-    public Float getBloodOxygen() {
+    public Integer getBloodOxygen() {
         return bloodOxygen;
     }
 
-    public void setBloodOxygen(Float bloodOxygen) {
+    public void setBloodOxygen(Integer bloodOxygen) {
         this.bloodOxygen = bloodOxygen;
     }
 }

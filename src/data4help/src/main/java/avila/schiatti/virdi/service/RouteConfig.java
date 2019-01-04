@@ -49,6 +49,16 @@ public class RouteConfig {
         });
     }
 
+    public void setInternalEndpoints(){
+        path("/internal/", () ->{
+            for(Service service : services){
+                String infoMessage = "Service: ".concat(service.getClass().getName()).concat(" setting up INTERNAL endpoints..");
+                logger.info(infoMessage);
+                service.setupInternalEndpoints();
+            }
+        });
+    }
+
     public void destroy(){
         services.clear();
     }

@@ -1,15 +1,14 @@
 package avila.schiatti.virdi.resource.api;
 
 import avila.schiatti.virdi.model.data.Data;
-import avila.schiatti.virdi.model.user.Individual;
 
 public class IndividualDataRequest {
     private Data data;
     private String ssn;
 
-    public IndividualDataRequest(Individual individual) {
-        data = individual.getData();
-        ssn = individual.getSsn();
+    public IndividualDataRequest(String ssn, Data data) {
+        this.data = data;
+        this.ssn = ssn;
     }
 
     public Data getData() {

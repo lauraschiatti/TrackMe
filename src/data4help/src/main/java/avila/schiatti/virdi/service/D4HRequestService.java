@@ -199,9 +199,4 @@ public class D4HRequestService extends Service {
             throw new TrackMeException(TrackMeError.VALIDATION_ERROR, msg);
         }
     }
-
-    @Override
-    public void setupExceptionHandlers() {
-
-    }
 }

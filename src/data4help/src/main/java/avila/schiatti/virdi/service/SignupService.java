@@ -127,8 +127,6 @@ public class SignupService extends Service {
         individual.setBirthDate(request.getBirthDate());
         individual.setBloodType(request.getBloodType());
         individual.setGender(request.getGender());
-        // set up an empty data object for the first time.
-        individual.setData(new Data());
         individual.setName(request.getName());
         individual.setSsn(request.getSsn());
         individual.setAddress(new Address());
@@ -174,13 +172,4 @@ public class SignupService extends Service {
         post("/thirdparty/signup", this::signupThirdParty, jsonTransformer::toJson);
     }
 
-    @Override
-    public void setupApiEndpoints() {
-
-    }
-
-    @Override
-    public void setupExceptionHandlers() {
-
-    }
 }

@@ -37,12 +37,12 @@ public class APIManager {
         }
     }
 
-    public void sendData(ThirdParty tp, Individual individual){
+    public void sendData(ThirdParty tp, String ssn, Data data){
         if(tp != null && tp.getConfig() != null && tp.getConfig().getIndividualPushUrl() != null && !tp.getConfig().getIndividualPushUrl().isEmpty()){
             String url = tp.getConfig().getIndividualPushUrl();
 
-            IndividualDataRequest data = new IndividualDataRequest(individual);
-            this.post(url, data);
+            IndividualDataRequest request = new IndividualDataRequest(ssn, data);
+            this.post(url, request);
         }
     }
 

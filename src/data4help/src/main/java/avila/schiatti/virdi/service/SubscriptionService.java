@@ -65,16 +65,6 @@ public class SubscriptionService extends Service {
         });
     }
 
-    @Override
-    public void setupApiEndpoints() {
-
-    }
-
-    @Override
-    public void setupExceptionHandlers() {
-
-    }
-
     private ResponseWrapper<SubscriptionResponse> createSubscription(Request req, Response res){
         SubscriptionRequest body = jsonTransformer.fromJson(req.body(), SubscriptionRequest.class);
         String thirdPartyId = req.headers(Data4HelpApp.USER_ID);

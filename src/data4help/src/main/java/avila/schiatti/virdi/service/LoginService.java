@@ -70,14 +70,4 @@ public class LoginService extends Service {
 
         post("/logout", this::logout);
     }
-
-    @Override
-    public void setupApiEndpoints() {
-
-    }
-
-    @Override
-    public void setupExceptionHandlers() {
-
-    }
 }

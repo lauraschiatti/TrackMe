@@ -23,9 +23,6 @@ public class Individual extends D4HUser {
     private Address address;
     @Embedded
     private BloodType bloodType;
-    @Reference(idOnly = true)
-    @Embedded
-    private Data data;
 
     @Override
     public D4HUserRole getRole() {
@@ -78,18 +75,6 @@ public class Individual extends D4HUser {
 
     public void setBloodType(BloodType bloodType) {
         this.bloodType = bloodType;
-    }
-
-    public Data getData() {
-        return data;
-    }
-
-    public void setData(Data data) {
-        this.data = data;
-    }
-
-    public Boolean hasSsn(){
-        return ssn != null;
     }
 
     public Float getWeight() {

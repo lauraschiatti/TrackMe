@@ -16,7 +16,19 @@ public abstract class Service {
             .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
             .create();
 
-    public abstract void setupWebEndpoints();
-    public abstract void setupApiEndpoints();
-    public abstract void setupExceptionHandlers();
+    public void setupWebEndpoints(){
+
+    }
+
+    public void setupApiEndpoints(){
+
+    }
+
+    public void setupInternalEndpoints(){
+        // this should be implemented if needed.
+    }
+
+    public void setupExceptionHandlers() {
+        // only implemented if needed
+    }
 }
