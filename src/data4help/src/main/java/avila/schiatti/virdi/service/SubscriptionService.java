@@ -3,6 +3,8 @@ package avila.schiatti.virdi.service;
 import avila.schiatti.virdi.Data4HelpApp;
 import avila.schiatti.virdi.exception.TrackMeError;
 import avila.schiatti.virdi.exception.TrackMeException;
+import avila.schiatti.virdi.model.request.D4HRequest;
+import avila.schiatti.virdi.model.request.D4HRequestStatus;
 import avila.schiatti.virdi.model.subscription.D4HQuery;
 import avila.schiatti.virdi.model.subscription.Subscription;
 import avila.schiatti.virdi.model.user.D4HUser;
@@ -85,6 +87,15 @@ public class SubscriptionService extends Service {
                     .getIndividual()
                     .getSsn();
             Individual i = userResource.getBySSN(ssn);
+
+            // should create a subscription only when the request was accepted.
+            D4HRequest request = requestResource.getByUserIdAndThirdPartyId(i.getId().toString(), tp.getId().toString());
+            if(request == null){
+                throw new TrackMeException(TrackMeError.NO_REQUEST_FOUND);
+            } else if( !D4HRequestStatus.APPROVED.equals(request.getStatus()) ){
+                throw new TrackMeException(TrackMeError.NO_APPROVED_REQUEST);
+            }
+
             D4HQuery filter = new D4HQuery();
             filter.setIndividual(i);
             subscription.setFilter(filter);

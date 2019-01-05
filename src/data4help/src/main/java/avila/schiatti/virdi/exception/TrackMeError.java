@@ -8,6 +8,8 @@ public enum TrackMeError {
     NOT_VALID_REQUEST_ID(40003, "The provided request id is not valid"),
     NULL_OR_NOT_VALID_FILTER(40004, "The provided filter is not valid"),
     NOT_VALID_SUBSCRIPTION(40005, "The provided subscription id does not exist or does not belong to the third party"),
+    NO_REQUEST_FOUND(40006, "Should send a request to the individual to access his data"),
+    NO_APPROVED_REQUEST(40007, "The request has not been approved yet"),
 
     // FORBIDDEN
     NOT_VALID_TOKEN(40301, "The provided token does not exist"),
