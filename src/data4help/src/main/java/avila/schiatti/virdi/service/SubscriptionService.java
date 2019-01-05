@@ -133,9 +133,9 @@ public class SubscriptionService extends Service {
         Collection<Subscription> subscriptions;
 
         if(D4HUserRole.INDIVIDUAL.equals(user.getRole())){
-            subscriptions = subscriptionResource.getAllByIndividual(userId);
+            subscriptions = subscriptionResource.getAllByIndividual(user.getId());
         }else{
-            subscriptions = subscriptionResource.getAllByOwner(userId);
+            subscriptions = subscriptionResource.getAllByOwner(user.getId());
         }
 
         if(subscriptions != null && !subscriptions.isEmpty()){

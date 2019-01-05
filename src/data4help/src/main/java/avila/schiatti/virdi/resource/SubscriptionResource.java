@@ -23,17 +23,17 @@ public class SubscriptionResource extends Resource<Subscription> {
         return new SubscriptionResource();
     }
 
-    public Collection<Subscription> getAllByIndividual(String individualId){
+    public Collection<Subscription> getAllByIndividual(ObjectId individualId){
         return datastore.find(Subscription.class)
                 .field("filter.individual")
-                .equal(new ObjectId(individualId))
+                .equal(individualId)
                 .asList();
     }
 
-    public Collection<Subscription> getAllByOwner(String thirPartyId){
+    public Collection<Subscription> getAllByOwner(ObjectId thirPartyId){
         return datastore.find(Subscription.class)
                 .field("thirdParty")
-                .equal(new ObjectId(thirPartyId))
+                .equal(thirPartyId)
                 .asList();
     }
 
