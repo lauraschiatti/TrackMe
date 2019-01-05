@@ -4,15 +4,14 @@ import avila.schiatti.virdi.model.data.Address;
 import avila.schiatti.virdi.model.data.BloodType;
 import avila.schiatti.virdi.model.data.Data;
 import avila.schiatti.virdi.model.data.Gender;
-import xyz.morphia.annotations.Embedded;
-import xyz.morphia.annotations.Entity;
-import xyz.morphia.annotations.Reference;
+import xyz.morphia.annotations.*;
 
 import java.time.LocalDate;
 
 @Entity("user")
 public class Individual extends D4HUser {
     private String name;
+    @Indexed(options = @IndexOptions(unique = true))
     private String ssn;
     private Float weight;
     private Float height;

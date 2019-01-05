@@ -11,38 +11,36 @@ import spark.servlet.SparkApplication;
 import static spark.Spark.*;
 
 public final class Data4HelpApp implements SparkApplication {
-    private final static String STATUS_URL = "/status";
-    private static final String APPLICATION_JSON = "application/json";
     public static final String ACCESS_TOKEN = "ACCESS-TOKEN";
     public static final String USER_ID = "USER_ID";
     public static final String SECRET_KEY = "SECRET_KEY";
     public static final String APP_ID = "APP_ID";
     public static final String QUERY_PARAM_APP_ID = "app_id";
-
-    private static AuthenticationManager authenticationManager;
+    private final static String STATUS_URL = "/status";
+    private static final String APPLICATION_JSON = "application/json";
     private static final RouteConfig routes = RouteConfig.getInstance();
-
+    private static AuthenticationManager authenticationManager;
     private static Data4HelpApp _instance;
 
-    private Data4HelpApp(){
+    private Data4HelpApp() {
         authenticationManager = AuthenticationManager.getInstance();
     }
 
     public static Data4HelpApp getInstance() {
-        if(_instance == null){
+        if (_instance == null) {
             _instance = new Data4HelpApp();
         }
         return _instance;
     }
 
-    public Data4HelpApp setPublicPath(String path){
+    public Data4HelpApp setPublicPath(String path) {
         staticFileLocation(path);
         return this;
     }
 
-    public Data4HelpApp createServer(int port){
+    public Data4HelpApp createServer(int port) {
         port(port);
-        threadPool(100, 10,30000);
+        threadPool(100, 10, 30000);
         return this;
     }
 
@@ -61,9 +59,9 @@ public final class Data4HelpApp implements SparkApplication {
     public void destroy() {
         try {
             Thread.sleep(2000);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             stop();
             routes.destroy();
             _instance = null;
@@ -85,7 +83,7 @@ public final class Data4HelpApp implements SparkApplication {
             String userId = req.headers(USER_ID);
 
             // TODO: improve this if.
-            if(path.contains("login") == Boolean.FALSE && path.contains("signup") == Boolean.FALSE) {
+            if (path.contains("login") == Boolean.FALSE && path.contains("signup") == Boolean.FALSE) {
                 authenticationManager.validateAndUpdateAccessToken(userId, accessToken);
             }
         });
@@ -108,10 +106,13 @@ public final class Data4HelpApp implements SparkApplication {
         head(STATUS_URL, (req, res) -> "");
     }
 
-    private void enableCors(){
+    private void enableCors() {
+        options("*", (request, response) -> "OK" );
+
         before("*", (req, res) -> {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Headers", "*");
+//            res.header("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS, PATCH");
         });
     }
 
@@ -142,15 +143,16 @@ public final class Data4HelpApp implements SparkApplication {
         exception(ValidationException.class, (e, req, res) -> {
             res.type(APPLICATION_JSON);
             res.status(HttpStatus.BAD_REQUEST_400);
-            res.body("{\"message\": \""+e.getMessage()+"\"}");
+            res.body("{\"message\": \"" + e.getMessage() + "\"}");
         });
     }
 
     /**
      * Only for testing
+     *
      * @param am
      */
-    public void setAuthenticationManager(AuthenticationManager am){
+    public void setAuthenticationManager(AuthenticationManager am) {
         authenticationManager = am;
     }
 }

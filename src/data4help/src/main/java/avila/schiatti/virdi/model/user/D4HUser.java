@@ -4,11 +4,11 @@ import org.bson.types.ObjectId;
 import xyz.morphia.annotations.*;
 
 @Entity("user")
-@Indexes(@Index(fields = @Field("email"), options = @IndexOptions(unique = true)))
 public abstract class D4HUser{
     @Id
     private ObjectId id;
 
+    @Indexed(options = @IndexOptions(unique = true))
     private String email;
     private String password;
 
