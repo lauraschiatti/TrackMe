@@ -89,7 +89,7 @@ public class SubscriptionService extends Service {
             Individual i = userResource.getBySSN(ssn);
 
             // should create a subscription only when the request was accepted.
-            D4HRequest request = requestResource.getByUserIdAndThirdPartyId(i.getId().toString(), tp.getId().toString());
+            D4HRequest request = requestResource.getByUserIdAndThirdPartyId(i.getId(), tp.getId());
             if(request == null){
                 throw new TrackMeException(TrackMeError.NO_REQUEST_FOUND);
             } else if( !D4HRequestStatus.APPROVED.equals(request.getStatus()) ){

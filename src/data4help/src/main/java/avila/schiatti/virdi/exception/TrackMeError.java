@@ -10,13 +10,15 @@ public enum TrackMeError {
     NOT_VALID_SUBSCRIPTION(40005, "The provided subscription id does not exist or does not belong to the third party"),
     NO_REQUEST_FOUND(40006, "Should send a request to the individual to access his data"),
     NO_APPROVED_REQUEST(40007, "The request has not been approved yet"),
+    CANNOT_ANONYMIZE_DATA(40008, "Cannot anonymize data. Few individuals involved"),
 
     // FORBIDDEN
     NOT_VALID_TOKEN(40301, "The provided token does not exist"),
     NULL_TOKEN(40302, "Token is mandatory"),
     NOT_VALID_SESSION(40303, "Session is not valid any more"),
     NOT_VALID_SECRET_KEY(40304, "The provided secret key is invalid"),
-    NOT_VALID_EMAIL_OR_PASSWORD(40305, "The provided email or password are invalid");
+    NOT_VALID_EMAIL_OR_PASSWORD(40305, "The provided email or password are invalid"),
+    UNAUTHORIZED_USER(40306, "The current user is not authorized to perform the operation");
 
     private final Integer code;
     private final String message;

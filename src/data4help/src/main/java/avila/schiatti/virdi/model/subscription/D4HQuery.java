@@ -15,9 +15,8 @@ public class D4HQuery {
     private String province;
     @Embedded
     private Gender gender;
-    @Embedded
-    private Comparison ageComparison;
-    private Integer age;
+    private Integer minAge;
+    private Integer maxAge;
     @Embedded
     private BloodType bloodType;
 
@@ -61,12 +60,12 @@ public class D4HQuery {
         this.gender = gender;
     }
 
-    public Integer getAge() {
-        return age;
+    public Integer getMinAge() {
+        return minAge;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setMinAge(Integer minAge) {
+        this.minAge = minAge;
     }
 
     public BloodType getBloodType() {
@@ -77,11 +76,11 @@ public class D4HQuery {
         this.bloodType = bloodType;
     }
 
-    public Comparison getAgeComparison() {
-        return ageComparison;
+    public Integer getMaxAge() {
+        return maxAge;
     }
 
-    public void setAgeComparison(Comparison ageComparison) {
-        this.ageComparison = ageComparison;
+    public void setMaxAge(Integer maxAge) {
+        this.maxAge = maxAge;
     }
 }

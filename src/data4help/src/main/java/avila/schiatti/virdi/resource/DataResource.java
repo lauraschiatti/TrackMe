@@ -1,9 +1,14 @@
 package avila.schiatti.virdi.resource;
 
 import avila.schiatti.virdi.model.data.Data;
+import avila.schiatti.virdi.model.subscription.D4HQuery;
 import avila.schiatti.virdi.model.user.Individual;
 import org.bson.types.ObjectId;
 import xyz.morphia.Datastore;
+import xyz.morphia.query.Query;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class DataResource extends Resource<Data> {
 
@@ -34,5 +39,14 @@ public class DataResource extends Resource<Data> {
             data.setIndividual(individual);
         }
         return data;
+    }
+
+    public Collection<Data> getByIndividualList(Collection<Individual> individuals){
+        return datastore.find(Data.class)
+                .field("individual")
+                .in( individuals.stream()
+                        .map(Individual::getId)
+                        .collect(Collectors.toList()) )
+                .asList();
     }
 }

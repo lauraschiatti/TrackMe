@@ -1,9 +1,18 @@
 package avila.schiatti.virdi.resource;
 
+import avila.schiatti.virdi.model.subscription.D4HQuery;
 import avila.schiatti.virdi.model.user.D4HUser;
 import avila.schiatti.virdi.model.user.Individual;
 import avila.schiatti.virdi.model.user.ThirdParty;
+import avila.schiatti.virdi.utils.Validator;
 import xyz.morphia.Datastore;
+import xyz.morphia.annotations.IndexOptions;
+import xyz.morphia.query.CriteriaContainerImpl;
+import xyz.morphia.query.Query;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class UserResource extends Resource<D4HUser> {
 
@@ -45,5 +54,34 @@ public class UserResource extends Resource<D4HUser> {
                 .field("ssn")
                 .equal(ssn)
                 .get();
+    }
+
+    public List<Individual> getByQuery(D4HQuery query) {
+        Query<Individual> q = datastore.find(Individual.class);
+
+        if(!Validator.isNullOrEmpty(query.getCountry())){
+            q = q.field("country").equal(query.getCountry());
+            if(!Validator.isNullOrEmpty(query.getProvince())){
+                q = q.field("province").equal(query.getProvince());
+                if(!Validator.isNullOrEmpty(query.getCity())){
+                    q = q.field("city").equal(query.getCity());
+                }
+            }
+        }
+
+        if(query.getGender() != null){
+            q = q.field("gender").equal(query.getGender());
+        }
+
+        if(query.getBloodType() != null){
+            q = q.field("bloodType").equal(query.getBloodType());
+        }
+
+        if(query.getMinAge() != null && query.getMaxAge() != null && query.getMinAge() <= query.getMaxAge()){
+            q = q.field("age").greaterThanOrEq(query.getMinAge());
+            q = q.field("age").lessThanOrEq(query.getMaxAge());
+        }
+
+        return q.asList();
     }
 }

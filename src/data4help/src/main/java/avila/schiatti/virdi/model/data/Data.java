@@ -39,9 +39,7 @@ public class Data {
     }
 
     public void setLocation(Location location) {
-        if(location != null) {
-            this.location = location;
-        }
+        this.location = location;
     }
 
     public LocalDateTime getTimestamp() {
@@ -60,9 +58,7 @@ public class Data {
     }
 
     public void setHealthStatus(HealthStatus healthStatus) {
-        if(healthStatus!= null) {
-            this.healthStatus = healthStatus;
-        }
+        this.healthStatus = healthStatus;
     }
 
     public Individual getIndividual() {

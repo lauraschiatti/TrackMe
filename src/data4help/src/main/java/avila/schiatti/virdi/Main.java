@@ -15,6 +15,7 @@ public class Main {
                 .registerService(SignupService.create())
                 .registerService(D4HRequestService.create())
                 .registerService(SubscriptionService.create())
+                .registerService(SearchService.create())
                 .registerService(DataService.create())
                 .setAuthHandlers()
                 .init();

@@ -73,12 +73,12 @@ public class D4HRequestResource extends Resource<D4HRequest> {
                 .asList();
     }
 
-    public D4HRequest getByUserIdAndThirdPartyId(String userId, String thirdPartyId){
+    public D4HRequest getByUserIdAndThirdPartyId(ObjectId userId, ObjectId thirdPartyId){
         return datastore.find(D4HRequest.class)
                 .field("individual")
-                .equal(new ObjectId(userId))
+                .equal(userId)
                 .field("thirdParty")
-                .equal(new ObjectId(thirdPartyId))
+                .equal(thirdPartyId)
                 .get();
     }
 
