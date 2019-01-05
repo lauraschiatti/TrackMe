@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-// import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthenticationService } from '../services/authentication.service';
 
-import { User } from '../_models/user';
 
 @Component({
   selector: 'app-login',
@@ -13,15 +13,21 @@ import { User } from '../_models/user';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
-  // returnUrl: string;
+  returnUrl: string;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
     // private route: ActivatedRoute,
-    // private router: Router,
-    // private authenticationService: AuthenticationService,
+    private router: Router,
+    private authenticationService: AuthenticationService,
     // private alertService: AlertService
-  ) {}
+  ) {
+      // redirect to home if already logged in
+      // if (this.authenticationService.currentUserValue) {
+          // this.router.navigate(['/']);
+          // alert(this.authenticationService.currentUserValue());
+      // }
+  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -29,11 +35,7 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
 
-    // reset login status
-    // this.authenticationService.logout();
-
-    // get return url from route parameters or default to '/'
-    // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl =  '/';
   }
 
   // convenience getter for easy access to form fields
@@ -49,18 +51,15 @@ export class LoginComponent implements OnInit {
 
     alert(this.f.email.value);
 
-    // user = new User(this.f.email.value, this.f.password.value);
-
-
-    //   this.authenticationService.login(this.f.username.value, this.f.password.value)
-  //     .pipe(first())
-  //     .subscribe(
-  //       data => {
-  //         this.router.navigate([this.returnUrl]);
-  //       },
-  //       error => {
-  //         this.alertService.error(error);
-  //         this.loading = false;
-  //       });
+    // this.authenticationService.login(this.f.username.value, this.f.password.value)
+    //     .pipe(first())
+    //     .subscribe(
+    //         data => {
+    //             this.router.navigate([this.returnUrl]);
+    //         },
+    //         error => {
+    //             this.alertService.error(error);
+    //             this.loading = false;
+    //         });
   }
 }
