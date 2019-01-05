@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-// import { SignupService } from '../_services/signup.service';
+import { AuthenticationService } from '../services/authentication.service';
+import {Observable} from 'rxjs';
 // import { Router } from '@angular/router';
 
 @Component({
@@ -23,13 +24,15 @@ export class RegisterComponent implements OnInit {
         {value: 'ZERO_POSITIVE', label: 'O+'},
         {value: 'ZERO_NEGATIVE', label: 'O-'}
     ];
+    // user = Observable<any>;
+    // user = Observable<Individual[]>;
 
     constructor(
         private iFormBuilder: FormBuilder,
         private tpFormBuilder: FormBuilder,
+        private authService: AuthenticationService,
         // private route: ActivatedRoute,
         // private router: Router,
-        // private signupService: SignupService,
     ) {}
 
     ngOnInit() {
@@ -72,32 +75,47 @@ export class RegisterComponent implements OnInit {
         if (this.iForm.invalid) {
             return;
         }
-        alert('INDIVIDUAL!! :-)\n\n' + JSON.stringify(this.iForm.value));
 
-        // this.signupService.signupIndividual(
-        //     this.iControls.name.value,
-        //     this.iControls.gender.value,
-        //     this.iControls.birthDate.value,
-        //     this.iControls.ssn.value,
-        //     this.iControls.weight.value,
-        //     this.iControls.height.value,
-        //     this.iControls.bloodType.value,
-        //     this.iControls.address.value,
-        //     this.iControls.email.value,
-        //     this.iControls.password.value
-        // );
+        const address = this.iControls.address.value.split(',');
 
-        // this.authenticationService.login(this.f.username.value, this.f.password.value)
-        //     .pipe(first())
-        //     .subscribe(
-        //         data => {
-        //             this.router.navigate([this.returnUrl]);
-        //         },
-        //         error => {
-        //             this.alertService.error(error);
-        //             this.loading = false;
-        //         });
+        const individual = {
+            'name':  this.iControls.name.value,
+            'ssn': this.iControls.ssn.value,
+            'weight': this.iControls.weight.value,
+            'height': this.iControls.height.value,
+            'birthDate': this.iControls.birthDate.value,
+            'gender' : this.iControls.gender.value,
+            'address' : {
+                'city' : address[0],
+                'province' : address[1],
+                'country' : address[2]
+            },
+            'bloodType': this.iControls.bloodType.value,
+            'email' : this.iControls.email.value,
+            'password': this.iControls.password.value
+        };
 
+        if (this.iForm.valid) {
+            this.authService
+                .signupIndividual(individual)
+                .subscribe(
+                  data => {
+                    console.log('POST Request is successful ', data);
+                      // this.authService.setCurrentUser(data.userId, data.accessToken);
+                      // if(data.role == 'INDIVIDUAL'){
+                      //     this.router.navigate(['/individual/{data.userId}/dashboard']);
+                      // }else if(data.role == 'THIRD_PARTY'){
+                      //     this.router.navigate(['/company/{data.userId}/dashboard']);
+                      // }else{
+                      //     return;
+                      // }
+
+                  },
+                  error => {
+                      console.log('Error', error);
+                  }
+            );
+        }
     }
 
     onSubmitThirdParties() {
