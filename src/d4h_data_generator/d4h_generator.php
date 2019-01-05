@@ -8,12 +8,13 @@ function random_float ($min,$max) {
 
 function generateData(){
     // Get the contents of the JSON file 
-    $coordinatesFileContent = file_get_contents("coordinates.json");
+    $coordinatesFileContent = file_get_contents(__DIR__ . "/coordinates.json");
     // Convert to array 
     $individuals = json_decode($coordinatesFileContent, true);
 
     foreach($individuals as $individual) {
         $ssn = $individual["ssn"];
+
         $location = array(
             "latitude" => $individual["latitude"],
             "longitude" => $individual["longitude"]
@@ -46,42 +47,41 @@ function generateData(){
 
 function pushData($data) {
     //API URL
-    // $url = 'http://www.example.com/api';
+    $url = 'http://0.0.0.0:4567/internal/data';
 
     //create a new cURL resource
-    // $ch = curl_init($url);
+    $ch = curl_init($url);
 
     //setup request to send json via POST
     $payload = json_encode(array("data" => $data));
 
     //attach encoded JSON string to the POST fields
-    // curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
 
     //set the content type to application/json
-    // curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
 
     //return response instead of outputting
-    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     //execute the POST request
-    // $result = curl_exec($ch);
+    $result = curl_exec($ch);
 
-    //close cURL resource
-    // curl_close($ch);
+    if(curl_errno($ch)) {
+        echo "error ".curl_error($ch)."\n";
+        return false;
+    }else{
+        print_r($data);
+        echo "\n";
+        return true;
+    }
+    $response = curl_exec($ch) ;
 
-    // if(curl_errno($ch)) {
-    // 		echo "error ".curl_error($ch)."\n";
-    // 		return false;
-    // 	}else{
-    // 		echo $data."\n";
-    // 		return true;
-    // 	}
-    // 	$response = curl_exec($ch) ;
-
-    print_r($data);
-    echo "\n";
+    //close URL resource
+    curl_close($ch);
 }
 
 generateData();
 
-// https://www.codexworld.com/post-receive-json-data-using-php-curl/
+// cronjob --> execute one per minute
+// * * * * * php -q /Users/lauraschiatti/Desktop/d4h_databases/d4h_generator.php
