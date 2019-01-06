@@ -2,21 +2,24 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import {map} from 'rxjs/operators';
 
 import { User } from '../_models';
-
 
 @Injectable({
   providedIn: 'root' // this service should be created by the root application injector.
 })
 export class AuthenticationService {
 
-    baseUrl = environment.baseUrl;
+    private baseUrl = environment.baseUrl;
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient,
+        private router: Router
+    ) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
@@ -30,20 +33,24 @@ export class AuthenticationService {
         return this.http.post(`${this.baseUrl}/web/individual/signup`, individual);
     }
 
+    signupThirdParty(individual) {
+        return this.http.post(`${this.baseUrl}/web/thirdparty/signup`, individual);
+    }
+
+
     /******** Login **********/
     login(credentials) {
         return this.http.post<User>(`${this.baseUrl}/web/login`, credentials)
             .pipe(map(user => {
-            // login successful if there's a jwt token in the response
-            if (user && user.accessToken) {
-                // jwt token in local storage to keep user logged in between page refreshes
-                this.setCurrentUser(user);
-                this.currentUserSubject.next(user);
-            }
+                // login successful if there's a jwt token in the response
+                if (user && user.accessToken) {
+                    // jwt token in local storage to keep user logged in between page refreshes
+                    this.setCurrentUser(user);
+                }
 
-            console.log('login', user);
-            return user;
-        }));
+                console.log('login', user);
+                return user;
+            }));
     }
 
     logout() {
@@ -55,7 +62,7 @@ export class AuthenticationService {
                 'userId' : currentUser['userId'],
                 'accessToken': currentUser['accessToken']
             };
-            this.http.post<any>(`${this.baseUrl}/web/logout`, user);
+            this.http.post(`${this.baseUrl}/web/logout`, user);
 
             // remove user from local storage to log user out
             localStorage.removeItem('currentUser');
@@ -65,6 +72,7 @@ export class AuthenticationService {
 
     setCurrentUser(user): void {
         localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
         console.log('user stored');
     }
 
@@ -72,4 +80,18 @@ export class AuthenticationService {
         const currentUser = localStorage.getItem('currentUser');
         return currentUser;
     }
+
+    redirectByRole() {
+        if (this.currentUserValue) {
+            // redirect according to role
+            if (this.currentUserValue['role'] === 'INDIVIDUAL') {
+                this.router.navigate(['/track4run']);
+            } else if (this.currentUserValue['role'] === 'THIRD_PARTY') {
+                this.router.navigate(['/automatedsos']);
+            } else {
+                return;
+            }
+        }
+    }
+
 }

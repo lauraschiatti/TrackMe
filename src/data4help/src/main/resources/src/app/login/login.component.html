@@ -12,6 +12,11 @@
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="p-5 bg-white">
         <h2 class="mb-4 text-black">Login</h2>
 
+        <div *ngIf="error"  class="alert alert-danger" >
+          {{ error }}
+          <br>
+        </div>
+
         <div class="row form-group">
           <div class="col-md-12">
             <label class="font-weight-bold" for="email">Email</label>
@@ -35,11 +40,6 @@
 
         <div class="row form-group mb-2">
           <div class="col-md-12">
-            <div *ngIf="error"  class="alert alert-danger" >
-              {{ error }}
-              <br>
-            </div>
-
             <p class="float-left">No account yet? <a routerLink="/register">Register</a></p>
             <!--<p class="float-right"> <a href="#">Forgot password?</a></p>-->
           </div>

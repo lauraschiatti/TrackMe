@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { AuthenticationService } from '../_services';
-import {Observable} from 'rxjs';
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-register',
@@ -14,6 +13,9 @@ export class RegisterComponent implements OnInit {
     tpForm: FormGroup;
     iFormSubmitted = false;
     tpFormSubmitted = false;
+    error = '';
+
+
     bloodTypes = [
         {value: 'A_POSITIVE', label: 'A+'},
         {value: 'A_NEGATIVE', label: 'A-'},
@@ -28,9 +30,8 @@ export class RegisterComponent implements OnInit {
     constructor(
         private iFormBuilder: FormBuilder,
         private tpFormBuilder: FormBuilder,
-        private authService: AuthenticationService,
-        // private route: ActivatedRoute,
-        // private router: Router,
+        private authenticationService: AuthenticationService,
+        // private route: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -94,42 +95,71 @@ export class RegisterComponent implements OnInit {
         };
 
         if (this.iForm.valid) {
-            this.authService
+            this.authenticationService
                 .signupIndividual(individual)
                 .subscribe(
-                  data => {
+                    data => {
                         const user = {
                           'userId': data['userId'],
                           'accessToken': data['accessToken'],
                           'role': 'INDIVIDUAL'
                         };
 
-                        this.authService.setCurrentUser(user);
-                      console.log('ok');
-                      // if(data.role == 'INDIVIDUAL'){
-                      //     this.router.navigate(['/individual/{data.userId}/dashboard']);
-                      // }else if(data.role == 'THIRD_PARTY'){
-                      //     this.router.navigate(['/company/{data.userId}/dashboard']);
-                      // }else{
-                      //     return;
-                      // }
+                        this.authenticationService.setCurrentUser(user);
 
-                  },
-                  error => {
-                      console.log('Error', error);
-                  }
-            );
+                        this.authenticationService.redirectByRole();
+                    },
+                    error => {
+                        this.error = error.error.message;
+                        console.log('error ', this.error);
+                    }
+                );
         }
     }
 
-    // onSubmitThirdParties() {
-    //     this.tpFormSubmitted = true;
-    //
-    //     // stop here if form is invalid
-    //     if (this.tpForm.invalid) {
-    //         return;
-    //     }
-    //     alert('THIRD PARTY!! :-)\n\n' + JSON.stringify(this.tpForm.value));
-    // }
+    onSubmitThirdParties() {
+        this.tpFormSubmitted = true;
+
+        // stop here if form is invalid
+        if (this.tpForm.invalid) {
+            return;
+        }
+
+        const thirdparty = {
+            'name':  this.tpControls.companyname.value,
+            'taxCode': this.tpControls.taxcode.value,
+            'certificate': '',
+            'phone': this.tpControls.phone.value,
+            'email': this.tpControls.emailtp.value,
+            'password': this.tpControls.passwordtp.value,
+            'config': {
+                'individualpushurl': this.tpControls.individualpushurl.value,
+                'bulkpushurl': this.tpControls.bulkpushurl.value,
+                'notificationurl': this.tpControls.notificationurl.value
+            }
+        };
+
+        if (this.tpForm.valid) {
+            this.authenticationService
+                .signupThirdParty(thirdparty)
+                .subscribe(
+                    data => {
+                        const user = {
+                            'userId': data['userId'],
+                            'accessToken': data['accessToken'],
+                            'role': 'THIRD_PARTY'
+                        };
+
+                        this.authenticationService.setCurrentUser(user);
+
+                        this.authenticationService.redirectByRole();
+                    },
+                    error => {
+                        this.error = error.error.message;
+                        console.log('error ', this.error);
+                    }
+                );
+        }
+    }
 
 }
