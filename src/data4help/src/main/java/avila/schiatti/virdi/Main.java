@@ -11,6 +11,7 @@ public class Main {
         Data4HelpApp.getInstance()
                 .createServer(config.getPort())
                 .setPublicPath(STATIC_FILES_PATH)
+                .registerService(UserService.create())
                 .registerService(LoginService.create())
                 .registerService(SignupService.create())
                 .registerService(D4HRequestService.create())

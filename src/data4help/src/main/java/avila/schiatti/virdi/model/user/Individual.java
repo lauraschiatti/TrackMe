@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Entity("user")
 public class Individual extends D4HUser {
     private String name;
-    @Indexed(options = @IndexOptions(unique = true))
+    @Indexed(options = @IndexOptions(partialFilter = "{ ssn : { $exists : true } }", unique = true))
     private String ssn;
     private Float weight;
     private Float height;

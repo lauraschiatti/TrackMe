@@ -8,7 +8,7 @@ public class ThirdParty extends D4HUser {
     private String name;
     private String phone;
     private String code;
-    @Indexed(options = @IndexOptions(unique = true))
+    @Indexed(options = @IndexOptions(partialFilter = "{ taxCode: { $exists : true } }", unique = true))
     private String taxCode;
     private String secretKey;
     private String appId;

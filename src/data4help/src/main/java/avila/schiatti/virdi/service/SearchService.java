@@ -12,7 +12,6 @@ import avila.schiatti.virdi.model.subscription.D4HQuery;
 import avila.schiatti.virdi.model.user.D4HUser;
 import avila.schiatti.virdi.model.user.D4HUserRole;
 import avila.schiatti.virdi.model.user.Individual;
-import avila.schiatti.virdi.model.user.ThirdParty;
 import avila.schiatti.virdi.resource.D4HRequestResource;
 import avila.schiatti.virdi.resource.DataResource;
 import avila.schiatti.virdi.resource.UserResource;
@@ -26,7 +25,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static spark.Spark.*;
+import static spark.Spark.get;
 
 public class SearchService extends Service {
 
@@ -119,8 +118,8 @@ public class SearchService extends Service {
 
     private Collection<Data> getAnonymizedDataFromQuery(D4HQuery query){
         List<Individual> individuals = userResource.getByQuery(query);
-
         Collection<Data> data = dataResource.getByIndividualList(individuals);
+
         anonymize(data);
 
         return data;
@@ -128,7 +127,7 @@ public class SearchService extends Service {
 
     private void anonymize(Collection<Data> data){
         if(data.size() < MINIMUM_ANONYMIZE_SIZE){
-//            throw new TrackMeException(TrackMeError.CANNOT_ANONYMIZE_DATA);
+            throw new TrackMeException(TrackMeError.CANNOT_ANONYMIZE_DATA);
         }
 
         data.forEach((d) -> {
