@@ -15,8 +15,7 @@ const routes: Routes = [
   { path: 'data4help', component: Data4helpComponent },
   { path: 'automatedsos', component: AutomatedSOSComponent },
   { path: 'track4run', component: Track4runComponent },
-  { path: 'dashboard', component: DashboardComponent },
-
+  { path: 'dashboard', component: DashboardComponent},
   // otherwise redirect to home
   { path: '**', redirectTo: '' }
 ];

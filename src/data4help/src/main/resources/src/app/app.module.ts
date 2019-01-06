@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
@@ -14,6 +14,7 @@ import { Data4helpComponent } from './data4help/data4help.component';
 import { AutomatedSOSComponent } from './automated-sos/automated-sos.component';
 import { Track4runComponent } from './track4run/track4run.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { TokenInterceptor } from './_helpers';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     UiModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+      {
+          provide: HTTP_INTERCEPTORS,
+          useClass: TokenInterceptor,
+          multi: true
+      }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

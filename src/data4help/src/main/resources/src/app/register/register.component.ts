@@ -155,7 +155,7 @@ export class RegisterComponent implements OnInit {
                         this.authenticationService.redirectByRole();
                     },
                     error => {
-                        this.error = error.error.message;
+                        this.error = error.message;
                         console.log('error ', this.error);
                     }
                 );

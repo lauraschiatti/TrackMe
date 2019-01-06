@@ -41,7 +41,7 @@
 
           <div class="col-8 col-md-8 col-lg-4 text-right">
             <div *ngIf="currentUser; else loggedOut">
-              <a class="btn btn-primary btn-outline-primary rounded-0 text-white py-2 px-4">Dashboard</a>
+              <a routerLink="/dashboard" class="btn btn-primary btn-outline-primary rounded-0 text-white py-2 px-4">Dashboard</a>
               <a (click)="logout()" class="btn btn-primary btn-primary rounded-0 py-2 px-4 text-white ">Logout</a>
             </div>
 
