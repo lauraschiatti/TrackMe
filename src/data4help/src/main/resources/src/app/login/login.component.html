@@ -9,10 +9,13 @@
   <div class="container">
     <div class="col-md-12 col-lg-6 mb-5" style="margin-left:300px; ">
 
-      {{ loginForm.value | json }}
-
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="p-5 bg-white">
-        <h2 class="mb-4 text-black">Sign in</h2>
+        <h2 class="mb-4 text-black">Login</h2>
+
+        <div *ngIf="error"  class="alert alert-danger" >
+          {{ error }}
+          <br>
+        </div>
 
         <div class="row form-group">
           <div class="col-md-12">
@@ -38,7 +41,7 @@
         <div class="row form-group mb-2">
           <div class="col-md-12">
             <p class="float-left">No account yet? <a routerLink="/register">Register</a></p>
-            <p class="float-right"> <a href="#">Forgot password?</a></p>
+            <!--<p class="float-right"> <a href="#">Forgot password?</a></p>-->
           </div>
         </div>
 

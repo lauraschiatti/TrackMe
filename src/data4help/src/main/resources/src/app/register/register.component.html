@@ -13,6 +13,11 @@
         <form [formGroup]="iForm" (ngSubmit)="onSubmitIndividuals()" class="p-5 bg-white">
           <h2 class="mb-4 text-black">Register Individuals</h2>
 
+          <div *ngIf="error"  class="alert alert-danger" >
+            {{ error }}
+            <br>
+          </div>
+
           <div class="row form-group">
             <div class="col-md-12">
               <label class="font-weight-bold" for="name">Name</label>
@@ -128,8 +133,14 @@
 
 
       <div class="col-md-12 col-lg-6 mb-5">
+
         <form [formGroup]="tpForm" (ngSubmit)="onSubmitThirdParties()" class="p-5 bg-white">
           <h2 class="mb-4 text-black">Register Third Parties</h2>
+
+          <div *ngIf="error"  class="alert alert-danger" >
+            {{ error }}
+            <br>
+          </div>
 
           <div class="row form-group">
             <div class="col-md-12">

@@ -9,14 +9,16 @@ import { Track4runComponent } from './track4run/track4run.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
-  // { path: '', redirectTo: '', pathMatch: 'full' },
   { path : '', component : HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'data4help', component: Data4helpComponent },
   { path: 'automatedsos', component: AutomatedSOSComponent },
   { path: 'track4run', component: Track4runComponent },
-  { path: 'dashboard', component: DashboardComponent }
+  { path: 'dashboard', component: DashboardComponent },
+
+  // otherwise redirect to home
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
@@ -25,5 +27,3 @@ const routes: Routes = [
 })
 
 export class AppRoutingModule { }
-
-

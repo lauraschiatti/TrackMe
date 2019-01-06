@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { AuthenticationService } from '../services/authentication.service';
-import {Observable} from 'rxjs';
-// import { Router } from '@angular/router';
+import { AuthenticationService } from '../_services';
+
 
 @Component({
   selector: 'app-register',
@@ -14,6 +13,9 @@ export class RegisterComponent implements OnInit {
     tpForm: FormGroup;
     iFormSubmitted = false;
     tpFormSubmitted = false;
+    error = '';
+
+
     bloodTypes = [
         {value: 'A_POSITIVE', label: 'A+'},
         {value: 'A_NEGATIVE', label: 'A-'},
@@ -24,15 +26,12 @@ export class RegisterComponent implements OnInit {
         {value: 'ZERO_POSITIVE', label: 'O+'},
         {value: 'ZERO_NEGATIVE', label: 'O-'}
     ];
-    // user = Observable<any>;
-    // user = Observable<Individual[]>;
 
     constructor(
         private iFormBuilder: FormBuilder,
         private tpFormBuilder: FormBuilder,
-        private authService: AuthenticationService,
-        // private route: ActivatedRoute,
-        // private router: Router,
+        private authenticationService: AuthenticationService,
+        // private route: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -84,37 +83,37 @@ export class RegisterComponent implements OnInit {
             'weight': this.iControls.weight.value,
             'height': this.iControls.height.value,
             'birthDate': this.iControls.birthDate.value,
-            'gender' : this.iControls.gender.value,
-            'address' : {
-                'city' : address[0],
-                'province' : address[1],
-                'country' : address[2]
+            'gender': this.iControls.gender.value,
+            'address': {
+                'city': address[0],
+                'province': address[1],
+                'country': address[2]
             },
             'bloodType': this.iControls.bloodType.value,
-            'email' : this.iControls.email.value,
+            'email': this.iControls.email.value,
             'password': this.iControls.password.value
         };
 
         if (this.iForm.valid) {
-            this.authService
+            this.authenticationService
                 .signupIndividual(individual)
                 .subscribe(
-                  data => {
-                    console.log('POST Request is successful ', data);
-                      // this.authService.setCurrentUser(data.userId, data.accessToken);
-                      // if(data.role == 'INDIVIDUAL'){
-                      //     this.router.navigate(['/individual/{data.userId}/dashboard']);
-                      // }else if(data.role == 'THIRD_PARTY'){
-                      //     this.router.navigate(['/company/{data.userId}/dashboard']);
-                      // }else{
-                      //     return;
-                      // }
+                    data => {
+                        const user = {
+                          'userId': data['userId'],
+                          'accessToken': data['accessToken'],
+                          'role': 'INDIVIDUAL'
+                        };
 
-                  },
-                  error => {
-                      console.log('Error', error);
-                  }
-            );
+                        this.authenticationService.setCurrentUser(user);
+
+                        this.authenticationService.redirectByRole();
+                    },
+                    error => {
+                        this.error = error.error.message;
+                        console.log('error ', this.error);
+                    }
+                );
         }
     }
 
@@ -125,7 +124,42 @@ export class RegisterComponent implements OnInit {
         if (this.tpForm.invalid) {
             return;
         }
-        alert('THIRD PARTY!! :-)\n\n' + JSON.stringify(this.tpForm.value));
+
+        const thirdparty = {
+            'name':  this.tpControls.companyname.value,
+            'taxCode': this.tpControls.taxcode.value,
+            'certificate': '',
+            'phone': this.tpControls.phone.value,
+            'email': this.tpControls.emailtp.value,
+            'password': this.tpControls.passwordtp.value,
+            'config': {
+                'individualpushurl': this.tpControls.individualpushurl.value,
+                'bulkpushurl': this.tpControls.bulkpushurl.value,
+                'notificationurl': this.tpControls.notificationurl.value
+            }
+        };
+
+        if (this.tpForm.valid) {
+            this.authenticationService
+                .signupThirdParty(thirdparty)
+                .subscribe(
+                    data => {
+                        const user = {
+                            'userId': data['userId'],
+                            'accessToken': data['accessToken'],
+                            'role': 'THIRD_PARTY'
+                        };
+
+                        this.authenticationService.setCurrentUser(user);
+
+                        this.authenticationService.redirectByRole();
+                    },
+                    error => {
+                        this.error = error.error.message;
+                        console.log('error ', this.error);
+                    }
+                );
+        }
     }
 
 }
