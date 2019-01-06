@@ -13,14 +13,14 @@ import { User } from '../../_models';
 export class HeaderComponent implements OnInit {
 
     currentUser: User;
+    // isUserLoggedIn: boolean;
 
     constructor(
         private router: Router,
         private authenticationService: AuthenticationService
     ) {
-        if (this.authenticationService.currentUserValue) {
-            this.currentUser = this.authenticationService.currentUserValue;
-        }
+        this.authenticationService.currentUser
+            .subscribe(value => this.currentUser = value);
     }
 
     ngOnInit() {
