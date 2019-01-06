@@ -107,12 +107,21 @@ public final class Data4HelpApp implements SparkApplication {
     }
 
     private void enableCors() {
-        options("", (request, response) -> "OK" );
+        options("*/*", (req, res) -> {
+            String accessControlRequestHeaders = req.headers("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                res.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+            }
 
-        after("", (req, res) -> {
+            String accessControlRequestMethod = req.headers("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                res.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+            }
+            return "OK";
+        } );
+
+        before((req, res) -> {
             res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "*");
-//            res.header("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, OPTIONS, PATCH");
         });
     }
 
