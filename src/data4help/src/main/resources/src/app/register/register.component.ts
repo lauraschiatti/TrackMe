@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { AuthenticationService } from '../services/authentication.service';
+import { AuthenticationService } from '../_services';
 import {Observable} from 'rxjs';
-// import { Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -24,8 +24,6 @@ export class RegisterComponent implements OnInit {
         {value: 'ZERO_POSITIVE', label: 'O+'},
         {value: 'ZERO_NEGATIVE', label: 'O-'}
     ];
-    // user = Observable<any>;
-    // user = Observable<Individual[]>;
 
     constructor(
         private iFormBuilder: FormBuilder,
@@ -84,14 +82,14 @@ export class RegisterComponent implements OnInit {
             'weight': this.iControls.weight.value,
             'height': this.iControls.height.value,
             'birthDate': this.iControls.birthDate.value,
-            'gender' : this.iControls.gender.value,
-            'address' : {
-                'city' : address[0],
-                'province' : address[1],
-                'country' : address[2]
+            'gender': this.iControls.gender.value,
+            'address': {
+                'city': address[0],
+                'province': address[1],
+                'country': address[2]
             },
             'bloodType': this.iControls.bloodType.value,
-            'email' : this.iControls.email.value,
+            'email': this.iControls.email.value,
             'password': this.iControls.password.value
         };
 
@@ -100,8 +98,14 @@ export class RegisterComponent implements OnInit {
                 .signupIndividual(individual)
                 .subscribe(
                   data => {
-                    console.log('POST Request is successful ', data);
-                      // this.authService.setCurrentUser(data.userId, data.accessToken);
+                        const user = {
+                          'userId': data['userId'],
+                          'accessToken': data['accessToken'],
+                          'role': 'INDIVIDUAL'
+                        };
+
+                        this.authService.setCurrentUser(user);
+                      console.log('ok');
                       // if(data.role == 'INDIVIDUAL'){
                       //     this.router.navigate(['/individual/{data.userId}/dashboard']);
                       // }else if(data.role == 'THIRD_PARTY'){
@@ -118,14 +122,14 @@ export class RegisterComponent implements OnInit {
         }
     }
 
-    onSubmitThirdParties() {
-        this.tpFormSubmitted = true;
-
-        // stop here if form is invalid
-        if (this.tpForm.invalid) {
-            return;
-        }
-        alert('THIRD PARTY!! :-)\n\n' + JSON.stringify(this.tpForm.value));
-    }
+    // onSubmitThirdParties() {
+    //     this.tpFormSubmitted = true;
+    //
+    //     // stop here if form is invalid
+    //     if (this.tpForm.invalid) {
+    //         return;
+    //     }
+    //     alert('THIRD PARTY!! :-)\n\n' + JSON.stringify(this.tpForm.value));
+    // }
 
 }

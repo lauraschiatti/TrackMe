@@ -13,7 +13,6 @@ import { User } from '../../_models';
 export class HeaderComponent implements OnInit {
 
     currentUser: User;
-    // isUserLoggedIn: boolean;
 
     constructor(
         private router: Router,
