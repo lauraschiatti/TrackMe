@@ -39,7 +39,8 @@
     <!---------------------------------------- THIRD PARTY ------------------------------------------------>
 
       <div *ngIf="role === 'THIRD_PARTY'; else individual">
-        <p>Third party</p>
+<p>third party</p>
+
       </div>
 
       <!---------------------------------------- INDIVIDUAL ------------------------------------------------>
@@ -101,82 +102,83 @@
         <hr>
         <br>
 
-        <div class="container">
-          <h5 class="font-weight-bold"><i class="unit-3-icon icon fl-bigmug-line-men25"></i> &nbsp; Subscribed third parties</h5>
+        <div class="card mb-3">
+          <div class="card-header">
+            <span class="font-weight-bold"> <i class="unit-3-icon icon fl-bigmug-line-megaphone11"></i> Subscribed third parties</span>
+          </div>
+          <div class="card-body">
+            <input class="form-control" id="filterRequests" type="text" placeholder="Search...">
+            <br>
 
-          <br>
+            <div class="table-responsive">
+              <table class="table table-hover table-light" id="requestsTable" width="100%" cellspacing="0">
+                <thead>
+                <tr class="table-success">
+                  <th>#</th>
+                  <th>Date</th>
+                  <th>Company name</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
 
-          <input class="form-control" id="filterRequests" type="text" placeholder="Search...">
-          <br>
+                <div *ngIf="noSubscriptions; else subscriptionsTable">
+                  <tr>
+                    <td>NO</td>
+                    <td>SUBSCRIPTIONS</td>
+                    <td>AVAILABLE</td>
+                    <td>--</td>
+                  </tr>
+                </div>
 
-          <div class="table-responsive">
-            <table class="table table-hover table-light" id="requestsTable" width="100%" cellspacing="0">
-              <thead>
-              <tr class="table-success">
-                <th>#</th>
-                <th>Date</th>
-                <th>Company name</th>
-                <th>Status</th>
-              </tr>
-              </thead>
-              <tbody>
+                <ng-template #subscriptionsTable>
+                  <tr>
+                    <td>Tiger Nixon</td>
+                    <td>System Architect</td>
+                    <td>Edinburgh</td>
+                    <td>61</td>
+                  </tr>
+                  <tr>
+                    <td>Garrett Winters</td>
+                    <td>Accountant</td>
+                    <td>Tokyo</td>
+                    <td>63</td>
+                  </tr>
+                  <tr>
+                    <td>Ashton Cox</td>
+                    <td>Junior Technical Author</td>
+                    <td>San Francisco</td>
+                    <td>66</td>
+                  </tr>
+                  <tr>
+                    <td>Cedric Kelly</td>
+                    <td>Senior Javascript Developer</td>
+                    <td>Edinburgh</td>
+                    <td>22</td>
+                  </tr>
+                  <tr>
+                    <td>Airi Satou</td>
+                    <td>Accountant</td>
+                    <td>Tokyo</td>
+                    <td>33</td>
+                  </tr>
+                  <tr>
+                    <td>Brielle Williamson</td>
+                    <td>Integration Specialist</td>
+                    <td>New York</td>
+                    <td>61</td>
+                  </tr>
+                  <tr>
+                    <td>Charde Marshall</td>
+                    <td>Regional Director</td>
+                    <td>San Francisco</td>
+                    <td>36</td>
+                  </tr>
+                </ng-template>
 
-              <div *ngIf="noSubscriptions; else subscriptionsTable">
-                <tr>
-                  <td>NO</td>
-                  <td>SUBSCRIPTIONS</td>
-                  <td>AVAILABLE</td>
-                  <td>61</td>
-                </tr>
-              </div>
-
-              <ng-template #subscriptionsTable>
-                <tr>
-                  <td>Tiger Nixon</td>
-                  <td>System Architect</td>
-                  <td>Edinburgh</td>
-                  <td>61</td>
-                </tr>
-                <tr>
-                  <td>Garrett Winters</td>
-                  <td>Accountant</td>
-                  <td>Tokyo</td>
-                  <td>63</td>
-                </tr>
-                <tr>
-                  <td>Ashton Cox</td>
-                  <td>Junior Technical Author</td>
-                  <td>San Francisco</td>
-                  <td>66</td>
-                </tr>
-                <tr>
-                  <td>Cedric Kelly</td>
-                  <td>Senior Javascript Developer</td>
-                  <td>Edinburgh</td>
-                  <td>22</td>
-                </tr>
-                <tr>
-                  <td>Airi Satou</td>
-                  <td>Accountant</td>
-                  <td>Tokyo</td>
-                  <td>33</td>
-                </tr>
-                <tr>
-                  <td>Brielle Williamson</td>
-                  <td>Integration Specialist</td>
-                  <td>New York</td>
-                  <td>61</td>
-                </tr>
-                <tr>
-                  <td>Charde Marshall</td>
-                  <td>Regional Director</td>
-                  <td>San Francisco</td>
-                  <td>36</td>
-                </tr>
-              </ng-template>
-
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
