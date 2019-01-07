@@ -282,6 +282,15 @@ jQuery(document).ready(function($) {
             console.log("error: " + error.statusText);
         });
 
+    /*** Dashboard: search on requests ***/
+
+    $("#filterRequests").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#requestsTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+
     /*** Track4Run show and hide list of runs and map of a specific active run ***/
 
     $("#view_participants").click(function(){

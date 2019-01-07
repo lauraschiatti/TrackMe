@@ -1,4 +1,4 @@
 export enum Role {
-    Individual = 'Individual',
-    ThirdParty = 'ThirdParty'
+    Individual = 'INDIVIDUAL',
+    ThirdParty = 'THIRD_PARTY'
 }
