@@ -7,9 +7,7 @@ import {map} from 'rxjs/operators';
 
 import { User } from '../_models';
 
-@Injectable({
-  providedIn: 'root' // this service should be created by the root application injector.
-})
+@Injectable({ providedIn: 'root' }) // this service should be created by the root application injector.
 export class AuthenticationService {
 
     private baseUrl = environment.baseUrl;
@@ -48,7 +46,6 @@ export class AuthenticationService {
                     this.setCurrentUser(user);
                 }
 
-                console.log('login', user);
                 return user;
             }));
     }
@@ -67,12 +64,14 @@ export class AuthenticationService {
             // remove user from local storage to log user out
             localStorage.removeItem('currentUser');
             this.currentUserSubject.next(null);
+            this.router.navigate(['/']);
         }
     }
 
     setCurrentUser(user): void {
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
+        this.router.navigate(['/dashboard']);
         console.log('user stored');
     }
 
@@ -80,18 +79,4 @@ export class AuthenticationService {
         const currentUser = localStorage.getItem('currentUser');
         return currentUser;
     }
-
-    redirectByRole() {
-        if (this.currentUserValue) {
-            // redirect according to role
-            if (this.currentUserValue['role'] === 'INDIVIDUAL') {
-                this.router.navigate(['/track4run']);
-            } else if (this.currentUserValue['role'] === 'THIRD_PARTY') {
-                this.router.navigate(['/automatedsos']);
-            } else {
-                return;
-            }
-        }
-    }
-
 }

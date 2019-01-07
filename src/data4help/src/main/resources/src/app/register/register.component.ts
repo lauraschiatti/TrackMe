@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { AuthenticationService } from '../_services';
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -31,7 +30,6 @@ export class RegisterComponent implements OnInit {
         private iFormBuilder: FormBuilder,
         private tpFormBuilder: FormBuilder,
         private authenticationService: AuthenticationService,
-        // private route: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -107,7 +105,6 @@ export class RegisterComponent implements OnInit {
 
                         this.authenticationService.setCurrentUser(user);
 
-                        this.authenticationService.redirectByRole();
                     },
                     error => {
                         this.error = error.error.message;
@@ -151,8 +148,6 @@ export class RegisterComponent implements OnInit {
                         };
 
                         this.authenticationService.setCurrentUser(user);
-
-                        this.authenticationService.redirectByRole();
                     },
                     error => {
                         this.error = error.message;
