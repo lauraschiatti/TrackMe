@@ -59,9 +59,8 @@ export class AuthenticationService {
                 'userId' : currentUser['userId'],
                 'accessToken': currentUser['accessToken']
             };
-            this.http.post(`${this.baseUrl}/web/logout`, user);
+            // this.http.post(`${this.baseUrl}/web/logout`, user);
 
-            // remove user from local storage to log user out
             localStorage.removeItem('currentUser');
             this.currentUserSubject.next(null);
             this.router.navigate(['/']);

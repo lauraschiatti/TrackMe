@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, AuthenticationService, SubscriptionService } from '../_services';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+
+import {UserService, AuthenticationService, SubscriptionService, SearchService } from '../_services';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,10 +14,17 @@ export class DashboardComponent implements OnInit {
   private role;
   private noSubscriptions = false;
 
+  iForm: FormGroup;
+  iFormSubmitted = false;
+  error = '';
+
   constructor(
       private authenticationService: AuthenticationService,
       private userService: UserService,
       private subscriptionService: SubscriptionService,
+      private searchService: SearchService,
+      private iFormBuilder: FormBuilder,
+      private bulkFormBuilder: FormBuilder
   ) {
       this.role = this.authenticationService.currentUserValue.role;
   }
@@ -26,7 +35,7 @@ export class DashboardComponent implements OnInit {
           .subscribe(
               data => {
                   this.user = data['data'];
-                  console.log('user', this.role);
+                  // console.log('user', this.role);
               },
               error => {
                   console.log('error', error);
@@ -41,12 +50,45 @@ export class DashboardComponent implements OnInit {
                       console.log('requests', this.subscriptions);
                   } else {
                       this.noSubscriptions = true;
-                      console.log ('noRequests', this.noSubscriptions);
+                      // console.log ('noSubscriptions', this.noSubscriptions);
                   }
               },
               error => {
                   console.log('error', error);
               });
+
+      // Validate search forms
+      this.iForm = this.iFormBuilder.group({
+          ssn: ['', Validators.required],
+      });
   }
+
+  get iControls() { return this.iForm.controls; }
+
+  onSubmitIndividualSearch() {
+      this.iFormSubmitted = true;
+
+      // stop here if form is invalid
+      if (this.iForm.invalid) {
+          return;
+      }
+
+      if (this.iForm.valid) {
+        this.searchService
+            .search(this.iControls.ssn.value)
+            .subscribe(
+                data => {
+                    // display data
+                    console.log('search: individual data', data);
+
+                },
+                error => {
+                    this.error = error;
+                    console.log('error ', error);
+                }
+            );
+      }
+  }
+
 
 }

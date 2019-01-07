@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root' // this service should be created by the root application injector.
@@ -11,11 +11,15 @@ export class SearchService {
 
     constructor(private http: HttpClient) { }
 
-    search() {
-        // Individual data
-        // {
-        //     "ssn" : "12121212"
-        // }
+    search(ssn?, params?) {
+
+        if (ssn) {
+            let httpParams = new HttpParams().set('ssn', '1');
+
+            return this.http.get(`${this.baseUrl}/web/search`, { params: httpParams });
+        }
+
+        if (params) {}
 
         // Bulk data
         // {
@@ -28,7 +32,6 @@ export class SearchService {
         // 	"bloodType": "A_POSITIVE"
         // }
 
-        // return this.http.get(`${this.baseUrl}/web/request`, ssn);
     }
 
 }

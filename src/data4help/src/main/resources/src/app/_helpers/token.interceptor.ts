@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpHeaders } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -15,21 +15,16 @@ export class TokenInterceptor implements HttpInterceptor {
     // include userId accessToken (in localstorage) as headers in any HTTP request that is sent
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        const returnUrl = this.router.url;
+        const currentUser = this.authenticationService.currentUserValue;
 
-        // add header for all requests except login and register
-        if (returnUrl !== '/login' && returnUrl !== '/register') {
-            // const currentUser = this.authenticationService.getCurrentUser();
-            const currentUser = this.authenticationService.currentUserValue;
+        if (currentUser && currentUser.accessToken) {
 
-            if (currentUser) {
-                request = request.clone({
-                    setHeaders: {
-                       'ACCESS-TOKEN': currentUser.accessToken,
-                       'USER_ID' : currentUser.userId
-                    }
-                });
-            }
+            request = request.clone({
+                headers: request.headers
+                    .set('ACCESS-TOKEN', currentUser.accessToken)
+                    .set('USER_ID', currentUser.userId)
+            });
+
         }
 
         return next.handle(request);

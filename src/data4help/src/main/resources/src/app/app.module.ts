@@ -14,7 +14,7 @@ import { Data4helpComponent } from './data4help/data4help.component';
 import { AutomatedSOSComponent } from './automated-sos/automated-sos.component';
 import { Track4runComponent } from './track4run/track4run.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { TokenInterceptor } from './_helpers';
+import { TokenInterceptor, ErrorInterceptor } from './_helpers';
 
 @NgModule({
   declarations: [
@@ -39,6 +39,11 @@ import { TokenInterceptor } from './_helpers';
       {
           provide: HTTP_INTERCEPTORS,
           useClass: TokenInterceptor,
+          multi: true
+      },
+      {
+          provide: HTTP_INTERCEPTORS,
+          useClass: ErrorInterceptor,
           multi: true
       }
   ],
