@@ -3,10 +3,12 @@ package avila.schiatti.virdi.service;
 import avila.schiatti.virdi.Data4HelpApp;
 import avila.schiatti.virdi.exception.TrackMeError;
 import avila.schiatti.virdi.exception.TrackMeException;
+import avila.schiatti.virdi.model.request.D4HRequestStatus;
 import avila.schiatti.virdi.model.user.*;
+import avila.schiatti.virdi.resource.D4HRequestResource;
 import avila.schiatti.virdi.resource.UserResource;
-import avila.schiatti.virdi.service.request.SubscriptionRequest;
 import avila.schiatti.virdi.service.response.ResponseWrapper;
+import avila.schiatti.virdi.service.response.D4HUserResponse;
 import spark.Request;
 import spark.Response;
 
@@ -15,17 +17,20 @@ import static spark.Spark.*;
 public class UserService extends Service {
 
     private UserResource userResource;
+    private D4HRequestResource requestResource;
 
     /**
      * Only for testing
      * @param userResource
      */
-    public UserService(UserResource userResource) {
+    public UserService(UserResource userResource, D4HRequestResource requestResource) {
         this.userResource = userResource;
+        this.requestResource = requestResource;
     }
 
     private UserService(){
         userResource = UserResource.create();
+        requestResource = D4HRequestResource.create();
     }
 
     public static UserService create(){
@@ -57,14 +62,26 @@ public class UserService extends Service {
         return new ResponseWrapper<>(configuration);
     }
 
-    private ResponseWrapper<D4HUser> getProfileInfo(Request req, Response res) {
+    private ResponseWrapper<D4HUserResponse> getProfileInfo(Request req, Response res) {
         String userId = req.headers(Data4HelpApp.USER_ID);
 
         D4HUser user = userResource.getById(userId);
 
-        user.setId(null);
-        user.setPassword(null);
+        Long approvedReqs = requestResource.countByUserId(user.getId(), D4HRequestStatus.APPROVED);
+        Long pendingReqs = requestResource.countByUserId(user.getId(), D4HRequestStatus.PENDING);
+        Long rejectedReqs = requestResource.countByUserId(user.getId(), D4HRequestStatus.REJECTED);
 
-        return new ResponseWrapper<>(user);
+
+        D4HUserResponse response;
+        if(D4HUserRole.INDIVIDUAL.equals(user.getRole())){
+            response = D4HUserResponse.fromIndividual((Individual) user);
+        }else{
+            response = D4HUserResponse.fromThirdParty((ThirdParty) user);
+        }
+        response.setApprovedRequests(approvedReqs);
+        response.setPendingRequests(pendingReqs);
+        response.setRejectedRequests(rejectedReqs);
+
+        return new ResponseWrapper<>(response);
     }
 }

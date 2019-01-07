@@ -62,6 +62,16 @@ public class D4HRequestResource extends Resource<D4HRequest> {
                 .asList();
     }
 
+    public Long countByUserId(ObjectId uid, D4HRequestStatus status){
+        Query<D4HRequest> query = datastore.find(D4HRequest.class);
+        query.or(
+                query.criteria("individual").equal(uid),
+                query.criteria("thirdParty").equal(uid)
+        );
+        query.field("status").equal(status);
+        return query.count();
+    }
+
     public Collection<D4HRequest> getByUserId(String userId, D4HRequestStatus status){
         if(status == null){
             return getByUserId(userId);
