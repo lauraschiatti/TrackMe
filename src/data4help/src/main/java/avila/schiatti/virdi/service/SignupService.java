@@ -129,6 +129,8 @@ public class SignupService extends Service {
         individual.setGender(request.getGender());
         individual.setName(request.getName());
         individual.setSsn(request.getSsn());
+        individual.setWeight(request.getWeight());
+        individual.setHeight(request.getHeight());
         individual.setAddress(new Address());
         individual.getAddress().setCity(request.getAddress().getCity());
         individual.getAddress().setCountry(request.getAddress().getCountry());

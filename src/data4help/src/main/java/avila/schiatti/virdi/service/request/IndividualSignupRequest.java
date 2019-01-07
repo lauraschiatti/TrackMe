@@ -15,6 +15,8 @@ public class IndividualSignupRequest {
     private Gender gender;
     private Address address;
     private BloodType bloodType;
+    private Float weight;
+    private Float height;
 
     public String getEmail() {
         return email;
@@ -78,5 +80,21 @@ public class IndividualSignupRequest {
 
     public void setBloodType(BloodType bloodType) {
         this.bloodType = bloodType;
+    }
+
+    public Float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Float weight) {
+        this.weight = weight;
+    }
+
+    public Float getHeight() {
+        return height;
+    }
+
+    public void setHeight(Float height) {
+        this.height = height;
     }
 }
