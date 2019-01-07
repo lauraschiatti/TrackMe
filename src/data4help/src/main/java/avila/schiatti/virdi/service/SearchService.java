@@ -75,10 +75,10 @@ public class SearchService extends Service {
             String country = req.queryParams("country");
             String city = req.queryParams("city");
             String province = req.queryParams("province");
-            Integer minAge = req.queryParams("minAge") != null ? Integer.valueOf(req.queryParams("minAge")) : null;
-            Integer maxAge = req.queryParams("maxAge") != null ? Integer.valueOf(req.queryParams("maxAge")) : null;
-            Gender gender = req.queryParams("gender") != null ? Gender.valueOf(req.queryParams("gender")) : null;
-            BloodType bloodType = req.queryParams("bloodType") != null ? BloodType.valueOf(req.queryParams("bloodType")) : null;
+            Integer minAge = !Validator.isNullOrEmpty(req.queryParams("minAge")) ? Integer.valueOf(req.queryParams("minAge")) : null;
+            Integer maxAge = !Validator.isNullOrEmpty(req.queryParams("maxAge")) ? Integer.valueOf(req.queryParams("maxAge")) : null;
+            Gender gender = !Validator.isNullOrEmpty(req.queryParams("gender")) ? Gender.valueOf(req.queryParams("gender")) : null;
+            BloodType bloodType = !Validator.isNullOrEmpty(req.queryParams("bloodType")) ? BloodType.valueOf(req.queryParams("bloodType")) : null;
 
             D4HQuery query = new D4HQuery();
             query.setCity(city);

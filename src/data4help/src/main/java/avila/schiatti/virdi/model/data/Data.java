@@ -7,6 +7,7 @@ import xyz.morphia.annotations.Entity;
 import xyz.morphia.annotations.Id;
 import xyz.morphia.annotations.Reference;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity("data")
@@ -16,7 +17,7 @@ public class Data {
 
     @Embedded
     private Location location;
-    private LocalDateTime timestamp = LocalDateTime.now();
+    private long timestamp = Timestamp.valueOf(LocalDateTime.now()).getTime();
     @Embedded
     private HealthStatus healthStatus;
 
@@ -42,11 +43,11 @@ public class Data {
         this.location = location;
     }
 
-    public LocalDateTime getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
