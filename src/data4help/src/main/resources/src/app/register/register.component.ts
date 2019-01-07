@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { AuthenticationService } from '../_services';
+import { BloodType } from '../_models';
 
 @Component({
   selector: 'app-register',
@@ -13,18 +14,7 @@ export class RegisterComponent implements OnInit {
     iFormSubmitted = false;
     tpFormSubmitted = false;
     error = '';
-
-
-    bloodTypes = [
-        {value: 'A_POSITIVE', label: 'A+'},
-        {value: 'A_NEGATIVE', label: 'A-'},
-        {value: 'B_POSITIVE', label: 'B+'},
-        {value: 'B_NEGATIVE', label: 'B-'},
-        {value: 'AB_POSITIVE', label: 'AB+'},
-        {value: 'AB_NEGATIVE', label: 'AB-'},
-        {value: 'ZERO_POSITIVE', label: 'O+'},
-        {value: 'ZERO_NEGATIVE', label: 'O-'}
-    ];
+    bloodTypes = BloodType.values();
 
     constructor(
         private iFormBuilder: FormBuilder,
@@ -107,7 +97,7 @@ export class RegisterComponent implements OnInit {
 
                     },
                     error => {
-                        this.error = error.error.message;
+                        this.error = error;
                         console.log('error ', this.error);
                     }
                 );
@@ -150,7 +140,7 @@ export class RegisterComponent implements OnInit {
                         this.authenticationService.setCurrentUser(user);
                     },
                     error => {
-                        this.error = error.message;
+                        this.error = error;
                         console.log('error ', this.error);
                     }
                 );
