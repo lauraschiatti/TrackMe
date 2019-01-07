@@ -94,14 +94,16 @@ public class D4HRequestResource extends Resource<D4HRequest> {
                 .get();
     }
 
-    public void checkApprovedRequest(ObjectId userId, ObjectId thirdPartyId){
+    public D4HRequest checkApprovedRequest(ObjectId userId, ObjectId thirdPartyId){
         D4HRequest request = getByUserIdAndThirdPartyId(userId, thirdPartyId);
 
         if(request == null){
             throw new TrackMeException(TrackMeError.NO_REQUEST_FOUND);
-        } else if( D4HRequestStatus.APPROVED.equals(request.getStatus())){
+        } else if( !D4HRequestStatus.APPROVED.equals(request.getStatus())){
             throw new TrackMeException(TrackMeError.NO_APPROVED_REQUEST);
         }
+
+        return request;
     }
 
     public Collection<D4HRequest> getByThirdPartyId(String thirdPartyId, D4HRequestStatus status){

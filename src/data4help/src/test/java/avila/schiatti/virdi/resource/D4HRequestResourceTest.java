@@ -2,6 +2,8 @@ package avila.schiatti.virdi.resource;
 
 
 import avila.schiatti.virdi.configuration.StaticConfiguration;
+import avila.schiatti.virdi.exception.TrackMeError;
+import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.model.request.D4HRequest;
 import avila.schiatti.virdi.model.request.D4HRequestStatus;
 import avila.schiatti.virdi.model.user.D4HUser;
@@ -21,7 +23,6 @@ import xyz.morphia.query.Query;
 
 import java.util.ArrayList;
 
-import static org.mockito.Mockito.mock;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class D4HRequestResourceTest {
@@ -248,47 +249,57 @@ public class D4HRequestResourceTest {
     @Test
     @DisplayName("Test when a request from a valid user and a valid third party, it should return the request")
     public void test_14(){
-        ThirdParty tp = createAndStoreThirdParty();
-        Individual i = createAndStoreIndividual();
-        D4HRequest req_1 = new D4HRequest();
-        req_1.setThirdParty(tp);
-        req_1.setIndividual(i);
-        datastore.save(req_1);
+        try {
+            ThirdParty tp = createAndStoreThirdParty();
+            Individual i = createAndStoreIndividual();
+            D4HRequest req_1 = new D4HRequest();
+            req_1.setThirdParty(tp);
+            req_1.setIndividual(i);
+            datastore.save(req_1);
 
-        D4HRequest request = resource.checkApprovedRequest(i.getId(), tp.getId());
-
-        assertEquals(request.getIndividual().getId(), i.getId());
-        assertEquals(request.getThirdParty().getId(), tp.getId());
+            D4HRequest request = resource.checkApprovedRequest(i.getId(), tp.getId());
+            assertEquals(request.getIndividual().getId(), i.getId());
+            assertEquals(request.getThirdParty().getId(), tp.getId());
+        }catch(Exception e){
+            fail(e.getMessage());
+        }
     }
 
     @Test
     @DisplayName("Test when a request from a not valid user and a valid third party, it should return null")
     public void test_15(){
-        ObjectId fakeId = new ObjectId();
-        ThirdParty tp = createAndStoreThirdParty();
-        D4HRequest req_1 = new D4HRequest();
-        req_1.setThirdParty(tp);
-        req_1.setIndividual(createAndStoreIndividual());
-        datastore.save(req_1);
+        try {
+            ObjectId fakeId = new ObjectId();
+            ThirdParty tp = createAndStoreThirdParty();
+            D4HRequest req_1 = new D4HRequest();
+            req_1.setThirdParty(tp);
+            req_1.setIndividual(createAndStoreIndividual());
+            datastore.save(req_1);
 
-        D4HRequest request = resource.checkApprovedRequest(fakeId, tp.getId());
+            resource.checkApprovedRequest(fakeId, tp.getId());
 
-        assertNull(request);
+            fail();
+        }catch(TrackMeException ex){
+            assertEquals(TrackMeError.NO_REQUEST_FOUND.getMessage(), ex.getMessage());
+        }
     }
 
     @Test
     @DisplayName("Test when a request from a valid user and a not valid third party, it should return null")
     public void test_16(){
-        ObjectId fakeId = new ObjectId();
-        Individual i = createAndStoreIndividual();
-        D4HRequest req_1 = new D4HRequest();
-        req_1.setThirdParty(createAndStoreThirdParty());
-        req_1.setIndividual(i);
-        datastore.save(req_1);
+        try {
+            ObjectId fakeId = new ObjectId();
+            Individual i = createAndStoreIndividual();
+            D4HRequest req_1 = new D4HRequest();
+            req_1.setThirdParty(createAndStoreThirdParty());
+            req_1.setIndividual(i);
+            datastore.save(req_1);
 
-        D4HRequest request = resource.checkApprovedRequest(i.getId(),fakeId);
-
-        assertNull(request);
+            resource.checkApprovedRequest(i.getId(), fakeId);
+            fail();
+        }catch(TrackMeException ex){
+            assertEquals(TrackMeError.NO_REQUEST_FOUND.getMessage(), ex.getMessage());
+        }
     }
 
 

@@ -28,7 +28,6 @@ public class SubscriptionService extends Service {
     private D4HRequestResource requestResource;
     private SubscriptionResource subscriptionResource;
     private UserResource userResource;
-    private APIManager apiManager;
 
     /**
      * Only for testing
@@ -46,7 +45,6 @@ public class SubscriptionService extends Service {
         requestResource = D4HRequestResource.create();
         subscriptionResource = SubscriptionResource.create();
         userResource = UserResource.create();
-        apiManager = APIManager.create();
     }
 
     public static SubscriptionService create(){

@@ -20,7 +20,7 @@ public class Data {
     @Embedded
     private HealthStatus healthStatus;
 
-    @Reference(idOnly = true, lazy = true)
+    @Reference(idOnly = true)
     private Individual individual;
 
     public ObjectId getId() {
