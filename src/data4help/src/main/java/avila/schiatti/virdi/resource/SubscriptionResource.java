@@ -53,8 +53,7 @@ public class SubscriptionResource extends Resource<Subscription> {
         Query<Subscription> query = datastore.find(Subscription.class)
                 .field("filter.individual")
                 .doesNotExist()
-                .field("nextExecution")
-                .lessThanOrEq(new Date());
+                .filter("nextExecution <", LocalDateTime.now());
 
         return query.asList();
     }

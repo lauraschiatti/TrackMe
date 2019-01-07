@@ -61,10 +61,6 @@ public class Subscription {
     }
 
     public void calculateNetxtExecution() {
-        if(this.nextExecution == null){
-            this.nextExecution = LocalDateTime.now();
-        }
-
-        nextExecution.plus(this.timeSpan, ChronoUnit.MINUTES);
+        this.nextExecution = LocalDateTime.now().plus(this.timeSpan, ChronoUnit.MINUTES);
     }
 }
