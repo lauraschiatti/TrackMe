@@ -33,8 +33,7 @@
               <label class="font-weight-bold">Gender</label>
               <select class="form-control" formControlName="gender" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.gender.errors }">
                 <option value="" disabled>Choose a gender</option>
-                <option value="MALE">Male </option>
-                <option value="FEMALE">Female </option>
+                <option *ngFor="let g of Gender" [ngValue]="g">{{ g }}</option>
               </select>
               <div *ngIf="iFormSubmitted && iControls.gender.errors" class="invalid-feedback">
                 <div *ngIf="iControls.gender.errors.required">Gender is required</div>
@@ -83,9 +82,9 @@
                 <option value="" disabled>Choose a blood type</option>
                 <option *ngFor="let bt of bloodTypes" [ngValue]="bt">{{ bt }}</option>
               </select>
-              <!--<div *ngIf="iFormSubmitted && iControls.bloodType.errors" class="invalid-feedback">-->
-                <!--<div *ngIf="iControls.bloodType.errors.required">It is required to select a blood type</div>-->
-              <!--</div>-->
+              <div *ngIf="iFormSubmitted && iControls.bloodType.errors" class="invalid-feedback">
+                <div *ngIf="iControls.bloodType.errors.required">It is required to select a blood type</div>
+              </div>
             </div>
           </div>
 

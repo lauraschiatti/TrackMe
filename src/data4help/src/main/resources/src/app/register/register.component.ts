@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { AuthenticationService } from '../_services';
-import { BloodType } from '../_models';
+import { BloodType, Gender } from '../_models';
 
 @Component({
   selector: 'app-register',
@@ -15,6 +15,7 @@ export class RegisterComponent implements OnInit {
     tpFormSubmitted = false;
     error = '';
     bloodTypes = BloodType.values();
+    Gender = Gender.values();
 
     constructor(
         private iFormBuilder: FormBuilder,
