@@ -2,11 +2,17 @@ package avila.schiatti.virdi;
 
 import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.exception.ValidationException;
+import avila.schiatti.virdi.jobs.DataScheduler;
+import avila.schiatti.virdi.jobs.Scheduler;
 import avila.schiatti.virdi.service.RouteConfig;
 import avila.schiatti.virdi.service.Service;
 import avila.schiatti.virdi.service.authentication.AuthenticationManager;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.servlet.SparkApplication;
+
+import javax.annotation.processing.Processor;
+
+import java.util.ArrayList;
 
 import static spark.Spark.*;
 
@@ -22,6 +28,8 @@ public final class Data4HelpApp implements SparkApplication {
     private static AuthenticationManager authenticationManager;
     private static Data4HelpApp _instance;
 
+    private final ArrayList<Scheduler> schedulers = new ArrayList<>();
+
     private Data4HelpApp() {
         authenticationManager = AuthenticationManager.getInstance();
     }
@@ -35,6 +43,7 @@ public final class Data4HelpApp implements SparkApplication {
 
     public Data4HelpApp setPublicPath(String path) {
         staticFileLocation(path);
+//        staticFiles.header("Access-Control-Allow-Origin", "*");
         return this;
     }
 
@@ -64,6 +73,8 @@ public final class Data4HelpApp implements SparkApplication {
         } finally {
             stop();
             routes.destroy();
+            // stop all scheduler jobs
+            schedulers.forEach(Scheduler::stop);
             _instance = null;
         }
     }
@@ -78,13 +89,15 @@ public final class Data4HelpApp implements SparkApplication {
     public Data4HelpApp setAuthHandlers() {
         // everything done from the front-end should pass through WEB endpoint
         before("/web/*", (req, res) -> {
-            String path = req.pathInfo();
-            String accessToken = req.headers(ACCESS_TOKEN);
-            String userId = req.headers(USER_ID);
+            if(!req.requestMethod().equals("OPTIONS")) {
+                String path = req.pathInfo();
+                String accessToken = req.headers(ACCESS_TOKEN);
+                String userId = req.headers(USER_ID);
 
-            // TODO: improve this if.
-            if (path.contains("login") == Boolean.FALSE && path.contains("signup") == Boolean.FALSE) {
-                authenticationManager.validateAndUpdateAccessToken(userId, accessToken);
+                // TODO: improve this if.
+                if (path.contains("login") == Boolean.FALSE && path.contains("signup") == Boolean.FALSE) {
+                    authenticationManager.validateAndUpdateAccessToken(userId, accessToken);
+                }
             }
         });
 
@@ -102,12 +115,19 @@ public final class Data4HelpApp implements SparkApplication {
         return this;
     }
 
+    public Data4HelpApp registerJob(Scheduler job) {
+        schedulers.add(job);
+        job.start();
+
+        return this;
+    }
+
     private void setSpecialRoutes() {
         head(STATUS_URL, (req, res) -> "");
     }
 
     private void enableCors() {
-        options("*/*", (req, res) -> {
+        options("/*", (req, res) -> {
             String accessControlRequestHeaders = req.headers("Access-Control-Request-Headers");
             if (accessControlRequestHeaders != null) {
                 res.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
@@ -122,6 +142,7 @@ public final class Data4HelpApp implements SparkApplication {
 
         before((req, res) -> {
             res.header("Access-Control-Allow-Origin", "*");
+            res.type(APPLICATION_JSON);
         });
     }
 

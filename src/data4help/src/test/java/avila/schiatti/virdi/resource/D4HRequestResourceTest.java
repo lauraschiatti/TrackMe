@@ -2,7 +2,6 @@ package avila.schiatti.virdi.resource;
 
 
 import avila.schiatti.virdi.configuration.StaticConfiguration;
-import avila.schiatti.virdi.database.DBManager;
 import avila.schiatti.virdi.model.request.D4HRequest;
 import avila.schiatti.virdi.model.request.D4HRequestStatus;
 import avila.schiatti.virdi.model.user.D4HUser;
@@ -256,7 +255,7 @@ public class D4HRequestResourceTest {
         req_1.setIndividual(i);
         datastore.save(req_1);
 
-        D4HRequest request = resource.getByUserIdAndThirdPartyId(i.getId(), tp.getId());
+        D4HRequest request = resource.checkApprovedRequest(i.getId(), tp.getId());
 
         assertEquals(request.getIndividual().getId(), i.getId());
         assertEquals(request.getThirdParty().getId(), tp.getId());
@@ -272,7 +271,7 @@ public class D4HRequestResourceTest {
         req_1.setIndividual(createAndStoreIndividual());
         datastore.save(req_1);
 
-        D4HRequest request = resource.getByUserIdAndThirdPartyId(fakeId, tp.getId());
+        D4HRequest request = resource.checkApprovedRequest(fakeId, tp.getId());
 
         assertNull(request);
     }
@@ -287,7 +286,7 @@ public class D4HRequestResourceTest {
         req_1.setIndividual(i);
         datastore.save(req_1);
 
-        D4HRequest request = resource.getByUserIdAndThirdPartyId(i.getId(),fakeId);
+        D4HRequest request = resource.checkApprovedRequest(i.getId(),fakeId);
 
         assertNull(request);
     }

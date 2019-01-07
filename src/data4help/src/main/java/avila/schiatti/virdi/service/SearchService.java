@@ -1,13 +1,12 @@
 package avila.schiatti.virdi.service;
 
 import avila.schiatti.virdi.Data4HelpApp;
+import avila.schiatti.virdi.configuration.StaticConfiguration;
 import avila.schiatti.virdi.exception.TrackMeError;
 import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.model.data.BloodType;
 import avila.schiatti.virdi.model.data.Data;
 import avila.schiatti.virdi.model.data.Gender;
-import avila.schiatti.virdi.model.request.D4HRequest;
-import avila.schiatti.virdi.model.request.D4HRequestStatus;
 import avila.schiatti.virdi.model.subscription.D4HQuery;
 import avila.schiatti.virdi.model.user.D4HUser;
 import avila.schiatti.virdi.model.user.D4HUserRole;
@@ -20,16 +19,12 @@ import avila.schiatti.virdi.utils.Validator;
 import spark.Request;
 import spark.Response;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static spark.Spark.get;
 
 public class SearchService extends Service {
 
-    private static final Integer MINIMUM_ANONYMIZE_SIZE = 10;
     private DataResource dataResource;
     private D4HRequestResource requestResource;
     private UserResource userResource;
@@ -73,13 +68,7 @@ public class SearchService extends Service {
                 throw new TrackMeException(TrackMeError.NOT_VALID_USER);
             }
 
-            D4HRequest request = requestResource.getByUserIdAndThirdPartyId(individual.getId(), user.getId());
-
-            if(request == null){
-                throw new TrackMeException(TrackMeError.NO_REQUEST_FOUND);
-            } else if( !D4HRequestStatus.APPROVED.equals(request.getStatus()) ){
-                throw new TrackMeException(TrackMeError.NO_APPROVED_REQUEST);
-            }
+            requestResource.checkApprovedRequest(individual.getId(), user.getId());
 
             data = getIndividualData(individual);
         } else {
@@ -110,30 +99,20 @@ public class SearchService extends Service {
         ArrayList<Individual> individuals = new ArrayList<>(Collections.emptyList());
         individuals.add(individual);
 
-        Collection<Data> data = dataResource.getByIndividualList(individuals);
-        data.forEach(d -> d.setIndividual(null));
+        HashMap<String, Boolean> projections = new HashMap<>();
+        projections.put(DataResource.Projections.INDIVIDUAL, Boolean.FALSE);
 
-        return data;
+        return dataResource.getByIndividualList(individuals, projections);
     }
 
     private Collection<Data> getAnonymizedDataFromQuery(D4HQuery query){
         List<Individual> individuals = userResource.getByQuery(query);
-        Collection<Data> data = dataResource.getByIndividualList(individuals);
+        Collection<Data> data = dataResource.getAnonymizeByIndividualList(individuals);
 
-        anonymize(data);
-
-        return data;
-    }
-
-    private void anonymize(Collection<Data> data){
-        if(data.size() < MINIMUM_ANONYMIZE_SIZE){
+        if(data.size() < StaticConfiguration.MINIMUM_ANONYMIZE_SIZE){
             throw new TrackMeException(TrackMeError.CANNOT_ANONYMIZE_DATA);
         }
 
-        data.forEach((d) -> {
-            d.setIndividual(null);
-            d.setLocation(null);
-            d.setId(null);
-        });
+        return data;
     }
 }

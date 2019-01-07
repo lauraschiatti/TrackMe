@@ -1,6 +1,7 @@
 package avila.schiatti.virdi;
 
 import avila.schiatti.virdi.configuration.StaticConfiguration;
+import avila.schiatti.virdi.jobs.DataScheduler;
 import avila.schiatti.virdi.service.*;
 
 public class Main {
@@ -19,6 +20,7 @@ public class Main {
                 .registerService(SearchService.create())
                 .registerService(DataService.create())
                 .setAuthHandlers()
+                .registerJob(DataScheduler.create())
                 .init();
     }
 }

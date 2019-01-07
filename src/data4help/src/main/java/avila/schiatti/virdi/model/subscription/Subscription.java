@@ -4,6 +4,9 @@ import avila.schiatti.virdi.model.user.ThirdParty;
 import org.bson.types.ObjectId;
 import xyz.morphia.annotations.*;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 @Entity("subscription")
 @Indexes(@Index(fields = { @Field("thirdParty") }))
 public class Subscription {
@@ -14,8 +17,8 @@ public class Subscription {
     private ThirdParty thirdParty;
     @Embedded
     private D4HQuery filter;
-
     private Integer timeSpan = 6;
+    private LocalDateTime nextExecution;
 
     public ObjectId getId() {
         return id;
@@ -46,6 +49,22 @@ public class Subscription {
     }
 
     public void setTimeSpan(Integer timeSpan) {
-        this.timeSpan = (timeSpan < 6 ? 6 : timeSpan);
+        this.timeSpan = (timeSpan == null || timeSpan < 6 ? 6 : timeSpan);
+    }
+
+    public LocalDateTime getNextExecution() {
+        return nextExecution;
+    }
+
+    public void setNextExecution(LocalDateTime next){
+        this.nextExecution = next;
+    }
+
+    public void calculateNetxtExecution() {
+        if(this.nextExecution == null){
+            this.nextExecution = LocalDateTime.now();
+        }
+
+        nextExecution.plus(this.timeSpan, ChronoUnit.MINUTES);
     }
 }

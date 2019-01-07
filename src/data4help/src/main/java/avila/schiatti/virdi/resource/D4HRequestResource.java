@@ -1,5 +1,7 @@
 package avila.schiatti.virdi.resource;
 
+import avila.schiatti.virdi.exception.TrackMeError;
+import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.model.request.D4HRequest;
 import avila.schiatti.virdi.model.request.D4HRequestStatus;
 import org.bson.types.ObjectId;
@@ -80,6 +82,16 @@ public class D4HRequestResource extends Resource<D4HRequest> {
                 .field("thirdParty")
                 .equal(thirdPartyId)
                 .get();
+    }
+
+    public void checkApprovedRequest(ObjectId userId, ObjectId thirdPartyId){
+        D4HRequest request = getByUserIdAndThirdPartyId(userId, thirdPartyId);
+
+        if(request == null){
+            throw new TrackMeException(TrackMeError.NO_REQUEST_FOUND);
+        } else if( D4HRequestStatus.APPROVED.equals(request.getStatus())){
+            throw new TrackMeException(TrackMeError.NO_APPROVED_REQUEST);
+        }
     }
 
     public Collection<D4HRequest> getByThirdPartyId(String thirdPartyId, D4HRequestStatus status){

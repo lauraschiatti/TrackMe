@@ -10,9 +10,9 @@ import java.io.FileReader;
 import java.util.Map;
 
 public final class StaticConfiguration {
-    /**
-     *
-     */
+
+    public static final Integer MINIMUM_ANONYMIZE_SIZE = 0;
+
     private final static ProcessBuilder processBuilder = new ProcessBuilder();
     private final static Map<String, String> configVars = processBuilder.environment();
 

@@ -3,8 +3,11 @@ package avila.schiatti.virdi.resource;
 import avila.schiatti.virdi.model.subscription.Subscription;
 import org.bson.types.ObjectId;
 import xyz.morphia.Datastore;
+import xyz.morphia.query.Query;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 
 public class SubscriptionResource extends Resource<Subscription> {
 
@@ -44,5 +47,15 @@ public class SubscriptionResource extends Resource<Subscription> {
                 .field("thirdParty")
                 .equal(new ObjectId(thirdPartyId))
                 .get();
+    }
+
+    public Collection<Subscription> getToBeExecutedSubscriptions() {
+        Query<Subscription> query = datastore.find(Subscription.class)
+                .field("filter.individual")
+                .doesNotExist()
+                .field("nextExecution")
+                .lessThanOrEq(new Date());
+
+        return query.asList();
     }
 }

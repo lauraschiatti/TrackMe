@@ -1,16 +1,22 @@
 package avila.schiatti.virdi.resource;
 
 import avila.schiatti.virdi.model.data.Data;
-import avila.schiatti.virdi.model.subscription.D4HQuery;
 import avila.schiatti.virdi.model.user.Individual;
 import org.bson.types.ObjectId;
 import xyz.morphia.Datastore;
 import xyz.morphia.query.Query;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DataResource extends Resource<Data> {
+
+    public final static class Projections {
+        public final static String INDIVIDUAL = "individual";
+        public final static String ID = "_id";
+        public final static String LOCATION = "location";
+    }
 
     public DataResource(Datastore datastore) {
         super(datastore, Data.class);
@@ -41,12 +47,24 @@ public class DataResource extends Resource<Data> {
         return data;
     }
 
-    public Collection<Data> getByIndividualList(Collection<Individual> individuals){
-        return datastore.find(Data.class)
+    public Collection<Data> getByIndividualList(Collection<Individual> individuals, Map<String, Boolean> projections){
+        Query<Data> query = datastore.find(Data.class)
                 .field("individual")
-                .in( individuals.stream()
-                        .map(Individual::getId)
-                        .collect(Collectors.toList()) )
-                .asList();
+                .in(individuals);
+
+        if(projections != null){
+            projections.forEach(query::project);
+        }
+
+        return query.asList();
+    }
+
+    public Collection<Data> getAnonymizeByIndividualList(Collection<Individual> individuals){
+        HashMap<String, Boolean> projections = new HashMap<>();
+        projections.put(DataResource.Projections.INDIVIDUAL, Boolean.FALSE);
+        projections.put(DataResource.Projections.LOCATION, Boolean.FALSE);
+        projections.put(DataResource.Projections.ID, Boolean.FALSE);
+
+        return getByIndividualList(individuals, projections);
     }
 }
