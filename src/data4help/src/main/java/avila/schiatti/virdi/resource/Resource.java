@@ -66,4 +66,8 @@ public abstract class Resource<T>  {
     public void remove(T o){
         this.datastore.delete(o);
     }
+
+    public Long countAll(){
+        return datastore.createQuery(clazz).count();
+    }
 }

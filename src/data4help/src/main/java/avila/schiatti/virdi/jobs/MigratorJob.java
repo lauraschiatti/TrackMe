@@ -5,6 +5,7 @@ import avila.schiatti.virdi.model.user.Individual;
 import avila.schiatti.virdi.resource.UserResource;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.mongodb.DuplicateKeyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,16 +59,20 @@ public class MigratorJob implements Scheduler {
 
         @Override
         public void run() {
-            migrationInfo.iterator().forEachRemaining(jsonElement -> {
-                try {
-                    IndividualMigration mig = gson.fromJson(jsonElement.toString(), IndividualMigration.class);
-                    Individual i = mig.buildIndividual();
-                    userResource.add(i);
-                } catch (Exception ex) {
-                    // only log the error and continue.
-                    logger.error(ex.getMessage());
-                }
-            });
+            if(migrationInfo.size() > userResource.countAll()) {
+                migrationInfo.iterator().forEachRemaining(jsonElement -> {
+                    try {
+                        IndividualMigration mig = gson.fromJson(jsonElement.toString(), IndividualMigration.class);
+                        Individual i = mig.buildIndividual();
+                        userResource.add(i);
+                    } catch (DuplicateKeyException dex) {
+                        //do nothing
+                    } catch (Exception ex) {
+                        // only log the error and continue.
+                        logger.error(ex.getMessage());
+                    }
+                });
+            }
         }
     }
 }
