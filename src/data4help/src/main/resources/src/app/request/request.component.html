@@ -31,14 +31,11 @@
                             <div class="card-body-icon">
                                 <i class="unit-3-icon icon fl-bigmug-line-nine16"></i>
                             </div>
-                            <div class="mr-5">12 Pending requests!</div>
+                            <div *ngIf="user">
+                                <div class="mr-5">{{ user['pendingRequests']}} Pending requests !</div>
+                            </div>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" href="#">
-                            <!--<span class="float-left">View Details</span>-->
-                            <!--<span class="float-right">-->
-                            <!--<span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>-->
-                            <!--</span>-->
-                        </a>
+                        <a class="card-footer text-white clearfix small z-1" href="#"></a>
                     </div>
                 </div>
 
@@ -48,14 +45,11 @@
                             <div class="card-body-icon">
                                 <i class="unit-3-icon icon fl-bigmug-line-checkmark14"></i>
                             </div>
-                            <div class="mr-5">5 Accepted requests!</div>
+                            <div *ngIf="user">
+                                <div class="mr-5">{{ user['approvedRequests']}} Approved requests !</div>
+                            </div>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" href="#">
-                            <!--<span class="float-left">View Details</span>-->
-                            <!--<span class="float-right">-->
-                            <!--<span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>-->
-                            <!--</span>-->
-                        </a>
+                        <a class="card-footer text-white clearfix small z-1" href="#"></a>
                     </div>
                 </div>
 
@@ -65,14 +59,11 @@
                             <div class="card-body-icon">
                                 <i class="unit-3-icon icon fl-bigmug-line-cross81"></i>
                             </div>
-                            <div class="mr-5">5 Rejected requests!</div>
+                            <div *ngIf="user">
+                                <div class="mr-5">{{ user['rejectedRequests']}} Rejected requests !</div>
+                            </div>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" href="#">
-                            <!--<span class="float-left">View Details</span>-->
-                            <!--<span class="float-right">-->
-                            <!--<span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>-->
-                            <!--</span>-->
-                        </a>
+                        <a class="card-footer text-white clearfix small z-1" href="#"></a>
                     </div>
                 </div>
             </div>
@@ -92,6 +83,7 @@
                         <table class="table table-striped table-light" id="requestsTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
+                                <th>Id</th>
                                 <th>Company name</th>
                                 <th>Status</th>
                                 <th>Accept/Reject</th>
@@ -109,14 +101,15 @@
                             </div>
 
                             <ng-template #requestsTable>
-                                <tr *ngFor="let request of requests">
+                                <tr *ngFor="let request of requests;  let i=index">
                                     <!--<form [formGroup]="updateStatusForm" (ngSubmit)="onSubmitUpdateStatus()">-->
+                                        <td>{{ i+1 }}</td>
                                         <td>{{ request['thirdParty']['name'] }}</td>
                                         <td>{{ request['status'] }}</td>
                                         <td>
                                             <select class="form-control"> <!-- formControlName="status"> -->
                                                 <option value="" disabled> Update status ... </option>
-                                                <option value="Accept">Accept</option>
+                                                <option value="Approve">Approve</option>
                                                 <option value="Reject">Reject</option>
                                                 <!--<option *ngFor="let g of Gender" [ngValue]="g">{{ g }}</option>-->
                                             </select>

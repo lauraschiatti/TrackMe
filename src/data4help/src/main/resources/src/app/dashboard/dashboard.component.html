@@ -249,14 +249,11 @@
                 <div class="card-body-icon">
                   <i class="unit-3-icon icon fl-bigmug-line-nine16"></i>
                 </div>
-                <div class="mr-5">12 Pending requests!</div>
+                <div *ngIf="user">
+                  <div class="mr-5">{{ user['pendingRequests']}} Pending requests !</div>
+                </div>
               </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <!--<span class="float-left">View Details</span>-->
-                <!--<span class="float-right">-->
-                <!--<span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>-->
-                <!--</span>-->
-              </a>
+              <a class="card-footer text-white clearfix small z-1" href="#"></a>
             </div>
           </div>
 
@@ -266,14 +263,11 @@
                 <div class="card-body-icon">
                   <i class="unit-3-icon icon fl-bigmug-line-checkmark14"></i>
                 </div>
-                <div class="mr-5">5 Accepted requests!</div>
+                <div *ngIf="user">
+                  <div class="mr-5">{{ user['approvedRequests']}} Approved requests !</div>
+                </div>
               </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <!--<span class="float-left">View Details</span>-->
-                <!--<span class="float-right">-->
-                <!--<span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>-->
-                <!--</span>-->
-              </a>
+              <a class="card-footer text-white clearfix small z-1" href="#"></a>
             </div>
           </div>
 
@@ -283,14 +277,11 @@
                 <div class="card-body-icon">
                   <i class="unit-3-icon icon fl-bigmug-line-cross81"></i>
                 </div>
-                <div class="mr-5">5 Rejected requests!</div>
+                <div *ngIf="user">
+                  <div class="mr-5">{{ user['rejectedRequests']}} Rejected requests !</div>
+                </div>
               </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <!--<span class="float-left">View Details</span>-->
-                <!--<span class="float-right">-->
-                <!--<span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>-->
-                <!--</span>-->
-              </a>
+              <a class="card-footer text-white clearfix small z-1" href="#"></a>
             </div>
           </div>
         </div>

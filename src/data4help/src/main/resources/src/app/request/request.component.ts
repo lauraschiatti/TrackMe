@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RequestService } from '../_services';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { RequestService, UserService } from '../_services';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-request',
@@ -9,17 +9,30 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class RequestComponent implements OnInit {
 
+    user = '';
     requests = [];
     updateStatusForm: FormGroup;
     // updateStatusFormSubmitted = false;
 
     constructor(
+        private userService: UserService,
         private requestService: RequestService,
         private updateStatusFormBuilder: FormBuilder,
     ) {
     }
 
     ngOnInit() {
+        this.userService
+            .getCurrentUserInfo()
+            .subscribe(
+                data => {
+                    this.user = data['data'];
+                    // console.log('user', this.role);
+                },
+                error => {
+                    console.log('error', error);
+                });
+
         this.requestService
             .getAllRequests()
             .subscribe(
