@@ -133,9 +133,10 @@ a {
     background: #7cbd1e; }
 
 .site-footer {
-  padding: 2.8em 0;
-  background: #393e46;
-  color: rgba(255, 255, 255, 0.4); }
+  padding: 31px 0 15px 0;
+  background: rgba(0, 0, 0, 0.03);
+  color: #393e46;
+}
   .site-footer a {
     color: rgba(255, 255, 255, 0.7); }
     .site-footer a:hover {
