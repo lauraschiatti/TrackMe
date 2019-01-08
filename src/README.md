@@ -7,7 +7,7 @@ There are few steps to run both systems.
 
 1. Install [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/)
 1. In a terminal and from this folder run: `sudo docker-compose up` (with `--build` to rebuild the image)
-1. Open the browser and you can access to the Data4Help site using the following URL: `http://0.0.0.0:4567`
+1. Open the browser and you can access to the Data4Help site using the following URL: `http://0.0.0.0:4200`
 
 ## How to run the tests image?
 

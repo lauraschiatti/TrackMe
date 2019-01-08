@@ -31,15 +31,15 @@ public class DataResource extends Resource<Data> {
         return new DataResource();
     }
 
-    public Data getByIndividualId(ObjectId id){
+    public Data getByIndividualId(Individual i){
         return datastore.find(Data.class)
-                .field("id")
-                .equal(id)
+                .field("individual")
+                .equal(i)
                 .get();
     }
 
     public Data getByIndividual(Individual individual){
-        Data data = getByIndividualId(individual.getId());
+        Data data = getByIndividualId(individual);
 
         if(data == null){
             data = new Data();

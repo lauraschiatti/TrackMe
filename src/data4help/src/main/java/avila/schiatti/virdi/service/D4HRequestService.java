@@ -183,14 +183,20 @@ public class D4HRequestService extends Service {
 
             ThirdParty tp;
             if(secret != null){
+                // it is an api request
                 tp = userResource.getThirdPartyBySecretKey(secret);
             }else {
+                // it is a front-end request
                 tp = (ThirdParty) userResource.getById(thirdPartyId);
             }
 
             Validator.isNullOrEmpty(body.getSsn(), "SSN");
 
             Individual i = userResource.getBySSN(body.getSsn());
+
+            if(i == null){
+                throw new TrackMeException(TrackMeError.NOT_VALID_USER);
+            }
 
             D4HRequest d4HRequest = new D4HRequest();
             d4HRequest.setIndividual(i);
