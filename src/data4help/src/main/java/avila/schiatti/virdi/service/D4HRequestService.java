@@ -66,6 +66,8 @@ public class D4HRequestService extends Service {
         path("/requests", () -> {
             get("/", this::getAllRequests, jsonTransformer::toJson);
 
+            post("/", this::createRequest, jsonTransformer::toJson);
+
             patch("/:id", this::updateRequestStatus, jsonTransformer::toJson);
         });
     }
@@ -177,10 +179,17 @@ public class D4HRequestService extends Service {
         try {
             D4HReqRequest body = jsonTransformer.fromJson(request.body(), D4HReqRequest.class);
             String secret = request.headers(Data4HelpApp.SECRET_KEY);
+            String thirdPartyId = request.headers(Data4HelpApp.USER_ID);
+
+            ThirdParty tp;
+            if(secret != null){
+                tp = userResource.getThirdPartyBySecretKey(secret);
+            }else {
+                tp = (ThirdParty) userResource.getById(thirdPartyId);
+            }
 
             Validator.isNullOrEmpty(body.getSsn(), "SSN");
 
-            ThirdParty tp = userResource.getThirdPartyBySecretKey(secret);
             Individual i = userResource.getBySSN(body.getSsn());
 
             D4HRequest d4HRequest = new D4HRequest();

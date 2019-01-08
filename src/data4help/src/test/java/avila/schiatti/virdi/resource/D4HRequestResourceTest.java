@@ -257,7 +257,7 @@ public class D4HRequestResourceTest {
             req_1.setIndividual(i);
             datastore.save(req_1);
 
-            D4HRequest request = resource.checkApprovedRequest(i.getId(), tp.getId());
+            D4HRequest request = resource.getByUserIdAndThirdPartyId(i.getId(), tp.getId());
             assertEquals(request.getIndividual().getId(), i.getId());
             assertEquals(request.getThirdParty().getId(), tp.getId());
         }catch(Exception e){
