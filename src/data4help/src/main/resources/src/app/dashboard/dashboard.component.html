@@ -1,42 +1,7 @@
 <div id="wrapper">
   <!-- Sidebar -->
 
-  <nav id="sidebar" class="container">
-    <div class="sidebar-header"></div>
-
-    <ul class="list-unstyled components">
-      <a class="navbar-brand" routerLink="/" id="sidebar-brand">
-        <img src="assets/images/icon-white.png" width="35" height="35" class="d-inline-block align-top" alt="icon" style="margin-right: 0.7em;">
-        <span style="color: #fff;">TrackMe</span>
-      </a>
-      <br>
-
-      <p><i class="unit-3-icon icon fl-bigmug-line-menu40"></i>&nbsp; General</p>
-      <hr>
-      <li>
-        <a routerLink="/dashboard">Dashboard</a>
-      </li>
-      <li>
-        <a href="javascript:void(0)">Manage requests</a>
-      </li>
-      <div *ngIf="role === 'THIRD_PARTY'">
-        <li>
-          <a href="javascript:void(0)">Subscriptions</a>
-        </li>
-      </div>
-      <br>
-
-      <p><i class="unit-3-icon icon fl-bigmug-line-gear30"></i>&nbsp; Settings</p>
-      <hr>
-      <li>
-        <a href="javascript:void(0)">Profile</a>
-      </li>
-
-      <div class="list-unstyled CTAs">
-        <li><button type="button" class="btn btn-light btn-block" (click)="logout()"><i class="unit-3-icon icon fl-bigmug-line-login12"></i>&nbsp; Logout</button></li>
-      </div>
-    </ul>
-  </nav>
+  <app-sidebar></app-sidebar>
 
   <div id="content-wrapper" class="container">
     <div class="container-fluid">

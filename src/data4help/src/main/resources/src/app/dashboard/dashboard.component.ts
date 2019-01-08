@@ -47,22 +47,22 @@ export class DashboardComponent implements OnInit {
                     console.log('error', error);
                 });
 
-        this.subscriptionService
-            .getAllSubscriptions()
-            .subscribe(
-                data => {
-                    console.log('data getAllSubscriptions', data);
-                //     if (data['data'].length > 0) {
-                //         this.subscriptions = data['data'];
-                //         console.log('requests', this.subscriptions);
-                //     } else {
-                //         this.noSubscriptions = true;
-                //         // console.log ('noSubscriptions', this.noSubscriptions);
-                //     }
-                },
-                error => {
-                    console.log('error getAllSubscriptions', error);
-                });
+        // this.subscriptionService
+        //     .getAllSubscriptions()
+        //     .subscribe(
+        //         data => {
+        //             console.log('data getAllSubscriptions', data);
+        //             if (data['data'].length > 0) {
+        //                 this.subscriptions = data['data'];
+        //                 console.log('requests', this.subscriptions);
+        //             } else {
+        //                 this.noSubscriptions = true;
+        //                 // console.log ('noSubscriptions', this.noSubscriptions);
+        //             }
+        //         },
+        //         error => {
+        //             console.log('error getAllSubscriptions', error);
+        //         });
 
 
         // Validate search forms
@@ -172,9 +172,5 @@ export class DashboardComponent implements OnInit {
                     );
             }
         }
-    }
-
-    logout() {
-        this.authenticationService.logout();
     }
 }
