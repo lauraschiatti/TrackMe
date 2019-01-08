@@ -1,42 +1,59 @@
 <div id="wrapper">
   <!-- Sidebar -->
-  <ul class="sidebar navbar-nav">
-    <li class="nav-item dropdown">
-      <br><br>
-      <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="unit-3-icon icon fl-bigmug-line-equalization3"></span>
-        <span> General</span>
-      </a>
-      <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-        <h6 class="dropdown-header">Dashboard</h6>
-        <a class="dropdown-item" href="login.html">Manage requests</a>
+
+  <nav id="sidebar" class="container">
+    <div class="sidebar-header"></div>
+
+    <ul class="list-unstyled components">
+      <p><i class="unit-3-icon icon fl-bigmug-line-menu40"></i>&nbsp; General</p>
+      <div class="sidebar-line"></div>
+      <li>
+        <a routerLink="/dashboard">Dashboard</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)">Manage requests</a>
+      </li>
+      <div *ngIf="role === 'THIRD_PARTY'">
+        <li>
+          <a href="javascript:void(0)">Subscriptions</a>
+        </li>
       </div>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="charts.html">
-        <i class="fas fa-fw fa-chart-area"></i>
-        <span>General settings</span></a>
-    </li>
-  </ul>
+
+
+      <p><i class="unit-3-icon icon fl-bigmug-line-gear30"></i>&nbsp; Settings</p>
+      <div class="sidebar-line"></div>
+      <li>
+        <a href="javascript:void(0)">Profile</a>
+      </li>
+    </ul>
+  </nav>
 
   <div id="content-wrapper" class="container">
-
     <div class="container-fluid">
 
-      <!--<ol class="breadcrumb">-->
-      <!--<li class="breadcrumb-item">-->
-      <!--<a href="#">Dashboard</a>-->
-      <!--</li>-->
-      <!--<li class="breadcrumb-item active">Overview</li>-->
-      <!--</ol>-->
-
-      <div *ngIf="user">
-        <div class="alert alert-secondary text-right" role="alert">
-          <i class="unit-3-icon icon fl-bigmug-line-user144"></i>&nbsp; Welcome, {{ user.name }}!
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-4">
+            <a href="#" data-target="#sidebar" data-toggle="collapse"><i class="unit-3-icon icon fl-bigmug-line-men25"></i></a>
+          </div>
+          <div class="col-sm-8">
+            <div *ngIf="user">
+              <p class="text-right font-weight-bold"><i class="unit-3-icon icon fl-bigmug-line-user144"></i>&nbsp; Welcome, {{ user.name }}!</p>
+            </div>
+          </div>
         </div>
       </div>
 
-    <!---------------------------------------- THIRD PARTY ------------------------------------------------>
+      <br>
+
+      <!--<ol class="breadcrumb">-->
+        <!--<li class="breadcrumb-item">-->
+        <!--<a href="#">Dashboard</a>-->
+        <!--</li>-->
+        <!--<li class="breadcrumb-item active">Overview</li>-->
+      <!--</ol>-->
+
+      <!---------------------------------------- THIRD PARTY ------------------------------------------------>
 
       <div *ngIf="role === 'THIRD_PARTY'; else individual">
 
@@ -50,10 +67,10 @@
                 <div class="mr-5">12 Pending requests!</div>
               </div>
               <a class="card-footer text-white clearfix small z-1" href="#">
-                <!--<span class="float-left">View Details</span>-->
-                <!--<span class="float-right">-->
-                <!--<span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>-->
-                <!--</span>-->
+                <span class="float-left">View Details</span>
+                <span class="float-right">
+                <span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>
+                </span>
               </a>
             </div>
           </div>
@@ -62,15 +79,15 @@
             <div class="card text-white bg-info o-hidden h-100">
               <div class="card-body">
                 <div class="card-body-icon">
-                  <i class="unit-3-icon icon fl-bigmug-line-notification4"></i>
+                  <i class="unit-3-icon icon unit-3-icon icon fl-bigmug-line-notification4"></i>
                 </div>
                 <div class="mr-5">New data available from subscriptions!</div>
               </div>
               <a class="card-footer text-white clearfix small z-1" href="#">
-                <!--<span class="float-left">View Details</span>-->
-                <!--<span class="float-right">-->
-                <!--<span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>-->
-                <!--</span>-->
+                <span class="float-left">View Details</span>
+                <span class="float-right">
+                <span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>
+                </span>
               </a>
             </div>
           </div>
@@ -117,8 +134,102 @@
 
                   <div class="tab-pane fade" id="v-pills-bulk" role="tabpanel" aria-labelledby="v-pills-bulk-tab">
 
-                    <p>Bulk data</p>
+                    <div *ngIf="errorBulk"  class="alert alert-danger" >
+                      {{ errorBulk }}
+                      <br>
+                    </div>
 
+                    <p class="font-weight-bold">Filtering criteria</p>
+                    <hr>
+
+                    <form [formGroup]="bulkForm" (ngSubmit)="onSubmitBulkSearch()">
+                      <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <label class="font-weight-bold">Gender</label>
+                          <select class="form-control" formControlName="gender">
+                            <option value="" disabled>Choose a gender</option>
+                            <option *ngFor="let g of Gender" [ngValue]="g">{{ g }}</option>
+                          </select>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label class="font-weight-bold">Blood Type</label>
+                          <select class="form-control" formControlName="bloodType">
+                            <option value="" disabled>Choose a blood type</option>
+                            <option *ngFor="let bt of bloodTypes" [ngValue]="bt">{{ bt }}</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <p class="font-weight-bold">** Age range **</p>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <label class="font-weight-bold">From</label>
+                          <input type="number" id="minAge" formControlName="minAge" class="form-control" min="0" placeholder="years"/>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label class="font-weight-bold">To</label>
+                          <input type="number" id="maxAge" formControlName="maxAge" class="form-control" min="0" placeholder="years"/>
+                        </div>
+                      </div>
+
+                      <p class="font-weight-bold"> ** Demographic filtering **</p>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <label class="font-weight-bold">City</label>
+                          <select class="form-control" formControlName="city">
+                            <option value="" disabled>Choose a city</option>
+                            <option value="Milan"> Milan</option>
+                          </select>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label class="font-weight-bold">Province</label>
+                          <select class="form-control" formControlName="province">
+                            <option value="" disabled>Choose a province</option>
+                            <option value="Province of Milan">Province of Milan</option>
+                          </select>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                          <label class="font-weight-bold">Country</label>
+                          <select class="form-control" formControlName="country">
+                            <option value="" disabled>Choose a country</option>
+                            <option value="Italy"> Italy </option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <br>
+
+                      <p class="font-weight-bold"> Data subscription</p>
+                      <hr>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="subscription" formControlName="subscription">
+                            <label class="form-check-label" for="subscription">Subscribe</label>
+                          </div>
+                        </div>
+
+                        <div class="form-group col-md-8">
+                          <div class="form-row">
+                            <label class="col-sm-4 col-form-label">Get updates every</label>
+                            <div class="col-sm-3">
+                              <input type="number" formControlName="timeSpan" class="form-control" min="0" max="24"/>
+                            </div>
+                            <div class="col-sm-5">
+                              <label class="col-sm-6 col-form-label">minutes</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -127,7 +238,7 @@
 
           </div>
 
-      </div>
+        </div>
       </div>
 
       <!---------------------------------------- INDIVIDUAL ------------------------------------------------>
