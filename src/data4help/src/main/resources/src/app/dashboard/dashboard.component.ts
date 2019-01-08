@@ -138,6 +138,11 @@ export class DashboardComponent implements OnInit {
 
             // Create subscription to data
             if (this.bulkControls.subscription.value) {
+                let timeSpan = 6;
+                if (this.bulkControls.timeSpan.value) {
+                    timeSpan = this.bulkControls.timeSpan.value;
+                }
+
                 const subscription = {
                     'filter': {
                         'gender' : this.bulkControls.gender.value,
@@ -148,7 +153,7 @@ export class DashboardComponent implements OnInit {
                         'province': this.bulkControls.province.value,
                         'country' : this.bulkControls.country.value
                     },
-                    'timeSpan': this.bulkControls.timeSpan.value
+                    'timeSpan': timeSpan
                 };
 
                 console.log('subscription', subscription);
