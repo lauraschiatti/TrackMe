@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { User } from '../_models';
 
@@ -47,7 +47,8 @@ export class AuthenticationService {
                 }
 
                 return user;
-            }));
+            })
+        );
     }
 
     logout() {

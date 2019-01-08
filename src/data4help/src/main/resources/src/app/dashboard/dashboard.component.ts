@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import { UserService, AuthenticationService, SubscriptionService, SearchService } from '../_services';
+import { UserService, AuthenticationService, SubscriptionService, SearchService, RequestService } from '../_services';
 import { BloodType, Gender } from '../_models';
 
 @Component({
@@ -10,10 +10,10 @@ import { BloodType, Gender } from '../_models';
     styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-    private user;
-    private subscriptions;
-    private role;
-    private noSubscriptions = false;
+    user = '';
+    subscriptions = '';
+    role = '';
+    request = '';
 
     iForm: FormGroup;
     bulkForm: FormGroup;
@@ -21,14 +21,21 @@ export class DashboardComponent implements OnInit {
     bulkFormSubmitted = false;
     error = '';
     errorBulk =  '';
+
     bloodTypes = BloodType.values();
     Gender = Gender.values();
+
+    noSubscriptions = false;
+    showSendRequest = false;
+    showRequestInfo = false;
+
 
     constructor(
         private authenticationService: AuthenticationService,
         private userService: UserService,
         private subscriptionService: SubscriptionService,
         private searchService: SearchService,
+        private requestService: RequestService,
         private iFormBuilder: FormBuilder,
         private bulkFormBuilder: FormBuilder
     ) {
@@ -47,22 +54,22 @@ export class DashboardComponent implements OnInit {
                     console.log('error', error);
                 });
 
-        // this.subscriptionService
-        //     .getAllSubscriptions()
-        //     .subscribe(
-        //         data => {
-        //             console.log('data getAllSubscriptions', data);
-        //             if (data['data'].length > 0) {
-        //                 this.subscriptions = data['data'];
-        //                 console.log('requests', this.subscriptions);
-        //             } else {
-        //                 this.noSubscriptions = true;
-        //                 // console.log ('noSubscriptions', this.noSubscriptions);
-        //             }
-        //         },
-        //         error => {
-        //             console.log('error getAllSubscriptions', error);
-        //         });
+        this.subscriptionService
+            .getAllSubscriptions()
+            .subscribe(
+                data => {
+                    console.log('data getAllSubscriptions', data);
+                    if (data['data'].length > 0) {
+                        this.subscriptions = data['data'];
+                        console.log('requests', this.subscriptions);
+                    } else {
+                        this.noSubscriptions = true;
+                        // console.log ('noSubscriptions', this.noSubscriptions);
+                    }
+                },
+                error => {
+                    console.log('error getAllSubscriptions', error);
+                });
 
 
         // Validate search forms
@@ -108,7 +115,12 @@ export class DashboardComponent implements OnInit {
                     },
                     error => {
                         this.error = error;
-                        console.log('error ', error);
+
+                        if (error === 'Should send a request to the individual to access his data') {
+                            this.showSendRequest = true;
+                        }
+
+                        console.log('individual search error ', error);
                     }
                 );
         }
@@ -172,5 +184,24 @@ export class DashboardComponent implements OnInit {
                     );
             }
         }
+    }
+
+    onSendRequest() {
+        const ssn = {
+            'ssn' : this.iControls.ssn.value
+        };
+
+        this.requestService
+            .createRequest(ssn)
+            .subscribe(
+                data => {
+                    this.request = data['data'];
+                    this.showSendRequest = false;
+                    this.showRequestInfo = true;
+                    console.log('create request data', data);
+                },
+                error => {
+                    console.log('create request error', error);
+                });
     }
 }

@@ -16,15 +16,10 @@ export class RequestService {
     }
 
     updateRequestStatus(requestId) {
-        return this.http.patch(`${this.baseUrl}/web/requests`, null , requestId);
+        // return this.http.patch(`${this.baseUrl}/web/requests`, null , requestId);
     }
 
-    createRequest() {
-
+    createRequest(ssn) {
+        return this.http.post(`${this.baseUrl}/web/requests/` , ssn);
     }
-
-    deleteRequest() {
-
-    }
-
 }

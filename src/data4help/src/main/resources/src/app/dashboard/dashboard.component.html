@@ -71,8 +71,8 @@
           <div class="card-header">
             <span class="font-weight-bold"> <i class="unit-3-icon icon fl-bigmug-line-search74"></i> Make new search</span>
           </div>
-          <div class="card-body">
 
+          <div class="card-body">
             <div class="row">
               <div class="col-3">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -101,6 +101,33 @@
                       </div>
                     </form>
 
+                    <hr>
+
+                    <div *ngIf="showSendRequest" class="col-sm-12">
+                      <div class="alert alert-info">
+                        <span class="unit-3-icon icon fl-bigmug-line-chat51"></span> <strong> &nbsp; Info Message</strong>
+                        <hr class="message-inner-separator">
+                        <div class="row">
+                          <div class="col-md-10">
+                            <p> Do you want to send a request to this individual?</p>
+                          </div>
+                          <div class="col-md-2">
+                            <button (click)="onSendRequest()" class="btn btn-default"><i class="unit-3-icon icon fl-bigmug-line-checkmark14"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div *ngIf="showRequestInfo" class="col-sm-12">
+                      <div class="alert alert-success">
+                        <span class="unit-3-icon icon fl-bigmug-line-checkmark14"></span> <strong> &nbsp; Request sent!</strong>
+                        <hr class="message-inner-separator">
+
+                        <p><span class="font-weight-bold">Status: </span> {{ request['status'] }}</p>
+
+                        <p> You will be notified whether it was <span class="font-weight-bold">approved</span> or <span class="font-weight-bold">rejected</span> by the intended individual. </p>
+                      </div>
+                    </div>
                   </div>
 
                   <div class="tab-pane fade" id="v-pills-bulk" role="tabpanel" aria-labelledby="v-pills-bulk-tab">
