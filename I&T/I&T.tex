@@ -23,6 +23,9 @@
 \usepackage{rotating}
 \usepackage[dvipsnames]{xcolor}
 \usepackage{listings}
+\usepackage{float}
+\restylefloat{table}
+
 %%%%%%%%%%%%
 
 % DOC STYLES
@@ -136,8 +139,10 @@
 	\chapter{Introduction}
 	\section{Context}
 	\textbf{TrackMe} develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O\textsubscript{2} in the blood) and also their location. TrackMe health smartwatches are synchronized with an app that gives users access to their data and stats. Also, TrackMe is offering new services to their customers, so as to exploit the data collected from those devices. 
-	
-	\section{Purpose and Scope}
+	\section{Purpose}
+	This document describes the plans for testing the integration of the created components. The purpose of this document is to test the interfaces between the components as described in
+Design Document. Every team member who cooperates in the integration tests should read this document.
+	\section{Scope}
 	This document represents the Integration Testing Plan Document for TrackMe Service. \\\\
 	Integration testing is a key activity to guarantee that all the different subsystems composing Data4Help and AutomatedSOS interoperate consistently with the requirements they are supposed to fulfil and without exhibiting unexpected behaviours. The purpose of this document is to outline, in a clear and comprehensive way, the main aspects concerning the organization of the integration testing activity for all the components that make up the system.	\\	
 	More precisely, the document presents:
@@ -222,24 +227,290 @@ their order of integration and to take into account the required time to fully p
 	\section{Elements to be integrated}
 	In the following paragraph we're going to provide a list of all the components that need to be integrated together.\\
 	As specified in TrackMe Design Document, the system is built upon the interactions of many high-level components, each one implementing a specific set of functionalities. For the sake of modularity, each subsystem is further obtained by the combination of several lower-level components. Because of this software architecture, the integration phase will involve the integration of components at two different levels of abstraction.\\\\
-		cntd....
+		At the lowest level, we'll integrate together those components that depend strongly on one another to offer the higher level functionalities of \textbf{Data4HelpWebService}. In our specific case, this involves the integration of the \textbf{Login Service and Signup Service}, \textbf{Search Management}, \textbf{Request Management}, \textbf{Subscription and Notification Management} subcomponents in order to obtain the \textbf{Data4Help Management System} subsystem.\\\\
+		For what concerns the building of the \textbf{AutomatedSOS} and \textbf{Track4Run} subsystems, the integration activity is actually quite limited; in fact, they simply represent a collection of functionalities belonging to the same area which however are not dependent on one another. As a result of this, their subcomponents don't really interact with each other, and the integration phase will be limited to the task of ensuring that the set of functionalities of each subcomponent is properly exposed by the subsystem. The components involved in this phase are:
+		\begin{itemize}
+		\item{} The \textbf{Data Handler, Health Care Connector and DB Manger} subcomponents in order to obtain the \textbf{AutomatedSOS subsystem}.
+		\item{} The \textbf{Login, Signup, User, Event, Notification, Data handler, Request and  Authentication manager} subcomponents in order to obtain the \textbf{Track4Run Management subsystem}.
+		\end{itemize}
+		Some of these subcomponents also directly rely on higher level, atomic components: that is the case, for instance, of the dependency on the \textbf{Data Handler component}. These dependencies will be taken care of in the integration process.\\\\
+		Finally, we will proceed with the integration of the higher level subsystems. In particular, the integration activity will involve:
+		\begin{itemize}
+		
+		\item{} The already existing components used to achieve
+specific functionalities: these are the \textbf{Health Care Service, DBMS and Notification system} components.
+\item{} Those components and subsystems specifically developed for TrackMeService, that are:
+
+\begin{itemize}
+\item{} On the server side: the \textbf{Data4Help Management System, Authentication system, Search subsystems}, together with the \textbf{Data Handler} component.
+\item{} On the client side: the \textbf{Data4Help Web Application and Track4Run Web Application} components.
+\end{itemize}
 			
+			
+			\end{itemize}
 			\section{Integration testing strategy}
-			
+			The approach we're going to use to perform integration testing is based on a mixture of the bottom-up and critical-module-first integration strategies.\\\\
+			Using the bottom-up approach, we will start integrating together those components that do not depend on other components to function, or that only depend on already developed components. This strategy brings a number of important advantages. First, it allows us to perform integration tests on "real" components that are almost fully developed and thus obtain more precise indications about how the system may react and fail in real world usage with respect to a top-down approach. Secondly, working bottom-up enables us to more closely follow the development process, which in our case is also proceeding using the bottom-up approach; by doing this we can start performing integration testing earlier in the development process as soon as the required components have been developed in order to maximize parallelism and efficiency.\\\\
+			Since subsystems are fairly independent from one another, the order in which they're integrated together to obtain the full system follows the critical-module-first approach. This strategy allows us to concentrate our testing efforts on the riskiest components first, that is those that represent the core functionalities of the whole system and whose malfunctioning could pose a very serious threat to the correct implementation of the entire TrackMe infrastructure. By proceeding this way, we are able to discover bugs earlier in the integration progress and take the necessary measures to correct them on time.\\\\
+			It should be noted that \textbf{Health Care Service, Notification System and DBMS} are commercial components that
+have already been developed and can thus be immediately used in a bottom-up approach without any explicit dependency.
 			
 			
 			\section{Sequence of Component/Function Integration}
+			In this section we're going to describe the order of integration (and integration testing) of the various components and subsystems of TrackMe Service. As a notation, an arrow going from component C1 to component C2 means that C1 is necessary for C2 to function and so it must have already been implemented.
 				
 			\subsection{Software Integration Sequence}
+			Following the already mentioned bottom-up approach, we now describe how the various subcomponents are integrated together to create higher level subsystems.\\\\\
+			
+			diagrams here.......
 			\subsection{Subsystem Integration Sequence}
+			In the following diagram we provide a general overview of how the various high-level subsystems are integrated together to create the full TrackMe Service infrastructure.\\\\\
+			
+			diagrams here.......
 			
 			
 	
 		
 	\chapter{Individual Steps and Test Description}
+	In this chapter we'll provide a detailed description of the tests to be performed on each pair of components that have to be integrated.Each pair of components is described in a specific subsection, identified by the $<$caller;called$>$ notation, containing the list of methods that the $<$caller$>$ component invokes on the $<$called$>$ component.For each method we're going to provide a brief description of the input values and the corresponding expected effects on the system.
+
+\section{ Data4Help Management System}
+\subsection{Request Management and DBHandler}
+
+\begin{table}[h!]
+		\centering
+		\begin{tabular}{|p{6cm}|p{9cm}|}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Insert Request}} \\
+			\hline
+			\textbf{Input} & \textbf{Effect} \\ [0.5ex]
+			\hline
+			A NULL parameter & A NullArgumentException is raised.  \\
+			\hline
+			A request with an id already existent in the database & An InvalidArgumentValueException is raised.\\
+			\hline
+			Formally valid arguments & An entry containing the request data is inserted into the database.\\
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Delete Request}} \\
+			\hline
+			\textbf{Input} & \textbf{Effect} \\ [0.5ex]
+			\hline
+			A NULL parameter & A NullArgumentException is raised.  \\
+			\hline
+			A request with an in-existent id & An InvalidArgumentValueException is raised.\\
+			\hline
+			Formally valid arguments & The entry containing the request data is deleted from the database.\\
+			\hline
+		\end{tabular}
+		\caption{Request Management parameters}
+		
+		\label{fig:Request Management parameters}
+	\end{table}
+	
+	\subsection{Search Management and DBHandler}
+
+\begin{table}[h]
+		\centering
+		\begin{tabular}{|p{6cm}|p{9cm}|}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Subscribe/Get Data}} \\
+			\hline
+			\textbf{Input} & \textbf{Effect} \\ [0.5ex]
+			\hline
+			A NULL parameter & A NullArgumentException is raised.  \\
+			\hline
+			A search with an id in-existent in the database & An InvalidArgumentValueException is raised.\\
+			\hline
+			Formally valid arguments & The list of all valid data based on the search id.\\
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Unsubscribe Data}} \\
+			\hline
+			\textbf{Input} & \textbf{Effect} \\ [0.5ex]
+			\hline
+			A NULL parameter & A NullArgumentException is raised.  \\
+			\hline
+			A search with an in-existent id & An InvalidArgumentValueException is raised.\\
+			\hline
+			Formally valid arguments & The entry containing the search data is deleted from the requester's view.\\
+			\hline
+			
+		\end{tabular}
+		\caption{Search Management parameters}
+		\label{fig:Search Management parameters}
+	\end{table}
+	
+		\subsection{Accept/Reject Management and DBHandler}
+
+\begin{table}[H]
+		\centering
+		\begin{tabular}{|p{6cm}|p{9cm}|}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Update Request Queue (userid, requestid)} }\\
+			\hline
+			\textbf{Input} & \textbf{Effect} \\ [0.5ex]
+			\hline
+			A NULL parameter & A NullArgumentException is raised.  \\
+			\hline
+			A non-existing RequestID & An InvalidArgumentValueException is raised.\\
+			\hline
+			A set of valid parameters to accept & The new user of the Data4Help is added to ThirdParty's view in the database.\\
+			
+			\hline
+			A set of valid parameters to reject & The new user of the Data4Help is removed from request queue in the database.\\
+			\hline
+			
+		\end{tabular}
+		\caption{Accept/Reject Management parameters}
+		\label{fig:Accept/Reject Management parameters}
+	\end{table}
+	
+			\subsection{Login Management and DBHandler}
+
+\begin{table}[H]
+		\centering
+		\begin{tabular}{|p{6cm}|p{9cm}|}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Login (userid, tokenid)} }\\
+			\hline
+			\textbf{Input} & \textbf{Effect} \\ [0.5ex]
+			\hline
+			A NULL parameter & A NullArgumentException is raised.  \\
+			\hline
+			A non-existing user & An InvalidArgumentValueException is raised.\\
+			\hline
+			An empty password & An InvalidArgumentValueException is raised.\\
+			\hline
+			A valid user and password
+combination, which however is not the correct one & Returns an InvalidCredentialError.\\
+\hline
+			A correct and valid user and password combination & Returns a session cookie.\\
+			\hline
+			
+		\end{tabular}
+		\caption{Login Management parameters}
+		\label{fig:Login Management parameters}
+	\end{table}
+	
+			\subsection{Signup Management and DBHandler}
+
+\begin{table}[H]
+		\centering
+		\begin{tabular}{|p{6cm}|p{9cm}|}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Signup (userid, tokenid)} }\\
+			\hline
+			\textbf{Input} & \textbf{Effect} \\ [0.5ex]
+			\hline
+			A NULL parameter & A NullArgumentException is raised.  \\
+			\hline
+			An empty parameter & An InvalidArgumentValueException is raised.\\
+			\hline
+			All valid user data in all fields, which however belongs to existing user & Returns an InvalidCredentialError.\\
+\hline
+			A correct and all valid user fields & Returns a session cookie and data inserted into the database.\\
+			\hline
+			
+		\end{tabular}
+		\caption{Signup Management parameters}
+		\label{fig:Signup Management parameters}
+	\end{table}
+	\subsection{Check Token (Password Retrieval) and DBHandler}
+
+\begin{table}[H]
+		\centering
+		\begin{tabular}{|p{6cm}|p{9cm}|}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{CheckToken (userid, tokenid)} }\\
+			\hline
+			\textbf{Input} & \textbf{Effect} \\ [0.5ex]
+			\hline
+			A NULL parameter & A NullArgumentException is raised.  \\
+			\hline
+			A valid user and secret-Code combination, which however is not the correct one & Returns False.\\
+			\hline
+			A correct and valid user and secretCode combination & Returns True.\\
+
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{UpdateUserPassword (userid, tokenid, newPassword)} }\\
+			\hline
+			\textbf{Input} & \textbf{Effect} \\ [0.5ex]
+			\hline
+			A NULL parameter & A NullArgumentException is raised.  \\
+			\hline
+			A valid user and secret-Code combination, which however is not the correct one & An InvalidSecurityLevelException is raised.\\
+			\hline
+			A correct and valid user
+and secretCode combination, but an incorrectly formatted password & An InvalidArgumentFormatException is raised.\\
+			\hline
+			A correct and valid user and secretCode combination, and a correctly formatted password & Updates the user password in the database.\\
+			\hline
+
+		\end{tabular}
+		\caption{Check Token/Update Password Management parameters}
+		\label{fig:Check Token/Update Password Management parameters}
+	\end{table}
+	
+	\section{AutomatedSOS Management System}
+	\subsection{Health Care Connector system and DBHandler }
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{|p{6cm}|p{9cm}|}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{DataRefresh (userid, vitalSigns, ThresholdCollection)} }\\
+			\hline
+			\textbf{Input} & \textbf{Effect} \\ [0.5ex]
+			\hline
+			A NULL parameter & A NullArgumentException is raised.  \\
+			\hline
+			Vital Signs checked against the threshold collections  and are inconsistent & An InvalidArgumentException is raised.\\
+			\hline
+			Vital Signs checked against the threshold collections  and are consistent & Overwrite the old data with the latest update in the database until the next data fetch.\\
+\hline
+		\end{tabular}
+		\caption{Data Refresh Management parameters}
+		\label{fig:Data Refresh Management parameters}
+	\end{table}
+	
+	\section{Integration between subsystems}
+	\subsection{Data4Help system, AutomatedSOS system}
+		\begin{table}[H]
+		\centering
+		\begin{tabular}{|p{6cm}|p{9cm}|}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{EmergencyAlarm (userid, vitalSigns, ContactDetails)} }\\
+			\hline
+			\textbf{Input} & \textbf{Effect} \\ [0.5ex]
+			\hline
+			A NULL parameter & A NullArgumentException is raised.  \\
+			\hline
+			A userId not correctly formatted & An InvalidArgumentFormatException is raised.\\
+\hline
+A userDetails whose contact details are invalid & An InvalidContactException is raised.\\
+\hline
+			Vital Signs out of range & An AlarmRequest is raised and contact is sent to HealthCareService (external component) within 5 seconds.\\
+			\hline
+			Vital Signs in range & Overwrite the old data with the latest update until the next data fetch.\\
+\hline
+		\end{tabular}
+		\caption{Data4Help, ASOS integration Management parameters}
+		\label{fig:Data4Help, ASOS integration Management parameters}
+	\end{table}
+	
 	
 	\chapter{Performance Analysis}
-	While a full fledged performance analysis of the entire TrackMe infrastructure will be executed only in the system integration phase, it is still useful to perform some preliminary measures on components whose performances can be tested in isolation\\
+	While a full fledged performance analysis of the entire TrackMe infrastructure will be executed only in the system integration phase, it is still useful to perform some preliminary measures on components whose performances can be tested in isolation.\\\\
+	In particular, it is appropriate to verify that the applications for all the target web browser platforms, regardless whether they're destined to users or to third party customers, have reasonable CPU and main memory usages.\\\\
+	As specified in the RASD, the performance requirements of the web applications are the followings:
+	\begin{itemize}
+	\item{} The system is provided to serve all the TrackMe wearable device users at the same time simultaneously.
+	\item{} Technical support for installation is not required, as it is only a web application and users can access it from anywhere where the internet service is provided.
+	\item{} Under ASOS service, the system makes sure the system responds and notifies the health-care system within 5 seconds, when the thresholds are below the certain defined level.
+	\item{} Users will rely on the application in order to organize their send or accept/reject requests for data and notifications, so we have to guarantee quick, reactive and correct response.
+	\end{itemize}
+	Furthermore, using the load testing tools will ensure the application performance in peak traffic and under extreme stress conditions.
+	However, this number should be reconsidered during the development phase taking into account the improvements
+in the browsers and add-ons and responsive technology that may occur meanwhile.\\\\
+These tests will be performed using the appropriate performance analysis tool provided with the SDK of each web platform.
 	
 
 	\chapter{Tools and Testing equipment}
@@ -248,19 +519,585 @@ their order of integration and to take into account the required time to fully p
 	For what concerns the business logic components running in the Java Enterprise Edition runtime environment, we are going to take advantage of two tools.\\
 	The first one is the \textbf{Arquillian integration testing framework}. This tool enables us to execute tests against a Java container in order to check that the interaction between a component and its surrounding execution environment is happening correctly (as far as the Java application server is involved). Specifically, we are going to use Arquillian to verify that the right components are injected when dependency injection is specified, that the connections with the database are properly managed and similar container-level tests.\\
 	The second tool is the \textbf{JUnit framework}. Though this tool is primarily devoted to unit testing activities, it's still a valid instrument to verify that the interactions between components are producing the expected results. In particular, we are going to use it in order to verify that the correct objects are returned after a method invocation, that appropriate exceptions are raised when invalid parameters are passed to a method and other issues that may arise when components interact with each other.\\
+	Furthermore, as we have already mentioned briefly in the previous chapter of this document, we are going to use specific performance analysis tools to make sure that the applications for all the target mobile platforms, regardless whether they're destined to individual users or to third party users, have responsive web application and quick responses in peak traffic also. Depending on the specific platform we are targeting, the tools we are going to use are:
+	\begin{itemize}
+	\item{\textbf{Apache JMeter}} : It is a Java platform application. It is mainly considered as a performance testing tool and it can also be integrated with the test plan.
+	\begin{itemize}
+	\item{} System Requirements: It works under Unix and Windows OS
+	\item{} Open source
+	\end{itemize}
+	\item{\textbf{LoadUI}} : LoadUI lets you create and update test cases while you run them.
+	\begin{itemize}
+	\item{} System Requirements: It works under MacOS, Unix and Windows OS
+	\item{} Open source
+	\end{itemize}
+	\end{itemize} 
 	Finally, it should be noted that despite the usage of automated testing tools, some of the planned testing activities will also require a significant amount of manual operations, especially to devise the appropriate set of testing data.
 	
 
 
 \section{Test Equipment}
-All the integration testing activities have to be performed within a specific testing environment.
+All the integration testing activities have to be performed within a specific testing environment.\\\\
+Since TrackMe Service incorporates both a set of client components and a back-end infrastructure, we must define the characteristics of the devices that have to be used in each of these two areas.\\\\
+For what concerns the browser side of the testing environment, the following devices are required:
+\begin{itemize}
+\item{} For web browser, computer need:
+	\begin{itemize}
+\item{Windows(chrome, IE, edge)} : Windows 7, Windows 8, Windows 8.1, Windows 10 or later
+\item{MacOS} :  Mac OS X 10.6 through Mac OS X 10.11 or higher
+\item{} An Intel Pentium 4 processor or later that's SSE2 capable
+\end{itemize}
+\item{} Internet Connection Broadband (high-speed) Internet connection with a speed of 4 Mbps or higher.
+\end{itemize}
+These devices will be used to test the browser versions of the web applications. It should be noted that these are general guidelines to drive the selection of the testing devices in a way that covers the widest range of possible configurations. Some display sizes or resolutions may not be offered by all product families.\\\\
+As a general note, we should consider the possibility of performing an analysis of the browser market to identify the most common display sizes and resolutions right before starting the integration testing phase, in order to better reflect the typical usage scenarios we will encounter in the real operating environment.\\\\
+As for the back-end testing, the business logic components should be deployed on a cloud infrastructure that closely mimics the one that will be used in the operating environment. Specifically, the testing cloud infrastructure needs to run the same operating system, the same Java Enterprise Application Server, the same Health Care Service System and Notification Service (Alarm interface) middle ware (message brokers) and the same DBMS. As such, it is strongly suggested to use a scaled down version of the final operating cloud infrastructure chosen from the same service provider.\\\\
+Depending on the actual implementation decisions, the specific software components may change.
+
 
 \chapter{Required Program Stubs and Test Data}
 \section{Program Stubs and Drivers}
-As we have mentioned in the Integration Testing Strategy section of this document, we are going to adopt a bottom-up approach to component integration and testing.\\
-Because of this choice, we are going to need a number of drivers to actually perform the necessary method invocations on the components to be tested; this will be mainly accomplished in conjunction with the JUnit framework.\\
+As we have mentioned in the Integration Testing Strategy section of this document, we are going to adopt a bottom-up approach to component integration and testing.\\\\
+Because of this choice, we are going to need a number of drivers to actually perform the necessary method invocations on the components to be tested; this will be mainly accomplished in conjunction with the JUnit framework.\\\\
+Here follows a list of all the drivers that will be developed as part of the integration testing phase, together with their specific role:
+\begin{itemize}
+\item{\textbf{Data Access Driver}} : this testing module will invoke the methods exposed by the \textbf{DB Handler} component in order to test its interaction with the \textbf{DB Manager}.
+\item{\textbf{Request Management Driver}} : this testing module will invoke the methods exposed by the \textbf{Request Management} subcomponent, including those with package - level visibility, in order to test its interaction with the \textbf{DB Handler, Notification System and the Subscription Management} components.
+\item{\textbf{Search Management Driver}} : this testing module will invoke the methods exposed by the \textbf{Subscription Management} subcomponent in order to test its interaction with the \textbf{DB Handler, Notification System and the Request Management} components.
+\item{\textbf{Login Management Driver}} : this testing module will invoke the methods exposed by the \textbf{Login Management} subcomponent in order to test its interaction with the \textbf{DB Handler and the token System} components.
+\item{\textbf{Health Care Connector Driver}} : this testing module will invoke the methods exposed by the \textbf{Health Care Connector Management} subcomponent in order to test its interaction with the \textbf{DB Handler and the Health Care Service - external System} components.
+\item{\textbf{Notification Management Driver}} : this testing module will invoke the methods exposed by the \textbf{Notification Management} subcomponent in order to test its interaction with the \textbf{DB Handler, Request system and Search system} components.
+\item{\textbf{Subscription Management Driver}} : this testing module will invoke the methods exposed by the \textbf{Subscription Management} subcomponent in order to test its interaction with the \textbf{DB Handler and Search system} components.
+\item{\textbf{Account Management Driver}} : this testing module will invoke the methods exposed by the \textbf{Check Token Management} subcomponent in order to test its interaction with the \textbf{DB Handler, Login system and Signup system} components.
+\end{itemize}
+While the bottom-up approach in general doesn't require the usage of any stubs as the system is developed from the ground up, a full test of the core system isn't possible without introducing a few of them. In fact, there is a mutual dependency between the clients (which send requests) and the core system (which replies to them). Since we are developing and integrating the system from the core, we are going to introduce stubs to simulate the presence of clients until they are fully developed. In practice, the only purpose of these stubs is to write on a log that they have correctly received the messages.
 
 \section{Test Data}
+In order to be able to perform the record of tests that we have specified, we are going to need:
+\begin{itemize}
+\item{} A list of both valid and invalid individual or third party users to test the \textbf{Signup Management} component. The set should contain instances exhibiting the following problems:
+\begin{itemize}
+\item{} Null object
+\item{} Null fields
+\item{} Invalid data in one or more fields
+\item{} Tax certificate not compliant with the legal format
+\item{} Valid data in all fields
+\end{itemize}
+\item{} \item{} A list of both valid and invalid individual or third party users to test the \textbf{Login Management} component. The set should contain instances exhibiting the following problems:
+\begin{itemize}
+\item{} Null object
+\item{} Null fields
+\item{} Invalid data in one or more fields
+\item{} valid data but system down
+\item{} Valid data in all fields
+\end{itemize}
+\item{} A list of both valid and invalid requests to test the \textbf{Request Management} component. The set should contain instances exhibiting the following problems:
+\begin{itemize}
+\item{} Null object
+\item{} Null fields
+\item{} Invalid data in one or more fields
+\item{} valid data but incorrect format
+\item{} Valid data in all fields
+\end{itemize}
+\item{} A list of both valid and invalid searches to test the \textbf{Search Management} component. The set should contain instances exhibiting the following problems:
+\begin{itemize}
+\item{} Null object
+\item{} Null fields
+\item{} Invalid data in search
+\item{} valid data but does not exist in DB
+\item{} Valid data
+\end{itemize}
+\item{} A list of both valid and invalid searches to test the \textbf{Subscription Management} component. The set should contain instances exhibiting the following problems:
+\begin{itemize}
+\item{} Null object
+\item{} Null fields
+\item{} valid data but does not exist in DB
+\item{} Valid data
+\end{itemize}
+\item{} A list of both valid and invalid notifications to test the \textbf{Notification Management} component. The set should contain instances exhibiting the following problems:
+\begin{itemize}
+\item{} Null object
+\item{} Null fields
+\item{} valid data but does not exist in DB
+\item{} Valid data
+\end{itemize}
+\item{} A list of both valid and invalid notifications to test the \textbf{Health Care Service Management} component. The set should contain instances exhibiting the following problems:
+\begin{itemize}
+\item{} Null object
+\item{} Inconsistent data against threshold
+\item{} Consistent data against threshold
+\item{} Valid data
+\end{itemize}
+\end{itemize}
+More specific information about the required test data can be found by analysing the inputs of all the test cases described in chapter 3.
+\section{Test Scenario}
+Scenario testing is a software testing activity that uses scenarios: hypothetical stories to help the tester work through a complex problem or test system. The ideal scenario test is a credible, complex, compelling or motivating story the outcome of which is easy to evaluate. The following high-level set of scenarios were considered for \textbf{Data4Help} system:
+% Table generated by Excel2LaTeX from sheet 'Test Scenarios'
+\begin{table}[htbp]
+  \centering
+  \caption{Add caption}
+    \begin{tabular}{|l|lrll|}
+   \multicolumn{5}{c}{\textbf{Scenario List (Data4Help Module)}} \\
+    \midrule
+  SC01  & Validate the login functionality of the system &       &       &  \\
+   SC02  & Validate the login functionality of the system with blank data &       &       &  \\
+   SC03  & Validate the Register functionality of the system &       &       &  \\
+   SC04  & Validate the Register functionality of the system with blank data &       &       &  \\
+    SC05  & Validate if third party is able to request individual's data  &       &       &  \\
+    SC06  & Validate if third party is able to request bulk data  &       &       &  \\
+    SC07  & Validate the individual's response to request (Accept/Reject) &       &       &  \\
+    SC08  & Validate third party is able to search for the subscribed data on its dashboard &       &       &  \\
+    SC09  & Validate Individual is able to view for the subscribers data on its dashboard &       &       &  \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:addlabel}%
+\end{table}%
+
+
+\section{Test Cases}
+A  test case is a specification of the inputs, execution conditions, testing procedure, and expected results that define a single test to be executed to achieve a particular software testing objective. We will define a number of test cases against the test scenarios above stated to cover the Data4Help complete system. The following test cases are considered against the test scenarios:
+\begin{itemize}
+\item{Login Positive Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case: Login-1A}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Login-1 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Login-1A \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{Login-Positive} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & A valid user account & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & /login.html & Login Page & Login Page & Pass \\
+    \midrule
+    2     & Enter Correct Email \& Password and hit Login button & Email ID: test@xyz.com; Password: ******** & Login Success & Login Success & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Text case: Login-1A}%
+\end{table}%
+\item{Login-Negative Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case: Login-1B}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Login-1 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Login-1B \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{Login-Negative} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & NA    & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & /login.html & Login Page & Login Page & Pass \\
+    \midrule
+    2     & Enter invalid Email \& any Password and hit Login button & Email ID: invalid@xyz.com; Password: ******** & Error: "The email or password you've entered doesn't match any account. Sign up for a new account" & Error: "The email or password you've entered doesn't match any account. Sign up for a new account" & Pass \\
+    \midrule
+    3     & Enter valid Email \& any Password and hit Login button & Email ID: valid@xyz.com; Password: ******** & Error: "The email or password you've entered doesn't match any account. Sign up for a new account" & Error: "The email or password you've entered doesn't match any account. Sign up for a new account" & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case: Login-1B}%
+\end{table}%
+\item{Login Blank Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case: Login-2A}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Login-2 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Login-2A \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{Login-Blank} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & NA    & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & /login.html & Login Page & Login Page & Pass \\
+    \midrule
+    2     & Do not enter email or password and hit Login Button & No data & Error: "Password or email cannot be blank. Please enter data." & Error: "Password or email cannot be blank. Please enter data." & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case: Login-2A}%
+\end{table}%
+\item{Register Positive Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case: Register-1A}
+    \begin{tabular}{|r|p{5.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Register-1 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Register-1A \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{Register-Positive} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & NA    & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & \textcolor[rgb]{ .02,  .388,  .757}{/Register.html} & Register Page & Register Page & Pass \\
+    \midrule
+    2     & Enter valid data in all mandatory fields for either Individual/Third parties and hit Register Button & Data in test Data sheet (Separate) & User successfully registered. & User successfully registered. & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case: Register-1A}%
+\end{table}%
+\item{Register Negative Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case: Register-1B}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Register-1 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Register-1B \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{Register-Negative} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & NA    & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & \textcolor[rgb]{ .02,  .388,  .757}{/Register.html} & Register Page & Register Page & Pass \\
+    \midrule
+    2     & Enter invalid data in all or any mandatory fields for either Individual/Third parties and hit Register Button & Data in test Data sheet (Separate) & Error: "Please enter valid data to proceed". & Error: "Please enter valid data to proceed". & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case: Register-1B}%
+\end{table}%
+\item{Register Blank Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case: Register-2A}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Register-2 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Register-2A \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{Register-Blank} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & NA    & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & \textcolor[rgb]{ .02,  .388,  .757}{/Register.html} & Register Page & Register Page & Pass \\
+    \midrule
+    2     & Do not enter any data in any or all the mandatory fields and hit Register Button & No data & Error: "Please enter valid data to proceed". & Error: "Please enter valid data to proceed". & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case: Register-2A}%
+\end{table}%
+\item{Manage Request Individual Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case: Manage Request-1A}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Manage\_Request-1 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Manage Request-1A \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{Request Positive} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & Valid Third party already registered \& logged in to the dashboard screen & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & /login.html & Login Page & Login Page & Pass \\
+    \midrule
+    2     & Enter valid data in all fields and hit Login Button & Email ID: test@xyz.com; Password: ******** & User is able to view the dashboard & User is able to view the dashboard & Pass \\
+    \midrule
+    3     & Select Request\_type: "Specific", Filter type, \& enter data and hit submit button & Request\_Type: Specific; Filter\_Type: SSN; Enter\_Data: 123456789 & User's request sent to specific individual; Request status changed to Request Pending & User's request sent to specific individual; Request status changed to Request Pending & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case: Manage Request-1A}%
+\end{table}%
+\item{Manage Request Individual Fail Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case:Manage\_Request-1B}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Manage\_Request-1 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Manage Request-1B \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{Request Fail} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & Valid Third party already registered \& logged in to the dashboard screen & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & /login.html & Login Page & Login Page & Pass \\
+    \midrule
+    2     & Enter valid data in all fields and hit Login Button & Email ID: test@xyz.com; Password: ******** & User is able to view the dashboard & User is able to view the dashboard & Pass \\
+    \midrule
+    3     & Select Request\_type: "Specific", Filter type, \& enter data and hit submit button & Request\_Type: Specific; Filter\_Type: SSN; Enter\_Data: 123456789 & Error:"System Not available or entered data is incorrect." & Error:"System Not available or entered data is incorrect." & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case:Manage_Request-1B}%
+\end{table}%
+\item{Manage Request Bulk Positive Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case:Manage Request-2A}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Manage Request-2 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Manage Request-2A \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{Request Bulk} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & Valid Third party already registered \& logged in to the dashboard screen & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & /login.html & Login Page & Login Page & Pass \\
+    \midrule
+    2     & Enter valid data in all fields and hit Login Button & Email ID: test@xyz.com; Password: ******** & User is able to view the dashboard & User is able to view the dashboard & Pass \\
+    \midrule
+    3     & Select Request\_type: "Bulk", Filter type, \& enter data and hit submit button & Request\_Type: Specific; Filter\_Type: Blood Type; Enter\_Data: A+ & Request sent to TrackMe successfully. & Request sent to TrackMe successfully. & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case:Manage Request-2A }%
+\end{table}%
+
+\item{Manage Request Bulk Fail Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case: Manage Request-2B}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Manage Request-2 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Manage Request-2B \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{Bulk Fail} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & Valid Third party already registered \& logged in to the dashboard screen & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & /login.html & Login Page & Login Page & Pass \\
+    \midrule
+    2     & Enter valid data in all fields and hit Login Button & Email ID: test@xyz.com; Password: ******** & User is able to view the dashboard & User is able to view the dashboard & Pass \\
+    \midrule
+    3     & Select Request\_type: "Bulk", Filter type, \& enter data and hit submit button & Request\_Type: Specific; Filter\_Type: Blood Type; Enter\_Data: A+ & Error:"System Not available or entered data is incorrect." & Error:"System Not available or entered data is incorrect." & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case: Manage Request-2B}%
+\end{table}%
+\item{Manage Request Individual Accept Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case: Manage Request-3A}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Manage Request-3 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Manage Request-3A \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{Individual accept} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & Valid Individual already registered \& logged in to the dashboard screen & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & /login.html & Login Page & Login Page & Pass \\
+    \midrule
+    2     & Enter valid data in all fields and hit Login Button & Email ID: test@xyz.com; Password: ******** & User is able to view the dashboard & User is able to view the dashboard & Pass \\
+    \midrule
+    3     & All requests visible on dashboard & NA    & User is able to view all the requests available on its dashboard screen. & User is able to view all the requests available on its dashboard screen. & Pass \\
+    \midrule
+    4     & Select Accept response drop down button and select submit & Response: Accept & User's response is correctly recorded and notification sent to Requester. & User's response is correctly recorded notification sent to Requester. & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case: Manage Request-3A}%
+\end{table}%
+\item{Manage Request Individual Reject Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case: Manage Request-3B}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Manage Request-3 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Manage Request-3B \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{Individual reject} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & Valid Individual already registered \& logged in to the dashboard screen & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & /login.html & Login Page & Login Page & Pass \\
+    \midrule
+    2     & Enter valid data in all fields and hit Login Button & Email ID: test@xyz.com; Password: ******** & User is able to view the dashboard & User is able to view the dashboard & Pass \\
+    \midrule
+    3     & All requests visible on dashboard & NA    & User is able to view all the requests available on its dashboard screen. & User is able to view all the requests available on its dashboard screen. & Pass \\
+    \midrule
+    4     & Select Reject from the response dropdown button and select submit & Response: Reject & User's response is correctly recorded and notification sent to Requestor. & User's response is correctly recorded and notification sent to Requestor. & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case: Manage Request-3B}%
+\end{table}%
+\item{Search Subscribed data Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case: Search-1A}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Search-1 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Search-1A \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{requested Positive} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & Valid Third party already registered \& logged in to the dashboard screen & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & /login.html & Login Page & Login Page & Pass \\
+    \midrule
+    2     & Enter valid data in all fields and hit Login Button & Email ID: test@xyz.com; Password: ******** & User is able to view the dashboard & User is able to view the dashboard & Pass \\
+    \midrule
+    3     & All requests visible on dashboard & NA    & User is able to view all the requests available on its dashboard screen. & User is able to view all the requests available on its dashboard screen. & Pass \\
+    \midrule
+    4     & Select Data from the filter available & Previous requested data & User is able to view all the subscribed data from the previous reuests & User is able to view all the subscribed data from the previous reuests & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case: Search-1A}%
+\end{table}%
+
+\item{Search Subscribed Data Fail Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case: Search-1B}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Search-1 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Search-1B \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{requested fail} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & DB server is down after user logged in & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & /login.html & Login Page & Login Page & Pass \\
+    \midrule
+    2     & Enter valid data in all fields and hit Login Button & Email ID: test@xyz.com; Password: ******** & User is able to view the dashboard & User is able to view the dashboard & Pass \\
+    \midrule
+    3     & All requests visible on dashboard & NA    & User is able to view all the requests available on its dashboard screen. & User is able to view all the requests available on its dashboard screen. & Pass \\
+    \midrule
+    4     & Select Data from the filter available & Previous requested data & Error: "Please come back later." & Error: "Please come back later." & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case: Search-1B}%
+\end{table}%
+\item{Search Subscribers Positive test case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case:Search-2A}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Search-2 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Search-2A \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{Subscribers Positive} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & Valid Individual already registered \& logged in to the dashboard screen & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & /login.html & Login Page & Login Page & Pass \\
+    \midrule
+    2     & Enter valid data in all fields and hit Login Button & Email ID: test@xyz.com; Password: ******** & User is able to view the dashboard & User is able to view the dashboard & Pass \\
+    \midrule
+    3     & All requests visible on dashboard & NA    & User is able to view all the requests available on its dashboard screen. & User is able to view all the requests available on its dashboard screen. & Pass \\
+    \midrule
+    4     & Select Subscriber's List from the Dashboard & Previous requested data & User is able to view all the users who have currently subscribed to its data from the previous reqests & User is able to view all the users who have currently subscribed to its data from the previous requests & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case:Search-2A}%
+\end{table}%
+
+\item{Search Subscribers Fail Test Case}
+% Table generated by Excel2LaTeX from sheet 'Test Cases'
+\begin{table}[H]
+  \centering
+  \caption{Test Case: Search-2B}
+    \begin{tabular}{|r|p{4.355em}|p{7.715em}|p{6.43em}|p{5.855em}|p{5.07em}|}
+    \toprule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Test Scenario ID}} & Search-2 & \multicolumn{2}{p{12.285em}|}{\textbf{Test Case ID}} & Search-2B \\
+    \midrule
+    \multicolumn{2}{|l|}{\multirow{2}[2]{*}{\textbf{Test Case Description}}} & \multirow{2}[2]{*}{Subscribers Fail} & \multicolumn{2}{l|}{\multirow{2}[2]{*}{\textbf{Test Priority}}} & \multirow{2}[2]{*}{High} \\
+    \multicolumn{2}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{2}{l|}{} & \multicolumn{1}{l|}{} \\
+    \midrule
+    \multicolumn{2}{|p{13.425em}|}{\textbf{Pre-Requisite}} & DB server is down after user logged in & \multicolumn{2}{p{12.285em}|}{\textbf{Post-Requisite}} & NA \\
+    \midrule
+    \multicolumn{6}{p{38.495em}|}{\textbf{Test Execution Steps:}} \\
+    \midrule
+    \multicolumn{1}{|p{5.07em}|}{\textbf{S. No.}} & \textbf{Action } & \textbf{Input} & \textbf{Expected Output} & \textbf{Actual Output} & \textbf{Test Result} \\
+    \midrule
+    1     & Launch Application & /login.html & Login Page & Login Page & Pass \\
+    \midrule
+    2     & Enter valid data in all fields and hit Login Button & Email ID: test@xyz.com; Password: ******** & User is able to view the dashboard & User is able to view the dashboard & Pass \\
+    \midrule
+    3     & All requests visible on dashboard & NA    & User is able to view all the requests available on its dashboard screen. & User is able to view all the requests available on its dashboard screen. & Pass \\
+    \midrule
+    4     & Select Subscriber's List from the Dashboard & Previous requested data & Error: "Please come back later." & Error: "Please come back later." & Pass \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:Test Case: Search-2B}%
+\end{table}%
+
+
+
+\end{itemize}
 
 	
 	\chapter{Effort spent}
@@ -272,12 +1109,12 @@ Because of this choice, we are going to need a number of drivers to actually per
 			\hline
 			\textbf{Task} & \textbf{Hours} \\ [0.5ex]
 			\hline
-			Planning Architecture & 8  \\
-			Architectural design overview & 4\\
-			Choosing Patterns & 3\\
-			Checking document  & 2  \\
+			Planning Integration & 8  \\
+			Testing overview & 4\\
+			Choosing Strategy & 3\\
+			Checking document  & 4  \\
 			\hline
-			\textbf{Total} & 17  \\
+			\textbf{Total} & 19  \\
 			\hline
 		\end{tabular}
 		\caption{Time spent by all team members}
@@ -298,33 +1135,33 @@ Because of this choice, we are going to need a number of drivers to actually per
 			& \textbf{Task} & \textbf{Hours}
 			& \textbf{Task} & \textbf{Hours} \\ [0.5ex]
 			\hline
-			Component view &  10
-			& Scope & 3
-			& Purpose & 2  \\
+			X &  10
+			& X & 3
+			& Layout & 2  \\
 			\hline
-			Component interfaces &  13
-			& Database view & 6
-			& UI design & 15  \\
+			X &  13
+			& X & 6
+			& Purpose and Scope & 3  \\
 			\hline
-			Deployment view &  5
-			& Runtime view & 8
-			& I and T plan & 6  \\
+			X &  5
+			& X & 8
+			& Integration Strategy & 6  \\
 			\hline
-			Runtime view  &  4
-			& R traceability & 3
-			& Design decisions & 2 \\
+			X  &  4
+			& X & 3
+			& Individual Steps, Testing & 5 \\
 			\hline
-			Corrections & 3  
-			& Final user interfaces & 7
-			& &   \\
+			X & 3  
+			& X & 7
+			& Stubs and Test Data  & 10 \\
 			\hline 
-			&  
-			& Architectural styles & 4
+			X &  
+			& X & 4
 			& &   \\
 			\hline
 			\textbf{Total} & 35
 			& \textbf{Total} & 31
-			& \textbf{Total} & 25  \\
+			& \textbf{Total} & 26  \\
 			\hline
 		\end{tabular}
 		\caption{Time spent by each team member}
