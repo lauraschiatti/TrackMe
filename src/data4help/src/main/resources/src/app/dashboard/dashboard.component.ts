@@ -18,7 +18,6 @@ export class DashboardComponent implements OnInit {
     iForm: FormGroup;
     bulkForm: FormGroup;
     iFormSubmitted = false;
-    bulkFormSubmitted = false;
     error = '';
     errorBulk =  '';
 
@@ -127,62 +126,54 @@ export class DashboardComponent implements OnInit {
     }
 
     onSubmitBulkSearch() {
-        this.bulkFormSubmitted = true;
+        this.searchService
+            .search(null, this.bulkForm.value)
+            .subscribe(
+                data => {
+                    // display data
+                    console.log('search: bulk data', data);
 
-        if (this.bulkForm.invalid) {
-            return;
-        }
+                },
+                error => {
+                    this.errorBulk = error;
+                    console.log('error ', error);
+                }
+            );
 
-        if (this.bulkForm.valid) {
-            this.searchService
-                .search(null, this.bulkForm.value)
+        // Create subscription to data
+        if (this.bulkControls.subscription.value) {
+            let timeSpan = 6;
+            if (this.bulkControls.timeSpan.value) {
+                timeSpan = this.bulkControls.timeSpan.value;
+            }
+
+            const subscription = {
+                'filter': {
+                    'gender' : this.bulkControls.gender.value,
+                    'bloodType': this.bulkControls.bloodType.value,
+                    'minAge': Number(this.bulkControls.minAge.value),
+                    'maxAge': Number(this.bulkControls.maxAge.value),
+                    'city' : this.bulkControls.city.value,
+                    'province': this.bulkControls.province.value,
+                    'country' : this.bulkControls.country.value
+                },
+                'timeSpan': timeSpan
+            };
+
+            console.log('subscription', subscription);
+
+            this.subscriptionService
+                .createSubscription(subscription)
                 .subscribe(
                     data => {
                         // display data
-                        console.log('search: bulk data', data);
+                        console.log('subscription data', data);
 
                     },
                     error => {
-                        this.errorBulk = error;
-                        console.log('error ', error);
+                        console.log('subscription error ', error);
                     }
                 );
-
-            // Create subscription to data
-            if (this.bulkControls.subscription.value) {
-                let timeSpan = 6;
-                if (this.bulkControls.timeSpan.value) {
-                    timeSpan = this.bulkControls.timeSpan.value;
-                }
-
-                const subscription = {
-                    'filter': {
-                        'gender' : this.bulkControls.gender.value,
-                        'bloodType': this.bulkControls.bloodType.value,
-                        'minAge': Number(this.bulkControls.minAge.value),
-                        'maxAge': Number(this.bulkControls.maxAge.value),
-                        'city' : this.bulkControls.city.value,
-                        'province': this.bulkControls.province.value,
-                        'country' : this.bulkControls.country.value
-                    },
-                    'timeSpan': timeSpan
-                };
-
-                console.log('subscription', subscription);
-
-                this.subscriptionService
-                    .createSubscription(subscription)
-                    .subscribe(
-                        data => {
-                            // display data
-                            console.log('subscription data', data);
-
-                        },
-                        error => {
-                            console.log('subscription error ', error);
-                        }
-                    );
-            }
         }
     }
 

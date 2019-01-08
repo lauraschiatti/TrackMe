@@ -13,9 +13,11 @@
     <li class="active">
       <a routerLink="/dashboard">Dashboard</a>
     </li>
-    <li>
-      <a routerLink="/requests">Requests</a>
-    </li>
+    <div *ngIf="role === 'INDIVIDUAL'">
+      <li>
+        <a routerLink="/requests">Requests</a>
+      </li>
+    </div>
     <div *ngIf="role === 'THIRD_PARTY'">
       <li>
         <a href="javascript:void(0)">Subscriptions</a>

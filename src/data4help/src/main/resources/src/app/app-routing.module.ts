@@ -7,6 +7,7 @@ import { Data4helpComponent } from './data4help/data4help.component';
 import { AutomatedSOSComponent } from './automated-sos/automated-sos.component';
 import { Track4runComponent } from './track4run/track4run.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { RequestComponent } from './request/request.component';
 
 const routes: Routes = [
   { path : '', component : HomeComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'automatedsos', component: AutomatedSOSComponent },
   { path: 'track4run', component: Track4runComponent },
   { path: 'dashboard', component: DashboardComponent},
+  { path: 'requests', component: RequestComponent},
   // otherwise redirect to home
   { path: '**', redirectTo: '' }
 ];

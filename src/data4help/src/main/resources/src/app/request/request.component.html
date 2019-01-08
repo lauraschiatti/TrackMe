@@ -1,0 +1,140 @@
+<div id="wrapper">
+    <!-- Sidebar -->
+
+    <app-sidebar></app-sidebar>
+
+    <div id="content-wrapper" class="container">
+        <div class="container-fluid">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link font-weight-bold" routerLink="/"><i class="unit-3-icon icon fl-bigmug-line-rewind37"></i>&nbsp; Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link font-weight-bold" routerLink="/data4help"><i class="unit-3-icon icon fl-bigmug-line-like51"></i>&nbsp; Data4Help</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <br>
+
+            <div class="row">
+                <div class="col-xl-4 col-sm-6 mb-3">
+                    <div class="card text-white bg-secondary o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="unit-3-icon icon fl-bigmug-line-nine16"></i>
+                            </div>
+                            <div class="mr-5">12 Pending requests!</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="#">
+                            <!--<span class="float-left">View Details</span>-->
+                            <!--<span class="float-right">-->
+                            <!--<span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>-->
+                            <!--</span>-->
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-sm-6 mb-3">
+                    <div class="card text-white bg-info o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="unit-3-icon icon fl-bigmug-line-checkmark14"></i>
+                            </div>
+                            <div class="mr-5">5 Accepted requests!</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="#">
+                            <!--<span class="float-left">View Details</span>-->
+                            <!--<span class="float-right">-->
+                            <!--<span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>-->
+                            <!--</span>-->
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-sm-6 mb-3">
+                    <div class="card text-white bg-danger o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="unit-3-icon icon fl-bigmug-line-cross81"></i>
+                            </div>
+                            <div class="mr-5">5 Rejected requests!</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="#">
+                            <!--<span class="float-left">View Details</span>-->
+                            <!--<span class="float-right">-->
+                            <!--<span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>-->
+                            <!--</span>-->
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <br>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <span class="font-weight-bold"> <i class="unit-3-icon icon fl-bigmug-line-note35"></i> &nbsp; Manage requests </span>
+                </div>
+                <div class="card-body">
+                    <input class="form-control" id="filterRequests" type="text" placeholder="Search...">
+                    <br>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-light" id="requestsTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Company name</th>
+                                <th>Status</th>
+                                <th>Accept/Reject</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <div *ngIf="!requests; else requestsTable">
+                                <tr>
+                                    <td>NO</td>
+                                    <td>SUBSCRIPTIONS</td>
+                                    <td>AVAILABLE</td>
+                                </tr>
+                            </div>
+
+                            <ng-template #requestsTable>
+                                <tr *ngFor="let request of requests">
+                                    <!--<form [formGroup]="updateStatusForm" (ngSubmit)="onSubmitUpdateStatus()">-->
+                                        <td>{{ request['thirdParty']['name'] }}</td>
+                                        <td>{{ request['status'] }}</td>
+                                        <td>
+                                            <select class="form-control"> <!-- formControlName="status"> -->
+                                                <option value="" disabled> Update status ... </option>
+                                                <option value="Accept">Accept</option>
+                                                <option value="Reject">Reject</option>
+                                                <!--<option *ngFor="let g of Gender" [ngValue]="g">{{ g }}</option>-->
+                                            </select>
+                                        </td>
+                                        <td><input type="submit" class="btn btn-primary py-2 px-4 rounded-0"></td>
+                                    <!--</form>-->
+                                </tr>
+                            </ng-template>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+
+    <!-- /.content-wrapper -->
+</div>
