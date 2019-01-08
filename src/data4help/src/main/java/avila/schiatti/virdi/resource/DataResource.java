@@ -9,6 +9,7 @@ import xyz.morphia.query.Query;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class DataResource extends Resource<Data> {
 
@@ -50,7 +51,7 @@ public class DataResource extends Resource<Data> {
     public Collection<Data> getByIndividualList(Collection<Individual> individuals, Map<String, Boolean> projections){
         Query<Data> query = datastore.find(Data.class)
                 .field("individual")
-                .in(individuals);
+                .hasAnyOf(individuals);
 
         if(projections != null){
             projections.forEach(query::project);

@@ -39,7 +39,7 @@ public class IndividualMigration {
         i.getAddress().setCity(city);
         i.setGender(gender);
         i.setBloodType(bloodType);
-        i.setPassword(password);
+        i.setPassword(AuthenticationManager.hashPassword(password));
         i.setEmail(email);
         return i;
     }

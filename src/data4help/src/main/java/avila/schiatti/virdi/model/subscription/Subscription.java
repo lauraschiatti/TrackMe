@@ -50,6 +50,7 @@ public class Subscription {
 
     public void setTimeSpan(Integer timeSpan) {
         this.timeSpan = (timeSpan == null || timeSpan < 6 ? 6 : timeSpan);
+        calculateNetxtExecution();
     }
 
     public LocalDateTime getNextExecution() {

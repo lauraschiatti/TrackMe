@@ -3,6 +3,8 @@ package avila.schiatti.virdi.service;
 import avila.schiatti.virdi.Data4HelpApp;
 import avila.schiatti.virdi.exception.TrackMeError;
 import avila.schiatti.virdi.exception.TrackMeException;
+import avila.schiatti.virdi.model.data.BloodType;
+import avila.schiatti.virdi.model.data.Gender;
 import avila.schiatti.virdi.model.subscription.D4HQuery;
 import avila.schiatti.virdi.model.subscription.Subscription;
 import avila.schiatti.virdi.model.user.D4HUser;
@@ -16,6 +18,7 @@ import avila.schiatti.virdi.resource.UserResource;
 import avila.schiatti.virdi.service.request.SubscriptionRequest;
 import avila.schiatti.virdi.service.response.ResponseWrapper;
 import avila.schiatti.virdi.service.response.SubscriptionResponse;
+import avila.schiatti.virdi.utils.Validator;
 import spark.Request;
 import spark.Response;
 
@@ -76,7 +79,7 @@ public class SubscriptionService extends Service {
         Subscription subscription = new Subscription();
         subscription.setThirdParty(tp);
         subscription.setTimeSpan(body.getTimeSpan());
-        subscription.setFilter(body.getFilter());
+        subscription.setFilter(createFilter(body.getFilter()));
 
         if(subscription.getFilter().getIndividual() != null && subscription.getFilter().getIndividual().getSsn() != null){
             String ssn = subscription.getFilter()
@@ -101,6 +104,18 @@ public class SubscriptionService extends Service {
         response.setSubscriptionId(subscription.getId().toString());
 
         return new ResponseWrapper<>(response);
+    }
+
+    private D4HQuery createFilter(D4HQuery filter) {
+        D4HQuery query = new D4HQuery();
+        query.setCity(Validator.isNullOrEmpty(filter.getCity()) ? null : filter.getCity());
+        query.setCountry(Validator.isNullOrEmpty(filter.getCountry()) ? null : filter.getCountry());
+        query.setProvince(Validator.isNullOrEmpty(filter.getProvince()) ? null : filter.getProvince());
+        query.setMinAge(filter.getMinAge() <= 0 ? null : filter.getMinAge());
+        query.setMinAge(filter.getMaxAge() <= 0  || filter.getMaxAge() < filter.getMinAge() ? null : filter.getMaxAge());
+        query.setBloodType(filter.getBloodType());
+        query.setGender(filter.getGender());
+        return query;
     }
 
     private ResponseWrapper<String> removeSubscription(Request req, Response res){
@@ -148,6 +163,10 @@ public class SubscriptionService extends Service {
     }
 
     private Individual cloneIndividual(Individual individual) {
+        if(individual == null){
+            return null;
+        }
+
         Individual i = new Individual();
         i.setName(individual.getName());
         i.setSsn(individual.getSsn());

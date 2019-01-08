@@ -2,7 +2,7 @@ package avila.schiatti.virdi.exception;
 
 public enum TrackMeError {
     // BAD REQUEST 400
-    NOT_VALID_USER(40001, "The provided user id is not valid or null"),
+    NOT_VALID_USER(40001, "The provided user id or ssn is not valid or null"),
     NOT_VALID_SIGNUP_REQUEST(40002, "The provided fields for signup are not valid."),
     VALIDATION_ERROR(40002, "The following error has occurred: %s"),
     NOT_VALID_REQUEST_ID(40003, "The provided request id is not valid"),
