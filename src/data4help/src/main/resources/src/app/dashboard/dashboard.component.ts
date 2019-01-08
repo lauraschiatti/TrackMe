@@ -138,7 +138,6 @@ export class DashboardComponent implements OnInit {
 
             // Create subscription to data
             if (this.bulkControls.subscription.value) {
-                console.log('gender', this.bulkControls.gender.value);
                 const subscription = {
                     'filter': {
                         'gender' : this.bulkControls.gender.value,
@@ -151,6 +150,8 @@ export class DashboardComponent implements OnInit {
                     },
                     'timeSpan': this.bulkControls.timeSpan.value
                 };
+
+                console.log('subscription', subscription);
 
                 this.subscriptionService
                     .createSubscription(subscription)
@@ -168,4 +169,7 @@ export class DashboardComponent implements OnInit {
         }
     }
 
+    logout() {
+        this.authenticationService.logout();
+    }
 }

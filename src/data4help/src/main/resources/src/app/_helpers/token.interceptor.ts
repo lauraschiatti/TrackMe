@@ -19,6 +19,8 @@ export class TokenInterceptor implements HttpInterceptor {
 
         if (currentUser && currentUser.accessToken) {
 
+            // check if token is valid --> catch error
+
             request = request.clone({
                 headers: request.headers
                     .set('ACCESS-TOKEN', currentUser.accessToken)

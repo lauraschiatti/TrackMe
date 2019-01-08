@@ -19,4 +19,12 @@ export class RequestService {
         return this.http.patch(`${this.baseUrl}/web/requests`, null , requestId);
     }
 
+    createRequest() {
+
+    }
+
+    deleteRequest() {
+
+    }
+
 }

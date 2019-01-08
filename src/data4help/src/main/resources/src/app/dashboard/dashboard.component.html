@@ -5,8 +5,14 @@
     <div class="sidebar-header"></div>
 
     <ul class="list-unstyled components">
+      <a class="navbar-brand" routerLink="/" id="sidebar-brand">
+        <img src="assets/images/icon-white.png" width="35" height="35" class="d-inline-block align-top" alt="icon" style="margin-right: 0.7em;">
+        <span style="color: #fff;">TrackMe</span>
+      </a>
+      <br>
+
       <p><i class="unit-3-icon icon fl-bigmug-line-menu40"></i>&nbsp; General</p>
-      <div class="sidebar-line"></div>
+      <hr>
       <li>
         <a routerLink="/dashboard">Dashboard</a>
       </li>
@@ -18,40 +24,40 @@
           <a href="javascript:void(0)">Subscriptions</a>
         </li>
       </div>
-
+      <br>
 
       <p><i class="unit-3-icon icon fl-bigmug-line-gear30"></i>&nbsp; Settings</p>
-      <div class="sidebar-line"></div>
+      <hr>
       <li>
         <a href="javascript:void(0)">Profile</a>
       </li>
+
+      <div class="list-unstyled CTAs">
+        <li><button type="button" class="btn btn-light btn-block" (click)="logout()"><i class="unit-3-icon icon fl-bigmug-line-login12"></i>&nbsp; Logout</button></li>
+      </div>
     </ul>
   </nav>
 
   <div id="content-wrapper" class="container">
     <div class="container-fluid">
 
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-4">
-            <a href="#" data-target="#sidebar" data-toggle="collapse"><i class="unit-3-icon icon fl-bigmug-line-men25"></i></a>
-          </div>
-          <div class="col-sm-8">
-            <div *ngIf="user">
-              <p class="text-right font-weight-bold"><i class="unit-3-icon icon fl-bigmug-line-user144"></i>&nbsp; Welcome, {{ user.name }}!</p>
-            </div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link font-weight-bold" routerLink="/"><i class="unit-3-icon icon fl-bigmug-line-rewind37"></i>&nbsp; Home</a>
+              </li>
+              <li class="nav-item">
+              <a class="nav-link font-weight-bold" routerLink="/data4help"><i class="unit-3-icon icon fl-bigmug-line-like51"></i>&nbsp; Data4Help</a>
+            </li>
+            </ul>
           </div>
         </div>
-      </div>
+      </nav>
 
       <br>
-
-      <!--<ol class="breadcrumb">-->
-        <!--<li class="breadcrumb-item">-->
-        <!--<a href="#">Dashboard</a>-->
-        <!--</li>-->
-        <!--<li class="breadcrumb-item active">Overview</li>-->
-      <!--</ol>-->
 
       <!---------------------------------------- THIRD PARTY ------------------------------------------------>
 
@@ -219,7 +225,7 @@
                           <div class="form-row">
                             <label class="col-sm-4 col-form-label">Get updates every</label>
                             <div class="col-sm-3">
-                              <input type="number" formControlName="timeSpan" class="form-control" min="0" max="24"/>
+                              <input type="number" formControlName="timeSpan" class="form-control" min="6" max="24" value="6"/>
                             </div>
                             <div class="col-sm-5">
                               <label class="col-sm-6 col-form-label">minutes</label>

@@ -59,7 +59,7 @@ export class AuthenticationService {
                 'userId' : currentUser['userId'],
                 'accessToken': currentUser['accessToken']
             };
-            // this.http.post(`${this.baseUrl}/web/logout`, user);
+            this.http.post(`${this.baseUrl}/web/logout`, user);
 
             localStorage.removeItem('currentUser');
             this.currentUserSubject.next(null);
