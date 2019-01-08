@@ -16,6 +16,7 @@ import { Track4runComponent } from './track4run/track4run.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TokenInterceptor, ErrorInterceptor } from './_helpers';
 import { RequestComponent } from './request/request.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { RequestComponent } from './request/request.component';
     AutomatedSOSComponent,
     Track4runComponent,
     DashboardComponent,
-    RequestComponent
+    RequestComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
