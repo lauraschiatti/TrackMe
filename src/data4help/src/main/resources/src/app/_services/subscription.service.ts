@@ -11,8 +11,8 @@ export class SubscriptionService {
 
     constructor(private http: HttpClient) { }
 
-    createSubscription() {
-        // return this.http.get(`${this.baseUrl}/web/request`, ssn);
+    createSubscription(subscription) {
+        return this.http.post(`${this.baseUrl}/web/subscriptions/`, subscription);
     }
 
     getAllSubscriptions() {

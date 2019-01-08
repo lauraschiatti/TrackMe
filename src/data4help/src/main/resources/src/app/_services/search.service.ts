@@ -8,30 +8,29 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 export class SearchService {
 
     private baseUrl = environment.baseUrl;
+    private httpParams;
 
     constructor(private http: HttpClient) { }
 
     search(ssn?, params?) {
 
         if (ssn) {
-            let httpParams = new HttpParams().set('ssn', '1');
-
-            return this.http.get(`${this.baseUrl}/web/search`, { params: httpParams });
+            this.httpParams = new HttpParams().set('ssn', ssn);
         }
 
-        if (params) {}
+        if (params) {
+            this.httpParams =
+                new HttpParams()
+                    .set('gender', params.gender)
+                    .set('bloodType', params.bloodType)
+                    .set('minAge', params.minAge)
+                    .set('maxAge', params.maxAge)
+                    .set('city', params.city)
+                    .set('province', params.province)
+                    .set('country', params.country);
+        }
 
-        // Bulk data
-        // {
-        //  "country" : "12121212",
-        // 	"province": "asdasd",
-        // 	"city" : "12121212",
-        // 	"gender" : "12121212",
-        // 	"minAge": 21,
-        // 	"maxAge": 22,
-        // 	"bloodType": "A_POSITIVE"
-        // }
-
+        return this.http.get(`${this.baseUrl}/web/search`, { params: this.httpParams });
     }
 
 }
