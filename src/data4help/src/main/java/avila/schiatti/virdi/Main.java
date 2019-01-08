@@ -2,6 +2,7 @@ package avila.schiatti.virdi;
 
 import avila.schiatti.virdi.configuration.StaticConfiguration;
 import avila.schiatti.virdi.jobs.DataScheduler;
+import avila.schiatti.virdi.jobs.MigratorJob;
 import avila.schiatti.virdi.service.*;
 
 public class Main {
@@ -21,6 +22,7 @@ public class Main {
                 .registerService(DataService.create())
                 .setAuthHandlers()
                 .registerJob(DataScheduler.create())
+                .registerJob(MigratorJob.create())
                 .init();
     }
 }
