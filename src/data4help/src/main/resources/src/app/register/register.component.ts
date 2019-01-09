@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+
 import { AuthenticationService } from '../_services';
 import { BloodType, Gender } from '../_models';
+
+import { Address } from '../address-interface/address-interface';
+// import address from '../assets/data/addresses.json';
 
 @Component({
   selector: 'app-register',
@@ -14,8 +18,10 @@ export class RegisterComponent implements OnInit {
     iFormSubmitted = false;
     tpFormSubmitted = false;
     error = '';
+
     bloodTypes = BloodType.values();
     Gender = Gender.values();
+    // addressList: Address[] = address.addresses;
 
     constructor(
         private iFormBuilder: FormBuilder,

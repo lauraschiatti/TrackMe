@@ -260,28 +260,6 @@ jQuery(document).ready(function($) {
 
 	/*************************** *************************** **************************** *****************************/
 
-    /*** Data4Help addresses dropdown ***/
-
-    let dropdown = $('#address-dropdown');
-
-    dropdown.empty();
-    dropdown.append('<option selected="true" disabled>Choose City/Province/Country</option>');
-    dropdown.prop('selectedIndex', 0);
-
-    const url = 'https://api.myjson.com/bins/7xq2x';
-
-    // Populate dropdown with list of cities/provinces
-    $.getJSON("assets/data/addresses.json")
-        .success(function(data) {
-            // alert(JSON.stringify(data));
-            $.each(data, function(key, entry){
-                dropdown.append($('<option></option>').attr('value', entry.city+","+entry.province+","+entry.country).text(entry.city+", "+entry.province+", "+entry.country));
-            });
-        })
-        .error(function(error){
-            console.log("error: " + error.statusText);
-        });
-
     /*** Dashboard: search on requests ***/
 
     $("#filterRequests").on("keyup", function() {

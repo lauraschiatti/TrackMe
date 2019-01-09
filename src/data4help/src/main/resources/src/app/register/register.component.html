@@ -81,7 +81,7 @@
             <div class="col-md-12">
               <label class="font-weight-bold">Blood type</label>
               <select class="form-control" formControlName="bloodType" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.bloodType.errors }">
-                <option value="" disabled>Choose a blood type</option>
+                <option value="" disabled>Choose your blood type</option>
                 <option *ngFor="let bt of bloodTypes" [ngValue]="bt">{{ bt }}</option>
               </select>
               <div *ngIf="iFormSubmitted && iControls.bloodType.errors" class="invalid-feedback">
@@ -93,7 +93,11 @@
           <div class="row form-group">
             <div class="col-md-12">
               <label class="font-weight-bold" for="address-dropdown">Address</label>
-              <select id="address-dropdown" formControlName="address" class="form-control rounded-0" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.address.errors }"></select>
+              <select id="address-dropdown" formControlName="address" class="form-control rounded-0" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.address.errors }">
+                <option value="" disabled>Choose your city, province, country</option>
+                <!--<app-address-interface *ngFor="let address of addressList" [address]="address"></app-address-interface>-->
+                <option value="Milan, Province of Milan, Italy">Milan, Province of Milan, Italy</option>
+              </select>
               <div *ngIf="iFormSubmitted && iControls.address.errors" class="invalid-feedback">
                 <div *ngIf="iControls.address.errors.required">It is required to select an address</div>
               </div>
