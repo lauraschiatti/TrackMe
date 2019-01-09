@@ -1,0 +1,86 @@
+/* ---------------------------------------------------
+    SIDEBAR
+----------------------------------------------------- */
+
+#sidebar {
+    min-width: 280px;
+    max-width: 250px;
+    background: #7cbd1e;
+    color: #fff;
+    transition: all 0.3s;
+    height: 100%;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    margin: 0;
+    background: #7cbd1e;
+}
+
+#sidebar hr {
+    /*padding: 20px 0;*/
+    border-bottom: 1px solid #fff;
+}
+
+#sidebar ul p {
+    color: #fff;
+    font-size: 1.2em;
+    padding: 10px 10px 2px 8px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+    color: #fff;
+}
+
+#sidebar ul li a:hover {
+    color: #7cbd1e;
+    background: #fff;
+}
+
+#sidebar-brand {
+    padding: 0 15px 40px;
+}
+
+#sidebar ul li.active>a,
+a[aria-expanded="true"] {
+    color: #fff;
+    background: #72ae1c;
+}
+
+div.CTAs {
+    padding: 20px;
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+}

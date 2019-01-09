@@ -13,12 +13,14 @@
     <li class="active">
       <a routerLink="/dashboard">Dashboard</a>
     </li>
-    <li>
-      <a routerLink="/requests">Requests</a>
-    </li>
+    <div *ngIf="role === 'INDIVIDUAL'">
+      <li>
+        <a routerLink="/requests">Requests</a>
+      </li>
+    </div>
     <div *ngIf="role === 'THIRD_PARTY'">
       <li>
-        <a href="javascript:void(0)">Subscriptions</a>
+        <a routerLink="/search">Search</a>
       </li>
     </div>
     <br>
@@ -26,7 +28,7 @@
     <p><i class="unit-3-icon icon fl-bigmug-line-gear30"></i>&nbsp; Settings</p>
     <hr>
     <li>
-      <a href="javascript:void(0)">Profile</a>
+      <a routerLink="/profile">Profile</a>
     </li>
 
     <br>

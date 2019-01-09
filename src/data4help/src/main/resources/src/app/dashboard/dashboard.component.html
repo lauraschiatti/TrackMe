@@ -64,179 +64,6 @@
           </div>
         </div>
 
-        <hr>
-        <br>
-
-        <div class="card mb-3">
-          <div class="card-header">
-            <span class="font-weight-bold"> <i class="unit-3-icon icon fl-bigmug-line-search74"></i> Make new search</span>
-          </div>
-
-          <div class="card-body">
-            <div class="row">
-              <div class="col-3">
-                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                  <a class="nav-link active" id="v-pills-individual-tab" data-toggle="pill" href="#v-pills-individual" role="tab" aria-controls="v-pills-individual" aria-selected="true">Individual data</a>
-                  <a class="nav-link" id="v-pills-bulk-tab" data-toggle="pill" href="#v-pills-bulk" role="tab" aria-controls="v-pills-bulk" aria-selected="false">Bulk data</a>
-                </div>
-              </div>
-
-              <div class="col-9">
-                <div class="tab-content" id="v-pills-tabContent">
-                  <div class="tab-pane fade show active" id="v-pills-individual" role="tabpanel" aria-labelledby="v-pills-individual-tab">
-
-                    <div *ngIf="error"  class="alert alert-danger" >
-                      {{ error }}
-                      <br>
-                    </div>
-
-                    <form class="form-inline" [formGroup]="iForm" (ngSubmit)="onSubmitIndividualSearch()">
-                      <div class="form-group">
-                        <label class="font-weight-bold" for="ssn">SSN</label>
-                        <input type="text" id="ssn" formControlName="ssn" class="form-control mx-sm-3" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.ssn.errors }" />
-                        <button type="submit" class="btn btn-primary">Search</button>
-                        <div *ngIf="iFormSubmitted && iControls.ssn.errors" class="invalid-feedback">
-                          <div *ngIf="iControls.ssn.errors.required">SSN is required</div>
-                        </div>
-                      </div>
-                    </form>
-
-                    <hr>
-
-                    <div *ngIf="showSendRequest" class="col-sm-12">
-                      <div class="alert alert-info">
-                        <span class="unit-3-icon icon fl-bigmug-line-chat51"></span> <strong> &nbsp; Info Message</strong>
-                        <hr class="message-inner-separator">
-                        <div class="row">
-                          <div class="col-md-10">
-                            <p> Do you want to send a request to this individual?</p>
-                          </div>
-                          <div class="col-md-2">
-                            <button (click)="onSendRequest()" class="btn btn-default"><i class="unit-3-icon icon fl-bigmug-line-checkmark14"></i></button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div *ngIf="showRequestInfo" class="col-sm-12">
-                      <div class="alert alert-success">
-                        <span class="unit-3-icon icon fl-bigmug-line-checkmark14"></span> <strong> &nbsp; Request sent!</strong>
-                        <hr class="message-inner-separator">
-
-                        <p><span class="font-weight-bold">Status: </span> {{ request['status'] }}</p>
-
-                        <p> You will be notified whether it was <span class="font-weight-bold">approved</span> or <span class="font-weight-bold">rejected</span> by the intended individual. </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="tab-pane fade" id="v-pills-bulk" role="tabpanel" aria-labelledby="v-pills-bulk-tab">
-
-                    <div *ngIf="errorBulk"  class="alert alert-danger" >
-                      {{ errorBulk }}
-                      <br>
-                    </div>
-
-                    <p class="font-weight-bold">Filtering criteria</p>
-                    <hr>
-
-                    <form [formGroup]="bulkForm" (ngSubmit)="onSubmitBulkSearch()">
-                      <div class="form-row">
-                        <div class="form-group col-md-4">
-                          <label class="font-weight-bold">Gender</label>
-                          <select class="form-control" formControlName="gender">
-                            <option value="" disabled>Choose a gender</option>
-                            <option *ngFor="let g of Gender" [ngValue]="g">{{ g }}</option>
-                          </select>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                          <label class="font-weight-bold">Blood Type</label>
-                          <select class="form-control" formControlName="bloodType">
-                            <option value="" disabled>Choose a blood type</option>
-                            <option *ngFor="let bt of bloodTypes" [ngValue]="bt">{{ bt }}</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <p class="font-weight-bold">** Age range **</p>
-
-                      <div class="form-row">
-                        <div class="form-group col-md-4">
-                          <label class="font-weight-bold">From</label>
-                          <input type="number" id="minAge" formControlName="minAge" class="form-control" min="0" placeholder="years"/>
-                        </div>
-                        <div class="form-group col-md-4">
-                          <label class="font-weight-bold">To</label>
-                          <input type="number" id="maxAge" formControlName="maxAge" class="form-control" min="0" placeholder="years"/>
-                        </div>
-                      </div>
-
-                      <p class="font-weight-bold"> ** Demographic filtering **</p>
-
-                      <div class="form-row">
-                        <div class="form-group col-md-4">
-                          <label class="font-weight-bold">City</label>
-                          <select class="form-control" formControlName="city">
-                            <option value="" disabled>Choose a city</option>
-                            <option value="Milan"> Milan</option>
-                          </select>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                          <label class="font-weight-bold">Province</label>
-                          <select class="form-control" formControlName="province">
-                            <option value="" disabled>Choose a province</option>
-                            <option value="Province of Milan">Province of Milan</option>
-                          </select>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                          <label class="font-weight-bold">Country</label>
-                          <select class="form-control" formControlName="country">
-                            <option value="" disabled>Choose a country</option>
-                            <option value="Italy"> Italy </option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <br>
-
-                      <p class="font-weight-bold"> Data subscription</p>
-                      <hr>
-
-                      <div class="form-row">
-                        <div class="form-group col-md-4">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="subscription" formControlName="subscription">
-                            <label class="form-check-label" for="subscription">Subscribe</label>
-                          </div>
-                        </div>
-
-                        <div class="form-group col-md-8">
-                          <div class="form-row">
-                            <label class="col-sm-4 col-form-label">Get updates every</label>
-                            <div class="col-sm-3">
-                              <input type="number" formControlName="timeSpan" class="form-control" min="6" placeholder="6"/>
-                            </div>
-                            <div class="col-sm-5">
-                              <label class="col-sm-6 col-form-label">minutes</label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <button type="submit" class="btn btn-primary">Filter</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
-
-          </div>
-
-        </div>
       </div>
 
       <!---------------------------------------- INDIVIDUAL ------------------------------------------------>
@@ -249,14 +76,11 @@
                 <div class="card-body-icon">
                   <i class="unit-3-icon icon fl-bigmug-line-nine16"></i>
                 </div>
-                <div class="mr-5">12 Pending requests!</div>
+                <div *ngIf="user">
+                  <div class="mr-5">{{ user['pendingRequests']}} Pending requests !</div>
+                </div>
               </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <!--<span class="float-left">View Details</span>-->
-                <!--<span class="float-right">-->
-                <!--<span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>-->
-                <!--</span>-->
-              </a>
+              <a class="card-footer text-white clearfix small z-1" href="#"></a>
             </div>
           </div>
 
@@ -266,14 +90,11 @@
                 <div class="card-body-icon">
                   <i class="unit-3-icon icon fl-bigmug-line-checkmark14"></i>
                 </div>
-                <div class="mr-5">5 Accepted requests!</div>
+                <div *ngIf="user">
+                  <div class="mr-5">{{ user['approvedRequests']}} Approved requests !</div>
+                </div>
               </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <!--<span class="float-left">View Details</span>-->
-                <!--<span class="float-right">-->
-                <!--<span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>-->
-                <!--</span>-->
-              </a>
+              <a class="card-footer text-white clearfix small z-1" href="#"></a>
             </div>
           </div>
 
@@ -283,102 +104,98 @@
                 <div class="card-body-icon">
                   <i class="unit-3-icon icon fl-bigmug-line-cross81"></i>
                 </div>
-                <div class="mr-5">5 Rejected requests!</div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <!--<span class="float-left">View Details</span>-->
-                <!--<span class="float-right">-->
-                <!--<span class="unit-3-icon icon fl-bigmug-line-zoom60"></span>-->
-                <!--</span>-->
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <hr>
-        <br>
-
-        <div class="card mb-3">
-          <div class="card-header">
-            <span class="font-weight-bold"> <i class="unit-3-icon icon fl-bigmug-line-megaphone11"></i> Subscribed third parties</span>
-          </div>
-          <div class="card-body">
-            <input class="form-control" id="filterRequests" type="text" placeholder="Search...">
-            <br>
-
-            <div class="table-responsive">
-              <table class="table table-hover table-light" id="requestsTable" width="100%" cellspacing="0">
-                <thead>
-                <tr class="table-success">
-                  <th>#</th>
-                  <th>Date</th>
-                  <th>Company name</th>
-                  <th>Status</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <div *ngIf="noSubscriptions; else subscriptionsTable">
-                  <tr>
-                    <td>NO</td>
-                    <td>SUBSCRIPTIONS</td>
-                    <td>AVAILABLE</td>
-                    <td>--</td>
-                  </tr>
+                <div *ngIf="user">
+                  <div class="mr-5">{{ user['rejectedRequests']}} Rejected requests !</div>
                 </div>
-
-                <ng-template #subscriptionsTable>
-                  <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                  </tr>
-                  <tr>
-                    <td>Garrett Winters</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>63</td>
-                  </tr>
-                  <tr>
-                    <td>Ashton Cox</td>
-                    <td>Junior Technical Author</td>
-                    <td>San Francisco</td>
-                    <td>66</td>
-                  </tr>
-                  <tr>
-                    <td>Cedric Kelly</td>
-                    <td>Senior Javascript Developer</td>
-                    <td>Edinburgh</td>
-                    <td>22</td>
-                  </tr>
-                  <tr>
-                    <td>Airi Satou</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>33</td>
-                  </tr>
-                  <tr>
-                    <td>Brielle Williamson</td>
-                    <td>Integration Specialist</td>
-                    <td>New York</td>
-                    <td>61</td>
-                  </tr>
-                  <tr>
-                    <td>Charde Marshall</td>
-                    <td>Regional Director</td>
-                    <td>San Francisco</td>
-                    <td>36</td>
-                  </tr>
-                </ng-template>
-
-                </tbody>
-              </table>
+              </div>
+              <a class="card-footer text-white clearfix small z-1" href="#"></a>
             </div>
           </div>
         </div>
 
       </ng-template>
+
+
+      <!---------------------------------------- BOTH ------------------------------------------------>
+      <div class="card mb-3">
+        <div class="card-header">
+          <span class="font-weight-bold"> <i class="unit-3-icon icon fl-bigmug-line-notification4"></i> &nbsp; Subscriptions</span>
+        </div>
+        <div class="card-body">
+          <input class="form-control" id="filterRequests" type="text" placeholder="Search...">
+          <br>
+
+          <div class="table-responsive">
+            <table class="table table-hover table-light" id="requestsTable" width="100%" cellspacing="0">
+              <thead>
+              <tr class="table-success">
+                <th>#</th>
+                <th>Date</th>
+                <th>Company name</th>
+                <th>Status</th>
+              </tr>
+              </thead>
+              <tbody>
+
+              <div *ngIf="noSubscriptions; else subscriptionsTable">
+                <tr>
+                  <td>NO</td>
+                  <td>SUBSCRIPTIONS</td>
+                  <td>AVAILABLE</td>
+                  <td>--</td>
+                </tr>
+              </div>
+
+              <ng-template #subscriptionsTable>
+                <tr>
+                  <td>Tiger Nixon</td>
+                  <td>System Architect</td>
+                  <td>Edinburgh</td>
+                  <td>61</td>
+                </tr>
+                <tr>
+                  <td>Garrett Winters</td>
+                  <td>Accountant</td>
+                  <td>Tokyo</td>
+                  <td>63</td>
+                </tr>
+                <tr>
+                  <td>Ashton Cox</td>
+                  <td>Junior Technical Author</td>
+                  <td>San Francisco</td>
+                  <td>66</td>
+                </tr>
+                <tr>
+                  <td>Cedric Kelly</td>
+                  <td>Senior Javascript Developer</td>
+                  <td>Edinburgh</td>
+                  <td>22</td>
+                </tr>
+                <tr>
+                  <td>Airi Satou</td>
+                  <td>Accountant</td>
+                  <td>Tokyo</td>
+                  <td>33</td>
+                </tr>
+                <tr>
+                  <td>Brielle Williamson</td>
+                  <td>Integration Specialist</td>
+                  <td>New York</td>
+                  <td>61</td>
+                </tr>
+                <tr>
+                  <td>Charde Marshall</td>
+                  <td>Regional Director</td>
+                  <td>San Francisco</td>
+                  <td>36</td>
+                </tr>
+              </ng-template>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
     </div>
     <!-- /.container-fluid -->

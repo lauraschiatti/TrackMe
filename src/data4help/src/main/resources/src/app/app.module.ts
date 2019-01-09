@@ -15,6 +15,9 @@ import { AutomatedSOSComponent } from './automated-sos/automated-sos.component';
 import { Track4runComponent } from './track4run/track4run.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TokenInterceptor, ErrorInterceptor } from './_helpers';
+import { RequestComponent } from './request/request.component';
+import { ProfileComponent } from './profile/profile.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { TokenInterceptor, ErrorInterceptor } from './_helpers';
     Data4helpComponent,
     AutomatedSOSComponent,
     Track4runComponent,
-    DashboardComponent
+    DashboardComponent,
+    RequestComponent,
+    ProfileComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
