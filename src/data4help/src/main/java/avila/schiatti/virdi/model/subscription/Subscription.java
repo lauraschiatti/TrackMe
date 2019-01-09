@@ -37,6 +37,9 @@ public class Subscription {
     }
 
     public D4HQuery getFilter() {
+        if(filter == null){
+            filter = new D4HQuery();
+        }
         return filter;
     }
 
