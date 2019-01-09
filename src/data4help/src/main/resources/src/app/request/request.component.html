@@ -91,34 +91,22 @@
                             </tr>
                             </thead>
                             <tbody>
-
-                            <div *ngIf="!requests; else requestsTable">
-                                <tr>
-                                    <td>NO</td>
-                                    <td>SUBSCRIPTIONS</td>
-                                    <td>AVAILABLE</td>
-                                </tr>
-                            </div>
-
-                            <ng-template #requestsTable>
                                 <tr *ngFor="let request of requests;  let i=index">
                                     <!--<form [formGroup]="updateStatusForm" (ngSubmit)="onSubmitUpdateStatus()">-->
-                                        <td>{{ i+1 }}</td>
-                                        <td>{{ request['thirdParty']['name'] }}</td>
-                                        <td>{{ request['status'] }}</td>
-                                        <td>
-                                            <select class="form-control"> <!-- formControlName="status"> -->
-                                                <option value="" disabled> Update status ... </option>
-                                                <option value="Approve">Approve</option>
-                                                <option value="Reject">Reject</option>
-                                                <!--<option *ngFor="let g of Gender" [ngValue]="g">{{ g }}</option>-->
-                                            </select>
-                                        </td>
-                                        <td><input type="submit" class="btn btn-primary py-2 px-4 rounded-0"></td>
+                                    <td>{{ i+1 }}</td>
+                                    <td>{{ request['thirdParty']['name'] }}</td>
+                                    <td>{{ request['status'] }}</td>
+                                    <td>
+                                        <select class="form-control"> <!-- formControlName="status"> -->
+                                            <option value="" disabled> Update status ... </option>
+                                            <option value="Approve">Approve</option>
+                                            <option value="Reject">Reject</option>
+                                            <!--<option *ngFor="let g of Gender" [ngValue]="g">{{ g }}</option>-->
+                                        </select>
+                                    </td>
+                                    <td><input type="submit" class="btn btn-primary py-2 px-4 rounded-0"></td>
                                     <!--</form>-->
                                 </tr>
-                            </ng-template>
-
                             </tbody>
                         </table>
                     </div>

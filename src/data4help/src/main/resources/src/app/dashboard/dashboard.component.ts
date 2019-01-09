@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
 import { UserService, AuthenticationService, SubscriptionService } from '../_services';
-import { Filter } from '../_models';
-
 
 @Component({
     selector: 'app-dashboard',
@@ -14,8 +11,6 @@ export class DashboardComponent implements OnInit {
     subscriptions = '';
     role = '';
     error = '';
-
-    filter = Filter.values();
 
     constructor(
         private authenticationService: AuthenticationService,
