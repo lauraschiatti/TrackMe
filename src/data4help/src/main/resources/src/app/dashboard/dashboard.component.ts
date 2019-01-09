@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UserService, AuthenticationService, SubscriptionService } from '../_services';
+import { Filter } from '../_models';
 
 
 @Component({
@@ -12,10 +13,9 @@ export class DashboardComponent implements OnInit {
     user = '';
     subscriptions = '';
     role = '';
-
     error = '';
 
-    noSubscriptions = false;
+    filter = Filter.values();
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -41,18 +41,12 @@ export class DashboardComponent implements OnInit {
             .getAllSubscriptions()
             .subscribe(
                 data => {
-                    console.log('data getAllSubscriptions', data);
-                    if (data['data'].length > 0) {
                         this.subscriptions = data['data'];
                         console.log('subscriptions', this.subscriptions);
-                    } else {
-                        this.noSubscriptions = true;
-                        // console.log ('noSubscriptions', this.noSubscriptions);
-                    }
-                },
-                error => {
-                    console.log('error getAllSubscriptions', error);
-                });
+                    },
+                    error => {
+                        console.log('get all subscriptions error', error);
+                    });
 
     }
 }

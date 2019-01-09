@@ -126,68 +126,29 @@
           <br>
 
           <div class="table-responsive">
-            <table class="table table-hover table-light" id="requestsTable" width="100%" cellspacing="0">
+            <table class="table table-striped table-light" id="requestsTable" width="100%" cellspacing="0">
               <thead>
-              <tr class="table-success">
-                <th>#</th>
-                <th>Date</th>
-                <th>Company name</th>
-                <th>Status</th>
+              <tr>
+                <th>Id</th>
+                <th>Filtering criteria</th>
+                <th>Updates every</th>
               </tr>
               </thead>
               <tbody>
 
-              <div *ngIf="noSubscriptions; else subscriptionsTable">
+              <div *ngIf="!subscriptions; else subscriptionsTable">
                 <tr>
                   <td>NO</td>
                   <td>SUBSCRIPTIONS</td>
                   <td>AVAILABLE</td>
-                  <td>--</td>
                 </tr>
               </div>
 
               <ng-template #subscriptionsTable>
-                <tr>
-                  <td>Tiger Nixon</td>
-                  <td>System Architect</td>
-                  <td>Edinburgh</td>
-                  <td>61</td>
-                </tr>
-                <tr>
-                  <td>Garrett Winters</td>
-                  <td>Accountant</td>
-                  <td>Tokyo</td>
-                  <td>63</td>
-                </tr>
-                <tr>
-                  <td>Ashton Cox</td>
-                  <td>Junior Technical Author</td>
-                  <td>San Francisco</td>
-                  <td>66</td>
-                </tr>
-                <tr>
-                  <td>Cedric Kelly</td>
-                  <td>Senior Javascript Developer</td>
-                  <td>Edinburgh</td>
-                  <td>22</td>
-                </tr>
-                <tr>
-                  <td>Airi Satou</td>
-                  <td>Accountant</td>
-                  <td>Tokyo</td>
-                  <td>33</td>
-                </tr>
-                <tr>
-                  <td>Brielle Williamson</td>
-                  <td>Integration Specialist</td>
-                  <td>New York</td>
-                  <td>61</td>
-                </tr>
-                <tr>
-                  <td>Charde Marshall</td>
-                  <td>Regional Director</td>
-                  <td>San Francisco</td>
-                  <td>36</td>
+                <tr *ngFor="let subscription of subscriptions;  let i=index">
+                  <td>{{ i+1 }}</td>
+                  <td><code>{{ subscription['filter'] | json }}</code></td>
+                  <td>{{ subscription['timeSpan'] }} minutes</td>
                 </tr>
               </ng-template>
 
