@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, UserService } from '../_services';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -7,27 +9,79 @@ import { AuthenticationService, UserService } from '../_services';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  user = '';
-  role = '';
+    user = '';
+    role = '';
+    configForm: FormGroup;
 
-  constructor(
-      private userService: UserService,
-      private authenticationService: AuthenticationService
-  ) {
-      this.role = this.authenticationService.currentUserValue.role;
-  }
+    constructor(
+        private userService: UserService,
+        private authenticationService: AuthenticationService,
+        private formBuilder: FormBuilder,
+        private router: Router
+    ) {
+        this.role = this.authenticationService.currentUserValue.role;
+    }
 
-  ngOnInit() {
-      this.userService
-          .getCurrentUserInfo()
-          .subscribe(
-              data => {
-                  this.user = data['data'];
-                  // console.log('user', this.role);
-              },
-              error => {
-                  console.log('error', error);
-              });
-  }
+    ngOnInit() {
+        this.userService
+            .getCurrentUserInfo()
+            .subscribe(
+                data => {
+                    this.user = data['data'];
+                    // console.log('user', this.role);
+                },
+                error => {
+                    console.log('error', error);
+                });
+
+        this.configForm = this.formBuilder.group({
+            individualPushUrl: [''],
+            bulkPushUrl: [''],
+            notificationUrl: ['']
+        });
+
+    }
+
+    get f() { return this.configForm.controls; }
+
+    onSubmitConfig() {
+        if (this.configForm.invalid) {
+            return;
+        }
+
+        let individualPushUrl = this.user['config']['individualPushUrl'];
+        let bulkPushUrl = this.user['config']['bulkPushUrl'];
+        let notificationUrl = this.user['config']['notificationUrl'];
+
+        if (this.f.individualPushUrl.value !== '') {
+            individualPushUrl = this.f.individualPushUrl.value;
+        }
+
+        if (this.f.bulkPushUrl.value !== '') {
+            bulkPushUrl = this.f.bulkPushUrl.value;
+        }
+
+        if (this.f.notificationUrl.value !== '') {
+            notificationUrl = this.f.notificationUrl.value;
+        }
+
+        const config = {
+            'individualPushUrl': individualPushUrl,
+            'bulkPushUrl': bulkPushUrl,
+            'notificationUrl': notificationUrl
+        };
+
+        this.userService
+            .updateThirdPartyConfig(config)
+            .subscribe(
+                data => {
+                    location.reload(true);
+                    console.log('update config data', data['data']);
+                },
+                error => {
+                    console.log('update config error ', error);
+                }
+            );
+    }
 
 }

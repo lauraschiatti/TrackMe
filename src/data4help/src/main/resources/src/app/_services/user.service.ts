@@ -11,11 +11,9 @@ export class UserService {
 
     getCurrentUserInfo() {
         return this.http.get(`${this.baseUrl}/web/me/`);
-            // .pipe(map(individual => {
-            //     return individual;
-            // }));
     }
 
-    // patch /web/me/config
-
+    updateThirdPartyConfig(config) {
+        return this.http.patch(`${this.baseUrl}/web/me/config`, config);
+    }
 }
