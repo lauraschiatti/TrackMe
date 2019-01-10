@@ -19,7 +19,11 @@ export class TokenInterceptor implements HttpInterceptor {
 
         if (currentUser && currentUser.accessToken) {
 
-            // check if token is valid --> catch error
+            // check if token is valid check expiration of token before adding as heade
+            // --> catch error  200/403
+            // Check whether the token is expired and return
+            // true or false
+            // return !this.jwtHelper.isTokenExpired(token);
 
             request = request.clone({
                 headers: request.headers

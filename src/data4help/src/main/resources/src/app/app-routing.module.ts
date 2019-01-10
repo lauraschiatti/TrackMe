@@ -10,20 +10,23 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { RequestComponent } from './request/request.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SearchComponent } from './search/search.component';
+import { AuthGuard } from './_guards/auth.guard';
+
+import { Role } from './_models';
 
 const routes: Routes = [
-  { path : '', component : HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'data4help', component: Data4helpComponent },
-  { path: 'automatedsos', component: AutomatedSOSComponent },
-  { path: 'track4run', component: Track4runComponent },
-  { path: 'dashboard', component: DashboardComponent},
-  { path: 'search', component: SearchComponent},
-  { path: 'requests', component: RequestComponent},
-  { path: 'profile', component: ProfileComponent},
-  // otherwise redirect to home
-  { path: '**', redirectTo: '' }
+    { path : '', component : HomeComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
+    { path: 'data4help', component: Data4helpComponent },
+    { path: 'automatedsos', component: AutomatedSOSComponent },
+    { path: 'track4run', component: Track4runComponent },
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+    { path: 'search', component: SearchComponent, canActivate: [AuthGuard], data: { roles: [Role.ThirdParty]}},
+    { path: 'requests', component: RequestComponent, canActivate: [AuthGuard], data: { roles: [Role.Individual]}},
+    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+    // otherwise redirect to home
+    { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
