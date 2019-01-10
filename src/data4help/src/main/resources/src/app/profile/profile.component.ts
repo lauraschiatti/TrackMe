@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, UserService } from '../_services';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +16,6 @@ export class ProfileComponent implements OnInit {
         private userService: UserService,
         private authenticationService: AuthenticationService,
         private formBuilder: FormBuilder,
-        private router: Router
     ) {
         this.role = this.authenticationService.currentUserValue.role;
     }
