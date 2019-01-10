@@ -78,20 +78,16 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let request of requests;  let i=index">
-                                    <!--<form [formGroup]="updateStatusForm" (ngSubmit)="onSubmitUpdateStatus()">-->
                                     <td>{{ i+1 }}</td>
                                     <td>{{ request['thirdParty']['name'] }}</td>
                                     <td>{{ request['status'] }}</td>
                                     <td>
-                                        <select class="form-control"> <!-- formControlName="status"> -->
-                                            <option value="" disabled> Update status ... </option>
-                                            <option value="Approve">Approve</option>
-                                            <option value="Reject">Reject</option>
-                                            <!--<option *ngFor="let g of Gender" [ngValue]="g">{{ g }}</option>-->
+                                        <select class="form-control" id="{{ i }}">
+                                            <option value="APPROVED">Approve</option>
+                                            <option value="REJECTED">Reject</option>
                                         </select>
                                     </td>
-                                    <td><input type="submit" class="btn btn-primary py-2 px-4 rounded-0"></td>
-                                    <!--</form>-->
+                                    <td><button type="button" class="btn btn-primary" (click)="onUpdateStatus(request, i)">Update</button></td>
                                 </tr>
                             </tbody>
                         </table>

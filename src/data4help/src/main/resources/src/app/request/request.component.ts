@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { RequestService, UserService } from '../_services';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-request',
@@ -11,13 +10,10 @@ export class RequestComponent implements OnInit {
 
     user = '';
     requests = [];
-    updateStatusForm: FormGroup;
-    // updateStatusFormSubmitted = false;
 
     constructor(
         private userService: UserService,
         private requestService: RequestService,
-        private updateStatusFormBuilder: FormBuilder,
     ) {
     }
 
@@ -27,7 +23,6 @@ export class RequestComponent implements OnInit {
             .subscribe(
                 data => {
                     this.user = data['data'];
-                    // console.log('user', this.role);
                 },
                 error => {
                     console.log('error', error);
@@ -43,39 +38,29 @@ export class RequestComponent implements OnInit {
                 error => {
                     console.log('get all requests error', error);
                 });
-
-
-        this.updateStatusForm = this.updateStatusFormBuilder.group({
-            status: [''],
-        });
     }
 
-    get updateStatusControls() {
-        return this.updateStatusForm.controls;
-    }
+    onUpdateStatus(request, selectIndex) {
+        const status = (<HTMLInputElement>document.getElementById(selectIndex)).value;
 
-    onSubmitUpdateStatus() {
-        console.log('onSubmitUpdateStatus', this.updateStatusControls.status.value);
-        // this.updateStatusFormSubmitted = true;
+        const body = {
+            'ssn' : this.user['ssn'],
+            'status': status
+        };
 
-        // this.searchService
-        //     .search(this.updateStatusControls.ssn.value)
-        //     .subscribe(
-        //         data => {
-        //             // display data
-        //             console.log('search: individual data', data);
-        //
-        //         },
-        //         error => {
-        //             this.error = error;
-        //
-        //             if (error === 'Should send a request to the individual to access his data') {
-        //                 this.showSendRequest = true;
-        //             }
-        //
-        //             console.log('individual search error ', error);
-        //         }
-        //     );
+        const id = request['id'];
+
+        this.requestService
+            .updateRequestStatus(body, id)
+            .subscribe(
+            data => {
+                location.reload(true);
+                console.log('update request status', data['data']);
+            },
+            error => {
+                console.log('update request status error ', error);
+            }
+        );
 
     }
 

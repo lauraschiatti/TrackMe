@@ -15,8 +15,8 @@ export class RequestService {
         return this.http.get(`${this.baseUrl}/web/requests/`);
     }
 
-    updateRequestStatus(requestId) {
-        // return this.http.patch(`${this.baseUrl}/web/requests`, null , requestId);
+    updateRequestStatus(body, id) {
+        return this.http.patch(`${this.baseUrl}/web/requests/${id}`, body);
     }
 
     createRequest(ssn) {
