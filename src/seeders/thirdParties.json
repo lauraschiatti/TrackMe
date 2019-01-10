@@ -1,0 +1,44 @@
+[
+    {
+        "id": "5c3651790870e62814e4115e",
+        "name": "Delta Dore Italia",
+        "taxCode": "23778491",
+        "certificate": "",
+        "phone": "+39 0461 410511",
+        "email": "abaltar@deltadore.it",
+        "password": "rZMRiVkpgcHApW4v",
+        "config": {
+            "individualpushurl": "http://deltadore.it/data/individual",
+            "bulkpushurl": "http://deltadore.it/data/bulk",
+            "notificationurl": ""
+        }
+    },
+    {
+        "id": "5c36527e0870e62814e4115f",
+        "name": "Avantee S.C.",
+        "taxCode": "12783547",
+        "certificate": "",
+        "phone": "+39 0461 410615",
+        "email": "andreacvt@avantee.com",
+        "password": "sAe6RE92Um70qD0p",
+        "config": {
+            "individualpushurl": "http://datatrade.avantee.com/get-data/individual",
+            "bulkpushurl": "http://datatrade.avantee.com/get-data/bulk",
+            "notificationurl": "http://datatrade.avantee.com/get-data/news"
+        }
+    },
+    {
+        "id": "5c3654550870e62814e41160",
+        "name": "Softeo",
+        "taxCode": "12739389",
+        "certificate": "",
+        "phone": "+39 0464 484000",
+        "email": "luigibertini@avantee.com",
+        "password": "g21VOr0GYFJZtccm",
+        "config": {
+            "individualpushurl": "",
+            "bulkpushurl": "http://analytics.softeo.com/data",
+            "notificationurl": "http://analytics.softeo.com/notifications"
+        }
+    }
+]
