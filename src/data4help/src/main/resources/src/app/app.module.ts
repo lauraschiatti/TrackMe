@@ -8,11 +8,11 @@ import { AppComponent } from './app.component';
 
 import { UiModule } from './ui/ui.module';
 import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './ui/home/home.component';
 import { RegisterComponent } from './register/register.component';
-import { Data4helpComponent } from './data4help/data4help.component';
-import { AutomatedSOSComponent } from './automated-sos/automated-sos.component';
-import { Track4runComponent } from './track4run/track4run.component';
+import { Data4helpComponent } from './ui/data4help/data4help.component';
+import { AutomatedSOSComponent } from './ui/automated-sos/automated-sos.component';
+import { Track4runComponent } from './ui/track4run/track4run.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TokenInterceptor, ErrorInterceptor } from './_helpers';
 import { RequestComponent } from './request/request.component';
