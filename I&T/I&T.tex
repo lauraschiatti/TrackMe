@@ -137,8 +137,6 @@
 	\setcounter{page}{1}
 	
 	\chapter{Introduction}
-	\section{Context}
-	\textbf{TrackMe} develops health-monitoring devices devoted to measure and record different parameters related to the health status of a person (i.e. body temperature, blood pressure, heart pulse rate and percentage of O\textsubscript{2} in the blood) and also their location. TrackMe health smartwatches are synchronized with an app that gives users access to their data and stats. Also, TrackMe is offering new services to their customers, so as to exploit the data collected from those devices. 
 	\section{Purpose}
 	This document describes the plans for testing the integration of the created components. The purpose of this document is to test the interfaces between the components as described in
 Design Document. Every team member who cooperates in the integration tests should read this document.
@@ -156,58 +154,23 @@ Design Document. Every team member who cooperates in the integration tests shoul
 		\item{}Some performance measures that should be performed on the components to check they are fulfilling the requirements
 		\item{}A list of all the tools that will have to be employed during the testing activities, together with a description of the operational environment in which the tests will be executed
 	\end{itemize}.
-		
-
 	
-	\section{Definitions, Acronyms, Abbreviations}
-	\subsection{Definitions}
-	\begin{itemize}
-		\item{\textbf{Health status}}: Collection of the last measured overall physical health parameters of a user or a group of users.
-		\item{\textbf{Running circuit}}: Path defined by the organizer for the run, using the set of nodes.
-		\item{\textbf{Anonymize}}: The action of anonymize means that an individual’s identity cannot
-be inferred using the available data.
-		\item{\textbf{Parameter out of its normal range}}: Meaning that the parameter is under or above a defined threshold. 
-	\end{itemize}
-	
-	\subsection{Acronyms}
-	\begin{itemize}
-		\item{DD}: Design Document
-		\item{RASD}: Requirement Analysis and Specification Document
-		\item{D4H}: Data4Help
-		\item{ASOS}: AutomatedSOS
-		\item{T4R}: Track4Run
-		\item{GUI}: Graphical User Interface
-		\item{MVC}: Model View Controller is a design pattern used for GUIs
-		\item{JMS}: Java Message Service 
-		\item{DSL}: Digital Subscriber Line
-	\end{itemize}
-	
-	\subsection{Abbreviations}
-	\begin{itemize}
-		\item $[Rn]$: n-requirement.
-	\end{itemize}
-	
-	\section{Revision history}
-	It is important to keep track of the revisions made to this document: \\
-	
-	\begin{table}[h]
-		\centering
-		\begin{tabular}{c c}
-			\hline\hline
-			\textbf{Version} & \textbf{Last modified date} \\ [0.5ex]
-			\hline
-			1.0 &  \nth{13} January, 2019  \\
-			\hline
-		\end{tabular}
-		\caption{Revision history timeline}
-		\label{fig:Revision history}
-	\end{table}
-	
-	
-\chapter{Implemented Requirements}	
+	\chapter{Implemented Requirements}	
 put requirements / functions that are actually implemented in the software (with motivations for including and excluding others if applicable)...
-	\chapter{Integration Strategy}
 	
+	\chapter{Adopted development frameworks}
+put references to DD...
+	\section{Adopted Programming Languages}
+	\subsection{Advantages and Disadvantages}
+	\section{Adopted Middle-wares}
+	\subsection{Advantages and Disadvantages}
+	\section{Additional APIs}
+
+\chapter{Structure of the source code}
+put code here...		
+
+
+	\chapter{Integration Strategy}
 	\section{Entry Criteria}
 	\label{sec:Entry Criteria}
 	In order for the integration testing to be possible and to produce meaningful results, there are a number of conditions on the progress of the project that have to be met.\\
@@ -223,71 +186,62 @@ put requirements / functions that are actually implemented in the software (with
 	It should be noted that these percentages refer to the status of the project at the beginning of the integration testing phase and they do not represent the minimum completion percentage necessary to consider a component for integration, which must be at least \textbf{90\%}. The choice of having different completion percentages for the different components has been made to reflect
 their order of integration and to take into account the required time to fully perform integration testing.
 
-	
-	
 	\section{Elements to be integrated}
 	In the following paragraph we're going to provide a list of all the components that need to be integrated together.\\
-	As specified in TrackMe Design Document, the system is built upon the interactions of many high-level components, each one implementing a specific set of functionalities. For the sake of modularity, each subsystem is further obtained by the combination of several lower-level components. Because of this software architecture, the integration phase will involve the integration of components at two different levels of abstraction.\\\\
-		At the lowest level, we'll integrate together those components that depend strongly on one another to offer the higher level functionalities of \textbf{Data4HelpWebService}. In our specific case, this involves the integration of the \textbf{Login Service and Signup Service}, \textbf{Search Management}, \textbf{Request Management}, \textbf{Subscription and Notification Management} subcomponents in order to obtain the \textbf{Data4Help Management System} subsystem.\\\\
-		For what concerns the building of the \textbf{AutomatedSOS} and \textbf{Track4Run} subsystems, the integration activity is actually quite limited; in fact, they simply represent a collection of functionalities belonging to the same area which however are not dependent on one another. As a result of this, their subcomponents don't really interact with each other, and the integration phase will be limited to the task of ensuring that the set of functionalities of each subcomponent is properly exposed by the subsystem. The components involved in this phase are:
-		\begin{itemize}
-		\item{} The \textbf{Data Handler, Health Care Connector and DB Manger} subcomponents in order to obtain the \textbf{AutomatedSOS subsystem}.
-		\item{} The \textbf{Login, Signup, User, Event, Notification, Data handler, Request and  Authentication manager} subcomponents in order to obtain the \textbf{Track4Run Management subsystem}.
-		\end{itemize}
-		Some of these subcomponents also directly rely on higher level, atomic components: that is the case, for instance, of the dependency on the \textbf{Data Handler component}. These dependencies will be taken care of in the integration process.\\\\
+	As specified in TrackMe Design Document, the system is built upon the interactions of many high-level components, each one implementing a specific set of functionalities. For the sake of modularity, each subsystem is further obtained by the combination of several lower-level components. Because of this software architecture, the integration phase will involve the integration of components at two different levels of abstraction.\\
+	
+	At the lowest level, we'll integrate together those components that depend strongly on one another to offer the higher level functionalities of \textbf{Data4HelpWebService}. In our specific case, this involves the integration of the \textbf{Login Service and Signup Service}, \textbf{Search Management}, \textbf{Request Management}, \textbf{Subscription and Notification Management} subcomponents in order to obtain the \textbf{Data4Help Management System} subsystem.\\
+	
+	For what concerns the building of the \textbf{AutomatedSOS} and \textbf{Track4Run} subsystems, the integration activity is actually quite limited; in fact, they simply represent a collection of functionalities belonging to the same area which however are not dependent on one another. As a result of this, their subcomponents don't really interact with each other, and the integration phase will be limited to the task of ensuring that the set of functionalities of each subcomponent is properly exposed by the subsystem. The components involved in this phase are:
+	
+	\begin{itemize}
+	\item{} The \textbf{Data Handler, Health Care Connector and DB Manger} subcomponents in order to obtain the \textbf{AutomatedSOS subsystem}.
+	\item{} The \textbf{Login, Signup, User, Event, Notification, Data handler, Request and  Authentication manager} subcomponents in order to obtain the \textbf{Track4Run Management subsystem}.
+	\end{itemize}
+		Some of these subcomponents also directly rely on higher level, atomic components: that is the case, for instance, of the dependency on the \textbf{Data Handler component}. These dependencies will be taken care of in the integration process.\\
 		Finally, we will proceed with the integration of the higher level subsystems. In particular, the integration activity will involve:
-		\begin{itemize}
+	\begin{itemize}
 		
-		\item{} The already existing components used to achieve
+	\item{} The already existing components used to achieve
 specific functionalities: these are the \textbf{Health Care Service, DBMS and Notification system} components.
 \item{} Those components and subsystems specifically developed for TrackMeService, that are:
 
-\begin{itemize}
-\item{} On the server side: the \textbf{Data4Help Management System, Authentication system, Search subsystems}, together with the \textbf{Data Handler} component.
-\item{} On the client side: the \textbf{Data4Help Web Application and Track4Run Web Application} components.
-\end{itemize}
+	\begin{itemize}
+	\item{} On the server side: the \textbf{Data4Help Management System, Authentication system, Search subsystems}, together with the \textbf{Data Handler} component.
+	\item{} On the client side: the \textbf{Data4Help Web Application and Track4Run Web Application} components.
+	\end{itemize}
 			
-			
-			\end{itemize}
-			\section{Integration testing strategy}
-			The approach we're going to use to perform integration testing is based on a mixture of the bottom-up and critical-module-first integration strategies.\\\\
-			Using the bottom-up approach, we will start integrating together those components that do not depend on other components to function, or that only depend on already developed components. This strategy brings a number of important advantages. First, it allows us to perform integration tests on "real" components that are almost fully developed and thus obtain more precise indications about how the system may react and fail in real world usage with respect to a top-down approach. Secondly, working bottom-up enables us to more closely follow the development process, which in our case is also proceeding using the bottom-up approach; by doing this we can start performing integration testing earlier in the development process as soon as the required components have been developed in order to maximize parallelism and efficiency.\\\\
-			Since subsystems are fairly independent from one another, the order in which they're integrated together to obtain the full system follows the critical-module-first approach. This strategy allows us to concentrate our testing efforts on the riskiest components first, that is those that represent the core functionalities of the whole system and whose malfunctioning could pose a very serious threat to the correct implementation of the entire TrackMe infrastructure. By proceeding this way, we are able to discover bugs earlier in the integration progress and take the necessary measures to correct them on time.\\\\
-			It should be noted that \textbf{Health Care Service, Notification System and DBMS} are commercial components that
+	\end{itemize}
+	
+	\section{Integration testing strategy}
+	The approach we're going to use to perform integration testing is based on a mixture of the bottom-up and critical-module-first integration strategies.\\
+	
+	Using the bottom-up approach, we will start integrating together those components that do not depend on other components to function, or that only depend on already developed components. This strategy brings a number of important advantages. First, it allows us to perform integration tests on "real" components that are almost fully developed and thus obtain more precise indications about how the system may react and fail in real world usage with respect to a top-down approach. Secondly, working bottom-up enables us to more closely follow the development process, which in our case is also proceeding using the bottom-up approach; by doing this we can start performing integration testing earlier in the development process as soon as the required components have been developed in order to maximize parallelism and efficiency.\\\\
+	
+	Since subsystems are fairly independent from one another, the order in which they're integrated together to obtain the full system follows the critical-module-first approach. This strategy allows us to concentrate our testing efforts on the riskiest components first, that is those that represent the core functionalities of the whole system and whose malfunctioning could pose a very serious threat to the correct implementation of the entire TrackMe infrastructure. By proceeding this way, we are able to discover bugs earlier in the integration progress and take the necessary measures to correct them on time.\\\\
+	
+	It should be noted that \textbf{Health Care Service, Notification System and DBMS} are commercial components that
 have already been developed and can thus be immediately used in a bottom-up approach without any explicit dependency.
 			
-			
-			\section{Sequence of Component/Function Integration}
-			In this section we're going to describe the order of integration (and integration testing) of the various components and subsystems of TrackMe Service. As a notation, an arrow going from component C1 to component C2 means that C1 is necessary for C2 to function and so it must have already been implemented.
+	\section{Sequence of Component/Function Integration}
+	In this section we're going to describe the order of integration (and integration testing) of the various components and subsystems of TrackMe Service. As a notation, an arrow going from component C1 to component C2 means that C1 is necessary for C2 to function and so it must have already been implemented.
 				
-			\subsection{Software Integration Sequence}
-			Following the already mentioned bottom-up approach, we now describe how the various subcomponents are integrated together to create higher level subsystems.\\\\\
+	\subsection{Software Integration Sequence}
+	Following the already mentioned bottom-up approach, we now describe how the various subcomponents are integrated together to create higher level subsystems.\\\\\
+			
+		diagrams here.......
+	\subsection{Subsystem Integration Sequence}
+	In the following diagram we provide a general overview of how the various high-level subsystems are integrated together to create the full TrackMe Service infrastructure.\\\\\
 			
 			diagrams here.......
-			\subsection{Subsystem Integration Sequence}
-			In the following diagram we provide a general overview of how the various high-level subsystems are integrated together to create the full TrackMe Service infrastructure.\\\\\
 			
-			diagrams here.......
-			
-			
-\chapter{Adopted development frameworks}
-put references to DD...
-\section{Adopted Programming Languages}
-\subsection{Advantages and Disadvantages}
-\section{Adopted Middle-wares}
-\subsection{Advantages and Disadvantages}
-\section{Additional APIs}
-
-	
-\chapter{Structure of the source code}
-put code here...		
 	\chapter{Individual Steps and Test Description}
 	In this chapter we'll provide a detailed description of the tests to be performed on each pair of components that have to be integrated.Each pair of components is described in a specific subsection, identified by the $<$caller;called$>$ notation, containing the list of methods that the $<$caller$>$ component invokes on the $<$called$>$ component.For each method we're going to provide a brief description of the input values and the corresponding expected effects on the system.
 
-\section{ Data4Help Management System}
-\subsection{Request Management and DBHandler}
+	\section{ Data4Help Management System}
+	\subsection{Request Management and DBHandler}
 
-\begin{table}[h!]
+	\begin{table}[h!]
 		\centering
 		\begin{tabular}{|p{6cm}|p{9cm}|}
 			\hline\hline
@@ -349,7 +303,7 @@ put code here...
 		\label{fig:Search Management parameters}
 	\end{table}
 	
-		\subsection{Accept/Reject Management and DBHandler}
+	\subsection{Accept/Reject Management and DBHandler}
 
 \begin{table}[H]
 		\centering
@@ -374,9 +328,8 @@ put code here...
 		\label{fig:Accept/Reject Management parameters}
 	\end{table}
 	
-			\subsection{Login Management and DBHandler}
-
-\begin{table}[H]
+	\subsection{Login Management and DBHandler}
+	\begin{table}[H]
 		\centering
 		\begin{tabular}{|p{6cm}|p{9cm}|}
 			\hline\hline
@@ -401,9 +354,8 @@ combination, which however is not the correct one & Returns an InvalidCredential
 		\label{fig:Login Management parameters}
 	\end{table}
 	
-			\subsection{Signup Management and DBHandler}
-
-\begin{table}[H]
+	\subsection{Signup Management and DBHandler}
+	\begin{table}[H]
 		\centering
 		\begin{tabular}{|p{6cm}|p{9cm}|}
 			\hline\hline
@@ -424,9 +376,9 @@ combination, which however is not the correct one & Returns an InvalidCredential
 		\caption{Signup Management parameters}
 		\label{fig:Signup Management parameters}
 	\end{table}
-	\subsection{Check Token (Password Retrieval) and DBHandler}
 
-\begin{table}[H]
+	\subsection{Check Token (Password Retrieval) and DBHandler}
+	\begin{table}[H]
 		\centering
 		\begin{tabular}{|p{6cm}|p{9cm}|}
 			\hline\hline
@@ -508,8 +460,10 @@ A userDetails whose contact details are invalid & An InvalidContactException is 
 	
 	
 	\chapter{Performance Analysis}
-	While a full fledged performance analysis of the entire TrackMe infrastructure will be executed only in the system integration phase, it is still useful to perform some preliminary measures on components whose performances can be tested in isolation.\\\\
-	In particular, it is appropriate to verify that the applications for all the target web browser platforms, regardless whether they're destined to users or to third party customers, have reasonable CPU and main memory usages.\\\\
+	While a full fledged performance analysis of the entire TrackMe infrastructure will be executed only in the system integration phase, it is still useful to perform some preliminary measures on components whose performances can be tested in isolation.\\
+	
+	In particular, it is appropriate to verify that the applications for all the target web browser platforms, regardless whether they're destined to users or to third party customers, have reasonable CPU and main memory usages.\\
+	
 	As specified in the RASD, the performance requirements of the web applications are the followings:
 	\begin{itemize}
 	\item{} The system is provided to serve all the TrackMe wearable device users at the same time simultaneously.
@@ -522,14 +476,18 @@ A userDetails whose contact details are invalid & An InvalidContactException is 
 in the browsers and add-ons and responsive technology that may occur meanwhile.\\\\
 These tests will be performed using the appropriate performance analysis tool provided with the SDK of each web platform.
 	
-
 	\chapter{Tools and Testing equipment}
 	\section{Tools}
 	In order to test the various components of TrackMe more effectively, we are going to make usage of a number of automated testing tools.\\
+	
 	For what concerns the business logic components running in the Java Enterprise Edition runtime environment, we are going to take advantage of two tools.\\
+	
 	The first one is the \textbf{Arquillian integration testing framework}. This tool enables us to execute tests against a Java container in order to check that the interaction between a component and its surrounding execution environment is happening correctly (as far as the Java application server is involved). Specifically, we are going to use Arquillian to verify that the right components are injected when dependency injection is specified, that the connections with the database are properly managed and similar container-level tests.\\
+	
 	The second tool is the \textbf{JUnit framework}. Though this tool is primarily devoted to unit testing activities, it's still a valid instrument to verify that the interactions between components are producing the expected results. In particular, we are going to use it in order to verify that the correct objects are returned after a method invocation, that appropriate exceptions are raised when invalid parameters are passed to a method and other issues that may arise when components interact with each other.\\
+	
 	Furthermore, as we have already mentioned briefly in the previous chapter of this document, we are going to use specific performance analysis tools to make sure that the applications for all the target mobile platforms, regardless whether they're destined to individual users or to third party users, have responsive web application and quick responses in peak traffic also. Depending on the specific platform we are targeting, the tools we are going to use are:
+	
 	\begin{itemize}
 	\item{\textbf{Apache JMeter}} : It is a Java platform application. It is mainly considered as a performance testing tool and it can also be integrated with the test plan.
 	\begin{itemize}
@@ -544,33 +502,38 @@ These tests will be performed using the appropriate performance analysis tool pr
 	\end{itemize} 
 	Finally, it should be noted that despite the usage of automated testing tools, some of the planned testing activities will also require a significant amount of manual operations, especially to devise the appropriate set of testing data.
 	
-
-
-\section{Test Equipment}
-All the integration testing activities have to be performed within a specific testing environment.\\\\
-Since TrackMe Service incorporates both a set of client components and a back-end infrastructure, we must define the characteristics of the devices that have to be used in each of these two areas.\\\\
-For what concerns the browser side of the testing environment, the following devices are required:
+	\section{Test Equipment}
+	All the integration testing activities have to be performed within a specific testing environment.\\
+	
+	Since TrackMe Service incorporates both a set of client components and a back-end infrastructure, we must define the characteristics of the devices that have to be used in each of these two areas.\\
+	
+	For what concerns the browser side of the testing environment, the following devices are required:
 \begin{itemize}
-\item{} For web browser, computer need:
+	\item{} For web browser, computer need:
 	\begin{itemize}
-\item{Windows(chrome, IE, edge)} : Windows 7, Windows 8, Windows 8.1, Windows 10 or later
-\item{MacOS} :  Mac OS X 10.6 through Mac OS X 10.11 or higher
-\item{} An Intel Pentium 4 processor or later that's SSE2 capable
+	\item{Windows(chrome, IE, edge)} : Windows 7, Windows 8, Windows 8.1, Windows 10 or later
+	\item{MacOS} :  Mac OS X 10.6 through Mac OS X 10.11 or higher
+	\item{} An Intel Pentium 4 processor or later that's SSE2 capable
+	\end{itemize}
+	\item{} Internet Connection Broadband (high-speed) Internet connection with a speed of 4 Mbps or 		higher.
 \end{itemize}
-\item{} Internet Connection Broadband (high-speed) Internet connection with a speed of 4 Mbps or higher.
-\end{itemize}
-These devices will be used to test the browser versions of the web applications. It should be noted that these are general guidelines to drive the selection of the testing devices in a way that covers the widest range of possible configurations. Some display sizes or resolutions may not be offered by all product families.\\\\
-As a general note, we should consider the possibility of performing an analysis of the browser market to identify the most common display sizes and resolutions right before starting the integration testing phase, in order to better reflect the typical usage scenarios we will encounter in the real operating environment.\\\\
-As for the back-end testing, the business logic components should be deployed on a cloud infrastructure that closely mimics the one that will be used in the operating environment. Specifically, the testing cloud infrastructure needs to run the same operating system, the same Java Enterprise Application Server, the same Health Care Service System and Notification Service (Alarm interface) middle ware (message brokers) and the same DBMS. As such, it is strongly suggested to use a scaled down version of the final operating cloud infrastructure chosen from the same service provider.\\\\
-Depending on the actual implementation decisions, the specific software components may change.
+	
+	These devices will be used to test the browser versions of the web applications. It should be noted that these are general guidelines to drive the selection of the testing devices in a way that covers the widest range of possible configurations. Some display sizes or resolutions may not be offered by all product families.\\
+	
+	As a general note, we should consider the possibility of performing an analysis of the browser market to identify the most common display sizes and resolutions right before starting the integration testing phase, in order to better reflect the typical usage scenarios we will encounter in the real operating environment.\\
+	
+	As for the back-end testing, the business logic components should be deployed on a cloud infrastructure that closely mimics the one that will be used in the operating environment. Specifically, the testing cloud infrastructure needs to run the same operating system, the same Java Enterprise Application Server, the same Health Care Service System and Notification Service (Alarm interface) middle ware (message brokers) and the same DBMS. As such, it is strongly suggested to use a scaled down version of the final operating cloud infrastructure chosen from the same service provider.\\
+	
+	Depending on the actual implementation decisions, the specific software components may change.
 
-
-\chapter{Required Program Stubs and Test Data}
-\section{Program Stubs and Drivers}
-As we have mentioned in the Integration Testing Strategy section of this document, we are going to adopt a bottom-up approach to component integration and testing.\\\\
-Because of this choice, we are going to need a number of drivers to actually perform the necessary method invocations on the components to be tested; this will be mainly accomplished in conjunction with the JUnit framework.\\\\
-Here follows a list of all the drivers that will be developed as part of the integration testing phase, together with their specific role:
-\begin{itemize}
+	\chapter{Required Program Stubs and Test Data}
+	\section{Program Stubs and Drivers}
+	As we have mentioned in the Integration Testing Strategy section of this document, we are going to adopt a bottom-up approach to component integration and testing.\\
+	
+	Because of this choice, we are going to need a number of drivers to actually perform the necessary method invocations on the components to be tested; this will be mainly accomplished in conjunction with the JUnit framework.\\
+	
+	Here follows a list of all the drivers that will be developed as part of the integration testing phase, together with their specific role:
+	\begin{itemize}
 \item{\textbf{Data Access Driver}} : this testing module will invoke the methods exposed by the \textbf{DB Handler} component in order to test its interaction with the \textbf{DB Manager}.
 \item{\textbf{Request Management Driver}} : this testing module will invoke the methods exposed by the \textbf{Request Management} subcomponent, including those with package - level visibility, in order to test its interaction with the \textbf{DB Handler, Notification System and the Subscription Management} components.
 \item{\textbf{Search Management Driver}} : this testing module will invoke the methods exposed by the \textbf{Subscription Management} subcomponent in order to test its interaction with the \textbf{DB Handler, Notification System and the Request Management} components.
@@ -580,9 +543,10 @@ Here follows a list of all the drivers that will be developed as part of the int
 \item{\textbf{Subscription Management Driver}} : this testing module will invoke the methods exposed by the \textbf{Subscription Management} subcomponent in order to test its interaction with the \textbf{DB Handler and Search system} components.
 \item{\textbf{Account Management Driver}} : this testing module will invoke the methods exposed by the \textbf{Check Token Management} subcomponent in order to test its interaction with the \textbf{DB Handler, Login system and Signup system} components.
 \end{itemize}
-While the bottom-up approach in general doesn't require the usage of any stubs as the system is developed from the ground up, a full test of the core system isn't possible without introducing a few of them. In fact, there is a mutual dependency between the clients (which send requests) and the core system (which replies to them). Since we are developing and integrating the system from the core, we are going to introduce stubs to simulate the presence of clients until they are fully developed. In practice, the only purpose of these stubs is to write on a log that they have correctly received the messages.
+	
+	While the bottom-up approach in general doesn't require the usage of any stubs as the system is developed from the ground up, a full test of the core system isn't possible without introducing a few of them. In fact, there is a mutual dependency between the clients (which send requests) and the core system (which replies to them). Since we are developing and integrating the system from the core, we are going to introduce stubs to simulate the presence of clients until they are fully developed. In practice, the only purpose of these stubs is to write on a log that they have correctly received the messages.
 
-\section{Test Data}
+	\section{Test Data}
 In order to be able to perform the record of tests that we have specified, we are going to need:
 \begin{itemize}
 \item{} A list of both valid and invalid individual or third party users to test the \textbf{Signup Management} component. The set should contain instances exhibiting the following problems:
@@ -640,7 +604,8 @@ In order to be able to perform the record of tests that we have specified, we ar
 \end{itemize}
 \end{itemize}
 More specific information about the required test data can be found by analysing the inputs of all the test cases described in chapter 3.
-\section{Test Scenario}
+	
+	\section{Test Scenario}
 Scenario testing is a software testing activity that uses scenarios: hypothetical stories to help the tester work through a complex problem or test system. The ideal scenario test is a credible, complex, compelling or motivating story the outcome of which is easy to evaluate. The following high-level set of scenarios were considered for \textbf{Data4Help} system:
 % Table generated by Excel2LaTeX from sheet 'Test Scenarios'
 \begin{table}[htbp]
@@ -664,8 +629,9 @@ Scenario testing is a software testing activity that uses scenarios: hypothetica
 \end{table}%
 
 
-\section{Test Cases}
-A  test case is a specification of the inputs, execution conditions, testing procedure, and expected results that define a single test to be executed to achieve a particular software testing objective. We will define a number of test cases against the test scenarios above stated to cover the Data4Help complete system. The following test cases are considered against the test scenarios:
+	\section{Test Cases}
+	A  test case is a specification of the inputs, execution conditions, testing procedure, and expected results that define a single test to be executed to achieve a particular software testing objective. We will define a number of test cases against the test scenarios above stated to cover the Data4Help complete system. The following test cases are considered against the test scenarios:
+
 \begin{itemize}
 \item{Login Positive Test Case}
 % Table generated by Excel2LaTeX from sheet 'Test Cases'
@@ -1104,10 +1070,8 @@ A  test case is a specification of the inputs, execution conditions, testing pro
     \end{tabular}%
   \label{tab:Test Case: Search-2B}%
 \end{table}%
-
-
-
 \end{itemize}
+
 \chapter{Installation instructions}
 write here pre-requisites, instructions to install etc...
 	
@@ -1181,18 +1145,12 @@ write here pre-requisites, instructions to install etc...
 	
 	\chapter{References}
 	\begin{itemize}
-		\item Requirement Analysis and Specification Document: AA 2017-2018.pdf”. Version 1.0 - 26.10.2017
-		\item Henriksen, A., Haugen Mikalsen, M., Woldaregay, A. Z., Muzny, M., Hartvigsen, G., Hopstock, L. A., Grimsgaard, S. (2018)
-		\\Using Fitness Trackers and Smartwatches to Measure Physical Activity in Research: Analysis of Consumer Wrist-Worn Wearables. Journal of medical Internet research, 20(3), e110. doi:10.2196/jmir.9157.
-		\\Retrieved from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5887043/
-		\item IEEE. (1993). IEEE Recommended Practice for Software Requirements Specifications (IEEE 830-1993).
-		\\Retrieved from https://standards.ieee.org/standard/830-1993.html
-		\item Sloane, A. M. (2009). Software Abstractions: Logic, Language, and Analysis by Jackson Daniel, The MIT Press, 2006, 366pp, ISBN 978-0262101141.
-		\item{Spark. A Micro Framework For Creating Web Applications - http://sparkjava.com/}
+		\item Requirement Analysis and Specification Document.pdf. Version 1.1 - 11.11.2018
+		\item Design Document.pdf. Version 1.0 - 10.12.2018
+		\item{Spark - http://sparkjava.com/}
 		\item{Morphia - http://morphiaorg.github.io/morphia/}
 		\item{Lettuce - https://lettuce.io/}
 		\item{Angular - https://angular.io/}
-		\item{Google Maps Platform - https://cloud.google.com/maps-platform/}
 		
 	\end{itemize}
 	
