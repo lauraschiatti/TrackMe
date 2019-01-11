@@ -5,6 +5,7 @@ import avila.schiatti.virdi.exception.TrackMeError;
 import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.model.user.D4HUser;
 import avila.schiatti.virdi.utils.Validator;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.SetArgs;
 import io.lettuce.core.api.StatefulRedisConnection;
@@ -55,14 +56,14 @@ public class AuthenticationManager {
         return DigestUtils.sha512Hex(stringToEncrypt);
     }
 
-    public void validateAndUpdateAccessToken(String userId, String accessToken) throws TrackMeException {
+    public void validateAndUpdateAccessToken(String userId, String accessToken) {
         // validate access token
         this.validateAccessToken(userId, accessToken);
         // update access token TTL
         this.updateAccessToken(accessToken);
     }
 
-    public void validateAccessToken(String userId, String accessToken) throws TrackMeException {
+    public void validateAccessToken(String userId, String accessToken) {
         if(Validator.isNullOrEmpty(accessToken)){
             throw new TrackMeException(TrackMeError.NULL_TOKEN);
         }

@@ -9,11 +9,13 @@ import avila.schiatti.virdi.service.authentication.AuthenticationManager;
 import avila.schiatti.virdi.service.authentication.UserWebAuth;
 import avila.schiatti.virdi.service.request.LoginRequest;
 import avila.schiatti.virdi.service.response.LoginResponse;
+import avila.schiatti.virdi.utils.Validator;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
 import spark.Response;
 
 import static spark.Spark.post;
+import static spark.Spark.head;
 
 public class LoginService extends Service {
     private UserResource userResource;
@@ -64,10 +66,21 @@ public class LoginService extends Service {
         return "";
     }
 
+    private String isValidToken(Request req, Response res){
+        String userId = req.headers(Data4HelpApp.USER_ID);
+        String token = req.headers(Data4HelpApp.ACCESS_TOKEN);
+
+        authManager.validateAccessToken(userId, token);
+
+        return "";
+    }
+
     @Override
     public void setupWebEndpoints() {
         post("/login", this::login, jsonTransformer::toJson);
 
         post("/logout", this::logout);
+
+        head("/", this::isValidToken, jsonTransformer::toJson);
     }
 }
