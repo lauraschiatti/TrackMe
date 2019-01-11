@@ -1,12 +1,16 @@
 package avila.schiatti.virdi.utils;
 
+import avila.schiatti.virdi.exception.TrackMeError;
+import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.exception.ValidationError;
 import avila.schiatti.virdi.exception.ValidationException;
 import avila.schiatti.virdi.model.data.Address;
-import org.apache.commons.validator.EmailValidator;
+import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.commons.validator.routines.UrlValidator;
 
 public class Validator {
     private static final EmailValidator emailValidator = EmailValidator.getInstance();
+    private static final UrlValidator urlValidator = UrlValidator.getInstance();
 
     private Validator(){}
 
@@ -37,6 +41,17 @@ public class Validator {
                 isNullOrEmpty(address.getCountry()) ||
                 isNullOrEmpty(address.getProvince()) ){
             throw new ValidationException(ValidationError.NOT_VALID_ADDRESS);
+        }
+    }
+
+    public static Boolean isURL(String url){
+        return urlValidator.isValid(url);
+    }
+
+    public static void validateURL(String url){
+        if(url != null && !url.isEmpty() && !isURL(url)){
+            String msg = String.format(ValidationError.NOT_VALID_URL.getMessage(), url);
+            throw new ValidationException(msg);
         }
     }
 

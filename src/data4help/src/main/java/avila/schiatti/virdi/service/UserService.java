@@ -3,12 +3,14 @@ package avila.schiatti.virdi.service;
 import avila.schiatti.virdi.Data4HelpApp;
 import avila.schiatti.virdi.exception.TrackMeError;
 import avila.schiatti.virdi.exception.TrackMeException;
+import avila.schiatti.virdi.exception.ValidationException;
 import avila.schiatti.virdi.model.request.D4HRequestStatus;
 import avila.schiatti.virdi.model.user.*;
 import avila.schiatti.virdi.resource.D4HRequestResource;
 import avila.schiatti.virdi.resource.UserResource;
 import avila.schiatti.virdi.service.response.ResponseWrapper;
 import avila.schiatti.virdi.service.response.D4HUserResponse;
+import avila.schiatti.virdi.utils.Validator;
 import spark.Request;
 import spark.Response;
 
@@ -56,8 +58,15 @@ public class UserService extends Service {
             throw new TrackMeException(TrackMeError.UNAUTHORIZED_USER);
         }
 
-        user.setConfig(configuration);
-        userResource.update(user);
+        try {
+            validateConfiguration(configuration);
+
+            user.setConfig(configuration);
+            userResource.update(user);
+
+        }catch(ValidationException vex){
+            throw new TrackMeException(TrackMeError.VALIDATION_ERROR, vex.getMessage());
+        }
 
         return new ResponseWrapper<>(configuration);
     }
@@ -83,5 +92,13 @@ public class UserService extends Service {
         response.setRejectedRequests(rejectedReqs);
 
         return new ResponseWrapper<>(response);
+    }
+
+    private void validateConfiguration(TPConfiguration config){
+        if(config != null){
+            Validator.validateURL(config.getNotificationUrl());
+            Validator.validateURL(config.getIndividualPushUrl());
+            Validator.validateURL(config.getBulkPushUrl());
+        }
     }
 }

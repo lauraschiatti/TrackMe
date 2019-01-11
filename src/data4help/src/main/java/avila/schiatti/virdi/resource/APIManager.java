@@ -8,6 +8,7 @@ import avila.schiatti.virdi.resource.api.BulkDataRequest;
 import avila.schiatti.virdi.resource.api.IndividualDataRequest;
 import avila.schiatti.virdi.resource.api.NotificationRequest;
 import avila.schiatti.virdi.utils.JSONObjectMapper;
+import avila.schiatti.virdi.utils.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unirest.Unirest;
@@ -28,7 +29,7 @@ public class APIManager {
     }
 
     public void sendNotification(ThirdParty tp, D4HRequest request) {
-        if (tp != null && tp.getConfig() != null && tp.getConfig().getNotificationUrl() != null && !tp.getConfig().getNotificationUrl().isEmpty()) {
+        if (tp != null && tp.getConfig() != null && Validator.isURL(tp.getConfig().getNotificationUrl())) {
             String url = tp.getConfig().getNotificationUrl();
 
             NotificationRequest notification = new NotificationRequest(request);
@@ -38,7 +39,7 @@ public class APIManager {
     }
 
     public void sendData(ThirdParty tp, String ssn, Data data){
-        if(tp != null && tp.getConfig() != null && tp.getConfig().getIndividualPushUrl() != null && !tp.getConfig().getIndividualPushUrl().isEmpty()){
+        if(tp != null && tp.getConfig() != null && Validator.isURL(tp.getConfig().getIndividualPushUrl())){
             String url = tp.getConfig().getIndividualPushUrl();
 
             IndividualDataRequest request = new IndividualDataRequest(ssn, data);
@@ -47,7 +48,7 @@ public class APIManager {
     }
 
     public void sendData(ThirdParty tp, Collection<Data> bulkData){
-        if(tp != null && tp.getConfig() != null && tp.getConfig().getBulkPushUrl() != null && !tp.getConfig().getBulkPushUrl().isEmpty()){
+        if(tp != null && tp.getConfig() != null && Validator.isURL(tp.getConfig().getBulkPushUrl())){
             String url = tp.getConfig().getBulkPushUrl();
 
             BulkDataRequest data = new BulkDataRequest(bulkData);
