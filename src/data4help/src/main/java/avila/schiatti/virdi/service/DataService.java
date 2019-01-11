@@ -64,24 +64,24 @@ public class DataService extends Service {
 
             Individual individual = userResource.getBySSN(body.getSsn());
 
-            if(individual != null) {
-                Data data = dataResource.getByIndividual(individual);
-                data.setHealthStatus(body.getHealthStatus());
-                data.setLocation(body.getLocation());
-
-                dataResource.update(data);
-
-                // asynchronously notify all the third parties
-                (new Thread(()->{
-                    Collection<Subscription> subscriptions = subscriptionResource.getAllByIndividual(individual.getId());
-                    subscriptions.forEach( (s) -> apiManager.sendData(s.getThirdParty(), individual.getSsn(), data) );
-                })).start();
-
-                res.status(HttpStatus.OK_200);
-                return "";
+            if(individual == null) {
+                throw new TrackMeException(TrackMeError.NOT_VALID_USER);
             }
 
-            throw new TrackMeException(TrackMeError.NOT_VALID_USER);
+            Data data = dataResource.getByIndividual(individual);
+            data.setHealthStatus(body.getHealthStatus());
+            data.setLocation(body.getLocation());
+
+            dataResource.update(data);
+
+            // asynchronously notify all the third parties
+            (new Thread(()->{
+                Collection<Subscription> subscriptions = subscriptionResource.getAllByIndividual(individual.getId());
+                subscriptions.forEach( (s) -> apiManager.sendData(s.getThirdParty(), individual.getSsn(), data) );
+            })).start();
+
+            res.status(HttpStatus.OK_200);
+            return "";
 
         } catch (ValidationException vex) {
             String msg = String.format(TrackMeError.VALIDATION_ERROR.getMessage(), vex.getMessage());
