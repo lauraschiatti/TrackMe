@@ -5,6 +5,7 @@ import avila.schiatti.virdi.exception.TrackMeError;
 import avila.schiatti.virdi.exception.TrackMeException;
 import avila.schiatti.virdi.model.data.BloodType;
 import avila.schiatti.virdi.model.data.Gender;
+import avila.schiatti.virdi.model.request.D4HRequest;
 import avila.schiatti.virdi.model.subscription.D4HQuery;
 import avila.schiatti.virdi.model.subscription.Subscription;
 import avila.schiatti.virdi.model.user.D4HUser;
@@ -88,11 +89,12 @@ public class SubscriptionService extends Service {
             Individual i = userResource.getBySSN(ssn);
 
             // should create a subscription only when the request was accepted.
-            requestResource.checkApprovedRequest(i.getId(), tp.getId());
+            D4HRequest request = requestResource.checkApprovedRequest(i.getId(), tp.getId());
 
             D4HQuery filter = new D4HQuery();
             filter.setIndividual(i);
             subscription.setFilter(filter);
+            subscription.setRequest(request);
         } else{
             subscription.getFilter().setIndividual(null);
         }

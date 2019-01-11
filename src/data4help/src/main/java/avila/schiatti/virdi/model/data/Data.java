@@ -2,10 +2,7 @@ package avila.schiatti.virdi.model.data;
 
 import avila.schiatti.virdi.model.user.Individual;
 import org.bson.types.ObjectId;
-import xyz.morphia.annotations.Embedded;
-import xyz.morphia.annotations.Entity;
-import xyz.morphia.annotations.Id;
-import xyz.morphia.annotations.Reference;
+import xyz.morphia.annotations.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -21,6 +18,7 @@ public class Data {
     @Embedded
     private HealthStatus healthStatus;
 
+    @Indexed
     @Reference(idOnly = true)
     private Individual individual;
 

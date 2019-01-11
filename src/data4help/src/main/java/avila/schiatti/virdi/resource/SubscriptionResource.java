@@ -1,5 +1,6 @@
 package avila.schiatti.virdi.resource;
 
+import avila.schiatti.virdi.model.request.D4HRequest;
 import avila.schiatti.virdi.model.subscription.Subscription;
 import org.bson.types.ObjectId;
 import xyz.morphia.Datastore;
@@ -56,5 +57,13 @@ public class SubscriptionResource extends Resource<Subscription> {
                 .filter("nextExecution <", LocalDateTime.now());
 
         return query.asList();
+    }
+
+    public void removeByRequest(D4HRequest req) {
+        Query<Subscription> query = datastore.createQuery(Subscription.class)
+                .field("request")
+                .equal(req);
+
+        datastore.delete(query);
     }
 }

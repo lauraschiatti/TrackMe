@@ -23,7 +23,6 @@ import avila.schiatti.virdi.utils.Validator;
 import spark.Request;
 import spark.Response;
 
-import javax.sound.midi.Track;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -91,11 +90,11 @@ public class D4HRequestService extends Service {
         if (D4HRequestStatus.APPROVED.equals(body.getStatus())) {
             requestResource.accept(req);
             // If the user accepts the request, we should create a subscription.
-            Subscription subscription = createSubscription(req.getIndividual(), req.getThirdParty());
+            Subscription subscription = createSubscription(req);
             subscriptionResource.add(subscription);
         } else {
-            // TODO should I remove the subscription when I reject the Request??
             requestResource.reject(req);
+            subscriptionResource.removeByRequest(req);
         }
 
         // sends a notification to the third party regarding the status of the request
@@ -135,13 +134,14 @@ public class D4HRequestService extends Service {
         return list;
     }
 
-    private Subscription createSubscription(Individual individual, ThirdParty thirdParty) {
+    private Subscription createSubscription(D4HRequest request) {
         Subscription subscription = new Subscription();
         D4HQuery filter = new D4HQuery();
-        filter.setIndividual(individual);
+        filter.setIndividual(request.getIndividual());
 
         subscription.setFilter(filter);
-        subscription.setThirdParty(thirdParty);
+        subscription.setThirdParty(request.getThirdParty());
+        subscription.setRequest(request);
 
         return subscription;
     }
@@ -172,6 +172,8 @@ public class D4HRequestService extends Service {
         }
 
         requestResource.removeById(rid);
+        subscriptionResource.removeByRequest(req);
+
         return new ResponseWrapper<>(rid);
     }
 
