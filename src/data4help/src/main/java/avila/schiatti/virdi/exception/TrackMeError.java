@@ -11,6 +11,7 @@ public enum TrackMeError {
     NO_REQUEST_FOUND(40006, "Should send a request to the individual to access his data"),
     NO_APPROVED_REQUEST(40007, "The request has not been approved yet"),
     CANNOT_ANONYMIZE_DATA(40008, "Cannot anonymize data. Few individuals involved"),
+    DUPLICATE_KEY(40009, "The value %s already exist in our database"),
 
     // FORBIDDEN
     NOT_VALID_TOKEN(40301, "The provided token does not exist"),

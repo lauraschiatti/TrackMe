@@ -1,6 +1,8 @@
 package avila.schiatti.virdi.resource;
 
 import avila.schiatti.virdi.database.DBManager;
+import avila.schiatti.virdi.exception.TrackMeException;
+import com.mongodb.DuplicateKeyException;
 import org.bson.types.ObjectId;
 import xyz.morphia.Datastore;
 import xyz.morphia.query.Query;
@@ -44,7 +46,11 @@ public abstract class Resource<T>  {
     }
 
     public void add(T o){
-        datastore.save(o);
+        try {
+            datastore.save(o);
+        } catch (DuplicateKeyException dkex){
+            throw TrackMeException.transformFromMongoException(dkex);
+        }
     }
 
     public void update(T o){
