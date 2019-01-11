@@ -112,7 +112,7 @@ public class SubscriptionService extends Service {
         query.setCountry(Validator.isNullOrEmpty(filter.getCountry()) ? null : filter.getCountry());
         query.setProvince(Validator.isNullOrEmpty(filter.getProvince()) ? null : filter.getProvince());
         query.setMinAge(filter.getMinAge() <= 0 ? null : filter.getMinAge());
-        query.setMinAge(filter.getMaxAge() <= 0  || filter.getMaxAge() < filter.getMinAge() ? null : filter.getMaxAge());
+        query.setMaxAge(filter.getMaxAge() <= 0  || filter.getMaxAge() < filter.getMinAge() ? null : filter.getMaxAge());
         query.setBloodType(filter.getBloodType());
         query.setGender(filter.getGender());
         return query;
