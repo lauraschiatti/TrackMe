@@ -71,7 +71,6 @@ export class AuthenticationService {
     setCurrentUser(user): void {
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
-        this.router.navigate(['/dashboard']);
         console.log('user stored');
     }
 

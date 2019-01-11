@@ -108,7 +108,7 @@ export class SearchComponent implements OnInit {
 
         // Create subscription to data
         if (this.bulkControls.subscription.value) {
-            let timeSpan = 6;
+            let timeSpan = 6; // default value
             if (this.bulkControls.timeSpan.value) {
                 timeSpan = this.bulkControls.timeSpan.value;
             }
@@ -126,18 +126,16 @@ export class SearchComponent implements OnInit {
                 'timeSpan': timeSpan
             };
 
-            console.log('subscription', subscription);
-
             this.subscriptionService
                 .createSubscription(subscription)
                 .subscribe(
                     data => {
                         // display data
-                        console.log('subscription data', data);
+                        console.log('bulk subscription data', data);
 
                     },
                     error => {
-                        console.log('subscription error ', error);
+                        console.log('bulk subscription error ', error);
                     }
                 );
         }

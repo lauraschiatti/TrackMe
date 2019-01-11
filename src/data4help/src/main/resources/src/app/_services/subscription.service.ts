@@ -18,9 +18,4 @@ export class SubscriptionService {
     getAllSubscriptions() {
         return this.http.get(`${this.baseUrl}/web/subscriptions/`);
     }
-
-    removeSubscription() {
-    // return this.http.get(`${this.baseUrl}/web/request`, ssn);
-    }
-
 }

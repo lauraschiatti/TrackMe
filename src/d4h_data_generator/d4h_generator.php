@@ -81,7 +81,7 @@ function pushData($data) {
     curl_close($ch);
 }
 
-generateData();
-
-// cronjob --> execute one per minute
-// * * * * * php -q /Users/lauraschiatti/Desktop/d4h_databases/d4h_generator.php
+while (true) {
+    generateData();
+    sleep(60); // sleep for 60 seconds
+}

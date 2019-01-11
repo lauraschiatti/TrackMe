@@ -368,13 +368,13 @@ body.sidebar-toggled footer.sticky-footer {
 
 .profile-user-info {
     display: table;
-    /*width: 98%;*/
-    /*width: calc(100% - 24px);*/
+    width: 98%;
+    width: calc(100% - 24px);
     margin: 0 auto
 }
 
 .profile-info-row {
-    display: table-row
+    display: table-row;
 }
 
 .profile-info-name,

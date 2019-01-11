@@ -5,17 +5,19 @@ import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { DashboardNavbarComponent } from './dashboard-navbar/dashboard-navbar.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
+    DashboardNavbarComponent
   ],
   imports: [
     CommonModule,
     RouterModule
   ],
-  exports: [HeaderComponent, FooterComponent, SidebarComponent]
+  exports: [HeaderComponent, FooterComponent, SidebarComponent, DashboardNavbarComponent]
 })
 export class UiModule { }

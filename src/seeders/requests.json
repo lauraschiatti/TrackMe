@@ -1,0 +1,72 @@
+[
+    {
+        "thirdParty": "5c3651790870e62814e4115e",
+        "individual": "5c2bb0147eeeab340369eafe",
+        "status": "APPROVED"
+    },
+    {
+        "thirdParty": "5c3651790870e62814e4115e",
+        "individual": "5c2bd1de7eeeab340369eb00",
+        "status": "REJECTED"
+    },
+    {
+        "thirdParty": "5c3651790870e62814e4115e",
+        "individual": "5c2bd1ca7eeeab340369eaff",
+        "status": "PENDING"
+    },
+    {
+        "thirdParty": "5c3651790870e62814e4115e",
+        "individual": "5c2bd1de7eeeab340369eb00",
+        "status": "PENDING"
+    },
+    {
+        "thirdParty": "5c3651790870e62814e4115e",
+        "individual": "5c2bd1e57eeeab340369eb01",
+        "status": "PENDING"
+    },
+    {
+        "thirdParty": "5c36527e0870e62814e4115f",
+        "individual": "5c2bd1f77eeeab340369eb03",
+        "status": "PENDING"
+    },
+    {
+        "thirdParty": "5c36527e0870e62814e4115f",
+        "individual": "5c2bd2027eeeab340369eb04",
+        "status": "PENDING"
+    },
+    {
+        "thirdParty": "5c36527e0870e62814e4115f",
+        "individual": "5c2bd2037eeeab340369eb05",
+        "status": "APPROVED"
+    },
+    {
+        "thirdParty": "5c36527e0870e62814e4115f",
+        "individual": "5c2bd2037eeeab340369eb06",
+        "status": "APPROVED"
+    },
+    {
+        "thirdParty": "5c36527e0870e62814e4115f",
+        "individual": "5c2bd2047eeeab340369eb07",
+        "status": "PENDING"
+    },
+    {
+        "thirdParty": "5c3654550870e62814e41160",
+        "individual": "5c2bd1ca7eeeab340369eaff",
+        "status": "PENDING"
+    },
+    {
+        "thirdParty": "5c3654550870e62814e41160",
+        "individual": "5c2bd1de7eeeab340369eb00",
+        "status": "PENDING"
+    },
+    {
+        "thirdParty": "5c3654550870e62814e41160",
+        "individual": "5c2bb0147eeeab340369eafe",
+        "status": "APPROVED"
+    },
+    {
+        "thirdParty": "5c3654550870e62814e41160",
+        "individual": "5c2bd1e57eeeab340369eb01",
+        "status": "REJECTED"
+    }
+]
