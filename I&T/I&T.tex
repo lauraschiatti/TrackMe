@@ -75,7 +75,7 @@
 \linespread{1.3}
 %\floatstyle{boxed}
 \restylefloat{figure}
-\parindent 0ex
+\setlength\parindent{0pt}
 %\renewcommand{baselinestretch}{1.5}
 
 %%%%%%%%%%%%
@@ -113,12 +113,14 @@
 		\end{minipage}~
 		\begin{minipage}{0.4\textwidth}
 			\begin{flushright} \large
-				%\emph{Student Number:} \\
 				903988 \\
 				904738 \\
 				904204
 			\end{flushright}
 		\end{minipage}\\[2 cm]
+				
+		\textsc{\large Source code repository}
+		\href{https://github.com/lauricdd/AvilaSchiattiVirdi/tree/backend/src}{\textbf{https://github.com/lauricdd/AvilaSchiattiVirdi/tree/backend/src}}\\[1 cm]
 		
 		{\large January \nth{13} , 2019}\\[2 cm]
 		
@@ -1072,10 +1074,63 @@ Scenario testing is a software testing activity that uses scenarios: hypothetica
 \end{table}%
 \end{itemize}
 
-\chapter{Installation instructions}
-write here pre-requisites, instructions to install etc...
+	\chapter{Installation instructions}
+The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS, and Track4Run. We decided to develop Data4Help, which is the leading system, and AutomatedSOS.
+
+	\section{How to run both systems?}
+	The whole system is dockerized, just run the follow the following steps:
+
+	\begin{enumerate}
+	\item Install \href{https://docs.docker.com/install/}{\textbf{Docker}} and \href{https://docs.docker.com/compose/install/}{\textbf{Docker Compose}}.
+	\item At the level of \textit{TrackMe/src} folder, open a terminal and execute
+	\textbf{ sudo docker-compose up} (with --build to rebuild the image).
+	\item Open the browser and you can access to the Data4Help site using the following URL
+		\textbf{http://0.0.0.0:4200}
+	\end{enumerate}
+	
+	\subsection{How to run the tests image?}
+	\begin{enumerate}
+	\item After installing \textit{Docker} and \textit{Docker compose} and in the src folder, execute in a terminal: 
+	\textbf{sudo docker-compose -f  ------>s}
+	\item his will run all the unit test cases and will exit. If the exit code is 0 and you see \textbf{Tests run: XX, Failures: 0, Errors: 0, Skipped: 0}, everything is ok.
+	\end{enumerate}
+	 
+	\section{How to each system independently?}
+	\subsection{How to work on the back-end?}
+	The following are the steps needed to work on the back-end:
+	
+	\begin{enumerate}
+	\item You will need \href{https://www.oracle.com/technetwork/java/javase/downloads/index.html}{\textbf{JDK}}  $>$= 8.
+	\item Install \href{https://maven.apache.org/what-is-maven.html}{\textbf{Apache Maven}}. 
+	\item Install \href{https://docs.mongodb.com/manual/installation/}{\textbf{MongoDB}}  and \href{https://redis.io/download}{\textbf{Redis}}.
+	\item In the folder \textit{TrackMe/src/data4help/}, open a terminal and run \textbf{mvn compile}.
+	\item \textit{[Optional]} To run the service:
+		\begin{enumerate}
+		\item Make sure that MongoDB and Redis services are running.
+		\item Execute the following line:\\
+		\textbf{ mvn -X compile exec:java -Dexec.mainClass=avila.schiatti.virdi.Main -e}.
+		\item You will be able to access the site/services by accessing to \textbf{http://127.1.1.1:4567}
+		\end{enumerate}
+	
+	\textit{	In order to be able to have the front end, you should follow the steps of the front-end section, without running it}	
+	\end{enumerate}
+	
+	\subsection{How to work on the front-end?}
+	In order to work on the front-end, follow this steps:
+
+	\begin{enumerate}
+	\item Install \href{https://nodejs.org/es/download/}{\textbf{Nodejs and NPM}}.
+	\item Install \href{https://cli.angular.io/}{\textbf{AngularCLI }} by running the following line:\textbf{ npm install -g @angular/cli }
+	\item Go to \textit{src/main/resources} folder and install the package dependencies running: \textbf{npm install}
+	\item Build the project by running \textbf{ng build}.
+	\item To run the front-end, you can run: \textbf{ng serve}. You will be able to access the front-end by accessing to \textbf{http://127.1.1.1:4200} 
+	
+	\textit{You won't have access to the back-end services, so probably the front-end alone is not useful)}
+	\end{enumerate}
+	
 	
 	\chapter{Effort spent}
+	
 	\begin{table}[h]
 		\centering
 		\begin{tabular}{l c}
@@ -1147,10 +1202,11 @@ write here pre-requisites, instructions to install etc...
 	\begin{itemize}
 		\item Requirement Analysis and Specification Document.pdf. Version 1.1 - 11.11.2018
 		\item Design Document.pdf. Version 1.0 - 10.12.2018
-		\item{Spark - http://sparkjava.com/}
-		\item{Morphia - http://morphiaorg.github.io/morphia/}
-		\item{Lettuce - https://lettuce.io/}
-		\item{Angular - https://angular.io/}
+		\item \textbf{Spark} - http://sparkjava.com/
+		\item \textbf{Morphia} - http://morphiaorg.github.io/morphia/
+		\item \textbf{Lettuce} - https://lettuce.io/
+		\item \textbf{Angular} - https://angular.io/
+		\item \textbf{Docker} - https://docs.docker.com/
 		
 	\end{itemize}
 	
