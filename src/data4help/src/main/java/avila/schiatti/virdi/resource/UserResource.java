@@ -60,11 +60,11 @@ public class UserResource extends Resource<D4HUser> {
         Query<Individual> q = datastore.find(Individual.class);
 
         if(!Validator.isNullOrEmpty(query.getCountry())){
-            q = q.field("country").equal(query.getCountry());
+            q = q.field("address.country").equal(query.getCountry());
             if(!Validator.isNullOrEmpty(query.getProvince())){
-                q = q.field("province").equal(query.getProvince());
+                q = q.field("address.province").equal(query.getProvince());
                 if(!Validator.isNullOrEmpty(query.getCity())){
-                    q = q.field("city").equal(query.getCity());
+                    q = q.field("address.city").equal(query.getCity());
                 }
             }
         }
