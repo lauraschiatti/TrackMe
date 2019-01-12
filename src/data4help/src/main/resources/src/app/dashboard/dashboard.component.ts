@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService, AuthenticationService, SubscriptionService } from '../_services';
+import {Component, OnInit} from '@angular/core';
+import {AuthenticationService, SubscriptionService, UserService} from '../_services';
+import {ErrorHandler} from '../_helpers';
 
 @Component({
     selector: 'app-dashboard',
@@ -15,7 +16,8 @@ export class DashboardComponent implements OnInit {
     constructor(
         private authenticationService: AuthenticationService,
         private userService: UserService,
-        private subscriptionService: SubscriptionService
+        private subscriptionService: SubscriptionService,
+        private errorHandler: ErrorHandler
     ) {
         this.role = this.authenticationService.currentUserValue.role;
     }
@@ -29,19 +31,21 @@ export class DashboardComponent implements OnInit {
                     // console.log('user', this.role);
                 },
                 error => {
-                    console.log('error', error);
+                    console.log('get user profile error', error);
                 });
 
         this.subscriptionService
             .getAllSubscriptions()
             .subscribe(
                 data => {
-                        this.subscriptions = data['data'];
-                        console.log('subscriptions', this.subscriptions);
-                    },
-                    error => {
-                        console.log('get all subscriptions error', error);
-                    });
+                    this.subscriptions = data['data'];
+                    console.log('subscriptions', this.subscriptions);
+                },
+                error => {
+                    console.log('get all subscriptions error', error);
+                    // const e = this.errorHandler.handleError(error);
+                    // this.error = e.message;
+                });
 
     }
 }

@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { RequestService, UserService } from '../_services';
+import {Component, OnInit} from '@angular/core';
+import {RequestService, UserService} from '../_services';
 
 @Component({
-  selector: 'app-request',
-  templateUrl: './request.component.html',
-  styleUrls: ['./request.component.css']
+    selector: 'app-request',
+    templateUrl: './request.component.html',
+    styleUrls: ['./request.component.css']
 })
 export class RequestComponent implements OnInit {
-
     user = '';
     requests = [];
 
@@ -44,7 +43,7 @@ export class RequestComponent implements OnInit {
         const status = (<HTMLInputElement>document.getElementById(selectIndex)).value;
 
         const body = {
-            'ssn' : this.user['ssn'],
+            'ssn': this.user['ssn'],
             'status': status
         };
 
@@ -53,14 +52,14 @@ export class RequestComponent implements OnInit {
         this.requestService
             .updateRequestStatus(body, id)
             .subscribe(
-            data => {
-                location.reload(true);
-                console.log('update request status', data['data']);
-            },
-            error => {
-                console.log('update request status error ', error);
-            }
-        );
+                data => {
+                    location.reload(true);
+                    console.log('update request status', data['data']);
+                },
+                error => {
+                    console.log('update request status error ', error);
+                }
+            );
 
     }
 

@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService, RequestService, SearchService, SubscriptionService } from '../_services';
-import { BloodType, Gender } from '../_models';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthenticationService, RequestService, SearchService, SubscriptionService} from '../_services';
+import {BloodType, Gender} from '../_models';
+import {ErrorHandler} from '../_helpers';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-
     request = '';
     role = '';
 
@@ -17,7 +17,7 @@ export class SearchComponent implements OnInit {
     bulkForm: FormGroup;
     iFormSubmitted = false;
     error = '';
-    errorBulk =  '';
+    errorBulk = '';
 
     bloodTypes = BloodType.values();
     Gender = Gender.values();
@@ -31,7 +31,8 @@ export class SearchComponent implements OnInit {
         private requestService: RequestService,
         private subscriptionService: SubscriptionService,
         private iFormBuilder: FormBuilder,
-        private bulkFormBuilder: FormBuilder
+        private bulkFormBuilder: FormBuilder,
+        private errorHandler: ErrorHandler
     ) {
         this.role = this.authenticationService.currentUserValue.role;
     }
@@ -58,8 +59,13 @@ export class SearchComponent implements OnInit {
         });
     }
 
-    get iControls() { return this.iForm.controls; }
-    get bulkControls() { return this.bulkForm.controls; }
+    get iControls() {
+        return this.iForm.controls;
+    }
+
+    get bulkControls() {
+        return this.bulkForm.controls;
+    }
 
     onSubmitIndividualSearch() {
         this.iFormSubmitted = true;
@@ -79,13 +85,14 @@ export class SearchComponent implements OnInit {
 
                     },
                     error => {
-                        this.error = error;
+                        const e = this.errorHandler.handleError(error);
+                        this.error = e.message;
 
-                        if (error === 'Should send a request to the individual to access his data') {
+                        if (this.error === 'Should send a request to the individual to access his data') {
                             this.showSendRequest = true;
                         }
 
-                        console.log('individual search error ', error);
+                        console.log('individual search error ', this.error);
                     }
                 );
         }
@@ -101,8 +108,9 @@ export class SearchComponent implements OnInit {
 
                 },
                 error => {
-                    this.errorBulk = error;
-                    console.log('error ', error);
+                    const e = this.errorHandler.handleError(error);
+                    this.errorBulk = e.message;
+                    console.log('bulk search error', this.errorBulk);
                 }
             );
 
@@ -115,13 +123,13 @@ export class SearchComponent implements OnInit {
 
             const subscription = {
                 'filter': {
-                    'gender' : this.bulkControls.gender.value,
+                    'gender': this.bulkControls.gender.value,
                     'bloodType': this.bulkControls.bloodType.value,
                     'minAge': Number(this.bulkControls.minAge.value),
                     'maxAge': Number(this.bulkControls.maxAge.value),
-                    'city' : this.bulkControls.city.value,
+                    'city': this.bulkControls.city.value,
                     'province': this.bulkControls.province.value,
-                    'country' : this.bulkControls.country.value
+                    'country': this.bulkControls.country.value
                 },
                 'timeSpan': timeSpan
             };
@@ -143,7 +151,7 @@ export class SearchComponent implements OnInit {
 
     onSendRequest() {
         const ssn = {
-            'ssn' : this.iControls.ssn.value
+            'ssn': this.iControls.ssn.value
         };
 
         this.requestService

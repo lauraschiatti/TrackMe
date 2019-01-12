@@ -15,8 +15,8 @@
         <form [formGroup]="iForm" (ngSubmit)="onSubmitIndividuals()" class="p-5 bg-white">
           <h2 class="mb-4 text-black">Register Individuals</h2>
 
-          <div *ngIf="error"  class="alert alert-danger" >
-            {{ error }}
+          <div *ngIf="iError"  class="alert alert-danger" >
+            {{ iError }}
             <br>
           </div>
 
@@ -142,8 +142,8 @@
         <form [formGroup]="tpForm" (ngSubmit)="onSubmitThirdParties()" class="p-5 bg-white">
           <h2 class="mb-4 text-black">Register Third Parties</h2>
 
-          <div *ngIf="error"  class="alert alert-danger" >
-            {{ error }}
+          <div *ngIf="tpError"  class="alert alert-danger" >
+            {{ tpError }}
             <br>
           </div>
 

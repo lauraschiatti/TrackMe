@@ -18,14 +18,12 @@ Age	Target Heart Rate (beats per minute)
 70	75 to 113
 75	73 to 109
 
-------------------> Body temperature can be estimated from the skin temperature, which can be measured with infrared thermopile (°F)
+------------------> Body temperature can be estimated from the skin temperature, which can be measured with infrared thermopile (°C)
 Body temperatures based on the age are estimated as
-Babies and children. Ranges from 97.9°F (36.6°C) to 99°F (37.2°C).
-Adults. Ranges from 97°F (36.1°C) to 99°F (37.2°C).
-Adults over age 65. In older adults, the average body temperature is lower than 98.6°F (36.2°C).
+3 - 10 years 35.9–36.7°C
+11 - 65 years: 35.2–36.9°C
+Over 65 years: 35.6–36.3°C
 
-Normal‎: ‎36.5–37.5 °C (97.7–99.5 °F)	Hypothermia‎: ‎<35.0 °C (95.0 °F)
-Fever‎: ‎>37.5 or 38.3 °C (99.5 or 100.9 °F)	Hyperthermia‎: ‎>37.5 or 38.3 °C (99.5 or 100.9 ...
 
 ------------------> Blood pressure: systolic, diastolic (mmHg). Pulse oximeter.
 Usually ranges between 90 to 250 for the top or maximum number (systolic) and 60 to 140 for the bottom or minimum number (diastolic).
