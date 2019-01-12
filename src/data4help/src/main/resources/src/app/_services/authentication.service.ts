@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 import { User } from '../_models';
 
@@ -68,10 +69,28 @@ export class AuthenticationService {
         }
     }
 
+    // isValidToken() {
+    //     const currentUser = this.getCurrentUser();
+    //
+    //     const headers = new HttpHeaders({
+    //         'ACCESS-TOKEN': currentUser['userId'],
+    //         'USER_ID': currentUser['accessToken']
+    //     });
+    //
+    //     return this.http.head(`${this.baseUrl}/web/`, { headers: headers})
+    //         .pipe(
+    //             catchError(err => {
+    //                 console.log(err);
+    //                 return of(null);
+    //             })
+    //         );
+    // }
+
     setCurrentUser(user): void {
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
         console.log('user stored');
+        this.router.navigate(['/dashboard']);
     }
 
     getCurrentUser() {
