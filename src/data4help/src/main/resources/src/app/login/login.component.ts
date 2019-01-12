@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService } from '../_services';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthenticationService} from '../_services';
+import {ErrorHandler} from '../_helpers';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 
 export class LoginComponent implements OnInit {
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private authenticationService: AuthenticationService
+        private authenticationService: AuthenticationService,
+        private errorHandler: ErrorHandler
     ) {
         // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) {
@@ -29,17 +31,19 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-      this.loginForm = this.formBuilder.group({
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]]
-      });
+        this.loginForm = this.formBuilder.group({
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', [Validators.required, Validators.minLength(6)]]
+        });
 
-      // get return url from route parameters or default to '/'
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+        // get return url from route parameters or default to '/'
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.loginForm.controls; }
+    get f() {
+        return this.loginForm.controls;
+    }
 
 
     onSubmit() {
@@ -51,19 +55,20 @@ export class LoginComponent implements OnInit {
         }
 
         const credentials = {
-            'email' : this.f.email.value,
+            'email': this.f.email.value,
             'password': this.f.password.value
         };
 
         this.authenticationService
             .login(credentials)
             .subscribe(
-            data => {
-                this.router.navigate([this.returnUrl]);
-            },
-            error => {
-                this.error = error.message;
-            });
+                data => {
+                    this.router.navigate([this.returnUrl]);
+                },
+                error => {
+                    const e = this.errorHandler.handleError(error);
+                    this.error = e.message;
+                });
     }
 }
 

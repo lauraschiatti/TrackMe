@@ -1,21 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import { AuthenticationService } from '../_services';
-import { BloodType, Gender } from '../_models';
+import {AuthenticationService} from '../_services';
+import {BloodType, Gender} from '../_models';
+import {ErrorHandler} from '../_helpers';
 
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
     iForm: FormGroup;
     tpForm: FormGroup;
     iFormSubmitted = false;
     tpFormSubmitted = false;
-    error = '';
+    iError = '';
+    tpError = '';
 
     bloodTypes = BloodType.values();
     Gender = Gender.values();
@@ -24,7 +26,9 @@ export class RegisterComponent implements OnInit {
         private iFormBuilder: FormBuilder,
         private tpFormBuilder: FormBuilder,
         private authenticationService: AuthenticationService,
-    ) {}
+        private errorHandler: ErrorHandler
+    ) {
+    }
 
     ngOnInit() {
         this.iForm = this.iFormBuilder.group({
@@ -56,8 +60,13 @@ export class RegisterComponent implements OnInit {
     }
 
     // convenience getter for easy access to form fields
-    get iControls() { return this.iForm.controls; }
-    get tpControls() { return this.tpForm.controls; }
+    get iControls() {
+        return this.iForm.controls;
+    }
+
+    get tpControls() {
+        return this.tpForm.controls;
+    }
 
     onSubmitIndividuals() {
         this.iFormSubmitted = true;
@@ -70,7 +79,7 @@ export class RegisterComponent implements OnInit {
         const address = this.iControls.address.value.split(',');
 
         const individual = {
-            'name':  this.iControls.name.value,
+            'name': this.iControls.name.value,
             'ssn': this.iControls.ssn.value,
             'weight': this.iControls.weight.value,
             'height': this.iControls.height.value,
@@ -92,17 +101,17 @@ export class RegisterComponent implements OnInit {
                 .subscribe(
                     data => {
                         const user = {
-                          'userId': data['userId'],
-                          'accessToken': data['accessToken'],
-                          'role': 'INDIVIDUAL'
+                            'userId': data['userId'],
+                            'accessToken': data['accessToken'],
+                            'role': 'INDIVIDUAL'
                         };
 
                         this.authenticationService.setCurrentUser(user);
 
                     },
                     error => {
-                        this.error = error;
-                        console.log('error ', this.error);
+                        this.iError = error;
+                        console.log('error ', this.iError);
                     }
                 );
         }
@@ -117,7 +126,7 @@ export class RegisterComponent implements OnInit {
         }
 
         const thirdparty = {
-            'name':  this.tpControls.companyname.value,
+            'name': this.tpControls.companyname.value,
             'taxCode': this.tpControls.taxcode.value,
             'certificate': '',
             'phone': this.tpControls.phone.value,
@@ -144,8 +153,9 @@ export class RegisterComponent implements OnInit {
                         this.authenticationService.setCurrentUser(user);
                     },
                     error => {
-                        this.error = error;
-                        console.log('error ', this.error);
+                        const e = this.errorHandler.handleError(error);
+                        this.tpError = e.message;
+                        console.log('error ', this.tpError);
                     }
                 );
         }

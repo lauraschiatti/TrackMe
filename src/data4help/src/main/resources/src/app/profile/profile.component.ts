@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthenticationService, UserService } from '../_services';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {AuthenticationService, UserService} from '../_services';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
     user = '';
@@ -40,7 +40,9 @@ export class ProfileComponent implements OnInit {
 
     }
 
-    get f() { return this.configForm.controls; }
+    get f() {
+        return this.configForm.controls;
+    }
 
     onSubmitConfig() {
         if (this.configForm.invalid) {
