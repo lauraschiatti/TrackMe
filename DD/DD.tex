@@ -171,6 +171,7 @@ interface within the next five seconds. The health care service reaction time ca
 		\item{\textbf{Anonymize}}: The action of anonymize means that an individual’s identity cannot
 be inferred using the available data.
 		\item{\textbf{Parameter out of its normal range}}: Meaning that the parameter is under or above a defined threshold. 
+		\item{\textbf{Filter}}
 	\end{itemize}
 	
 	\subsection{Acronyms}
@@ -979,15 +980,19 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	As explained in the RASD, the whole data model of TrackMe up to now will be treated as a "black box", this means \textbf{D4H} will have a local copy of the \textit{basic information} and \textit{collected data} only of users who activated this service. The classes considered in D4H, their attributes, and relationships are shown in Figure \ref{fig:Data4Help Class Diagram}.
 	
 	\begin{itemize}
-		\item{\textbf{User}}: basic attributes of all users interacting with the system.
-		\item{\textbf{Individual}}: users wearing the devices.
-		\item{\textbf{Data}}: health status and location collected from devices.
-		\item{\textbf{ThirdParty}}: companies requesting data of individuals or bulk data. For registering, all third parties must provide a certificate to verify that it is a legally constituted company.
-		\item{\textbf{TPConfiguration}}: an important issue to tackle is the way in which the system will communicate to third parties to send them notifications or the data they request. To send information regarding saved queries, third parties will be asked to provide three endpoints,
-	 \textit{individualpushURL}, \textit{bulkPushURL} and \textit{notificationURL}.
-		\item{\textbf{Request}}: third parties can request data of a given individual. Each request has an associated \textit{status}, initially is \textit{pending} and can become either \textit{rejected} or \textit{approved} according to to whether the individual accepts or not. 
-		\textit{Requests for bulk data} are treated differently. The only constraints to provide that data to third parties are managed by the system (if they do not hold the third party is notified)
-		\item{\textbf{Subscription}}:  third parties can \textit{subscribe} to receive new data, then the query of the search they did needs to be stored. \\
+		\item{\textbf{D4HUser}}: credentials of all users interacting with the system.
+		\item{\textbf{Individual}}: main attributes of users wearing the devices.
+		\item{\textbf{Data}}: health status, location and timestamp collected from devices.
+		\item{\textbf{ThirdParty}}: companies requesting data of individuals or bulk data. For registering, all third parties must provide a certificate to verify that it is a legally constituted company (it was assumed that there is a mechanism capable of doing this checking).
+		
+		\item{\textbf{TPConfiguration}}: an important issue to tackle is the way in which the system will communicate to third parties to send them notifications or data they request. Then, they are asked to provide three endpoints,
+	 \textit{individualpushUrl}, \textit{bulkPushUrl} and \textit{notificationUrl}.
+	 
+		\item{\textbf{D4HRequest}}: third parties can make requests to access data of a given individual. Each request has an associated \textit{status}, initially is \textit{PENDING} and can become either \textit{APPROVED} or \textit{REJECTED} according to whether the individual accepts it or not. \\\\
+		\textbf{**} After the status of a request is updated to \textit{APPROVED}, a subscription to receive new data of the intended individual is automatically created. \\
+		\textbf{**} \textit{Requests for bulk data} are treated differently. The only constraints are managed by the system (if they do not hold the third party is notified), then there is no need to store them.
+		
+		\item{\textbf{Subscription}}: when searching for bulk data, third parties can decide if they want to subscribe to that specific \textit{filter}. This means, they will receive new data after a certain amount of time defined by a \textit{timeSpan} (hours). New data will be send to individuals according to the nextExecution attribute of the subscription.
 	\end{itemize}
 
 	\begin{figure}[H]
