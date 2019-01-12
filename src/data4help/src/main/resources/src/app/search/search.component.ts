@@ -24,6 +24,8 @@ export class SearchComponent implements OnInit {
 
     showSendRequest = false;
     showRequestInfo = false;
+    showData = false;
+    data;
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -80,8 +82,9 @@ export class SearchComponent implements OnInit {
                 .search(this.iControls.ssn.value)
                 .subscribe(
                     data => {
-                        // display data
-                        console.log('search: individual data', data);
+                        this.data = data['data'];
+                        this.showData = true;
+                        console.log('search: individual data', this.data);
 
                     },
                     error => {
@@ -103,8 +106,9 @@ export class SearchComponent implements OnInit {
             .search(null, this.bulkForm.value)
             .subscribe(
                 data => {
-                    // display data
-                    console.log('search: bulk data', data);
+                    this.data = data['data'];
+                    this.showData = true;
+                    console.log('search: bulk data', this.data);
 
                 },
                 error => {
@@ -138,7 +142,6 @@ export class SearchComponent implements OnInit {
                 .createSubscription(subscription)
                 .subscribe(
                     data => {
-                        // display data
                         console.log('bulk subscription data', data);
 
                     },

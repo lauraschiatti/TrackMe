@@ -80,9 +80,10 @@
                                 <tr *ngFor="let request of requests;  let i=index">
                                     <td>{{ i+1 }}</td>
                                     <td>{{ request['thirdParty']['name'] }}</td>
-                                    <td>{{ request['status'] }}</td>
+                                    <td><code>{{ request['status'] }}</code></td>
                                     <td>
                                         <select class="form-control" id="{{ i }}">
+                                            <option value="">Update status ...</option>
                                             <option value="APPROVED">Approve</option>
                                             <option value="REJECTED">Reject</option>
                                         </select>
