@@ -26,6 +26,7 @@ export class SearchComponent implements OnInit {
     showRequestInfo = false;
     showData = false;
     data;
+    search;
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -77,9 +78,13 @@ export class SearchComponent implements OnInit {
             return;
         }
 
+        const ssn = this.iControls.ssn.value;
+
+        this.search = {'ssn': ssn };
+
         if (this.iForm.valid) {
             this.searchService
-                .search(this.iControls.ssn.value)
+                .search(ssn)
                 .subscribe(
                     data => {
                         this.data = data['data'];
@@ -118,26 +123,30 @@ export class SearchComponent implements OnInit {
                 }
             );
 
+
+        /** Subscription **/
+        let timeSpan = 6; // default value
+        if (this.bulkControls.timeSpan.value) {
+            timeSpan = this.bulkControls.timeSpan.value;
+        }
+
+        const subscription = {
+            'filter': {
+                'gender': this.bulkControls.gender.value,
+                'bloodType': this.bulkControls.bloodType.value,
+                'minAge': Number(this.bulkControls.minAge.value),
+                'maxAge': Number(this.bulkControls.maxAge.value),
+                'city': this.bulkControls.city.value,
+                'province': this.bulkControls.province.value,
+                'country': this.bulkControls.country.value
+            },
+            'timeSpan': timeSpan
+        };
+
+        this.search = subscription['filter'];
+
         // Create subscription to data
         if (this.bulkControls.subscription.value) {
-            let timeSpan = 6; // default value
-            if (this.bulkControls.timeSpan.value) {
-                timeSpan = this.bulkControls.timeSpan.value;
-            }
-
-            const subscription = {
-                'filter': {
-                    'gender': this.bulkControls.gender.value,
-                    'bloodType': this.bulkControls.bloodType.value,
-                    'minAge': Number(this.bulkControls.minAge.value),
-                    'maxAge': Number(this.bulkControls.maxAge.value),
-                    'city': this.bulkControls.city.value,
-                    'province': this.bulkControls.province.value,
-                    'country': this.bulkControls.country.value
-                },
-                'timeSpan': timeSpan
-            };
-
             this.subscriptionService
                 .createSubscription(subscription)
                 .subscribe(
