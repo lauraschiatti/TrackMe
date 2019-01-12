@@ -14,7 +14,7 @@ import {Data4helpComponent} from './ui/data4help/data4help.component';
 import {AutomatedSOSComponent} from './ui/automated-sos/automated-sos.component';
 import {Track4runComponent} from './ui/track4run/track4run.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {ErrorHandler, TokenInterceptor} from './_helpers';
+import {GlobalErrorHandler, TokenInterceptor} from './_helpers';
 import {RequestComponent} from './request/request.component';
 import {ProfileComponent} from './profile/profile.component';
 import {SearchComponent} from './search/search.component';
@@ -47,7 +47,7 @@ import {SearchComponent} from './search/search.component';
             useClass: TokenInterceptor,
             multi: true
         },
-        ErrorHandler
+        GlobalErrorHandler
     ],
     bootstrap: [AppComponent]
 })

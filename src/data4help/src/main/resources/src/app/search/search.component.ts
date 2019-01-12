@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService, RequestService, SearchService, SubscriptionService} from '../_services';
 import {BloodType, Gender} from '../_models';
-import {ErrorHandler} from '../_helpers';
+import {GlobalErrorHandler} from '../_helpers';
 
 @Component({
     selector: 'app-search',
@@ -32,7 +32,7 @@ export class SearchComponent implements OnInit {
         private subscriptionService: SubscriptionService,
         private iFormBuilder: FormBuilder,
         private bulkFormBuilder: FormBuilder,
-        private errorHandler: ErrorHandler
+        private errorHandler: GlobalErrorHandler
     ) {
         this.role = this.authenticationService.currentUserValue.role;
     }

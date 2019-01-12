@@ -1,2 +1,2 @@
 export * from './token.interceptor';
-export * from './error.handler';
+export * from './global.error.handler';

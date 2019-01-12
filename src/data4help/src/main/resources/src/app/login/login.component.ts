@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../_services';
-import {ErrorHandler} from '../_helpers';
+import {GlobalErrorHandler} from '../_helpers';
 
 @Component({
     selector: 'app-login',
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private errorHandler: ErrorHandler
+        private errorHandler: GlobalErrorHandler
     ) {
         // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) {

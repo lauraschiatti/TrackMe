@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService, SubscriptionService, UserService} from '../_services';
-import {ErrorHandler} from '../_helpers';
+import {GlobalErrorHandler} from '../_helpers';
 
 @Component({
     selector: 'app-dashboard',
@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private userService: UserService,
         private subscriptionService: SubscriptionService,
-        private errorHandler: ErrorHandler
+        private errorHandler: GlobalErrorHandler
     ) {
         this.role = this.authenticationService.currentUserValue.role;
     }
