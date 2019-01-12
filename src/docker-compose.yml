@@ -1,26 +1,31 @@
 version: '3'
 services:
-  redis:
-    image: "redis:4.0"
-  mongodb:
-    image: "mongo:4.0.4"
-  d4h_front:
-    build:
-        context: ./data4help
-        dockerfile: Dockerfile.front
-    ports:
-        - "4200:4200"
-    command: ["ng", "serve", "--host", "0.0.0.0"]
-  d4h:
-    build:
-        context: ./data4help
-        dockerfile: Dockerfile
-    ports:
-        - "4567:4567"
-    environment:
-        - MONGODB_URI=mongodb://mongodb:27017
-        - REDIS_URL=redis://redis:6379/
-    depends_on:
-        - "mongodb"
-        - "redis"
-    command: ["./wait-for-it.sh", "mongodb:27017", "--", "./wait-for-it.sh", "redis:6379",  "--", "/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", "target/data4help-jar-with-dependencies.jar"]
+    redis:
+        image: "redis:4.0"
+    mongodb:
+        image: "mongo:4.0.4"
+    # d4h_front:
+    #     build:
+    #         context: ./data4help
+    #         dockerfile: Dockerfile.front
+    #     ports:
+    #         - "4200:4200"
+    #     command: ["ng", "serve", "--host", "0.0.0.0"]
+    d4h:
+        build:
+            context: ./data4help
+            dockerfile: Dockerfile
+        ports:
+            - "4567:4567"
+        environment:
+            - MONGODB_URI=mongodb://mongodb:27017
+            - REDIS_URL=redis://redis:6379/
+        depends_on:
+            - "mongodb"
+            - "redis"
+        command: ["./wait-for-it.sh", "mongodb:27017", "--", "./wait-for-it.sh", "redis:6379",  "--", "java", "-jar", "target/data4help-jar-with-dependencies.jar"]
+    data_gen:
+        build: ./d4h_data_generator
+        depends_on:
+            - "d4h"
+        command: ["./wait-for-it.sh", "d4h:4567", "--", "php", "./d4h_generator.php"]
