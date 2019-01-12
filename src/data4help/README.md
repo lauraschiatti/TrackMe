@@ -9,7 +9,7 @@ The following are the steps needed to work on the back-end:
 1. Install [MongoDB](https://docs.mongodb.com/manual/installation/) and [Redis](https://redis.io/download)
 1. Open a terminal and from this folder, run: `mvn dependency:resolve` and then `mvn compile`
 1. *[Optional]* To run the service:
-    1. Make sure that MongoDB and Redis services are running.
+    1. Make sure that MongoDB ($ mongo) and Redis ($redis-server) services are running.
     1. Execute the following line: `mvn -X compile exec:java -Dexec.mainClass=avila.schiatti.virdi.Main -e`. You will be able to access the site/services by accessing to http://127.1.1.1:4567
     1. In order to be able to have the front end, you should follow the steps of the front-end section, without running it.
 

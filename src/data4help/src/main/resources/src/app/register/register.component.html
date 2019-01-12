@@ -170,7 +170,7 @@
           <div class="row form-group">
             <div class="col-md-12">
               <label class="font-weight-bold" for="taxcode">Phone</label>
-              <input type="text" id="phone" formControlName="phone" pattern='^\+?\d{0,13}' placeholder="+39 1234567890" class="form-control rounded-0" [ngClass]="{ 'is-invalid': tpFormSubmitted && tpControls.phone.errors }" />
+              <input type="text" id="phone" formControlName="phone" placeholder="+391234567890" class="form-control rounded-0" [ngClass]="{ 'is-invalid': tpFormSubmitted && tpControls.phone.errors }" />
               <div *ngIf="tpFormSubmitted && tpControls.phone.errors" class="invalid-feedback">
                 <div *ngIf="tpControls.phone.errors.required">Phone is required</div>
               </div>

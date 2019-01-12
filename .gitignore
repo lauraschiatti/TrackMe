@@ -11,6 +11,7 @@
 
 RASD/*.pdf
 DD/*.pdf
+ITD/*.pdf
 
 # Ignore Mac DS_Store files
 .DS_Store
@@ -24,3 +25,7 @@ src/**/public
 node_modules/
 src/**/resources/public/*
 package-lock.json
+
+
+# Ignore redis binary dump (dump.rdb) files
+src/data4help/dump.rdb
