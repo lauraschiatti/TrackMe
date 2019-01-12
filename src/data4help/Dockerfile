@@ -1,41 +1,24 @@
 FROM maven:3.6-jdk-8-alpine
 
-# Install nodejs
-#RUN apt-get update
-#RUN apt-get install -y curl
-#
-#RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
-#RUN apt-get install -y nodejs
-#RUN npm --version
-
 WORKDIR /code
 
-# installing curl
-RUN apk add --update curl && rm -rf /var/cache/apk/*
+# installing curl and mongodb tools
+RUN apk add --update curl mongodb-tools bash && rm -rf /var/cache/apk/*
 
 RUN curl https://raw.githubusercontent.com/eficode/wait-for/master/wait-for --output wait-for-it.sh
 RUN chmod +x wait-for-it.sh
 
-# Prepare by downloading dependencies
-ADD pom.xml /code/pom.xml
-RUN ["mvn", "dependency:resolve"]
-RUN ["mvn", "verify"]
-
 # Adding source, compile and package into a fat jar
 ADD src /code/src
 ADD configuration /code/configuration
-ADD migration /code/migration
+ADD dbbackup /code/dbbackup
+ADD restore_db_and_start.sh /code/restore_db_and_start.sh
 
-# Compile front-end
-#WORKDIR /code/src/main/resources
-#RUN npm install -g @angular/cli
-#RUN npm install
-#RUN ng build
+ADD pom.xml /code/pom.xml
+# Prepare by downloading dependencies
+RUN ["mvn", "dependency:resolve"]
 
 # Package the code
-WORKDIR /code
 RUN ["mvn", "-Dmaven.test.skip=true", "package"]
 
 EXPOSE 4567
-#EXPOSE 4200
-# RUN ["/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", "target/data4help-jar-with-dependencies.jar"]

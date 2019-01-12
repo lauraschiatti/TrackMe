@@ -23,7 +23,7 @@ services:
         depends_on:
             - "mongodb"
             - "redis"
-        command: ["./wait-for-it.sh", "mongodb:27017", "--", "./wait-for-it.sh", "redis:6379",  "--", "java", "-jar", "target/data4help-jar-with-dependencies.jar"]
+        command: ["./wait-for-it.sh", "mongodb:27017", "--", "./wait-for-it.sh", "redis:6379", "--", "sh", "./restore_db_and_start.sh"]
     data_gen:
         build: ./d4h_data_generator
         depends_on:
