@@ -150,6 +150,8 @@ public class SubscriptionService extends Service {
             subscriptions.forEach((s) -> {
                 s.getFilter().setIndividual(cloneIndividual(s.getFilter().getIndividual()));
                 s.setThirdParty(cloneThirdParty(s.getThirdParty()));
+                // remove request from response
+                s.setRequest(null);
             });
         }
 
