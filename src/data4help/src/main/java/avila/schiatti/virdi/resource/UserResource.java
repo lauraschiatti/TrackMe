@@ -10,6 +10,7 @@ import xyz.morphia.annotations.IndexOptions;
 import xyz.morphia.query.CriteriaContainerImpl;
 import xyz.morphia.query.Query;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -78,8 +79,8 @@ public class UserResource extends Resource<D4HUser> {
         }
 
         if(query.getMinAge() != null && query.getMaxAge() != null && query.getMinAge() <= query.getMaxAge()){
-            q = q.field("age").greaterThanOrEq(query.getMinAge());
-            q = q.field("age").lessThanOrEq(query.getMaxAge());
+            q = q.field("birthDate").greaterThanOrEq(LocalDate.now().minusYears(query.getMaxAge()));
+            q = q.field("birthDate").lessThanOrEq(LocalDate.now().minusYears(query.getMinAge()));
         }
 
         return q.asList();

@@ -17,14 +17,14 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class DataScheduler implements Scheduler{
+public class DataScheduler implements Scheduler {
     private static Logger logger = LoggerFactory.getLogger(DataScheduler.class);
 
     private static Integer INITIAL_DELAY = 0;
     private static Integer PERIOD = 1;
     private static TimeUnit TIME_UNIT = TimeUnit.MINUTES;
 
-    private ScheduledExecutorService executor;
+    private final ScheduledExecutorService executor;
     private ScheduledFuture<?> scheduler;
     private Job job = new Job();
 
