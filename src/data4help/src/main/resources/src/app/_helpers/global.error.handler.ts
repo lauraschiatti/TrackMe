@@ -4,7 +4,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Error} from '../_models';
 
 @Injectable()
-export class ErrorHandler implements ErrorHandler {
+export class GlobalErrorHandler implements GlobalErrorHandler {
     handleError(httpError: any) {
         if (httpError instanceof HttpErrorResponse) {
             // console.error('Backend returned status code: ', httpError.status);

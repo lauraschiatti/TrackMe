@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {AuthenticationService} from '../_services';
 import {BloodType, Gender} from '../_models';
-import {ErrorHandler} from '../_helpers';
+import {GlobalErrorHandler} from '../_helpers';
 
 
 @Component({
@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
         private iFormBuilder: FormBuilder,
         private tpFormBuilder: FormBuilder,
         private authenticationService: AuthenticationService,
-        private errorHandler: ErrorHandler
+        private errorHandler: GlobalErrorHandler
     ) {
     }
 
