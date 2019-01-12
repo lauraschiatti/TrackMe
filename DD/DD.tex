@@ -200,14 +200,14 @@ be inferred using the available data.
 			\hline
 			1.0 &  \nth{11} November, 2018  & \\
 			\hline
-			1.1 &  \nth{10} December, 2018 & \textit{ (a)} \\
+			1.1 &  \nth{13} January, 2019 & \textit{ (a)} \\
 			\hline
 		\end{tabular}
 		\caption{Revision history timeline}
 		\label{fig:Revision history}
 	\end{table}
 	
-	\textit{ (a) }In order to be more precise regarding the architectural design of the system and looking forward to make a correct implementation, some modifications to this document are needed. All of them are related to use cases, requirements traceability matrix and user interfaces.
+	\textit{ (a) } Update regarding diagrams looking forward to be precise with the actual implementation of the system.
 	
 	\section{Document structure}
 	This document is divided in seven parts, each one devoted to approach each one of the steps required to apply requirements engineering techniques.
@@ -373,170 +373,85 @@ and it also contains the most relevant architecture views: component view, class
 		
 	\section{Component interfaces}
 	In the following section all the interfaces of the systems (D4H, T4R, ASOS) are presented. It is stated the classes that are part of the components, the exposed methods, the expected input parameters and the expected outputs, and the different endpoints exposed to the web-sites and to the Third Parties.
+	
 	\subsection{Data4Help interfaces}
-	The following is a list of all the components of D4H, and the classes that belong to them, with the exposed methods.
+	This is a list of all the components of D4H, and the classes that belong to them, with the exposed methods. \\
+	
+	To have access to the exposed methods, it is required for requests to have the following HTTP headers to each request. 	The headers are required for all the methods except for \textit{login},  \textit{signupIndividual} and \textit{signupThirdParty}.\\
+	\textbf{USER\_ID}= userId:String \\
+	\textbf{ACCESS-TOKEN}= accessToken:String \\
+
 	\begin{itemize}
 		\item{\textbf{Login}}
 			\begin{itemize}
-				\item{LoginService}
-					\begin{itemize}
-						\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|}
-						\item{\verb|void logout(Spark.Request req, Spark.Response response)|}
-					\end{itemize}
-				\item{UserResource}
-					\begin{itemize}
-						\item{\verb|D4HUser getByEmailAndPass(String email, String password)|}
-					\end{itemize}
-			\end{itemize}
-			\item{\textbf{Signup}}
-			\begin{itemize}
-				\item{SignupService}
-					\begin{itemize}
-						\item{\verb|SignupResponse signupIndividual(Spark.Request req, Spark.Response res)|}
-						\item{\verb|SignupResponse signupThirdParty(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{UserResource}
-					\begin{itemize}
-						\item{\verb|D4HUser getByEmailAndPass(String email, String password)|}
-						\item{\verb|void add(D4HUser u)|}
-					\end{itemize}
-			\end{itemize}
-			\item{\textbf{SearchManager}}
-			\begin{itemize}
-				\item{SearchService}
-					\begin{itemize}
-						\item{\verb|IndividualSearchResponse searchIndividual(Spark.Request req,|\\ \verb|Spark.Response res)|}
-						\item{\verb|BulkSearchResponse searchBulk(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{UserResource}
-					\begin{itemize}
-						\item{\verb|Individual getBySSN(String ssn)|}
-						\item{\verb|Collection<D4HUser> get(D4HQuery query)|}
-						\item{\verb|Collection<D4HUser> anonymize(Collection<D4HUser> users)|}
-					\end{itemize}
-			\end{itemize}
-			\item{\textbf{Request}}
-			\begin{itemize}
-				\item{RequestService}
-					\begin{itemize}
-						\item{\verb|RequestResponse createRequest(Spark.Request req, Spark.Response res)|}
-						\item{\verb|RequestResponse acceptRequest(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void rejectRequest(Spark.Request req, Spark.Response res)|}
-						\item{\verb|Collection<Request> getAllRequests(Spark.Request req,|\\ \verb|Spark.Response res)|}
-						\item{\verb|void removeRequest(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{RequestResource}
-					\begin{itemize}
-						\item{\verb|Request getById(String id)|}
-						\item{\verb|Collection<Request> getAll(String userId)|}
-						\item{\verb|Request add(Request request)|}
-						\item{\verb|Request delete(Request request)|}
-						\item{\verb|Request update(Request request)|}
-					\end{itemize}
-			\end{itemize}
-			\item{\textbf{Subscription}}
-			\begin{itemize}
-				\item{SubscriptionService}
-					\begin{itemize}
-						\item{\verb|SubscriptionResponse createSubscription(Spark.Request req,|\\ \verb|Spark.Response res)|}
-						\item{\verb|Collection<Subscription> getAllSubscriptions(Spark.Request req,|\\ \verb|Spark.Response res)|}
-						\item{\verb|void removeSubscription(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{SubscriptionResource}
-					\begin{itemize}
-						\item{\verb|Subscription getById(String id)|}
-						\item{\verb|Collection<Subscription> getAll(String userId)|}
-						\item{\verb|Subscription add(Subscription subscription)|}
-						\item{\verb|Subscription delete(Subscription subscription)|}
-					\end{itemize}
-			\end{itemize}
-			\item{\textbf{APIManager}}
-			\begin{itemize}
-				\item{APIManager}
-					\begin{itemize}
-						\item{\verb|APIConfiguration getAPIConfig(String thirdPartyId)|}
-						\item{\verb|void sendNotification(String thirdPartyId, Notification notification)|}
-						\item{\verb|void sendIndividualData(String thirdPartyId, Data data)|}
-						\item{\verb|void sendBulkData(String thirdPartyId, List<Data> data)|}
-					\end{itemize}
-			\end{itemize}
-			\item{\textbf{AuthenticatorManager}}
-			\begin{itemize}
-				\item{AuthenticationManager}
-					\begin{itemize}
-						\item{\verb|void validateAndUpdateAccessToken(String userId, String accessToken)|}
-						\item{\verb|void validateAccessToken(String userId, String accessToken)|}
-						\item{\verb|void validateSecretKey(String appId, String secretKey)|}
-						\item{\verb|void deleteAccessToken(String accessToken)|}
-						\item{\verb|UserWebAuth setUserAccessToken(D4HUser d4HUser)|}
-						\item{\verb|ThirdPartyApiAuth setThirdPartySecretKey(String seed)|}
-						\item{\verb|static String hashPassword(String password)|}
-					\end{itemize}
-			\end{itemize}
-			\item{\textbf{DBManager}}
-			\begin{itemize}
-				\item{DBManager}
-					\begin{itemize}
-						\item{\verb|Morphia.Datastore getDatastore()|}
-					\end{itemize}
-			\end{itemize}
-	\end{itemize}
-	Almost all the components offer a way to communicate with the front-end (web site), or with the third parties. In particular, the Service classes have methods that are related to the external interfaces, which are endpoints used by the web site, in order to let the web user to interact with it, or by a third party services. Is it important to mention that \verb|Spark.Request| and \verb|Spark.Response| classes belong to the \textit{Java Spark Framework}, and does nothing to do with the \textit{Request} class of the TrackMe model. In the following list, all the service classes are listed showing the link between their methods and the endpoints, and the expected inputs and outputs:
-	\begin{itemize}
-		\item{LoginService}
+	\item{\textbf{LoginService}}
 		\begin{itemize}
-			\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/login|}\\
+			\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/login|}\\\\
 			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
+			\textbf{Input} \textit{[LoginRequest]} & \textbf{Output} \textit{[UserWebAuth]} \\
 			\hline
 			\verb|email: String| & \verb|userId: String| \\
 			\verb|password: String| & \verb|accessToken: String| \\
-			& \verb|type: UserType| 
+			& \verb|role: D4HUserRole| 
 			\end{tabular}\\
-			\item{\verb|void logout(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/logout|}\\
+			
+			\item{\verb|String logout(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/logout|}
+			\item{\verb|String isValidToken(Spark.Request req, Spark.Response response)|\\ \verb|HEAD /web/|}
+			\end{itemize}
+				
+		\item{\textbf{UserResource}}
+			\begin{itemize}
+				\item{\verb|D4HUser getByEmailAndPass(String email, String password)|}
+				\item{\verb|ThirdParty getThirdPartyBySecretKey(String secretKey)|}
+				\item{\verb|Individual getBySSN(String ssn)|}
+				\item{\verb|List<Individual> getByQuery(D4HQuery query)|}
+			\end{itemize}
+	  \end{itemize}
+			
+			\item{\textbf{Signup}}
+			\begin{itemize}
+				\item{\textbf{SignupService}}
+					\begin{itemize}
+			\item{\verb|SignupResponse signupIndividual(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/individual/signup|}\\\\
 			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-			\verb|userId: String| & \\
-			\verb|accessToken: String| & \\
-			\end{tabular}\\
-		\end{itemize}
-		\item{SignupService}
-		\begin{itemize}
-			\item{\verb|SignupResponse signupIndividual(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/individual/signup|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
+			\textbf{Input} \textit{[IndividualSignupRequest]} & \textbf{Output} \textit{[UserWebAuth]}\\
 			\hline
 				\verb|email: String| & \verb|userId: String| \\
 				\verb|password: String| & \verb|accessToken: String| \\
-				\verb|name: String| & \\
+				\verb|name: String| & \verb|role: D4HUserRole| \\
 				\verb|ssn: String| & \\
 				\verb|birthDate: Date| & \\
 				\verb|gender: Gender| & \\
 				\verb|bloodType: BloodType| & \\
+				\verb|weight: Float| & \\
+				\verb|height: Float| & \\
 				\verb|address: Address| & \\
 				\verb|address.country: String| & \\
 				\verb|address.province: String| & \\
 				\verb|address.city: String| & \\
 			\end{tabular}\\
+			
 			\item{\verb|SignupResponse signupThirdParty(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/thirdparty/signup|}\\
 			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
+			\textbf{Input} \textit{[ThirdPartySignupRequest]} & \textbf{Output}\textit{[UserWebAuth]} \\
 			\hline
 				\verb|email: String| & \verb|userId: String| \\
 				\verb|password: String| & \verb|accessToken: String| \\
-				\verb|certificate: File| & \\
+				\verb|certificate: String| & \verb|role: D4HUserRole|  \\
 				\verb|name: String| & \\
 				\verb|phone: String| & \\
-				\verb|code: String| & \\
-				\verb|taxcode: String| & \\
+				\verb|taxCode: String| & \\
 			\end{tabular}\\
 		\end{itemize}
-		\item{SearchService}
-		\begin{itemize}
-			\item{\verb|IndividualSearchResponse searchIndividual(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|POST /web/search|}\\
+		\end{itemize}
+			
+			\item{\textbf{Search}}
+			\begin{itemize}
+				\item{\textbf{SearchService}}
+				\begin{itemize}
+			\item{\verb|Collection<Data> search(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|POST /web/search|}\\\\
 			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
+			\textbf{Input} \textit{[D4HQuery]} & \textbf{Output} \\
 			\hline
 				\verb|ssn: String| & \verb|ssn: String| \\
 				& \verb|name: String| \\
@@ -544,83 +459,194 @@ and it also contains the most relevant architecture views: component view, class
 				& \verb|data.location: Location| \\
 				& \verb|data.location.longitude: Long| \\
 				& \verb|data.location.latitude: Long| \\
-				& \verb|data.healthStatus: HealtStatus| \\
+				& \verb|data.healthStatus: HealthStatus| \\
 				& \verb|data.healthStatus.heartRate: Integer| \\
-				& \verb|data.healthStatus.bloodPreasure: Integer| \\
-				& \verb|data.healthStatus.bodyTemperature: Integer| \\
+				& \verb|data.healthStatus.healthStatus.systolic: Double| \\
+				& \verb|data.healthStatus.healthStatus.diastolic: Double| \\
+				& \verb|data.healthStatus.bodyTemperature: Double| \\
 				& \verb|data.healthStatus.bloodOxygen: Integer| \\
-			\end{tabular}\\
-			\item{\verb|BulkSearchResponse searchBulk(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/search|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
 			\hline
-				\verb|country: String| & \verb|data: List<Data>| \\
-				\verb|city: String| & \verb|data[*].healthStatus: HealtStatus| \\
-				\verb|gender: Gender| & \verb|data[*].healthStatus.heartRate: Integer| \\
-				\verb|age: Integer| & \verb|data[*].healthStatus.bloodPreasure: Integer| \\
-				\verb|bloodType: BloodType| & \verb|data[*].healthStatus.bodyTemperature: Integer| \\
-				\verb|province: String| & \verb|data[*].healthStatus.bloodOxygen: Integer| \\
+				\verb|country?: String| & \verb|data: List<Data>| \\
+				\verb|city?: String| & \verb|data[*].healthStatus: HealthStatus| \\
+				\verb|gender?: Gender| & \verb|data[*].healthStatus.heartRate: Integer| \\
+				\verb|minAge?: Integer| & \verb|data[*].healthStatus.systolic: Double| \\
+				\verb|maxAge?: Integer| & \verb|data[*].healthStatus.diastolic: Double| \\
+				\verb|bloodType?: BloodType| & \verb|data[*].healthStatus.bodyTemperature: Double| \\
+				\verb|province?: String| & \verb|data[*].healthStatus.bloodOxygen: Integer| \\
 			\end{tabular}\\
-		\end{itemize}
-		\item{RequestService}
-		\begin{itemize}
-			\item{\verb|RequestResponse createRequest(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/request|}\\
+		\end{itemize}	
+						
+				\item{\textbf{DataResource}}
+					\begin{itemize}
+						\item{\verb|Data getByIndividualId(Individual i)|}
+						\item{\verb|Data getByIndividual(Individual individual)|}
+						\item{\verb|Collection<Data> getByIndividualList(Collection<Individual> individuals)|}
+						\item{\verb|Collection<Data> getAnonymizeByIndividualList(Collection<Individual> individuals)|}
+					\end{itemize}
+			\end{itemize}
+			
+		\item{\textbf{D4HRequest}}
+			\begin{itemize}
+				\item{\textbf{D4HRequestService}}
+					\begin{itemize}
+			\item{\verb|D4HReqResponse createRequest(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/requests/|}\\
 			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
+			\textbf{Input} \textit{[D4HReqRequest]}  & \textbf{Output} \\
 			\hline
 				\verb|ssn: String| & \verb|requestId: String| \\
-				\verb|secretKey: String| & \\
-				\verb|appId: String| & \\
+				& \verb|thirdParty: ThirdParty|\\
+				& \verb|thirdParty.name: String|\\
+				& \verb|individual: Individual|\\
+				& \verb|individual.name: String|\\
+				& \verb|status: D4HRequestStatus|\\
 			\end{tabular}\\
-			\item{\verb|RequestResponse acceptRequest(Spark.Request req, Spark.Response res)|\\ \verb|PUT /web/request/:requestId|}\\
+			
+			\item{\verb|D4HReqResponse updateRequestStatus(Spark.Request req, Spark.Response res)|\\ \verb|PATCH /web/requests/:requestId|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} \textit{[D4HReqRequest]} & \textbf{Output} \\
+			\hline
+				\verb|ssn: String| & \verb|id: String|\\
+				\verb|status: D4HRequestStatus| & \verb|thirdParty: ThirdParty|\\
+				& \verb|thirdParty.name: String|\\
+				& \verb|individual: Individual|\\
+				& \verb|individual.name: String|\\
+				& \verb|status: D4HRequestStatus|\\
+			\end{tabular}\\
+			
+			\item{\verb|Collection<D4HReqResponse> getAllRequests(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/requests/|}\\\\
 			\begin{tabular}{l | l}
 			\textbf{Input} & \textbf{Output} \\
 			\hline
-				& \verb|requestId: String| \\
-				& \verb|status: String|\\
-			\end{tabular}\\
-			\item{\verb|void rejectRequest(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/request/:requestId|}
-			\item{\verb|Collection<Request> getAllRequests(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/request|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|ssn: String| & \verb|requests: List<Request>| \\
+				& \verb|requests: List<Request>| \\
 				& \verb|requests[*].id: String| \\
-				& \verb|requests[*].status: RequestStatus| \\
 				& \verb|requests[*].thirdParty: ThirdParty| \\
 				& \verb|requests[*].thirdParty.name: String| \\
+				& \verb|requests[*].individual: Individual| \\
+				& \verb|requests[*].individual.name: String| \\
+				& \verb|requests[*].status: D4HRequestStatus| \\
 			\end{tabular}\\
-			\item{\verb|void removeRequest(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /api/request/:requestId|}
-		\end{itemize}
-		\item{SubscriptionService}
-		\begin{itemize}
-			\item{\verb|SubscriptionResponse createSubscription(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|POST /web/subscription|}\\
+		\end{itemize}		
+				
+				\item{\textbf{D4HRequestResource}}
+					\begin{itemize}
+						\item{\verb|Collection<D4HRequest> getById(String userId)|}
+						\item{\verb|Collection<D4HRequest> getByUserId(String userId, D4HRequestStatus status)|}
+						\item{\verb|Collection<D4HRequest> getByThirdPartyId(String thirdPartyId, D4HRequestStatus status)|}		
+						\item{\verb|D4HRequest add(Request D4HRequest)|}
+						\item{\verb|D4HRequest accept(D4HRequest r)|}
+						\item{\verb|D4HRequest reject(D4HRequest r)|}
+					\end{itemize}
+			\end{itemize}	
+			
+			\item{\textbf{Subscription}}
+			\begin{itemize}
+				\item{\textbf{SubscriptionService}}
+					\begin{itemize}
+			\item{\verb|SubscriptionResponse createSubscription(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|POST /web/subscriptions/|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input}\textit{[SubscriptionRequest]} & \textbf{Output} \\
+			\hline
+				\verb|filter: D4HQuery| & \verb|subscriptionId: String| \\
+				\verb|filter.ssn?: String| & \verb|filter: D4HQuery| \\
+				\verb|filter.city?: String| & \verb|filter.ssn: String| \\
+				\verb|filter.province?: String| &  \verb|filter.city: String| \\
+				\verb|filter.country?: String| &  \verb|filter.province: String| \\
+				\verb|filter.gender?: Gender| & \verb|filter.country: String| \\
+				\verb|filter.minAge?: Integer| &  \verb|filter.gender: Gender| \\
+				\verb|filter.maxAge?: Integer| &  \verb|filter.minAge: Integer| \\
+				\verb|filter.bloodType?: BloodType| &  \verb|filter.maxAge: Integer| \\
+				\verb|timeSpan: Integer| &  \verb|filter.bloodType: BloodType| \\
+			\end{tabular}\\
+                
+			\item{\verb|Collection<Subscription> getAllSubscriptions(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/subscriptions/|}\\\\
 			\begin{tabular}{l | l}
 			\textbf{Input} & \textbf{Output} \\
 			\hline
-				\verb|ssn: String| & \verb|subscriptionId: String| \\
-				\verb|country: String| & \\
-				\verb|city: String| & \\
-				\verb|province: String| & \\
-				\verb|gender: Gender| & \\
-				\verb|age: Integer| & \\
-				\verb|bloodType: BloodType| & \\
-			\end{tabular}\\
-			\item{\verb|Collection<Subscription> getAllSubscriptions(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/subscription|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|ssn: String| & \verb|subscriptions: List<Subscription>| \\
+				& \verb|subscriptions: List<Subscription>| \\
 				& \verb|subscriptions[*].id: String| \\
+				& \verb|filter: D4HQuery| \\
+				& \verb|subscriptions[*].filter.ssn: String| \\
+				& \verb|subscriptions[*].filter.city: String| \\
+				& \verb|subscriptions[*].filter.province: String| \\
+				& \verb|subscriptions[*].filter.country: String| \\
+				& \verb|subscriptions[*].filter.gender: Gender| \\
+				& \verb|subscriptions[*].filter.minAge: Integer| \\
+				& \verb|subscriptions[*].filter.maxAge: Integer| \\
+				& \verb|subscriptions[*].filter.bloodType: BloodType| \\
 				& \verb|subscriptions[*].thirdParty: ThirdParty| \\
 				& \verb|subscriptions[*].thirdParty.name: String| \\
-				& \verb|subscriptions[*].individual: Individual| \\
-				& \verb|subscriptions[*].individual.name: String| \\
-				& \verb|subscriptions[*].individual.ssn: String| \\
+				& \verb|subscriptions[*].thirdParty.certificate: String| \\
+				& \verb|subscriptions[*].thirdParty.phone: String| \\
+				& \verb|subscriptions[*].thirdParty.taxCode: String| \\				
+				& \verb|subscriptions[*].timeSpan: Integer|  \\
 			\end{tabular}\\
-			\item{\verb|void removeSubscription(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/subscription/:subscriptionId|}
+			
+			\item{\verb|void removeSubscription(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/subscriptions/:subscriptionId|} 			
 		\end{itemize}
+		
+				\item{\textbf{SubscriptionResource}}
+					\begin{itemize}
+						\item{\verb|Collection<Subscription> getAllByIndividual(ObjectId individualId)|}
+						\item{\verb|Collection<Subscription> getAllByOwner(ObjectId thirPartyId)|}
+						\item{\verb|Subscription getByOwnerAndId(String thirdPartyId, String sid)|}
+						\item{\verb|void removeByRequest(D4HRequest req)|}
+					\end{itemize}
+			\end{itemize}
+			
+			\item{\textbf{User}}
+			\begin{itemize}
+				\item{\textbf{UserService}}
+					\begin{itemize}
+			\item{\verb|D4HUserResponse getProfileInfo(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/me/|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				& \verb|name: String| \\
+				& \verb|ssn: String| \\
+				& \verb|birthDate: Date| \\
+				& \verb|gender: Gender| \\
+				& \verb|bloodType: BloodType| \\
+				& \verb|weight: Float| \\
+				& \verb|height: Float| \\
+				& \verb|address: Address| \\
+				& \verb|address.country: String| \\
+				& \verb|address.province: String| \\
+				& \verb|address.city: String| \\
+				& \verb|pendingRequests: Long| \\
+				& \verb|approvedRequests: Long| \\
+				& \verb|rejectedRequests: Long| \\
+				\hline
+				& \verb|name: String| \\
+				& \verb|phone: String| \\
+				& \verb|taxCode: String| \\
+				& \verb|secretKey: String| \\
+				& \verb|appId: String| \\
+				& \verb|config: TPConfiguration| \\
+				& \verb|config.individualPushUrl: String| \\
+				& \verb|config.bulkPushUrl: String| \\
+				& \verb|config.notificationUrl: String| \\
+				& \verb|pendingRequests: Long| \\
+				& \verb|approvedRequests: Long| \\
+				& \verb|rejectedRequests: Long| \\
+				
+				\end{tabular}\\
+				
+		\item{\verb|TPConfiguration updateThirdPartyConfig(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|PATCH /web/me/config|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} \textit{[TPConfiguration]} & \textbf{Output} \\
+			\hline
+				\verb|config: TPConfiguration| & \verb|config: TPConfiguration| \\
+				\verb|config.individualPushUrl: String|& \verb|config.individualPushUrl: String| \\
+				\verb|config.bulkPushUrl: String|& \verb|config.bulkPushUrl: String| \\
+				\verb|config.notificationUrl: String|& \verb|config.notificationUrl: String| \\
+			\end{tabular}\\
+                			
+		\end{itemize}
+		
 	\end{itemize}
+\end{itemize}
+	
+	Almost all the components offer a way to communicate with the front-end (web site), or with the third parties. In particular, the Service classes have methods that are related to the external interfaces, which are endpoints used by the web site, in order to let the web user to interact with it, or by a third party services. Is it important to mention that \verb|Spark.Request| and \verb|Spark.Response| classes belong to the \textit{Java Spark Framework}, and does nothing to do with the \textit{Request} class of the TrackMe model. In the following list, all the service classes are listed showing the link between their methods and the endpoints, and the expected inputs and outputs:
 	
 	\subsection{Track4Run interfaces}
 	The following is a list of all the components of T4R, and the classes that belong to them, with the exposed methods.
