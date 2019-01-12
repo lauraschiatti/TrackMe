@@ -53,7 +53,7 @@ function pushData($data) {
     $ch = curl_init($url);
 
     //setup request to send json via POST
-    $payload = json_encode(array("data" => $data));
+    $payload = json_encode($data);
 
     //attach encoded JSON string to the POST fields
     curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
