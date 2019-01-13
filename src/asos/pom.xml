@@ -46,7 +46,7 @@
                         <configuration>
                             <finalName>asos</finalName>
                             <descriptorRefs>
-                                <descriptorRef>jar</descriptorRef>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
                             <archive>
                                 <manifest>
@@ -57,7 +57,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
 

@@ -12,7 +12,7 @@ public final class StaticConfiguration {
 
     private final static Logger logger = LoggerFactory.getLogger(StaticConfiguration.class);
     private final static String DEFAULT_MONGODB_URI = "mongodb://127.0.0.1:27017";
-    private final static String DEFAULT_MONGODB_DATABASE = "automated_sos";
+    private final static String DEFAULT_MONGODB_DATABASE = "automatedsos";
     private final static Integer DEFAULT_PORT = 5678;
 
     private static StaticConfiguration _instance = null;

@@ -11,6 +11,8 @@ services:
         ports:
             - "4200:4200"
         command: ["ng", "serve", "--host", "0.0.0.0"]
+        depends_on:
+            - "d4h"
     d4h:
         build:
             context: ./data4help
@@ -20,12 +22,29 @@ services:
         environment:
             - MONGODB_URI=mongodb://mongodb:27017
             - REDIS_URL=redis://redis:6379/
+            - MONGODB_DATABASE=data4help
+            - ASOS_URL=http://asos:5678
+            - ASOS_ADDRESS_URL=/api/address
         depends_on:
             - "mongodb"
             - "redis"
         command: ["./wait-for-it.sh", "mongodb:27017", "--", "./wait-for-it.sh", "redis:6379", "--", "sh", "./restore_db_and_start.sh"]
+    asos:
+        build:
+            context: ./asos
+            dockerfile: Dockerfile
+        ports:
+            - "5678:5678"
+        environment:
+            - MONGODB_URI=mongodb://mongodb:27017
+            - MONGODB_DATABASE=automatedsos
+        depends_on:
+            - "mongodb"
+        command: ["./wait-for-it.sh", "mongodb:27017", "--", "./wait-for-it.sh", "redis:6379", "--", "sh", "./restore_db_and_start.sh"]
     data_gen:
         build: ./d4h_data_generator
+        environment:
+            - D4H_URL=http://d4h:4567
         depends_on:
             - "d4h"
         command: ["./wait-for-it.sh", "d4h:4567", "--", "php", "./d4h_generator.php"]
