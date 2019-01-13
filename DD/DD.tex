@@ -933,9 +933,11 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\item{\textbf{TPConfiguration}}: an important issue to tackle is the way in which the system will communicate to third parties to send them notifications or data they request. Then, they are asked to provide three endpoints,
 	 \textit{individualpushUrl}, \textit{bulkPushUrl} and \textit{notificationUrl}.
 	 
-		\item{\textbf{D4HRequest}}: third parties can make requests to access data of a given individual. Each request has an associated \textit{status}, initially is \textit{PENDING} and can become either \textit{APPROVED} or \textit{REJECTED} according to whether the individual accepts it or not. \\\\
-		\textbf{**} After the status of a request is updated to \textit{APPROVED}, a subscription to receive new data of the intended individual is automatically created. \\
-		\textbf{**} \textit{Requests for bulk data} are treated differently. The only constraints are managed by the system (if they do not hold the third party is notified), then there is no need to store them.
+		\item{\textbf{D4HRequest}}: third parties can make requests to access data of a given individual. Each request has an associated \textit{status}, initially is \textit{PENDING} and can become either \textit{APPROVED} or \textit{REJECTED} according to whether the individual accepts it or not. 
+		\begin{itemize}
+		\item After the status of a request is updated to \textit{APPROVED}, a subscription to receive new data of the intended individual is automatically created. 
+		\item \textit{Requests for bulk data} are treated differently. The only constraints are managed by the system (if they do not hold the third party is notified), then there is no need to store them.
+		\end{itemize}
 		
 		\item{\textbf{Subscription}}: when searching for bulk data, third parties can decide if they want to subscribe to that specific \textit{filter}. This means, they will receive new data after a certain amount of time defined by a \textit{timeSpan} (hours). New data will be send to individuals according to the nextExecution attribute of the subscription.
 	\end{itemize}
@@ -996,18 +998,7 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 			\caption[Data4Help Deployment Diagram]{Data4Help Deployment Diagram}
 			\label{fig:d4h_deployment_diagram}
 		\end{figure}	
-		
-	\subsection{Track4Run deployment diagram}
-	In the Figure \ref{fig:t4r_deployment_diagram} the T4R deployment diagram is shown. It can be seen the interaction between \textbf{Data4Help} execution environment and the \textbf{Web Server} node. This interaction happens thanks to the different interfaces provided by D4H and T4R. \\
-	Furthermore, the \textbf{Web Server} node interacts with the \textbf{MongoDB Server} node using the TCP/IP protocol, and it works thanks to the \textbf{DBConnector} interface provided by the \textbf{T4R Database} component. \\
 	
-		\begin{figure}[H]
-			\centering
-			\includegraphics[width=1\textwidth]{diagrams/t4r_deployment_diagram.png}
-			\caption[Track4Run Deployment Diagram]{Track4Run Deployment Diagram}
-			\label{fig:t4r_deployment_diagram}
-		\end{figure}	
-		
 	\subsection{AutomatedSOS deployment diagram}
 	In the Figure \ref{fig:asos_deployment_diagram} the ASOS deployment diagram is shown. Since ASOS does not have a web site, the main node is an \textbf{Application Server} that hosts the execution environment for the \textbf{ASOS Backend} component. The \textbf{Application Server} interacts with a \textbf{MongoDB Server} node, using the TCP/IP protocol. Moreover, it interacts with an external node which represent the different \textbf{Health Care Service}s, and with the execution environment of \textbf{Data4Help}.
 		\begin{figure}[H]
@@ -1017,6 +1008,17 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 			\label{fig:asos_deployment_diagram}
 		\end{figure}	
 	
+	\subsection{Track4Run deployment diagram}
+	In the Figure \ref{fig:t4r_deployment_diagram} the T4R deployment diagram is shown. It can be seen the interaction between \textbf{Data4Help} execution environment and the \textbf{Web Server} node. This interaction happens thanks to the different interfaces provided by D4H and T4R. \\
+	Furthermore, the \textbf{Web Server} node interacts with the \textbf{MongoDB Server} node using the TCP/IP protocol, and it works thanks to the \textbf{DBConnector} interface provided by the \textbf{T4R Database} component. \\
+	
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{diagrams/t4r_deployment_diagram.png}
+			\caption[Track4Run Deployment Diagram]{Track4Run Deployment Diagram}
+			\label{fig:t4r_deployment_diagram}
+		\end{figure}
+		
 	\section{Runtime view}
 	In the following section sequence diagrams of D4H, T4R and ASOS are shown. 
 	
