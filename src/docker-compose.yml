@@ -4,13 +4,13 @@ services:
         image: "redis:4.0"
     mongodb:
         image: "mongo:4.0.4"
-    # d4h_front:
-    #     build:
-    #         context: ./data4help
-    #         dockerfile: Dockerfile.front
-    #     ports:
-    #         - "4200:4200"
-    #     command: ["ng", "serve", "--host", "0.0.0.0"]
+    d4h_front:
+        build:
+            context: ./data4help
+            dockerfile: Dockerfile.front
+        ports:
+            - "4200:4200"
+        command: ["ng", "serve", "--host", "0.0.0.0"]
     d4h:
         build:
             context: ./data4help
