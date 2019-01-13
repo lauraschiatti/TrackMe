@@ -88,6 +88,7 @@
                       <div class="form-group col-md-4">
                         <label class="font-weight-bold">Gender</label>
                         <select class="form-control" formControlName="gender">
+                          <option value="">Select a gender ... </option>
                           <option *ngFor="let g of Gender" [ngValue]="g">{{ g }}</option>
                         </select>
                       </div>
@@ -95,6 +96,7 @@
                       <div class="form-group col-md-4">
                         <label class="font-weight-bold">Blood Type</label>
                         <select class="form-control" formControlName="bloodType">
+                          <option value="">Select a blood type ... </option>
                           <option *ngFor="let bt of bloodTypes" [ngValue]="bt">{{ bt }}</option>
                         </select>
                       </div>
@@ -119,6 +121,7 @@
                       <div class="form-group col-md-4">
                         <label class="font-weight-bold">City</label>
                         <select class="form-control" formControlName="city">
+                          <option value="">Select a city ... </option>
                           <option value="Milan"> Milan</option>
                         </select>
                       </div>
@@ -126,6 +129,7 @@
                       <div class="form-group col-md-4">
                         <label class="font-weight-bold">Province</label>
                         <select class="form-control" formControlName="province">
+                          <option value="">Select a province ... </option>
                           <option value="Province of Milan">Province of Milan</option>
                         </select>
                       </div>
@@ -133,6 +137,7 @@
                       <div class="form-group col-md-4">
                         <label class="font-weight-bold">Country</label>
                         <select class="form-control" formControlName="country">
+                          <option value="">Select a country ... </option>
                           <option value="Italy"> Italy </option>
                         </select>
                       </div>
