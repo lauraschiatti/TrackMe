@@ -273,7 +273,7 @@ public class D4HRequestServiceTest {
                 .header(Data4HelpApp.USER_ID, individualId)
                 .asJson();
 
-        ArrayList<Subscription> subscriptions = (ArrayList<Subscription>) subscriptionResource.getAllByIndividual(req.getIndividual().getId());
+        ArrayList<Subscription> subscriptions = (ArrayList<Subscription>) subscriptionResource.getAllByIndividual(req.getIndividual());
 
         JSONObject individual = response.getBody().getObject().getJSONObject("data").getJSONObject("individual");
         JSONObject thirdParty = response.getBody().getObject().getJSONObject("data").getJSONObject("thirdParty");

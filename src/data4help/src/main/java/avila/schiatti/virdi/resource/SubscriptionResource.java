@@ -2,13 +2,14 @@ package avila.schiatti.virdi.resource;
 
 import avila.schiatti.virdi.model.request.D4HRequest;
 import avila.schiatti.virdi.model.subscription.Subscription;
+import avila.schiatti.virdi.model.user.Individual;
+import avila.schiatti.virdi.model.user.ThirdParty;
 import org.bson.types.ObjectId;
 import xyz.morphia.Datastore;
 import xyz.morphia.query.Query;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 
 public class SubscriptionResource extends Resource<Subscription> {
 
@@ -27,17 +28,17 @@ public class SubscriptionResource extends Resource<Subscription> {
         return new SubscriptionResource();
     }
 
-    public Collection<Subscription> getAllByIndividual(ObjectId individualId){
+    public Collection<Subscription> getAllByIndividual(Individual individual){
         return datastore.find(Subscription.class)
                 .field("filter.individual")
-                .equal(individualId)
+                .equal(individual)
                 .asList();
     }
 
-    public Collection<Subscription> getAllByOwner(ObjectId thirPartyId){
+    public Collection<Subscription> getAllByOwner(ThirdParty thirdParty){
         return datastore.find(Subscription.class)
                 .field("thirdParty")
-                .equal(thirPartyId)
+                .equal(thirdParty)
                 .asList();
     }
 
