@@ -1,3 +1,5 @@
+<app-header></app-header>
+
 <div class="unit-5 overlay" style="background-image: url('assets/images/statistics.jpg');">
   <div class="container">
     <h2 class="mb-0">Login</h2>
@@ -9,10 +11,13 @@
   <div class="container">
     <div class="col-md-12 col-lg-6 mb-5" style="margin-left:300px; ">
 
-      <!--{{ loginForm.value | json }}-->
-
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="p-5 bg-white">
-        <h2 class="mb-4 text-black">Sign in</h2>
+        <h2 class="mb-4 text-black">Login</h2>
+
+        <div *ngIf="error"  class="alert alert-danger" >
+          {{ error }}
+          <br>
+        </div>
 
         <div class="row form-group">
           <div class="col-md-12">
@@ -35,25 +40,16 @@
           </div>
         </div>
 
-        <!--<div class="row form-group">-->
-          <!--<div class="col-md-12">-->
-            <!--<label class="font-weight-normal" for="remember">-->
-              <!--<input type="checkbox" id="remember">-->
-              <!--Remember Me-->
-            <!--</label>-->
-          <!--</div>-->
-        <!--</div>-->
-
         <div class="row form-group mb-2">
           <div class="col-md-12">
             <p class="float-left">No account yet? <a routerLink="/register">Register</a></p>
-            <p class="float-right"> <a href="#">Forgot password?</a></p>
+            <!--<p class="float-right"> <a href="#">Forgot password?</a></p>-->
           </div>
         </div>
 
         <div class="row form-group">
           <div class="col-md-12">
-            <input type="submit" value="Login" class="btn btn-primary py-2 px-4 rounded-0">  <!--[disabled]="!loginForm.valid">-->
+            <input type="submit" class="btn btn-primary py-2 px-4 rounded-0">
           </div>
         </div>
       </form>
@@ -61,3 +57,5 @@
     </div>
   </div>
 </div>
+
+<app-footer></app-footer>

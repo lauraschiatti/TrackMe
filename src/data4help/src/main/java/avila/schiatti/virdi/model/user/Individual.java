@@ -1,30 +1,32 @@
 package avila.schiatti.virdi.model.user;
 
-import avila.schiatti.virdi.model.data.Gender;
 import avila.schiatti.virdi.model.data.Address;
 import avila.schiatti.virdi.model.data.BloodType;
 import avila.schiatti.virdi.model.data.Data;
-import org.bson.types.ObjectId;
-import xyz.morphia.annotations.Embedded;
-import xyz.morphia.annotations.Entity;
-import xyz.morphia.annotations.Id;
-import xyz.morphia.annotations.Reference;
+import avila.schiatti.virdi.model.data.Gender;
+import xyz.morphia.annotations.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity("user")
 public class Individual extends D4HUser {
     private String name;
+    @Indexed(options = @IndexOptions(partialFilter = "{ ssn : { $exists : true } }", unique = true))
     private String ssn;
-    private Date birthDate;
+    private Float weight;
+    private Float height;
+    private LocalDate birthDate;
     @Embedded
     private Gender gender;
     @Embedded
     private Address address;
     @Embedded
     private BloodType bloodType;
-    @Reference(idOnly = true)
-    private Data healthStatus;
+
+    @Override
+    public D4HUserRole getRole() {
+        return D4HUserRole.INDIVIDUAL;
+    }
 
     public String getName() {
         return name;
@@ -42,11 +44,11 @@ public class Individual extends D4HUser {
         this.ssn = ssn;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -74,15 +76,19 @@ public class Individual extends D4HUser {
         this.bloodType = bloodType;
     }
 
-    public Data getHealthStatus() {
-        return healthStatus;
+    public Float getWeight() {
+        return weight;
     }
 
-    public void setHealthStatus(Data healthStatus) {
-        this.healthStatus = healthStatus;
+    public void setWeight(Float weight) {
+        this.weight = weight;
     }
 
-    public Boolean hasSsn(){
-        return ssn != null;
+    public Float getHeight() {
+        return height;
+    }
+
+    public void setHeight(Float height) {
+        this.height = height;
     }
 }

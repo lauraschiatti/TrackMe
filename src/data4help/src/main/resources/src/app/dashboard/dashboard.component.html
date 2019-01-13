@@ -1,0 +1,155 @@
+<div id="wrapper">
+  <!-- Sidebar -->
+
+  <app-sidebar></app-sidebar>
+
+  <div id="content-wrapper" class="container">
+    <div class="container-fluid">
+
+      <app-dashboard-navbar></app-dashboard-navbar>
+
+      <br>
+
+      <!---------------------------------------- THIRD PARTY ------------------------------------------------>
+
+      <div *ngIf="role === 'THIRD_PARTY'; else individual">
+
+        <div class="row">
+          <div class="col-sm-6 mb-4">
+            <div class="card text-white bg-secondary o-hidden h-100">
+              <div class="card-body">
+                <div class="card-body-icon">
+                  <i class="unit-3-icon icon fl-bigmug-line-nine16"></i>
+                </div>
+                <div class="mr-5">12 Pending requests!</div>
+              </div>
+              <a class="card-footer text-white clearfix small z-1" href="#">
+              </a>
+            </div>
+          </div>
+
+          <div class="col-sm-6 mb-4">
+            <div class="card text-white bg-info o-hidden h-100">
+              <div class="card-body">
+                <div class="card-body-icon">
+                  <i class="unit-3-icon icon unit-3-icon icon fl-bigmug-line-notification4"></i>
+                </div>
+                <div class="mr-5">New data and notifications from subscriptions will be send to the URLs you provided</div>
+              </div>
+              <a class="card-footer text-white clearfix small z-1" href="#">
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header">
+            <span class="font-weight-bold"> <i class="unit-3-icon icon fl-bigmug-line-notification4"></i> &nbsp; Subscriptions</span>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-light" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Filtering criteria</th>
+                  <th>Updates every</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let subscription of subscriptions;  let i=index">
+                    <td>{{ i+1 }}</td>
+                    <td><code>{{ subscription['filter'] | json }}</code></td>
+                    <td>{{ subscription['timeSpan'] }} minutes</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!---------------------------------------- INDIVIDUAL ------------------------------------------------>
+      <ng-template #individual>
+
+        <div class="row">
+          <div class="col-xl-4 col-sm-6 mb-3">
+            <div class="card text-white bg-secondary o-hidden h-100">
+              <div class="card-body">
+                <div class="card-body-icon">
+                  <i class="unit-3-icon icon fl-bigmug-line-nine16"></i>
+                </div>
+                <div *ngIf="user">
+                  <div class="mr-5">{{ user['pendingRequests']}} Pending requests !</div>
+                </div>
+              </div>
+              <a class="card-footer text-white clearfix small z-1" href="#"></a>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-sm-6 mb-3">
+            <div class="card text-white bg-info o-hidden h-100">
+              <div class="card-body">
+                <div class="card-body-icon">
+                  <i class="unit-3-icon icon fl-bigmug-line-checkmark14"></i>
+                </div>
+                <div *ngIf="user">
+                  <div class="mr-5">{{ user['approvedRequests']}} Approved requests !</div>
+                </div>
+              </div>
+              <a class="card-footer text-white clearfix small z-1" href="#"></a>
+            </div>
+          </div>
+
+          <div class="col-xl-4 col-sm-6 mb-3">
+            <div class="card text-white bg-danger o-hidden h-100">
+              <div class="card-body">
+                <div class="card-body-icon">
+                  <i class="unit-3-icon icon fl-bigmug-line-cross81"></i>
+                </div>
+                <div *ngIf="user">
+                  <div class="mr-5">{{ user['rejectedRequests']}} Rejected requests !</div>
+                </div>
+              </div>
+              <a class="card-footer text-white clearfix small z-1" href="#"></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header">
+            <span class="font-weight-bold"> <i class="unit-3-icon icon fl-bigmug-line-notification4"></i> &nbsp; Subscribed companies</span>
+          </div>
+          <div class="card-body">
+            <input class="form-control" id="filterRequests" type="text" placeholder="Search...">
+            <br>
+            <div class="table-responsive">
+              <table class="table table-striped table-light" id="requestsTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Company name</th>
+                  <th>Phone</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let subscription of subscriptions;  let i=index">
+                    <td>{{ i+1 }}</td>
+                    <td>{{ subscription['thirdParty']['name'] }}</td>
+                    <td>{{ subscription['thirdParty']['phone'] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </ng-template>
+
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+
+  <!-- /.content-wrapper -->
+</div>

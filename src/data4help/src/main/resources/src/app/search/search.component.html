@@ -1,0 +1,245 @@
+<div id="wrapper">
+  <!-- Sidebar -->
+
+  <app-sidebar></app-sidebar>
+
+  <div id="content-wrapper" class="container">
+    <div class="container-fluid">
+
+      <app-dashboard-navbar></app-dashboard-navbar>
+
+      <br>
+
+      <div class="card mb-3">
+        <div class="card-header">
+          <span class="font-weight-bold"> <i class="unit-3-icon icon fl-bigmug-line-search74"></i> Make new search</span>
+        </div>
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-3">
+              <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-individual-tab" data-toggle="pill" href="#v-pills-individual" role="tab" aria-controls="v-pills-individual" aria-selected="true">Individual data</a>
+                <a class="nav-link" id="v-pills-bulk-tab" data-toggle="pill" href="#v-pills-bulk" role="tab" aria-controls="v-pills-bulk" aria-selected="false">Bulk data</a>
+              </div>
+            </div>
+
+            <div class="col-9">
+              <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-individual" role="tabpanel" aria-labelledby="v-pills-individual-tab">
+
+                  <div *ngIf="error"  class="alert alert-danger" >
+                    {{ error }}
+                    <br>
+                  </div>
+
+                  <form class="form-inline" [formGroup]="iForm" (ngSubmit)="onSubmitIndividualSearch()">
+                    <div class="form-group">
+                      <label class="font-weight-bold" for="ssn">SSN</label>
+                      <input type="text" id="ssn" formControlName="ssn" class="form-control mx-sm-3" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.ssn.errors }" />
+                      <button type="submit" class="btn btn-primary">Search</button>
+                      <div *ngIf="iFormSubmitted && iControls.ssn.errors" class="invalid-feedback">
+                        <div *ngIf="iControls.ssn.errors.required">SSN is required</div>
+                      </div>
+                    </div>
+                  </form>
+
+                  <hr>
+
+                  <div *ngIf="showSendRequest" class="col-sm-12">
+                    <div class="alert alert-info">
+                      <span class="unit-3-icon icon fl-bigmug-line-chat51"></span> <strong> &nbsp; Info Message</strong>
+                      <hr class="message-inner-separator">
+                      <div class="row">
+                        <div class="col-md-10">
+                          <p> Do you want to send a request to this individual?</p>
+                        </div>
+                        <div class="col-md-2">
+                          <button (click)="onSendRequest()" class="btn btn-default"><i class="unit-3-icon icon fl-bigmug-line-checkmark14"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="showRequestInfo" class="col-sm-12">
+                    <div class="alert alert-success">
+                      <span class="unit-3-icon icon fl-bigmug-line-checkmark14"></span> <strong> &nbsp; Request sent!</strong>
+                      <hr class="message-inner-separator">
+
+                      <p><span class="font-weight-bold">Status: </span> {{ request['status'] }}</p>
+
+                      <p> You will be notified whether it was <span class="font-weight-bold">approved</span> or <span class="font-weight-bold">rejected</span> by the intended individual. </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane fade" id="v-pills-bulk" role="tabpanel" aria-labelledby="v-pills-bulk-tab">
+
+                  <div *ngIf="errorBulk"  class="alert alert-danger" >
+                    {{ errorBulk }}
+                    <br>
+                  </div>
+
+                  <p class="font-weight-bold">Filtering criteria</p>
+                  <hr>
+
+                  <form [formGroup]="bulkForm" (ngSubmit)="onSubmitBulkSearch()">
+                    <div class="form-row">
+                      <div class="form-group col-md-4">
+                        <label class="font-weight-bold">Gender</label>
+                        <select class="form-control" formControlName="gender">
+                          <option value="">Select a gender ... </option>
+                          <option *ngFor="let g of Gender" [ngValue]="g">{{ g }}</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label class="font-weight-bold">Blood Type</label>
+                        <select class="form-control" formControlName="bloodType">
+                          <option value="">Select a blood type ... </option>
+                          <option *ngFor="let bt of bloodTypes" [ngValue]="bt">{{ bt }}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <p class="font-weight-bold">** Age range **</p>
+
+                    <div class="form-row">
+                      <div class="form-group col-md-4">
+                        <label class="font-weight-bold">From</label>
+                        <input type="number" id="minAge" formControlName="minAge" class="form-control" min="0" placeholder="years"/>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label class="font-weight-bold">To</label>
+                        <input type="number" id="maxAge" formControlName="maxAge" class="form-control" min="0" placeholder="years"/>
+                      </div>
+                    </div>
+
+                    <p class="font-weight-bold"> ** Demographic filtering **</p>
+
+                    <div class="form-row">
+                      <div class="form-group col-md-4">
+                        <label class="font-weight-bold">City</label>
+                        <select class="form-control" formControlName="city">
+                          <option value="">Select a city ... </option>
+                          <option value="Milan"> Milan</option>
+                          <option value="Tivoli"> Tivoli</option>
+                          <option value="Rome"> Rome</option>
+                          <option value="Civitavecchia"> Civitavecchia</option>
+                          <option value="Guidonia Montecelio"> Guidonia Montecelio</option>
+                          <option value="Pomezia"> Pomezia</option>
+                          <option value="Velletri"> Velletri</option>
+                          <option value="Cinisello Balsamo"> Cinisello Balsamo</option>
+                          <option value="Rho"> Rho</option>
+                          <option value="Naples"> Naples</option>
+                          <option value="Casoria"> Casoria</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label class="font-weight-bold">Province</label>
+                        <select class="form-control" formControlName="province">
+                          <option value="">Select a province ... </option>
+                          <option value="Province of Milan">Province of Milan</option>
+                          <option value="Province of Rome">Province of Rome</option>
+                          <option value="Province of Naples">Province of Naples</option>
+                          <option value="Province of Turin">Province of Turin</option>
+                          <option value="Province of Bologna">Province of Bologna</option>
+                          <option value="Province of Genoa">Province of Genoa</option>
+                          <option value="Province of Palermo">Province of Palermo</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                        <label class="font-weight-bold">Country</label>
+                        <select class="form-control" formControlName="country">
+                          <option value="">Select a country ... </option>
+                          <option value="Italy"> Italy </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <br>
+
+                    <p class="font-weight-bold"> Data subscription</p>
+                    <hr>
+
+                    <div class="form-row">
+                      <div class="form-group col-md-4">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="subscription" formControlName="subscription">
+                          <label class="form-check-label" for="subscription">Subscribe</label>
+                        </div>
+                      </div>
+
+                      <div class="form-group col-md-8">
+                        <div class="form-row">
+                          <label class="col-sm-4 col-form-label">Get updates every</label>
+                          <div class="col-sm-3">
+                            <input type="number" formControlName="timeSpan" class="form-control" min="6" placeholder="6"/>
+                          </div>
+                          <div class="col-sm-5">
+                            <label class="col-sm-6 col-form-label">mins</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div *ngIf="showData" class="card mb-3">
+        <div class="card-header">
+          <span class="font-weight-bold"> <i class="unit-3-icon icon fl-bigmug-line-pin42"></i> Last search </span>
+        </div>
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <p><code>{{ search | json }}</code></p>
+
+              <input class="form-control" id="filterRequests" type="text" placeholder="Search...">
+              <br>
+
+              <div class="table-responsive">
+                <table class="table table-striped table-light" id="requestsTable" width="100%" cellspacing="0">
+                  <thead>
+                  <tr>
+                    <th *ngIf="search.ssn">Location (Lat, Long)</th>
+                    <th>Heart Rate (bpm)</th>
+                    <th>Systolic Blood Pressure (mmHg)</th>
+                    <th>Diastolic Blood Pressure (mmHg)</th>
+                    <th>Body Temperature (°C)</th>
+                    <th>Blood O<sub>2</sub> Saturation Level (%)</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let datum of data">
+                    <td *ngIf="search.ssn"><code>{{ datum['location']['latitude'] }}, {{ datum['location']['longitude'] }}</code></td>
+                    <td>{{ datum['healthStatus']['heartRate'] }}</td>
+                    <td>{{ datum['healthStatus']['systolic'] }}</td>
+                    <td>{{ datum['healthStatus']['diastolic'] }}</td>
+                    <td>{{ datum['healthStatus']['bodyTemperature'] }}</td>
+                    <td>{{ datum['healthStatus']['bloodOxygen'] }}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    <!-- /.container-fluid -->
+  </div>
+
+  <!-- /.content-wrapper -->
+</div>

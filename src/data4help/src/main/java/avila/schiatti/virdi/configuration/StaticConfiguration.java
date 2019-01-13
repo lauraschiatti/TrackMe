@@ -6,15 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
-import java.util.HashMap;
 import java.util.Map;
 
 public final class StaticConfiguration {
-    /**
-     *
-     */
+
+    public static final Integer MINIMUM_ANONYMIZE_SIZE = 0;
+
     private final static ProcessBuilder processBuilder = new ProcessBuilder();
     private final static Map<String, String> configVars = processBuilder.environment();
 
@@ -26,6 +24,9 @@ public final class StaticConfiguration {
     private static String DATABASE_NAME;
     private static String LOCAL_MONGODB_URI;
     private static String REDIS_URL;
+    private static String REDIS_DB;
+    private static String ASOS_URL;
+    private static String ASOS_ADDRESS_URL;
 
     private StaticConfiguration(){ };
 
@@ -40,26 +41,33 @@ public final class StaticConfiguration {
 
     private void configureConstants() {
         try {
-//            String filePath = new File("").getAbsolutePath();
-//            logger.debug(filePath);
-
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(CONFIGURATION_FILE));
+            FileReader fd = new FileReader(CONFIGURATION_FILE);
+            BufferedReader bufferedReader = new BufferedReader(fd);
 
             Gson gson = new Gson();
             TrackMeConfiguration tmConfig = gson.fromJson(bufferedReader, TrackMeConfiguration.class);
 
             logger.info("Setting up configuration variables");
 
-            DATABASE_NAME = tmConfig.getMongoDBName();
-            LOCAL_MONGODB_URI = tmConfig.getMongoURI();
-            REDIS_URL = tmConfig.getRedisURI().concat(tmConfig.getRedisDBNumber());
+            DATABASE_NAME = (configVars.get("MONGODB_DATABASE") != null) ? configVars.get("MONGODB_DATABASE") : tmConfig.getMongoDBName();
+            LOCAL_MONGODB_URI = (configVars.get("MONGODB_URI") != null) ? configVars.get("MONGODB_URI") : tmConfig.getMongoURI();
+            REDIS_URL = (configVars.get("REDIS_URL") != null) ? configVars.get("REDIS_URL") : tmConfig.getRedisURI();
+            REDIS_DB = (configVars.get("REDIS_DB") != null) ? configVars.get("REDIS_DB") : tmConfig.getRedisDBNumber();
+            ASOS_URL = (configVars.get("ASOS_URL") != null) ? configVars.get("ASOS_URL") : tmConfig.getASOSUrl();
+            ASOS_ADDRESS_URL = (configVars.get("ASOS_ADDRESS_URL") != null) ? configVars.get("ASOS_ADDRESS_URL") : tmConfig.getASOSAddressURL();
         }catch(Exception ex) {
             logger.error(ex.getMessage(), ex);
 
             DATABASE_NAME = "";
             LOCAL_MONGODB_URI = "";
             REDIS_URL = "";
+            REDIS_DB = "";
+            ASOS_URL = "";
+            ASOS_ADDRESS_URL = "";
         }
+
+        logger.debug(LOCAL_MONGODB_URI);
+        logger.debug(REDIS_URL);
     }
 
     @NotNull
@@ -68,14 +76,26 @@ public final class StaticConfiguration {
     }
 
     public String getMongoDBConnectionString(){
-        return (configVars.get("MONGODB_URI") != null) ? configVars.get("MONGODB_URI") : LOCAL_MONGODB_URI;
+        return LOCAL_MONGODB_URI;
     }
 
     public String getMongoDBDatabase(){
-        return (configVars.get("MONGODB_DATABASE") != null) ? configVars.get("MONGODB_DATABASE") : DATABASE_NAME;
+        return DATABASE_NAME;
     }
 
     public String getRedisConnectionString(){
-        return (configVars.get("REDIS_URL") != null) ? configVars.get("REDIS_URL") : REDIS_URL;
+        return getRedisUrl().concat(getRedisDb());
+    }
+
+    public String getRedisUrl(){
+        return REDIS_URL;
+    }
+
+    public String getRedisDb(){
+        return REDIS_DB;
+    }
+
+    public String getASOSAddressURL(){
+        return ASOS_URL.concat(ASOS_ADDRESS_URL);
     }
 }

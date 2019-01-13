@@ -1,0 +1,114 @@
+[
+    {
+        "request": "5c37191f0870e631ad775660",
+        "thirdParty": "5c3651790870e62814e4115e",
+        "filter": {
+            "ssn": "787392090"
+        }
+    },
+    {
+        "request": "5c39f54beee7b3c7f45c7366c",
+        "thirdParty": "5c3654550870e62814e41160",
+        "filter": {
+            "ssn": "787392090"
+        }
+    },
+    {
+        "request": "5c377a7d0870e631ad775667",
+        "thirdParty": "5c36527e0870e62814e4115f",
+        "filter": {
+            "ssn": "736555113"
+        }
+    },
+    {
+        "request": "5c377a9c0870e631ad775668",
+        "thirdParty": "5c36527e0870e62814e4115f",
+        "filter": {
+            "ssn": "386089385"
+        }
+    },
+    {
+        "thirdParty": "5c3651790870e62814e4115e",
+        "filter": {
+            "gender": "MALE",
+            "bloodType": "A_NEGATIVE",
+            "minAge": "",
+            "maxAge": "",
+            "city": "",
+            "province": "Province of Milan",
+            "country": ""
+            
+        },
+        "timeSpan": "6"
+    },
+    {
+        "thirdParty": "5c3651790870e62814e4115e",
+        "filter": {
+            "gender": "",
+            "bloodType": "",
+            "minAge": "20",
+            "maxAge": "40",
+            "city": "Milan",
+            "province": "",
+            "country": "Italy"
+            
+        },
+        "timeSpan": "10"
+    },
+    {
+        "thirdParty": "5c3654550870e62814e41160",
+        "filter": {
+            "gender": "FEMALE",
+            "bloodType": "ZERO_POSITIVE",
+            "minAge": "",
+            "maxAge": "",
+            "city": "",
+            "province": "",
+            "country": ""
+            
+        },
+        "timeSpan": "12"
+    },
+    {
+        "thirdParty": "5c36527e0870e62814e4115f",
+        "filter": {
+            "gender": "MALE",
+            "bloodType": "",
+            "minAge": "50",
+            "maxAge": "70",
+            "city": "",
+            "province": "",
+            "country": ""
+            
+        },
+        "timeSpan": "6"
+    },
+    {
+        "thirdParty": "5c3654550870e62814e41160",
+        "filter": {
+            "gender": "MALE",
+            "bloodType": "",
+            "minAge": "",
+            "maxAge": "",
+            "city": "",
+            "province": "Province of Milan",
+            "country": ""
+            
+        },
+        "timeSpan": "15"
+    },
+    {
+        "thirdParty": "5c36527e0870e62814e4115f",
+        "filter": {
+            "gender": "MALE",
+            "bloodType": "AB_NEGATIVE",
+            "minAge": "",
+            "maxAge": "",
+            "city": "",
+            "province": "",
+            "country": ""
+            
+        },
+        "timeSpan": "20"
+    }
+]

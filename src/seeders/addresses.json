@@ -1,0 +1,407 @@
+[
+  {
+    "city": "Rome",
+    "province": "Province of Rome",
+    "country": "Italy"
+  },
+  {
+    "city": "Tivoli",
+    "province": "Province of Rome",
+    "country": "Italy"
+  },
+  {
+    "city": "Civitavecchia",
+    "province": "Province of Rome",
+    "country": "Italy"
+  },
+  {
+    "city": "Guidonia Montecelio",
+    "province": "Province of Rome",
+    "country": "Italy"
+  },
+  {
+    "city": "Pomezia",
+    "province": "Province of Rome",
+    "country": "Italy"
+  },
+  {
+    "city": "Velletri",
+    "province": "Province of Rome",
+    "country": "Italy"
+  },
+  {
+    "city": "Milan",
+    "province": "Province of Milan",
+    "country": "Italy"
+  },
+  {
+    "city": "Sesto San Giovanni",
+    "province": "Province of Milan",
+    "country": "Italy"
+  },
+  {
+    "city": "Cinisello Balsamo",
+    "province": "Province of Milan",
+    "country": "Italy"
+  },
+  {
+    "city": "Rho",
+    "province": "Province of Milan",
+    "country": "Italy"
+  },
+  {
+    "city": "Naples",
+    "province": "Province of Naples",
+    "country": "Italy"
+  },
+  {
+    "city": "Giugliano in Campania",
+    "province": "Province of Naples",
+    "country": "Italy"
+  },
+  {
+    "city": "Torre del Greco",
+    "province": "Province of Naples",
+    "country": "Italy"
+  },
+  {
+    "city": "Pozzuoli",
+    "province": "Province of Naples",
+    "country": "Italy"
+  },
+  {
+    "city": "Casoria",
+    "province": "Province of Naples",
+    "country": "Italy"
+  },
+  {
+    "city": "Casalnuovo di Napoli",
+    "province": "Province of Naples",
+    "country": "Italy"
+  },
+  {
+    "city": "Turin",
+    "province": "Province of Turin",
+    "country": "Italy"
+  },
+  {
+    "city": "Palermo",
+    "province": "Province of Palermo",
+    "country": "Italy"
+  },
+  {
+    "city": "Genoa",
+    "province": "Province of Genoa",
+    "country": "Italy"
+  },
+  {
+    "city": "Bologna",
+    "province": "Province of Bologna",
+    "country": "Italy"
+  },
+  {
+    "city": "Imola",
+    "province": "Province of Bologna",
+    "country": "Italy"
+  },
+  {
+    "city": "Florence",
+    "province": "Province of Florence",
+    "country": "Italy"
+  },
+  {
+    "city": "Bari",
+    "province": "Metropolitan City of Bari",
+    "country": "Italy"
+  },
+  {
+    "city": "Altamura",
+    "province": "Metropolitan City of Bari",
+    "country": "Italy"
+  },
+  {
+    "city": "Grosseto",
+    "province": "Province of Grosseto",
+    "country": "Italy"
+  },
+  {
+    "city": "Catania",
+    "province": "Province of Catania",
+    "country": "Italy"
+  },
+  {
+    "city": "Acireale",
+    "province": "Province of Catania",
+    "country": "Italy"
+  },
+  {
+    "city": "Lecce",
+    "province": "Province of Lecce",
+    "country": "Italy"
+  },
+  {
+    "city": "Venice",
+    "province": "Province of Venice",
+    "country": "Italy"
+  },
+  {
+    "city": "Chioggia",
+    "province": "Province of Venice",
+    "country": "Italy"
+  },
+  {
+    "city": "Udine",
+    "province": "Province of Udine",
+    "country": "Italy"
+  },
+  {
+    "city": "Verona",
+    "province": "Province of Verona",
+    "country": "Italy"
+  },
+  {
+    "city": "Brindisi",
+    "province": "Province of Brindisi",
+    "country": "Italy"
+  },
+  {
+    "city": "Messina",
+    "province": "Province of Messina",
+    "country": "Italy"
+  },
+  {
+    "city": "Treviso",
+    "province": "Province of Treviso",
+    "country": "Italy"
+  },
+  {
+    "city": "Bergamo",
+    "province": "Province of Bergamo",
+    "country": "Italy"
+  },
+  {
+    "city": "Parma",
+    "province": "Province of Parma",
+    "country": "Italy"
+  },
+  {
+    "city": "Vicenza",
+    "province": "Province of Vicenza",
+    "country": "Italy"
+  },
+  {
+    "city": "Perugia",
+    "province": "Province of Perugia",
+    "country": "Italy"
+  },
+  {
+    "city": "Padua",
+    "province": "Province of Padua",
+    "country": "Italy"
+  },
+  {
+    "city": "Reggio Calabria",
+    "province": "Province of Reggio Calabria",
+    "country": "Italy"
+  },
+  {
+    "city": "Trento",
+    "province": "Province of Trento",
+    "country": "Italy"
+  },
+  {
+    "city": "Asti",
+    "province": "Province of Asti",
+    "country": "Italy"
+  },
+  {
+    "city": "Como",
+    "province": "Province of Como",
+    "country": "Italy"
+  },
+  {
+    "city": "Ragusa",
+    "province": "Province of Ragusa",
+    "country": "Italy"
+  },
+  {
+    "city": "Piacenza",
+    "province": "Province of Piacenza",
+    "country": "Italy"
+  },
+  {
+    "city": "Pescara",
+    "province": "Province of Pescara",
+    "country": "Italy"
+  },
+  {
+    "city": "Bolzano",
+    "province": "Province of Bolzano",
+    "country": "Italy"
+  },
+  {
+    "city": "Cosenza",
+    "province": "Province of Cosenza",
+    "country": "Italy"
+  },
+  {
+    "city": "Reggio Emilia",
+    "province": "Province of Reggio Emilia",
+    "country": "Italy"
+  },
+  {
+    "city": "Teramo",
+    "province": "Province of Teramo",
+    "country": "Italy"
+  },
+  {
+    "city": "Cremona",
+    "province": "Province of Cremona",
+    "country": "Italy"
+  },
+  {
+    "city": "Ferrara",
+    "province": "Province of Ferrara",
+    "country": "Italy"
+  },
+  {
+    "city": "Busto Arsizio",
+    "province": "Province of Varese",
+    "country": "Italy"
+  },
+  {
+    "city": "Varese",
+    "province": "Province of Varese",
+    "country": "Italy"
+  },
+  {
+    "city": "Rimini",
+    "province": "Province of Rimini",
+    "country": "Italy"
+  },
+  {
+    "city": "Trieste",
+    "province": "Province of Trieste",
+    "country": "Italy"
+  },
+  {
+    "city": "Siracusa",
+    "province": "Province of Siracusa",
+    "country": "Italy"
+  },
+  {
+    "city": "Monza",
+    "province": "Province of Monza",
+    "country": "Italy"
+  },
+  {
+    "city": "Potenza",
+    "province": "Province of Potenza",
+    "country": "Italy"
+  },
+  {
+    "city": "Pavia",
+    "province": "Province of Pavia",
+    "country": "Italy"
+  },
+  {
+    "city": "Barletta",
+    "province": "Province of Barletta-Andria-Trani",
+    "country": "Italy"
+  },
+  {
+    "city": "Trani",
+    "province": "Province of Barletta-Andria-Trani",
+    "country": "Italy"
+  },
+  {
+    "city": "Andria",
+    "province": "Province of Barletta-Andria-Trani",
+    "country": "Italy"
+  },
+  {
+    "city": "Carpi",
+    "province": "Province of Modena",
+    "country": "Italy"
+  },
+  {
+    "city": "Modena",
+    "province": "Province of Modena",
+    "country": "Italy"
+  },
+  {
+    "city": "Massa",
+    "province": "Province of Massa-Carrara",
+    "country": "Italy"
+  },
+  {
+    "city": "Carrara",
+    "province": "Province of Massa-Carrara",
+    "country": "Italy"
+  },
+  {
+    "city": "Mazara del Vallo",
+    "province": "Province of Trapani",
+    "country": "Italy"
+  },
+  {
+    "city": "Trapani",
+    "province": "Province of Trapani",
+    "country": "Italy"
+  },
+  {
+    "city": "Aversa",
+    "province": "Province of Caserta",
+    "country": "Italy"
+  },
+  {
+    "city": "Caserta",
+    "province": "Province of Caserta",
+    "country": "Italy"
+  },
+  {
+    "city": "Taranto",
+    "province": "Province of Taranto",
+    "country": "Italy"
+  },
+  {
+    "city": "Brescia",
+    "province": "Province of Brescia",
+    "country": "Italy"
+  },
+  {
+    "city": "Prato",
+    "province": "Province of Prato",
+    "country": "Italy"
+  },
+  {
+    "city": "Salerno",
+    "province": "Province of Prato",
+    "country": "Italy"
+  },
+  {
+    "city": "Cava de' Tirreni",
+    "province": "Province of Prato",
+    "country": "Italy"
+  },
+  {
+    "city": "Rovigo",
+    "province": "Province of Rovigo",
+    "country": "Italy"
+  },
+  {
+    "city": "Livorno",
+    "province": "Province of Livorno",
+    "country": "Italy"
+  },
+  {
+    "city": "Campobasso",
+    "province": "Province of Campobasso",
+    "country": "Italy"
+  },
+  {
+    "city": "Ravenna",
+    "province": "Province of Ravenna",
+    "country": "Italy"
+  }
+]

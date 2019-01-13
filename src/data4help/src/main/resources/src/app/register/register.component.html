@@ -1,3 +1,5 @@
+<app-header></app-header>
+
 <div class="unit-5 overlay" style="background-image: url('assets/images/statistics.jpg');">
   <div class="container">
     <h2 class="mb-0">Register</h2>
@@ -9,156 +11,243 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 col-lg-6 mb-5">
-        <form action="#" class="p-5 bg-white">
+
+        <form [formGroup]="iForm" (ngSubmit)="onSubmitIndividuals()" class="p-5 bg-white">
           <h2 class="mb-4 text-black">Register Individuals</h2>
+
+          <div *ngIf="iError"  class="alert alert-danger" >
+            {{ iError }}
+            <br>
+          </div>
+
           <div class="row form-group">
-            <div class="col-md-12 mb-3 mb-md-0">
-              <label class="font-weight-bold" for="fullname">Name</label>
-              <input type="text" id="fullname" class="form-control rounded-0">
+            <div class="col-md-12">
+              <label class="font-weight-bold" for="name">Name</label>
+              <input type="text" id="name" formControlName="name" class="form-control rounded-0" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.name.errors }" />
+              <div *ngIf="iFormSubmitted && iControls.name.errors" class="invalid-feedback">
+                <div *ngIf="iControls.name.errors.required">Name is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-6">
+              <label class="font-weight-bold">Gender</label>
+              <select class="form-control" formControlName="gender" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.gender.errors }">
+                <option value="" disabled>Choose a gender</option>
+                <option *ngFor="let g of Gender" [ngValue]="g">{{ g }}</option>
+              </select>
+              <div *ngIf="iFormSubmitted && iControls.gender.errors" class="invalid-feedback">
+                <div *ngIf="iControls.gender.errors.required">Gender is required</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="font-weight-bold" for="birthDate">Date of birth</label>
+              <input type="date" id="birthDate" formControlName="birthDate" class="form-control rounded-0" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.birthDate.errors }"> <!--YYYY-DD-MM-->
+              <div *ngIf="iFormSubmitted && iControls.birthDate.errors" class="invalid-feedback">
+                <div *ngIf="iControls.birthDate.errors.required">Date of birth is required</div>
+              </div>
             </div>
           </div>
 
           <div class="row form-group">
             <div class="col-md-12">
-              <input type="radio" name="gender" value="male"> &nbsp; Male &nbsp;
-              <input type="radio" name="gender" value="female"> &nbsp; Female
-            </div>
-          </div>
-          <div class="row form-group">
-            <div class="col-md-12">
-              <label class="font-weight-bold" for="dob">Date of birth</label>
-              <input type="date" id="dob" class="form-control rounded-0">
-            </div>
-          </div>
-          <div class="row form-group">
-            <div class="col-md-12">
               <label class="font-weight-bold" for="ssn">SSN</label>
-              <input type="ssn" id="ssn" class="form-control rounded-0" pattern="/^\(\d{3}\)\-\d{3}\-\d{4}$/" placeholder="AAA-GGG-SSSS">
+              <input type="text" id="ssn" formControlName="ssn" class="form-control rounded-0" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.ssn.errors }" />
+              <div *ngIf="iFormSubmitted && iControls.ssn.errors" class="invalid-feedback">
+                <div *ngIf="iControls.ssn.errors.required">SSN is required</div>
+              </div>
             </div>
           </div>
+
           <div class="row form-group">
-            <div class="col-md-12">
-              <label class="font-weight-bold" for="weight">Weight</label>
-              <input type="weight" id="weight" class="form-control rounded-0">
+            <div class="col-md-6">
+              <label class="font-weight-bold" for="weight">Weight (kg)</label>
+              <input type="number" id="weight" formControlName="weight" class="form-control rounded-0" min="50" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.weight.errors }" />
+              <div *ngIf="iFormSubmitted && iControls.weight.errors" class="invalid-feedback">
+                <div *ngIf="iControls.weight.errors.required">Weight is required</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="font-weight-bold" for="height">Height (cm)</label>
+              <input type="number" id="height" formControlName="height" class="form-control rounded-0" min="100" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.height.errors }" />
+              <div *ngIf="iFormSubmitted && iControls.height.errors" class="invalid-feedback">
+                <div *ngIf="iControls.height.errors.required">Height is required</div>
+              </div>
             </div>
           </div>
+
           <div class="row form-group">
             <div class="col-md-12">
-              <label class="font-weight-bold" for="height">Height</label>
-              <input type="height" id="height" class="form-control rounded-0">
-            </div>
-          </div>
-          <div class="row form-group">
-            <div class="col-md-12">
-              <label class="font-weight-bold" for="bloodtype">Blood type</label>
-              <select class="form-control" id="bloodtype">
-                <option>A+</option>
-                <option>A-</option>
-                <option>B+</option>
-                <option>B-</option>
-                <option>O+</option>
-                <option>O-</option>
-                <option>AB+</option>
-                <option>AB-</option>
+              <label class="font-weight-bold">Blood type</label>
+              <select class="form-control" formControlName="bloodType" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.bloodType.errors }">
+                <option value="" disabled>Choose your blood type</option>
+                <option *ngFor="let bt of bloodTypes" [ngValue]="bt">{{ bt }}</option>
               </select>
+              <div *ngIf="iFormSubmitted && iControls.bloodType.errors" class="invalid-feedback">
+                <div *ngIf="iControls.bloodType.errors.required">It is required to select a blood type</div>
+              </div>
             </div>
           </div>
+
           <div class="row form-group">
             <div class="col-md-12">
-              <label class="font-weight-bold" for="address">Address</label>
-              <input type="text" id="address" class="form-control rounded-0">
+              <label class="font-weight-bold" for="address-dropdown">Address</label>
+              <select id="address-dropdown" formControlName="address" class="form-control rounded-0" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.address.errors }">
+                <option value="" disabled>Choose your city, province, country</option>
+                <option value="Milan, Province of Milan, Italy">Milan, Province of Milan, Italy</option>
+                <option value="Rome, Province of Rome, Italy">Rome, Province of Rome, Italy</option>
+                <option value="Tivoli, Province of Rome, Italy">Tivoli, Province of Rome, Italy</option>
+                <option value="Civitavecchia, Province of Rome, Italy">Milan, Province of Rome, Italy</option>
+                <option value="Guidonia Montecelio, Province of Rome, Italy">Guidonia Montecelio, Province of Rome, Italy</option>
+                <option value="Velletri, Province of Rome, Italy">Velletri, Province of Rome, Italy</option>
+                <option value="Sesto San Giovanni, Province of Milan, Italy">Sesto San Giovanni, Province of Milan, Italy</option>
+                <option value="Cinisello Balsamo, Province of Milan, Italy">Cinisello Balsamo, Province of Milan, Italy</option>
+                <option value="Giugliano in Campania, Province of Naples, Italy">Giugliano in Campania, Province of Naples, Italy</option>
+                <option value="Naples, Province of Naples, Italy">Naples, Province of Naples, Italy</option>
+              </select>
+              <div *ngIf="iFormSubmitted && iControls.address.errors" class="invalid-feedback">
+                <div *ngIf="iControls.address.errors.required">It is required to select an address</div>
+              </div>
             </div>
           </div>
+
           <div class="row form-group">
             <div class="col-md-12">
               <label class="font-weight-bold" for="email">Email</label>
-              <input type="email" id="emailind" class="form-control rounded-0">
+              <input type="email" id="email" formControlName="email" class="form-control rounded-0"  [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.email.errors }" />
+              <div *ngIf="iFormSubmitted && iControls.email.errors" class="invalid-feedback">
+                <div *ngIf="iControls.email.errors.required">Email is required</div>
+                <div *ngIf="iControls.email.errors.email">Email must be a valid email address</div>
+              </div>
             </div>
           </div>
+
           <div class="row form-group">
             <div class="col-md-12">
               <label class="font-weight-bold" for="password">Password</label>
-              <input type="password" id="passwordind" class="form-control rounded-0">
+              <input type="password" id="password" formControlName="password" class="form-control rounded-0" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.password.errors }" />
+              <div *ngIf="iFormSubmitted && iControls.password.errors" class="invalid-feedback">
+                <div *ngIf="iControls.password.errors.required">Password is required</div>
+                <div *ngIf="iControls.password.errors.minlength">Password must be at least 6 characters</div>
+              </div>
             </div>
           </div>
           <br>
 
           <div class="row form-group mb-5">
             <div class="col-md-12">
-              <input type="submit" value="Register" class="btn btn-primary  py-2 px-4 rounded-0">
+              <input type="submit" class="btn btn-primary  py-2 px-4 rounded-0">
             </div>
           </div>
         </form>
       </div>
 
 
+
       <div class="col-md-12 col-lg-6 mb-5">
-        <form action="#" class="p-5 bg-white">
+
+        <form [formGroup]="tpForm" (ngSubmit)="onSubmitThirdParties()" class="p-5 bg-white">
           <h2 class="mb-4 text-black">Register Third Parties</h2>
-          <div class="row form-group">
-            <div class="col-md-12 mb-3 mb-md-0">
-              <label class="font-weight-bold" for="businessname">Company name</label>
-              <input type="text" id="businessname" class="form-control rounded-0">
-            </div>
+
+          <div *ngIf="tpError"  class="alert alert-danger" >
+            {{ tpError }}
+            <br>
           </div>
+
           <div class="row form-group">
             <div class="col-md-12">
-              <label class="font-weight-bold" for="tax">Tax code</label>
-              <input type="tax" id="tax" class="form-control rounded-0">
+              <label class="font-weight-bold" for="companyname">Company name</label>
+              <input type="text" id="companyname" formControlName="companyname" class="form-control rounded-0" [ngClass]="{ 'is-invalid': tpFormSubmitted && tpControls.companyname.errors }" />
+              <div *ngIf="tpFormSubmitted && tpControls.companyname.errors" class="invalid-feedback">
+                <div *ngIf="tpControls.companyname.errors.required">Company name is required</div>
+              </div>
             </div>
           </div>
+
           <div class="row form-group">
             <div class="col-md-12">
-              <label class="font-weight-bold" for="phone">Phone</label>
-              <input type="phone" id="phone" class="form-control rounded-0">
+              <label class="font-weight-bold" for="taxcode">Tax code</label>
+              <input type="text" id="taxcode" formControlName="taxcode" class="form-control rounded-0" [ngClass]="{ 'is-invalid': tpFormSubmitted && tpControls.taxcode.errors }" />
+              <div *ngIf="tpFormSubmitted && tpControls.taxcode.errors" class="invalid-feedback">
+                <div *ngIf="tpControls.taxcode.errors.required">Tax code is required</div>
+              </div>
             </div>
           </div>
+
           <div class="row form-group">
             <div class="col-md-12">
-              <label class="font-weight-bold" for="certificate">Upload Certificate</label>
-              <input type="file" id="certificate" class="form-control rounded-0">
+              <label class="font-weight-bold" for="taxcode">Phone</label>
+              <input type="text" id="phone" formControlName="phone" placeholder="+391234567890" class="form-control rounded-0" [ngClass]="{ 'is-invalid': tpFormSubmitted && tpControls.phone.errors }" />
+              <div *ngIf="tpFormSubmitted && tpControls.phone.errors" class="invalid-feedback">
+                <div *ngIf="tpControls.phone.errors.required">Phone is required</div>
+              </div>
             </div>
           </div>
+
           <div class="row form-group">
             <div class="col-md-12">
-              <label class="font-weight-bold" for="email">Email</label>
-              <input type="email" id="email" class="form-control rounded-0">
+              <label class="font-weight-bold" for="certificate">Certificate</label>
+              <input type="file" id="certificate" formControlName="certificate" class="form-control rounded-0" [ngClass]="{ 'is-invalid': tpFormSubmitted && tpControls.certificate.errors }" />
+              <div *ngIf="tpFormSubmitted && tpControls.certificate.errors" class="invalid-feedback">
+                <div *ngIf="tpControls.certificate.errors.required">Certificate is required</div>
+
+                <p *ngIf="file" class="pl-4 align-middle mb-0">{{ file.name }}</p>
+              </div>
             </div>
           </div>
+
           <div class="row form-group">
             <div class="col-md-12">
-              <label class="font-weight-bold" for="password">Password</label>
-              <input type="password" id="password" class="form-control rounded-0">
+              <label class="font-weight-bold" for="emailtp">Email</label>
+              <input type="email" id="emailtp" formControlName="emailtp" class="form-control rounded-0"  [ngClass]="{ 'is-invalid': tpFormSubmitted && tpControls.emailtp.errors }" />
+              <div *ngIf="tpFormSubmitted && tpControls.emailtp.errors" class="invalid-feedback">
+                <div *ngIf="tpControls.emailtp.errors.required">Email is required</div>
+                <div *ngIf="tpControls.emailtp.errors.email">Email must be a valid email address</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-12">
+              <label class="font-weight-bold" for="passwordtp">Password</label>
+              <input type="password" id="passwordtp" formControlName="passwordtp" class="form-control rounded-0" [ngClass]="{ 'is-invalid': tpFormSubmitted && tpControls.passwordtp.errors }" />
+              <div *ngIf="tpFormSubmitted && tpControls.passwordtp.errors" class="invalid-feedback">
+                <div *ngIf="tpControls.passwordtp.errors.required">Password is required</div>
+                <div *ngIf="tpControls.passwordtp.errors.minlength">Password must be at least 6 characters</div>
+              </div>
             </div>
           </div>
 
           <br>
-          <h6><strong>Configuration</strong></h6>
+          <h6><strong>Configuration <small class="float-right">(These settings can be setup later)</small></strong></h6>
           <small>Provide us the URLs where you want to receive data and notifications</small>
           <hr>
-          <div class="row form-group">
-            <div class="col-md-12">
-              <label class="font-weight-bold" for="individualpushurl">Individuals data URL</label>
-              <input type="url" id="individualpushurl" class="form-control rounded-0">
-            </div>
-          </div>
-          <div class="row form-group">
-            <div class="col-md-12">
-              <label class="font-weight-bold" for="bulkpushurl">Bulk data URL</label>
-              <input type="url" id="bulkpushurl" class="form-control rounded-0">
-            </div>
-          </div>
-          <div class="row form-group">
-            <div class="col-md-12">
-              <label class="font-weight-bold" for="notificationurl">Notifications URL</label>
-              <input type="url" id="notificationurl" class="form-control rounded-0">
-            </div>
-          </div>
-          <br>
 
           <div class="row form-group">
             <div class="col-md-12">
-              <input type="submit" value="Register" class="btn btn-primary  py-2 px-4 rounded-0">
+              <label class="font-weight-bold" for="individualPushUrl">Individuals data URL</label>
+              <input type="text" id="individualPushUrl" formControlName="individualPushUrl" class="form-control rounded-0"/>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-12">
+              <label class="font-weight-bold" for="bulkPushUrl">Bulk data URL</label>
+              <input type="text" id="bulkPushUrl" formControlName="bulkPushUrl" class="form-control rounded-0"/>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-12">
+              <label class="font-weight-bold" for="notificationUrl">Notifications URL</label>
+              <input type="text" id="notificationUrl" formControlName="notificationUrl" class="form-control rounded-0"/>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-12">
+              <input type="submit" class="btn btn-primary  py-2 px-4 rounded-0">
             </div>
           </div>
         </form>
@@ -166,3 +255,5 @@
     </div>
   </div>
 </div>
+
+<app-footer></app-footer>

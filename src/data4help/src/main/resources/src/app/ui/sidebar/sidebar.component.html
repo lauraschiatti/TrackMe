@@ -1,0 +1,21 @@
+<nav id="sidebar" class="container">
+  <div class="sidebar-header"></div>
+
+    <a class="navbar-brand" routerLink="/" id="sidebar-brand">
+      <img src="assets/images/icon-white.png" width="35" height="35" class="d-inline-block align-top" alt="icon" style="margin-right: 0.7em;">
+      <span style="color: #fff;">TrackMe</span>
+    </a>
+    <br>
+  <ul class="list-unstyled components">
+    <p><i class="unit-3-icon icon fl-bigmug-line-menu40"></i>&nbsp; General</p>
+    <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+    <div *ngIf="role === 'INDIVIDUAL'"><li><a routerLink="/requests" routerLinkActive="active">Requests</a></li></div>
+    <div *ngIf="role === 'THIRD_PARTY'"><li><a routerLink="/search" routerLinkActive="active">Search</a></li></div>
+
+    <br>
+
+    <p><i class="unit-3-icon icon fl-bigmug-line-gear30"></i>&nbsp; Settings</p>
+    <li><a routerLink="/profile" routerLinkActive="active">Profile</a></li>
+  </ul>
+</nav>
+

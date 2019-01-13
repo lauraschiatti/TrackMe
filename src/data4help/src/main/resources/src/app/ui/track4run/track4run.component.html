@@ -1,0 +1,135 @@
+<style>
+    .card{
+        height: 350px;
+    }
+    img{
+        height: 100px;
+    }
+</style>
+
+<app-header></app-header>
+
+<div class="unit-5 overlay" style="background-image: url('assets/images/statistics.jpg');">
+  <div class="container">
+    <h2 class="mb-0">Track4Run</h2>
+    <p class="mb-0 unit-6"><a routerLink="/">Home</a> <span class="sep">></span> <span>Track4Run</span></p>
+  </div>
+</div>
+
+<div class="site-section">
+    <div class="container" id="runs_list">
+        <h3>List of available runs</h3>
+        <hr>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-body" style="padding: 0">
+                        <img class="card-img-top" src="assets/images/run1.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Huawei Milan Marathon</h5>
+                            <p class="card-text">
+                                <small> Milan, Italy</small>
+                                <br>
+                                <span class="badge badge-danger"> Today </span> <small> - 3pm</small>
+                                <br>
+                                <small>Distance</small>
+                                &nbsp; <span class="badge badge-primary"> 5K</span>
+                            </p>
+                        </div>
+                        <div class="card-body">
+                            <button type="button" class="btn btn-primary" id="view_participants">View participants</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-body" style="padding: 0">
+                        <img class="card-img-top" src="assets/images/run2.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Akamas Running Festival</h5>
+                            <p class="card-text">
+                                <small> Cyprus</small>
+                                <br>
+                                <small> 10 Mar, 2019 - 10am</small>
+                                <br>
+                                <small>Distance</small>
+                                &nbsp; <span class="badge badge-secondary"> 53K</span>
+                            </p>
+                        </div>
+                        <div class="card-body">
+                            <button type="button" class="btn btn-secondary">View participants</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-body" style="padding: 0">
+                        <img class="card-img-top" src="assets/images/run3.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Khmer Empire Marathon</h5>
+                            <p class="card-text">
+                                <small> Cambodia, Angkor Wat</small>
+                                <br>
+                                <small> 4 Aug, 2019 - 3pm</small>
+                                <br>
+                                <small>Distance</small>
+                                &nbsp; <span class="badge badge-secondary"> 10K</span>
+                            </p>
+                        </div>
+                        <div class="card-body">
+                            <button type="button" class="btn btn-secondary">View participants</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-body" style="padding: 0">
+                      <img class="card-img-top" src="assets/images/run4.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Montepio Cascais Half Marathon</h5>
+                            <p class="card-text">
+                                <small> Portugal, Cascais</small>
+                                <br>
+                                <small> 3 Mar, 2019 - 9am</small>
+                                <br>
+                                <small>Distance</small>
+                                &nbsp; <span class="badge badge-secondary"> 10K</span>
+                            </p>
+                        </div>
+                        <div class="card-body">
+                            <button type="button" class="btn btn-secondary">View participants</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="active_run" style="display: none">
+    <div class="row">
+       <div class="col-sm-6">
+           <h3>Welcome to the Huawei Milan Marathon</h3>
+       </div>
+       <div class="col-sm-6">
+           <button type="button" class="btn btn-primary float-right" id="back">Back to active runs</button>
+       </div>
+    </div>
+    <hr>
+
+    <div class="row">
+      <!--Google Maps-->
+        <div id="map-container-google-3" class="z-depth-1-half map-container-3" style="height:500px; width:100%">
+          <iframe src="https://maps.google.com/maps?q=milan&t=k&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
+                  style="border:0;height:100%; width:100%;"allowfullscreen></iframe>
+        </div>
+
+      <!--Google Maps-->
+    </div>
+  </div>
+</div>
+
+
+<app-footer></app-footer>

@@ -1,0 +1,37 @@
+Wearable devices for Physiological Sensing
+it has sensors used to monitor physiological parameters. 
+The wrist can be used to obtain a vast amount of physiological signals such as temperature, heart rate, oxygen saturation 
+or bioelectronics 
+
+------------------> Heart rate (HR) or pulse is the frequency of cardiac cycles, and is expressed as beats per minute (bpm)
+Age	Target Heart Rate (beats per minute)
+20	100 to 150
+25	98 to 146
+30	95 to 142
+35	93 to 138
+40	90 to 135
+45	88 to 131
+50	85 to 127
+55	83 to 123
+60	80 to 120
+65	78 to 116
+70	75 to 113
+75	73 to 109
+
+------------------> Body temperature can be estimated from the skin temperature, which can be measured with infrared thermopile (°C)
+Body temperatures based on the age are estimated as
+3 - 10 years 35.9–36.7°C
+11 - 65 years: 35.2–36.9°C
+Over 65 years: 35.6–36.3°C
+
+
+------------------> Blood pressure: systolic, diastolic (mmHg). Pulse oximeter.
+Usually ranges between 90 to 250 for the top or maximum number (systolic) and 60 to 140 for the bottom or minimum number (diastolic).
+(Blood pressure readings have two numbers, for example 140/90mmHg). 
+----- What the different blood pressure readings mean ----
+Less than 120 over 80: Your blood pressure is normal and healthy. 
+Between 120 over 80 and 140 over 90: Your blood pressure is a little higher than it should be.
+140 over 90 or higher (over a number of weeks): You have high blood pressure. 
+
+------------------> Blood Oxygen Saturation Level 
+The normal oxygen saturation level is 97–100%. Levels under 90 percent are considered low.

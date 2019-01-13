@@ -5,8 +5,9 @@ import xyz.morphia.annotations.Embedded;
 @Embedded
 public class HealthStatus {
     private Integer heartRate;
-    private Integer bloodPreasure;
-    private Integer bodyTemperature;
+    private Double systolic;
+    private Double diastolic;
+    private Double bodyTemperature;
     private Integer bloodOxygen;
 
     public Integer getHeartRate() {
@@ -17,19 +18,27 @@ public class HealthStatus {
         this.heartRate = heartRate;
     }
 
-    public Integer getBloodPreasure() {
-        return bloodPreasure;
+    public Double getSystolic() {
+        return systolic;
     }
 
-    public void setBloodPreasure(Integer bloodPreasure) {
-        this.bloodPreasure = bloodPreasure;
+    public void setSystolic(Double systolic) {
+        this.systolic = systolic;
     }
 
-    public Integer getBodyTemperature() {
+    public Double getDiastolic() {
+        return diastolic;
+    }
+
+    public void setDiastolic(Double diastolic) {
+        this.diastolic = diastolic;
+    }
+
+    public Double getBodyTemperature() {
         return bodyTemperature;
     }
 
-    public void setBodyTemperature(Integer bodyTemperature) {
+    public void setBodyTemperature(Double bodyTemperature) {
         this.bodyTemperature = bodyTemperature;
     }
 
