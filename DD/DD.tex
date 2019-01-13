@@ -296,7 +296,40 @@ and it also contains the most relevant architecture views: component view, class
 			\label{table:d4h_component_descriptions}
 		\end{longtable}
 			
-		\subsection{Track4Run component diagram}
+			\subsection{AutomatedSOS component diagram}
+				\subsubsection{Overview}
+			In the Figure \ref{fig:asos_component_diagram} it can be seen the ASOS components. It can be noticed that the system has a similar structure of T4R: the \textbf{ASOSBackend} component communicates  with \textbf{DataBase} component through the \textbf{DBConnector} interface, and provides a \textbf{DataAPI} interface to receive the updated information of the individuals.\\\\
+			On the other hand, \textbf{ASOSBackend} component sends notifications to the different \textbf{Health Care Service} components using the provided \textbf{Alarm Interface}.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=1\textwidth]{diagrams/asos_component_diagram.png}
+				\caption[AutomatedSOS Component Diagram]{AutomatedSOS Component Diagram}
+				\label{fig:asos_component_diagram}
+			\end{figure}	
+			\subsubsection{Description}
+			In the Table \ref{table:asos_component_descriptions} a description of the components involved in ASOS is shown.
+			
+		\begin{longtable}{l p{0.7\textwidth}}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Component descriptions}} \\
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endfirsthead
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endhead
+			DBManager & Component responsible of connecting the database. It is related to all the other components since they depend on it.\\
+			DataBase & Component that contains the main database (AutomatedSOS DB), with all its collections.\\
+			DataHandler & Component responsible to get the location and health data of the Individuals every time it has changes. It should be able to obtain the information sent by D4H, and to get the information related to the Individuals who accepted the request.\\
+			HealthCareConnector & Component responsible of connecting to the health-care service assigned to an Individual, when its parameters are out of normal range.\\
+			\hline
+			\caption{Component descriptions of ASOS}
+			\label{table:asos_component_descriptions}
+		\end{longtable}
+		
+	\subsection{Track4Run component diagram}
 		\subsubsection{Overview}
 			In the Figure \ref{fig:t4r_component_diagram} it can be seen the T4R components. As in the D4H component diagram, the \textit{DataBase} component provides an interface in order to let the \textbf{DBManager} component communicate to it.\\\\
 			The main structure of the system is similar to the structure seen in D4H component diagram. The web site communicates with the back-end using the following interfaces: \textbf{LoginWeb}, \textbf{SignupWeb}, \textbf{UserWeb} and \textbf{NotificationWeb}. On the other hand, T4R provides the \textbf{DataAPI} interface, which is responsibly of receiving all the data of the participants, and uses the \textbf{RequestAPI} interface, in order to send the requests for accessing the individuals' location and health status.\\\\
@@ -338,46 +371,15 @@ and it also contains the most relevant architecture views: component view, class
 			\caption{Component descriptions of T4R}
 			\label{table:t4r_component_descriptions}
 		\end{longtable}
-			
-			\subsection{AutomatedSOS component diagram}
-				\subsubsection{Overview}
-			In the Figure \ref{fig:asos_component_diagram} it can be seen the ASOS components. It can be noticed that the system has a similar structure of T4R: the \textbf{ASOSBackend} component communicates  with \textbf{DataBase} component through the \textbf{DBConnector} interface, and provides a \textbf{DataAPI} interface to receive the updated information of the individuals.\\\\
-			On the other hand, \textbf{ASOSBackend} component sends notifications to the different \textbf{Health Care Service} components using the provided \textbf{Alarm Interface}.
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=1\textwidth]{diagrams/asos_component_diagram.png}
-				\caption[AutomatedSOS Component Diagram]{AutomatedSOS Component Diagram}
-				\label{fig:asos_component_diagram}
-			\end{figure}	
-			\subsubsection{Description}
-			In the Table \ref{table:asos_component_descriptions} a description of the components involved in ASOS is shown.
-			
-		\begin{longtable}{l p{0.7\textwidth}}
-			\hline\hline
-			\multicolumn{2}{c}{\textbf{Component descriptions}} \\
-			\hline
-			\textbf{Component} & \textbf{Description} \\ [0.5ex]
-			\hline
-			\endfirsthead
-			\hline
-			\textbf{Component} & \textbf{Description} \\ [0.5ex]
-			\hline
-			\endhead
-			DBManager & Component responsible of connecting the database. It is related to all the other components since they depend on it.\\
-			DataBase & Component that contains the main database (AutomatedSOS DB), with all its collections.\\
-			DataHandler & Component responsible to get the location and health data of the Individuals every time it has changes. It should be able to obtain the information sent by D4H, and to get the information related to the Individuals who accepted the request.\\
-			HealthCareConnector & Component responsible of connecting to the health-care service assigned to an Individual, when its parameters are out of normal range.\\
-			\hline
-			\caption{Component descriptions of ASOS}
-			\label{table:asos_component_descriptions}
-		\end{longtable}
 		
 	\section{Component interfaces}
-	In the following section all the interfaces of the systems (D4H, T4R, ASOS) are presented. It is stated the classes that are part of the components, the exposed methods, the expected input parameters and the expected outputs, and the different endpoints exposed to the web-sites and to the Third Parties.
+	In the following section all the interfaces of the systems (D4H, T4R, ASOS) are presented. Furthermore, classes belonging to the components, in particular \textit{Service} classes count on methods that are related to the external interfaces. All the  exposed methods expected input parameters and the expected outputs wil be listed in this section.  \\
 	
-	\subsection{Data4Help interfaces}
-	This is a list of all the components of D4H, and the classes that belong to them, with the exposed methods. \\
+	The endpoints are categorized as \textit{setupWebEndpoints} or \textit{setupApiEndpoints} according to whether they are exposed for the web (front-end) or for third parties directly.  In this section interfaces exposed for the web are explained in detail.\\
 	
+	It is important to mention that \verb|Spark.Request| and \verb|Spark.Response| classes belong to the \textit{Java Spark Framework}, and does nothing to do with the \textit{Request} class of TrackMe system. 
+		
+	\subsection{Data4Help interfaces}	
 	To have access to the exposed methods, it is required for requests to have the following HTTP headers to each request. 	The headers are required for all the methods except for \textit{login},  \textit{signupIndividual} and \textit{signupThirdParty}.\\
 	\textbf{USER\_ID}= userId:String \\
 	\textbf{ACCESS-TOKEN}= accessToken:String \\
@@ -514,7 +516,7 @@ and it also contains the most relevant architecture views: component view, class
 				& \verb|status: D4HRequestStatus|\\
 			\end{tabular}\\
 			
-			\item{\verb|Collection<D4HReqResponse> getAllRequests(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/requests/|}\\\\
+			\item{\verb|Collection<D4HReqResponse> getAllRequests(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/requests/:requestStatus|}\\\\
 			\begin{tabular}{l | l}
 			\textbf{Input} & \textbf{Output} \\
 			\hline
@@ -640,279 +642,43 @@ and it also contains the most relevant architecture views: component view, class
 				\verb|config.individualPushUrl: String|& \verb|config.individualPushUrl: String| \\
 				\verb|config.bulkPushUrl: String|& \verb|config.bulkPushUrl: String| \\
 				\verb|config.notificationUrl: String|& \verb|config.notificationUrl: String| \\
-			\end{tabular}\\
-                			
+			\end{tabular}\\      			
 		\end{itemize}
-		
 	\end{itemize}
 \end{itemize}
-	
-	Almost all the components offer a way to communicate with the front-end (web site), or with the third parties. In particular, the Service classes have methods that are related to the external interfaces, which are endpoints used by the web site, in order to let the web user to interact with it, or by a third party services. Is it important to mention that \verb|Spark.Request| and \verb|Spark.Response| classes belong to the \textit{Java Spark Framework}, and does nothing to do with the \textit{Request} class of the TrackMe model. In the following list, all the service classes are listed showing the link between their methods and the endpoints, and the expected inputs and outputs:
-	
-	\subsection{Track4Run interfaces}
-	The following is a list of all the components of T4R, and the classes that belong to them, with the exposed methods.
-	\begin{itemize}
-		\item{\textbf{Login}}
-			\begin{itemize}
-				\item{LoginService}
-					\begin{itemize}
-						\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|}
-						\item{\verb|void logout(Spark.Request req, Spark.Response response)|}
-					\end{itemize}
-				\item{UserResource}
-					\begin{itemize}
-						\item{\verb|T4RUser getByEmailAndPass(String email, String password)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{Signup}}
-			\begin{itemize}
-				\item{SignupService}
-					\begin{itemize}
-						\item{\verb|SignupResponse signupParticipant(Spark.Request req, Spark.Response res)|}
-						\item{\verb|SignupResponse signupOrganizer(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{UserResource}
-					\begin{itemize}
-						\item{\verb|void add(T4RUser u)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{User}}
-			\begin{itemize}
-				\item{UserService}
-					\begin{itemize}
-						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req,|\\ \verb|Spark.Response res)|}
-						\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{UserResource}
-					\begin{itemize}
-						\item{\verb|T4RUser getById(String userId)|}
-						\item{\verb|void update(T4RUser u)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{Event}}
-			\begin{itemize}
-				\item{EventService}
-					\begin{itemize}
-						\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req,|\\ \verb|Spark.Response res)|}
-						\item{\verb|void createEvent(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void updateEvent(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{EventResource}
-					\begin{itemize}
-						\item{\verb|Event getById(String eventId)|}
-						\item{\verb|Collection<Event> getAll()|}
-						\item{\verb|void add(Event e)|}
-						\item{\verb|void update(Event e)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{Notification}}
-			\begin{itemize}
-				\item{NotificationService}
-					\begin{itemize}
-						\item{\verb|Collection<Notification> getPendingNotifications(Spark.Request req,|\\ \verb|Spark.Response res)|}
-						\item{\verb|void accept(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void delete(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void createNotification(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{NotificationResource}
-					\begin{itemize}
-						\item{\verb|Notification getByUserId(String userId)|}
-						\item{\verb|void update(Notification u)|}
-					\end{itemize}
-				\item{EventResource}
-					\begin{itemize}
-						\item{\verb|Event getById(String eventId)|}
-						\item{\verb|void addParticipant(String eventId, String participantId)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{DataHandler}}
-			\begin{itemize}
-				\item{DataHandler}
-					\begin{itemize}
-						\item{\verb|void getParticipantLocation(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{Request}}
-			\begin{itemize}
-				\item{RequestService}
-					\begin{itemize}
-						\item{\verb|void sendRequestToParticipant(String ssn)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{AuthenticatorManager}}
-			\begin{itemize}
-				\item{AuthenticationManager}
-					\begin{itemize}
-						\item{\verb|void validateAndUpdateAccessToken(String userId, String accessToken)|}
-						\item{\verb|void validateAccessToken(String userId, String accessToken)|}
-						\item{\verb|void deleteAccessToken(String accessToken)|}
-						\item{\verb|UserWebAuth setUserAccessToken(T4RUser d4HUser)|}
-						\item{\verb|static String hashPassword(String password)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{DBManager}}
-			\begin{itemize}
-				\item{DBManager}
-					\begin{itemize}
-						\item{\verb|Morphia.Datastore getDatastore()|}
-					\end{itemize}
-			\end{itemize}
-	\end{itemize}
-	As in D4H, the Service classes have methods that are related to the endpoints used by the web-site. A special case is the DataHandler component, which is responsible of getting the notifications from D4H and the data of the individuals. The  NotificationAPI and DataAPI refer to the interfaces exposed to D4H and to which it connects. On the other hand, the Request component connects to D4H by using the RequestAPI, in order to send Requests for accessing individual location during an event. In the following list, the exposed interfaces - used by the web-site and by D4H - are shown, linked with the classes and methods, and detailing the inputs and outputs:
-	
-	\begin{itemize}
-		\item{LoginService}
-		\begin{itemize}
-			\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/login|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-			\verb|email: String| & \verb|userId: String| \\
-			\verb|password: String| & \verb|accessToken: String| \\
-			& \verb|type: UserType| 
-			\end{tabular}\\
-			\item{\verb|void logout(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/logout|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-			\verb|userId: String| & \\
-			\verb|accessToken: String| & \\
-			\end{tabular}\\
-		\end{itemize}
-		\item{SignupService}
-		\begin{itemize}
-			\item{\verb|SignupResponse signupParticipant(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/individual/signup|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|email: String| & \verb|userId: String| \\
-				\verb|password: String| & \verb|accessToken: String| \\
-				\verb|name: String| & \\
-				\verb|ssn: String| & \\
-			\end{tabular}\\
-			\item{\verb|SignupResponse signupOrganizer(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/thirdparty/signup|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|email: String| & \verb|userId: String| \\
-				\verb|password: String| & \verb|accessToken: String| \\
-				\verb|name: String| & \\
-				\verb|phone: String| & \\
-				\verb|website: String| & \\
-			\end{tabular}\\
-		\end{itemize}
-		\item{UserService}
-		\begin{itemize}
-			\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req, |\\ \verb|Spark.Response res)|\\ \verb|GET /web/:eventId/participants|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				& \verb|participants: Collection<Participant>| \\
-				& \verb|participants[*].userId: String| \\
-				& \verb|participants[*].name: String| \\
-			\end{tabular}\\
-			\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/participant/:userId/:eventId|}
-			\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/participant/:userId/:eventId|}
-		\end{itemize}
-		\item{EventService}
-			\begin{itemize}
-			\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req, Spark.Response res)|\\ \verb|GET /web/event|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				& \verb|events: Collection<Event>| \\
-				& \verb|events[*].eventId: String| \\
-				& \verb|events[*].name: String| \\
-				& \verb|events[*].startDate: Date| \\
-				& \verb|events[*].organizer: Organizer| \\
-				& \verb|events[*].organizer.name: String| \\
-			\end{tabular}\\
-			\item{\verb|void createEvent(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/event|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|name: String| & \\
-				\verb|organizerId: String| & \\
-				\verb|startDate: Date| & \\
-				\verb|endtDate: Date| & \\
-				\verb|path: Collection<Coordinate>| & \\
-				\verb|path[*].longitude: Long| & \\
-				\verb|path[*].latitude: Long| & \\
-			\end{tabular}\\
-			\item{\verb|void updateEvent(Spark.Request req, Spark.Response res)|\\ \verb|PUT /web/event/:eventId|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|name: String| & \\
-				\verb|startDate: Date| & \\
-				\verb|endtDate: Date| & \\
-				\verb|path: Collection<Coordinate>| & \\
-				\verb|path[*].longitude: Long| & \\
-				\verb|path[*].latitude: Long| & \\
-			\end{tabular}\\
-			\end{itemize}
-		\item{NotificationService}
-		\begin{itemize}
-			\item{\verb|Collection<Notification> getPendingNotifications(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/:userId/notification|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				& \verb|notifications: Collection<Notification>| \\
-				& \verb|notifications[*].event: Event| \\
-				& \verb|notifications[*].event.eventId: String| \\
-				& \verb|notifications[*].event.name: String| \\
-			\end{tabular}\\
-			\item{\verb|void accept(Spark.Request req, Spark.Response res)|\\ \verb|PUT /web/:userId/notification/:notificationId|}
-			\item{\verb|void delete(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/:userId/notification/:notificationId|}
-			\item{\verb|void createNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/notification|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|userId: String| & \\
-				\verb|eventId: String| & \\
-			\end{tabular}\\
-		\end{itemize}
-		\item{DataHandler}
-		\begin{itemize}
-			\item{\verb|void getParticipantLocation(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/participant/data|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|ssn: String| & \\
-				\verb|data: Data| & \\
-				\verb|data.location: Location| & \\
-				\verb|data.location.longitude: Long| & \\
-				\verb|data.location.latitude: Long| & \\
-				\verb|data.healthStatus: HealtStatus| & \\
-				\verb|data.healthStatus.heartRate: Integer| & \\
-				\verb|data.healthStatus.bloodPreasure: Integer| & \\
-				\verb|data.healthStatus.bodyTemperature: Integer| & \\
-				\verb|data.healthStatus.bloodOxygen: Integer| & \\
-			\end{tabular}\\
-			\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/participant/notification|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|name: String| & \\
-				\verb|ssn: String| & \\
-				\verb|birthDate: Date| & \\
-				\verb|gender: Gender| & \\
-				\verb|status: RequestStatus| & \\
-			\end{tabular}\\
-		\end{itemize}
-	\end{itemize}
-	
-	\subsection{AutomatedSOS interfaces}
+
+\subsection{AutomatedSOS interfaces}
 	The following is a list of all the components of ASOS, and the classes that belong to them, with the exposed methods.
 	\begin{itemize}
 		\item{\textbf{DataHandler}}
 			\begin{itemize}
 				\item{DataHandler}
 					\begin{itemize}
-						\item{\verb|void getIndividualData(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void getIndividualData(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/individual/notification|}\\\\
+				\begin{tabular}{l | l}
+				\textbf{Input} & \textbf{Output} \\
+				\hline
+					\verb|ssn: String| & \\
+					\verb|data: Data| & \\
+					\verb|data.location: Location| & \\
+					\verb|data.location.longitude: Long| & \\
+					\verb|data.location.latitude: Long| & \\
+					\verb|data.healthStatus: HealtStatus| & \\
+					\verb|data.healthStatus.heartRate: Integer| & \\
+					\verb|data.healthStatus.bloodPreasure: Integer| & \\
+					\verb|data.healthStatus.bodyTemperature: Integer| & \\
+					\verb|data.healthStatus.bloodOxygen: Integer| & \\
+				\end{tabular}\\
+				\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/individual/notification|}\\\\
+				\begin{tabular}{l | l}
+				\textbf{Input} & \textbf{Output} \\
+				\hline
+					\verb|name: String| & \\
+					\verb|ssn: String| & \\
+					\verb|birthDate: Date| & \\
+					\verb|gender: Gender| & \\
+					\verb|status: RequestStatus| & \\
+				\end{tabular}\\
 					\end{itemize}
 					\item{ThresholdResource}
 					\begin{itemize}
@@ -943,36 +709,215 @@ and it also contains the most relevant architecture views: component view, class
 	
 	ASOS has a different architecture as the ones seen in T4R and D4H, because it does not relays on a web-site nor a user. The system receives the data of the subscribed Individuals through the DataAPI, which is the interface provided to D4H, to which it connects. The NotificationAPI, let D4H connect to ASOS in order to send the status of the Requests sent to an Individual.  In the following list, the exposed interfaces are shown, linked with the classes and methods, and detailing the inputs and outputs:
 	
+	
+	\subsection{Track4Run interfaces}
+	The following is a list of all the components of T4R, and the classes that belong to them, with the exposed methods. \\
+	
+		As in D4H, the Service classes have methods that are related to the endpoints used by the web-site. A special case is the DataHandler component, which is responsible of getting the notifications from D4H and the data of the individuals. The  NotificationAPI and DataAPI refer to the interfaces exposed to D4H and to which it connects. On the other hand, the Request component connects to D4H by using the RequestAPI, in order to send Requests for accessing individual location during an event. In the following list, the exposed interfaces - used by the web-site and by D4H - are shown, linked with the classes and methods, and detailing the inputs and outputs:
+
 	\begin{itemize}
-		\item{DataHandler}
+		\item{\textbf{Login}}
 			\begin{itemize}
-				\item{\verb|void getIndividualData(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/individual/notification|}\\
-				\begin{tabular}{l | l}
-				\textbf{Input} & \textbf{Output} \\
-				\hline
-					\verb|ssn: String| & \\
-					\verb|data: Data| & \\
-					\verb|data.location: Location| & \\
-					\verb|data.location.longitude: Long| & \\
-					\verb|data.location.latitude: Long| & \\
-					\verb|data.healthStatus: HealtStatus| & \\
-					\verb|data.healthStatus.heartRate: Integer| & \\
-					\verb|data.healthStatus.bloodPreasure: Integer| & \\
-					\verb|data.healthStatus.bodyTemperature: Integer| & \\
-					\verb|data.healthStatus.bloodOxygen: Integer| & \\
-				\end{tabular}\\
-				\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/individual/notification|}\\
-				\begin{tabular}{l | l}
-				\textbf{Input} & \textbf{Output} \\
-				\hline
-					\verb|name: String| & \\
-					\verb|ssn: String| & \\
-					\verb|birthDate: Date| & \\
-					\verb|gender: Gender| & \\
-					\verb|status: RequestStatus| & \\
-				\end{tabular}\\
+				\item{\textbf{LoginService}}
+					\begin{itemize}
+						\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/login|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+			\verb|email: String| & \verb|userId: String| \\
+			\verb|password: String| & \verb|accessToken: String| \\
+			& \verb|type: UserType| 
+			\end{tabular}\\
+			\item{\verb|void logout(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/logout|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+			\verb|userId: String| & \\
+			\verb|accessToken: String| & \\
+			\end{tabular}\\
+					\end{itemize}
+					
+				\item{\textbf{UserResource}}
+					\begin{itemize}
+						\item{\verb|T4RUser getByEmailAndPass(String email, String password)|}
+					\end{itemize}
 			\end{itemize}
-	\end{itemize}
+			
+		\item{\textbf{Signup}}
+			\begin{itemize}
+				\item{\textbf{SignupService}}
+					\begin{itemize}
+						\item{\verb|SignupResponse signupParticipant(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/individual/signup|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|email: String| & \verb|userId: String| \\
+				\verb|password: String| & \verb|accessToken: String| \\
+				\verb|name: String| & \\
+				\verb|ssn: String| & \\
+			\end{tabular}\\
+			\item{\verb|SignupResponse signupOrganizer(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/thirdparty/signup|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|email: String| & \verb|userId: String| \\
+				\verb|password: String| & \verb|accessToken: String| \\
+				\verb|name: String| & \\
+				\verb|phone: String| & \\
+				\verb|website: String| & \\
+			\end{tabular}\\
+					\end{itemize}
+					
+				\item{\textbf{UserResource}}
+					\begin{itemize}
+						\item{\verb|void add(T4RUser u)|}
+					\end{itemize}
+			\end{itemize}
+			
+		\item{\textbf{User}}
+			\begin{itemize}
+				\item{\textbf{UserService}}
+					\begin{itemize}
+						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req, |\\ \verb|Spark.Response res)|\\ \verb|GET /web/:eventId/participants|}\\\\
+				\begin{tabular}{l | l}
+				\textbf{Input} & \textbf{Output} \\
+				\hline
+					& \verb|participants: Collection<Participant>| \\
+					& \verb|participants[*].userId: String| \\
+					& \verb|participants[*].name: String| \\
+				\end{tabular}\\
+				\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/participant/:userId/:eventId|}
+				\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/participant/:userId/:eventId|}
+			\end{itemize}
+		\end{itemize}
+			
+		\item{\textbf{Event}}
+			\begin{itemize}
+				\item{\textbf{EventService}}
+					\begin{itemize}
+						\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req, Spark.Response res)|\\ \verb|GET /web/event|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				& \verb|events: Collection<Event>| \\
+				& \verb|events[*].eventId: String| \\
+				& \verb|events[*].name: String| \\
+				& \verb|events[*].startDate: Date| \\
+				& \verb|events[*].organizer: Organizer| \\
+				& \verb|events[*].organizer.name: String| \\
+			\end{tabular}\\
+			\item{\verb|void createEvent(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/event|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|name: String| & \\
+				\verb|organizerId: String| & \\
+				\verb|startDate: Date| & \\
+				\verb|endtDate: Date| & \\
+				\verb|path: Collection<Coordinate>| & \\
+				\verb|path[*].longitude: Long| & \\
+				\verb|path[*].latitude: Long| & \\
+			\end{tabular}\\
+			\item{\verb|void updateEvent(Spark.Request req, Spark.Response res)|\\ \verb|PUT /web/event/:eventId|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|name: String| & \\
+				\verb|startDate: Date| & \\
+				\verb|endtDate: Date| & \\
+				\verb|path: Collection<Coordinate>| & \\
+				\verb|path[*].longitude: Long| & \\
+				\verb|path[*].latitude: Long| & \\
+			\end{tabular}\\
+					\end{itemize}
+					
+				\item{\textbf{EventResource}}
+					\begin{itemize}
+						\item{\verb|Event getById(String eventId)|}
+						\item{\verb|Collection<Event> getAll()|}
+						\item{\verb|void add(Event e)|}
+						\item{\verb|void update(Event e)|}
+					\end{itemize}
+			\end{itemize}
+			
+		\item{\textbf{Notification}}
+			\begin{itemize}
+				\item{\textbf{NotificationService}}
+					\begin{itemize}
+						\item{\verb|Collection<Notification> getPendingNotifications(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/:userId/notification|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				& \verb|notifications: Collection<Notification>| \\
+				& \verb|notifications[*].event: Event| \\
+				& \verb|notifications[*].event.eventId: String| \\
+				& \verb|notifications[*].event.name: String| \\
+			\end{tabular}\\
+			\item{\verb|void accept(Spark.Request req, Spark.Response res)|\\ \verb|PUT /web/:userId/notification/:notificationId|}
+			\item{\verb|void delete(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/:userId/notification/:notificationId|}
+			\item{\verb|void createNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/notification|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|userId: String| & \\
+				\verb|eventId: String| & \\
+			\end{tabular}\\
+					\end{itemize}
+					
+				\item{\textbf{NotificationResource}}
+					\begin{itemize}
+						\item{\verb|Notification getByUserId(String userId)|}
+						\item{\verb|void update(Notification u)|}
+					\end{itemize}
+					
+				\item{\textbf{EventResource}}
+					\begin{itemize}
+						\item{\verb|Event getById(String eventId)|}
+						\item{\verb|void addParticipant(String eventId, String participantId)|}
+					\end{itemize}
+			\end{itemize}
+			
+		\item{\textbf{DataHandler}}
+			\begin{itemize}
+				\item{\textbf{DataHandler}}
+					\begin{itemize}
+						\item{\verb|void getParticipantLocation(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/participant/data|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|ssn: String| & \\
+				\verb|data: Data| & \\
+				\verb|data.location: Location| & \\
+				\verb|data.location.longitude: Long| & \\
+				\verb|data.location.latitude: Long| & \\
+				\verb|data.healthStatus: HealtStatus| & \\
+				\verb|data.healthStatus.heartRate: Integer| & \\
+				\verb|data.healthStatus.bloodPreasure: Integer| & \\
+				\verb|data.healthStatus.bodyTemperature: Integer| & \\
+				\verb|data.healthStatus.bloodOxygen: Integer| & \\
+			\end{tabular}\\
+			\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/participant/notification|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|name: String| & \\
+				\verb|ssn: String| & \\
+				\verb|birthDate: Date| & \\
+				\verb|gender: Gender| & \\
+				\verb|status: RequestStatus| & \\
+			\end{tabular}\\
+					\end{itemize}
+		\end{itemize}
+			
+		\item{\textbf{Request}}
+			\begin{itemize}
+				\item{\textbf{RequestService}}
+					\begin{itemize}
+						\item{\verb|void sendRequestToParticipant(String ssn)|}
+					\end{itemize}
+			\end{itemize}
+	\end{itemize}		
+	
 	\section{Database view}
 In the previous section, an architectural landscape of D4H, ASOS and T4R was provided by means of high-level component diagrams. Those diagrams showed how components communicate with the rest of the system (i.e. through interfaces). Now, it is also meaningful to describe data models involved using class diagrams. 
 	
@@ -1002,6 +947,22 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\label{fig:Data4Help Class Diagram}
 	\end{figure}
 	
+	\subsection{AutomatedSOS data model}
+	\begin{itemize}
+		\item{\textbf{ASOSUser}}: individuals subscribed to D4H that decided to activate ASOS service. Each of them has a \textit{status} so as to avoid duplicate notifications to the health care service. 
+		\item{\textbf{EmergencyContact}}: available health care services by addresses.  Each health care service will receive notifications by means of a URL and only of users living in the same city.
+		\item {\textbf{Threshold}}: normal range for each health parameter (i.e. minimum and maximum values).
+	\end{itemize}
+	
+	It is necessary to clarify that the parameters (i.e. users' data) are not stored, they are used exclusively to make comparisons with their corresponding  \textit{thresholds}. \\
+	
+	\begin{figure}[H]
+    		\centering
+		\includegraphics[width=0.5\textwidth]{diagrams/asos_class_diagram.png}
+		\caption[AutomatedSOS Class Diagram]{AutomatedSOS Class Diagram}
+		\label{fig:AutomatedSOS Class Diagram}
+	\end{figure}
+	
 	\subsection{Track4Run data model}
 	\begin{itemize}
 		\item{\textbf{Run}}:  characterized by a name, start and end times, and a path.
@@ -1018,22 +979,6 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\caption[Track4Run Class Diagram]{Track4Run Class Diagram}
 		\label{fig:Track4Run Class Diagram}
 	\end{figure}	
-	
-	\subsection{AutomatedSOS data model}
-	\begin{itemize}
-		\item{\textbf{ASOSUser}}: individuals subscribed to D4H that decided to activate ASOS service. Each of them has a \textit{status} so as to avoid duplicate notifications to the health care service. 
-		\item{\textbf{EmergencyContact}}: available health care services by addresses.  Each health care service will receive notifications by means of a URL and only of users living in the same city.
-		\item {\textbf{Threshold}}: normal range for each health parameter (i.e. minimum and maximum values).
-	\end{itemize}
-	
-	It is necessary to clarify that the parameters (i.e. users' data) are not stored, they are used exclusively to make comparisons with their corresponding  \textit{thresholds}. \\
-	
-	\begin{figure}[H]
-    		\centering
-		\includegraphics[width=0.5\textwidth]{diagrams/asos_class_diagram.png}
-		\caption[AutomatedSOS Class Diagram]{AutomatedSOS Class Diagram}
-		\label{fig:AutomatedSOS Class Diagram}
-	\end{figure}
 			
 	\section{Deployment view}
 	In the current chapter the deployment diagrams of D4H, T4R and ASOS are shown. All diagrams follow the same structure and design: yellow nodes represent external nodes that interact with the system, green nodes represent hardware devices (i.e. web server, database server, etc.), pale orange nodes represent execution environments such as JVM, and blue boxes represent high level components. Finally, the protocols used to communicate between different nodes displayed as red links.
