@@ -67,7 +67,7 @@
 \pagestyle{fancy}
 \fancyhead{}
 \fancyfoot{}
-\fancyhead[L]{\slshape\MakeUppercase{\textbf{I\&T}}}
+\fancyhead[L]{\slshape\MakeUppercase{\textbf{ITD}}}
 \fancyhead[R]{\slshape{Avila, Schiatti, Virdi}}
 \fancyfoot[C]{\thepage}
 \renewcommand{\footrulewidth}{1pt}
@@ -140,9 +140,9 @@
 	
 	\chapter{Introduction}
 	\section{Purpose}
-	This document describes the plans for testing the integration of the created components. The purpose of this document is to test the interfaces between the components as described in
-Design Document. Every team member who cooperates in the integration tests should read this document.
-	\section{Scope}
+	This document describes in detail the processes of implementation and testing of D4H and ASOS following the specifications reported in RASD and DD documents. The purpose of this document is to provide a general overview of a running prototype implementation of TrackMe and the process of testing it.
+	
+	\section{Scope PENDING}
 	This document represents the Integration Testing Plan Document for TrackMe Service. \\\\
 	Integration testing is a key activity to guarantee that all the different subsystems composing Data4Help and AutomatedSOS interoperate consistently with the requirements they are supposed to fulfil and without exhibiting unexpected behaviours. The purpose of this document is to outline, in a clear and comprehensive way, the main aspects concerning the organization of the integration testing activity for all the components that make up the system.	\\	
 	More precisely, the document presents:
@@ -158,126 +158,50 @@ Design Document. Every team member who cooperates in the integration tests shoul
 	\end{itemize}.
 	
 	\chapter{Implemented Requirements}	
-This section of the Implementation Plan describes function-specific implementation requirements and procedures.
+This section describes which functional requirements were implemented in the presented TrackMe prototype which compresses D4H and ASOS systems in reference to the ones already stated in the RASD.
 
 \section{\textbf{Data4Help}}
 \subsection{Data4Help Requirements}
-This subsection of the Implementation Plan defines the requirements that must be met for the orderly implementation of the system and describes the hardware, software, and functional requirements for this site, in reference to already stated in the RASD.\\
-Since, regarding the implementation of Data4Help system, the requirements addressed are:
+	Since, regarding the implementation of Data4Help system, the requirements addressed are:
 
 	\begin{enumerate}
 		\requirement{1} The system must allow an individual to register a new account \\
-		\textbf{D4H::Signup}
+		\textbf{D4H::SignupService}
 		\requirement{2} The system must allow an individual to access to their account \\
-		\textbf{D4H::Login}
+		\textbf{D4H::LoginService}
 		\requirement{3} The system must allow an individual to accept or reject their requests of accessing personal data \\
-		\textbf{D4H::Request}
+		\textbf{D4H::D4HRequestService}
 		\requirement{4} The system must be able to communicate with TrackMe database in order to obtain the health status and location of an individual \\
-		\textbf{D4H::SearchManager}
-		\requirement{5} The system must allow a third party company to register a new account \\								\textbf{D4H::Signup}
-		\requirement{6} The system must allow a third party company to access to its account 	\\								\textbf{D4H::Login}
+		\textbf{D4H::SearchService}
+		\requirement{5} The system must allow a third party company to register a new account \\		
+		\textbf{D4H::SignupService}
+		\requirement{6} The system must allow a third party company to access to its account 	\\		
+		\textbf{D4H::LoginService}
 		\requirement{7} The system must be able to notify the individual that a third party company wants to access its data \\
-		\textbf{D4H::Request}
+		\textbf{D4H::D4HRequestService}
 		\requirement{8} The system must allow a third party company to search for an individual health status and location using his/her SSN \\
-		 \textbf{D4H::SearchManager}
+		 \textbf{D4H::SearchService}
 		 \requirement{9} The system must allow a third party company to filter data of an anonymized group of individuals by country, age, gender and blood type parameters \\ 
-		 \textbf{D4H::SearchManager}
+		 \textbf{D4H::SearchService}
 		 \requirement{10} The system must be able to anonymize the data of a group of individuals \\
 		 \textbf{D4H::APIManager}
 		 \requirement{11} The system must allow a third party company to subscribe to an individual health status and location \\ 
-		\textbf{D4H::Subscription}
+		\textbf{D4H::SubscriptionService}
 		\requirement{12} The system must allow a third party company to subscribe to data of an anonymized group of individuals \\
-		\textbf{D4H::Subscription}
+		\textbf{D4H::SubscriptionService}
 	\end{enumerate}	
-
-
-\subsection{Data4Help Implementation details}
-This subsection of the Implementation Plan addresses the specifics of the implementation for this site. Include a description of the implementation procedures, database and data updates. Implemented procedures are as follows:
-\begin{itemize}
-\item{} Procedures:
-\begin{itemize}
-\item{} Login:  
-\begin{itemize}
-\item{} LoginResponse login(Spark.Request req, Spark.Response response);
-\item{} void logout(Spark.Request req, Spark.Response response);
-
-\end{itemize}
-
-\item{} Signup:
-\begin{itemize}
-\item{} SignupResponse signupIndividual(Spark.Request req, Spark.Response res); 
-\item{} SignupResponse signupThirdParty(Spark.Request req, Spark.Response res);
-\end{itemize}
- 
- \item{} Search:
-\begin{itemize}
-\item{} IndividualSearchResponse searchIndividual(Spark.Request req, Spark.Response res);
-\item{} BulkSearchResponse searchBulk(Spark.Request req, Spark.Response res);
-\end{itemize}
-
- \item{} Request:
-\begin{itemize}
-\item{} RequestResponse createRequest(Spark.Request req, Spark.Response res);
-\item{} RequestResponse acceptRequest(Spark.Request req, Spark.Response res);
-\item{} void rejectRequest(Spark.Request req, Spark.Response res);
-\item{} Collection<Request> getAllRequests(Spark.Request req,
-Spark.Response res);
-\item{} void removeRequest(Spark.Request req, Spark.Response res)
-\end{itemize}
-
- \item{} Subscription:
-\begin{itemize}
-\item{} SubscriptionResponse createSubscription(Spark.Request req, Spark.Response res);
-\item{} Collection$<$Subscription$>$ getAllSubscriptions(Spark.Request req, Spark.Response res);
-\item{} void removeSubscription(Spark.Request req, Spark.Response res);
-\end{itemize}
-
-\end{itemize}
-\item{} Database:
-\begin{itemize}
-\item{} DBHandler - Morphia.Datastore getDatastore();
-\end{itemize}
-\end{itemize}
 
 \section{\textbf{AutomatedSOS}}
 \subsection{AutomatedSOS Requirements}
-Regarding the implementation of AutomatedSOS system, the requirements that are addressed as below:
+	With respecto to the implementation of AutomatedSOS system, the requirements that are addressed are:
 	\begin{enumerate}
 		\requirement{13} The system must be able to send a request for monitoring an individual's data when he/she is older than 60 years old \\
-		\textbf{ASOS::DataHandler}
+		\textbf{ASOS::DataService}
 		\requirement{14} The system must be able to monitor, and compare against defined thresholds, the health status of an individual \\
-		\textbf{ASOS::DataHandler}
+		\textbf{ASOS::DataService}
 		\requirement{15} The system must be able to contact the health-care service associated to an individual \\
-		\textbf{ASOS::HealthCareConnector}
+		\textbf{ASOS::DataService}
 	\end{enumerate}
-
-\subsection{AutomatedSOS Implementation details}
-This subsection of the Implementation Plan addresses the specifics of the implementation for this subsection. Include a description of the implementation procedures, database and data updates. Implemented procedures are as follows:
-\begin{itemize}
-\item{} Procedures:
-\begin{itemize}
-\item{} Threshold value:
-\begin{itemize}
-\item{} Collection$<$Threshold$>$ getAll()
-\item{} Boolean isOutOfRange(Threshold threshold, Data data);
-\end{itemize}
-\item{} Health Care connector:
-\begin{itemize}
-\item{} void notifyHealthcareService(String userId, Data data);
-\end{itemize}
-\end{itemize}
-
-\item{} Data Handler:
-\begin{itemize}
-\item{} void getIndividualData(Spark.Request req, Spark.Response res);
-\item{} void getRequestNotification(Spark.Request req, Spark.Response res);
-\end{itemize}
-
-\item{} Database:
-\begin{itemize}
-\item{} DBManager - Morphia.Datastore getDatastore()
-\end{itemize}
-\end{itemize}	
 
 \section{Risks and Contingencies}
 This subsection of the Implementation Plan identifies the risks and specific actions to be taken in the event the implementation fails or needs to be altered at any point and includes the factors to be used for making the decision. The possible risk that we are addressing in our system at this point of time are as follows:
@@ -291,28 +215,31 @@ This section of the Implementation Plan establishes the exit or acceptance crite
 When the system passes all the test cases and end-2-end scenarios (illustrated in chapter-6 in detail) without fail and the system is 100\% on-line with all the requirements stated about are implemented and working properly and making the system stable. Based on which a go/no-go decision can be taken, firstly a beta-version of the product can be published.
 	
 	\chapter{Adopted development frameworks}
-In the following chapter a list of development frameworks and technologies that are used in building the entire TrackMe system are listed. The Data4Help and AutomatedSOS systems, are designed to be highly decoupled even though they are developed with the same technologies.
+In the following chapter a list of development frameworks and technologies that are used in building  D4H and ASOS systems, they were designed and implemented to be highly decoupled.
+
 	\section{Adopted Programming Languages}
-	The Programming languages that are used in building the system are following:
-	\subsection{Java} Java is a general-purpose computer-programming language that is concurrent, class-based, object-oriented,and specifically designed to have as few implementation dependencies as possible. It is intended to let application developers "write once, run anywhere" (WORA), meaning that compiled Java code can run on all platforms that support Java without the need for recompilation. Java applications are typically compiled to bytecode that can run on any Java virtual machine (JVM) regardless of computer architecture.
+	The Programming languages used are:
+	
+	\subsection{Java} Java is a general-purpose computer-programming language that is concurrent, class-based, object-oriented,and specifically designed to have as few implementation dependencies as possible. This language was used for the development of D4H and ASOS backends.
 	
 	\subsubsection{Advantages}
 	\begin{itemize}
-	\item{Object-oriented}:Allows you to create modular programs and reusable code. 
-	\item{Platform-Independent}:Ability to move easily from one computer system to another. 
-		\item{Distributed}:Designed to make distributed computing easy with the networking capability that is inherently integrated into it.
-		\item{Secure}:The Java language, compiler, interpreter, and runtime environment were each developed with security in mind.
-		\item{Allocation}: Java has the feature of Stack allocation system. It helps the data to be stored and can be restored easily.
-		\item{Multithreaded}: The capability for a program to perform several tasks simultaneously within a program.
-	\end{itemize}
-	\subsubsection{Disadvantages}
-	\begin{itemize}
-	\item{Performance}: Significantly slower and more memory-consuming than natively compiled languages such as C or C++.
-	\item{Look and Feel}: The default look and feel of GUI applications written in Java using the Swing toolkit is very different from native applications.
-		\item{Single paradigm language}: The addition of static imports in Java 5.0 the procedural paradigm is better accommodated than in earlier versions of Java.
+	\item{Object-oriented}: allows you to create modular programs and reusable code. 
+	\item{Platform-Independent}: ability to move easily from one computer system to another. 
+		\item{Distributed}: designed to make distributed computing easy with the networking capability that is inherently integrated into it.
+		\item{Secure}: the Java language, compiler, interpreter, and runtime environment were each developed with security in mind.
+		\item{Allocation}: java has the feature of Stack allocation system. It helps the data to be stored and can be restored easily.
+		\item{Multithreaded}: the capability for a program to perform several tasks simultaneously within a program.
 	\end{itemize}
 	
-	\subsection{SQL}(Structured Query Language) is a domain-specific language used in programming and designed for managing data held in a relational database management system (RDBMS), or for stream processing in a relational data stream management system (RDSMS). 
+	\subsubsection{Disadvantages}
+	\begin{itemize}
+	\item{Performance}: significantly slower and more memory-consuming than natively compiled languages such as C or C++.
+	\item{Look and Feel}: the default look and feel of GUI applications written in Java using the Swing toolkit is very different from native applications.
+		\item{Single paradigm language}: the addition of static imports in Java 5.0 the procedural paradigm is better accommodated than in earlier versions of Java.
+	\end{itemize}
+	
+	\subsection{Typescript}(Structured Query Language) is a domain-specific language used in programming and designed for managing data held in a relational database management system (RDBMS), or for stream processing in a relational data stream management system (RDSMS). 
 \subsubsection{Advantages}
 \begin{itemize}
 	\item{} SQL Queries can be used to retrieve large amounts of records from a database quickly and efficiently.
@@ -405,7 +332,8 @@ The only external APIs to whom TrackMe environment depends on, are the health-ca
 
 
 \chapter{Structure of the source code}
-put code here...		
+
+\section{D4H Backend (Spark app)}
 
 
 	\chapter{Integration Strategy}
@@ -1169,13 +1097,6 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 	\textbf{ sudo docker-compose up} (with --build to rebuild the image).
 	\item Open the browser and you can access to the Data4Help site using the following URL
 		\textbf{http://0.0.0.0:4200}
-	\end{enumerate}
-	
-	\subsection{How to run the tests image?}
-	\begin{enumerate}
-	\item After installing \textit{Docker} and \textit{Docker compose} and in the src folder, execute in a terminal: 
-	\textbf{sudo docker-compose -f  ------$>$s}
-	\item This will run all the unit test cases and will exit. If the exit code is 0 and you see \textbf{Tests run: XX, Failures: 0, Errors: 0, Skipped: 0}, everything is ok.
 	\end{enumerate}
 	 
 	\section{How to each system independently?}
