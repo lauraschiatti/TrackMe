@@ -41,7 +41,6 @@ export class SearchComponent implements OnInit {
     }
 
     ngOnInit() {
-
         // Validate search forms
         this.iForm = this.iFormBuilder.group({
             ssn: ['', Validators.required],
@@ -72,6 +71,7 @@ export class SearchComponent implements OnInit {
 
     onSubmitIndividualSearch() {
         this.iFormSubmitted = true;
+        this.showRequestInfo = false;
 
         // stop here if form is invalid
         if (this.iForm.invalid) {
