@@ -95,8 +95,16 @@
               <label class="font-weight-bold" for="address-dropdown">Address</label>
               <select id="address-dropdown" formControlName="address" class="form-control rounded-0" [ngClass]="{ 'is-invalid': iFormSubmitted && iControls.address.errors }">
                 <option value="" disabled>Choose your city, province, country</option>
-                <!--<app-address-interface *ngFor="let address of addressList" [address]="address"></app-address-interface>-->
                 <option value="Milan, Province of Milan, Italy">Milan, Province of Milan, Italy</option>
+                <option value="Rome, Province of Rome, Italy">Rome, Province of Rome, Italy</option>
+                <option value="Tivoli, Province of Rome, Italy">Tivoli, Province of Rome, Italy</option>
+                <option value="Civitavecchia, Province of Rome, Italy">Milan, Province of Rome, Italy</option>
+                <option value="Guidonia Montecelio, Province of Rome, Italy">Guidonia Montecelio, Province of Rome, Italy</option>
+                <option value="Velletri, Province of Rome, Italy">Velletri, Province of Rome, Italy</option>
+                <option value="Sesto San Giovanni, Province of Milan, Italy">Sesto San Giovanni, Province of Milan, Italy</option>
+                <option value="Cinisello Balsamo, Province of Milan, Italy">Cinisello Balsamo, Province of Milan, Italy</option>
+                <option value="Giugliano in Campania, Province of Naples, Italy">Giugliano in Campania, Province of Naples, Italy</option>
+                <option value="Naples, Province of Naples, Italy">Naples, Province of Naples, Italy</option>
               </select>
               <div *ngIf="iFormSubmitted && iControls.address.errors" class="invalid-feedback">
                 <div *ngIf="iControls.address.errors.required">It is required to select an address</div>
