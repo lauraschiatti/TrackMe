@@ -81,6 +81,6 @@ public class LoginService extends Service {
 
         post("/logout", this::logout);
 
-        head("/", this::isValidToken, jsonTransformer::toJson);
+        head("/login", this::isValidToken, jsonTransformer::toJson);
     }
 }
