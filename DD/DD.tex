@@ -923,45 +923,68 @@ and it also contains the most relevant architecture views: component view, class
 In the previous section, an architectural landscape of D4H, ASOS and T4R was provided by means of high-level component diagrams. Those diagrams showed how components communicate with the rest of the system (i.e. through interfaces). Now, it is also meaningful to describe data models involved using class diagrams. 
 	
 	\subsection{Data4Help data model}
-	As explained in the RASD, the whole data model of TrackMe up to now will be treated as a "black box", this means \textbf{D4H} will have a local copy of the \textit{basic information} and \textit{collected data} only of users who activated this service. The classes considered in D4H, their attributes, and relationships are shown in Figure \ref{fig:Data4Help Class Diagram}.
+	As explained in the RASD, the whole data model of TrackMe up to now will be treated as a "black box", this means \textbf{D4H} will have a local copy of the \textit{basic information} and \textit{collected data} only of users who activated this service. The classes considered in D4H, their attributes, and relationships are shown in Figure \ref{fig:d4h_class_diagram}.
 	
 	\begin{itemize}
 		\item{\textbf{D4HUser}}: credentials of all users interacting with the system.
 		\item{\textbf{Individual}}: main attributes of users wearing the devices.
 		\item{\textbf{Data}}: health status, location and timestamp collected from devices.
-		\item{\textbf{ThirdParty}}: companies requesting data of individuals or bulk data. For registering, all third parties must provide a certificate to verify that it is a legally constituted company (it was assumed that there is a mechanism capable of doing this checking).
-		
+		\item{\textbf{ThirdParty}}: companies requesting data of individuals or bulk data. For registering, all third parties must provide a certificate to verify that it is a legally constituted company (it was assumed that there is a mechanism capable of doing this checking).		
 		\item{\textbf{TPConfiguration}}: an important issue to tackle is the way in which the system will communicate to third parties to send them notifications or data they request. Then, they are asked to provide three endpoints,
-	 \textit{individualpushUrl}, \textit{bulkPushUrl} and \textit{notificationUrl}.
-	 
+	 \textit{individualpushUrl}, \textit{bulkPushUrl} and \textit{notificationUrl}.	 
 		\item{\textbf{D4HRequest}}: third parties can make requests to access data of a given individual. Each request has an associated \textit{status}, initially is \textit{PENDING} and can become either \textit{APPROVED} or \textit{REJECTED} according to whether the individual accepts it or not. 
 		\begin{itemize}
 		\item After the status of a request is updated to \textit{APPROVED}, a subscription to receive new data of the intended individual is automatically created. 
 		\item \textit{Requests for bulk data} are treated differently. The only constraints are managed by the system (if they do not hold the third party is notified), then there is no need to store them.
 		\end{itemize}
-		
 		\item{\textbf{Subscription}}: when searching for bulk data, third parties can decide if they want to subscribe to that specific \textit{filter}. This means, they will receive new data after a certain amount of time defined by a \textit{timeSpan} (hours). New data will be send to individuals according to the nextExecution attribute of the subscription.
 	\end{itemize}
 
 	\begin{figure}[H]
     		\centering
-		\includegraphics[width=1\textwidth]{diagrams/d4h_class_diagram.png}
+		\includegraphics[width=1.1\textwidth]{diagrams/d4h_class_diagram.png}
 		\caption[Data4Help Class Diagram]{Data4Help Class Diagram}
 		\label{fig:Data4Help Class Diagram}
 	\end{figure}
 	
 	\subsection{AutomatedSOS data model}
+	 The classes considered in D4H, their attributes, and relationships are shown in Figure \ref{fig:Data4Help Class Diagram}.
+	 
 	\begin{itemize}
-		\item{\textbf{ASOSUser}}: individuals subscribed to D4H that decided to activate ASOS service. Each of them has a \textit{status} so as to avoid duplicate notifications to the health care service. 
+		\item{\textbf{ASOSUser}}: individuals subscribed to D4H that decided to activate ASOS service. Each individual is associated atutomatically to the \textbf{EmergencyContact} corresponding to his address. They also have a \textit{status} so as to avoid duplicate notifications to the health care service. 
 		\item{\textbf{EmergencyContact}}: available health care services by addresses.  Each health care service will receive notifications by means of a URL and only of users living in the same city.
-		\item {\textbf{Threshold}}: normal range for each health parameter (i.e. minimum and maximum values).
+		\item {\textbf{Data}}: health parameters measured by means of the wearable devices and received from D4H.
+		\item {\textbf{Threshold}}: normal ranges for each health parameter according to the age of the individual (i.e. minimum and maximum values).
 	\end{itemize}
 	
-	It is necessary to clarify that the parameters (i.e. users' data) are not stored, they are used exclusively to make comparisons with their corresponding  \textit{thresholds}. \\
+	Data coming from d4h is compared against predefined thresholds, all of them are described as follows (Figure \ref{fig:health_parameters_thresholds}): \\
+	
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{c | c | c | c | c}
+			\hline \hline
+			\textbf{HealthParameter} & \textbf{minAge}  & \textbf{maxAge} & \textbf{minValue} & \textbf{maxValue}  \\ [0.5ex]
+			\hline
+				HEART\_RATE  & 60 & 65 & 80 & 120  \\
+				HEART\_RATE  & 65 & 70  & 78 & 116 \\
+				HEART\_RATE  & 70 & 75 & 75  & 113  \\
+				HEART\_RATE  & 75 & 130 & 73 & 109 \\
+				SYSTOLIC   & 0 & 130 & 90 & 250  \\
+				DIASTOLIC & 0 & 130 & 60 & 140   \\
+				TEMPERATURE  & 60 & 65 & 35.2 & 36.9 \\
+				TEMPERATURE & 65 & 130 & 35.6 & 36.3 \\
+				BLOOD\_OXYGEN   & 0 & 130 & 97 & 100    
+		\end{tabular}
+		\caption{Thresholds for every health parameter}
+		\label{fig:health_parameters_thresholds}
+	\end{table}
+	
+		It is necessary to clarify that the parameters (i.e. users' data) are not stored, they are used exclusively to make comparisons with their corresponding  \textit{thresholds}. \\
+	
 	
 	\begin{figure}[H]
     		\centering
-		\includegraphics[width=0.5\textwidth]{diagrams/asos_class_diagram.png}
+		\includegraphics[width=1.1\textwidth]{diagrams/asos_class_diagram.png}
 		\caption[AutomatedSOS Class Diagram]{AutomatedSOS Class Diagram}
 		\label{fig:AutomatedSOS Class Diagram}
 	\end{figure}
@@ -1277,7 +1300,7 @@ are examined in depth. \\
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{UI/UI/9.jpeg}
+		\includegraphics[scale=0.25]{UI/UI/9.jpeg}
 		\caption[UI: Login Page]{Login Page}
 		\label{fig:Login}
 	\end{figure}
@@ -1285,7 +1308,7 @@ are examined in depth. \\
 	 And if not already registered into the system, they can register themselves through the Register web-page (Figure \ref{fig:Registration}). There are separate register forms for the Individual users and for Third Party users.
 	 \begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{UI/UI/10.jpeg}
+		\includegraphics[scale=0.45]{UI/UI/10.jpeg}
 		\caption[UI: Registration Page]{Registration Page}
 		\label{fig:Registration}
 	\end{figure}
