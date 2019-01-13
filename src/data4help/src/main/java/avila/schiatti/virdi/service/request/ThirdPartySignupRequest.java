@@ -1,5 +1,7 @@
 package avila.schiatti.virdi.service.request;
 
+import avila.schiatti.virdi.model.user.TPConfiguration;
+
 public class ThirdPartySignupRequest {
     private String email;
     private String password;
@@ -7,6 +9,7 @@ public class ThirdPartySignupRequest {
     private String name;
     private String phone;
     private String taxCode;
+    private TPConfiguration config;
 
     public String getEmail() {
         return email;
@@ -54,5 +57,13 @@ public class ThirdPartySignupRequest {
 
     public void setTaxCode(String taxCode) {
         this.taxCode = taxCode;
+    }
+
+    public TPConfiguration getConfig() {
+        return config;
+    }
+
+    public void setConfig(TPConfiguration config) {
+        this.config = config;
     }
 }

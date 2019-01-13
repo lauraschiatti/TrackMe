@@ -156,7 +156,7 @@ public class SignupService extends Service {
         thirdParty.setName(request.getName());
         thirdParty.setPhone(request.getPhone());
         thirdParty.setTaxCode(request.getTaxCode());
-        thirdParty.setConfig(new TPConfiguration());
+        thirdParty.setConfig(request.getConfig());
         // creates the APP_ID and SECRET_KEY to be used by the third party.
         String objSeed = thirdParty.toString() + String.valueOf(Math.random()) + LocalDateTime.now().toString();
         ThirdPartyApiAuth apiKeys = authManager.setThirdPartySecretKey(objSeed);

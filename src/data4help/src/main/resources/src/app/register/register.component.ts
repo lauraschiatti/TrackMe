@@ -133,9 +133,9 @@ export class RegisterComponent implements OnInit {
             'email': this.tpControls.emailtp.value,
             'password': this.tpControls.passwordtp.value,
             'config': {
-                'individualpushurl': this.tpControls.individualpushurl.value,
-                'bulkpushurl': this.tpControls.bulkpushurl.value,
-                'notificationurl': this.tpControls.notificationurl.value
+                'individualPushUrl': this.tpControls.individualpushurl.value,
+                'bulkPushUrl': this.tpControls.bulkpushurl.value,
+                'notificationUrl': this.tpControls.notificationurl.value
             }
         };
 
