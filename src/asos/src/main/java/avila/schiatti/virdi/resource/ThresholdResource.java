@@ -2,8 +2,10 @@ package avila.schiatti.virdi.resource;
 
 import avila.schiatti.virdi.model.health.HealthParameter;
 import avila.schiatti.virdi.model.health.Threshold;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public final class ThresholdResource {
@@ -23,14 +25,18 @@ public final class ThresholdResource {
         thresholds.add(new Threshold(Integer.MIN_VALUE, Integer.MAX_VALUE, 97D,100D, HealthParameter.BLOOD_OXYGEN));
     }
 
-    public ThresholdResource getInstance(){
+    public static ThresholdResource getInstance(){
         return _instance;
     }
 
-    public List<Threshold> get(Integer age){
+    public HashMap<HealthParameter, Threshold> get(Integer age){
         return thresholds.stream()
                 .filter((t -> (t.getMinAge() <= age && t.getMaxAge() >= age)))
-                .collect(Collectors.toList());
+                .collect(Collectors.toMap(Threshold::getParameter, Function.identity(), (o, n) -> o, HashMap::new));
+    }
+
+    public Boolean compare(Double value, Threshold threshold){
+        return (threshold.getMaxValue() < value || threshold.getMinValue() > value);
     }
 
 }

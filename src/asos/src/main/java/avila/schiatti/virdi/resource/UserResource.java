@@ -22,4 +22,10 @@ public class UserResource extends Resource<ASOSUser> {
         return new UserResource();
     }
 
+    public ASOSUser getBySSN(String ssn){
+        return this.datastore.find(ASOSUser.class)
+                .field("ssn")
+                .equal(ssn)
+                .get();
+    }
 }

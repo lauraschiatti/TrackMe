@@ -1,8 +1,12 @@
 package avila.schiatti.virdi.model.user;
 
+import avila.schiatti.virdi.model.data.BloodType;
+import avila.schiatti.virdi.model.data.Gender;
 import avila.schiatti.virdi.model.health.Status;
 import org.bson.types.ObjectId;
 import xyz.morphia.annotations.*;
+
+import java.time.LocalDate;
 
 @Entity("user")
 public class ASOSUser {
@@ -21,6 +25,7 @@ public class ASOSUser {
     private BloodType bloodType;
     @Embedded
     private Gender gender;
+    private LocalDate birthDate;
 
     @Reference(idOnly = true)
     private EmergencyContact contact;
@@ -87,5 +92,13 @@ public class ASOSUser {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 }
