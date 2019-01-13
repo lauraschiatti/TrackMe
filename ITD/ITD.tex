@@ -158,7 +158,137 @@ Design Document. Every team member who cooperates in the integration tests shoul
 	\end{itemize}.
 	
 	\chapter{Implemented Requirements}	
-put requirements / functions that are actually implemented in the software (with motivations for including and excluding others if applicable)...
+This section of the Implementation Plan describes function-specific implementation requirements and procedures.
+
+\section{\textbf{Data4Help}}
+\subsection{Data4Help Requirements}
+This subsection of the Implementation Plan defines the requirements that must be met for the orderly implementation of the system and describes the hardware, software, and functional requirements for this site, in reference to already stated in the RASD.\\
+Since, regarding the implementation of Data4Help system, the requirements addressed are:
+
+	\begin{enumerate}
+		\requirement{1} The system must allow an individual to register a new account \\
+		\textbf{D4H::Signup}
+		\requirement{2} The system must allow an individual to access to their account \\
+		\textbf{D4H::Login}
+		\requirement{3} The system must allow an individual to accept or reject their requests of accessing personal data \\
+		\textbf{D4H::Request}
+		\requirement{4} The system must be able to communicate with TrackMe database in order to obtain the health status and location of an individual \\
+		\textbf{D4H::SearchManager}
+		\requirement{5} The system must allow a third party company to register a new account \\								\textbf{D4H::Signup}
+		\requirement{6} The system must allow a third party company to access to its account 	\\								\textbf{D4H::Login}
+		\requirement{7} The system must be able to notify the individual that a third party company wants to access its data \\
+		\textbf{D4H::Request}
+		\requirement{8} The system must allow a third party company to search for an individual health status and location using his/her SSN \\
+		 \textbf{D4H::SearchManager}
+		 \requirement{9} The system must allow a third party company to filter data of an anonymized group of individuals by country, age, gender and blood type parameters \\ 
+		 \textbf{D4H::SearchManager}
+		 \requirement{10} The system must be able to anonymize the data of a group of individuals \\
+		 \textbf{D4H::APIManager}
+		 \requirement{11} The system must allow a third party company to subscribe to an individual health status and location \\ 
+		\textbf{D4H::Subscription}
+		\requirement{12} The system must allow a third party company to subscribe to data of an anonymized group of individuals \\
+		\textbf{D4H::Subscription}
+	\end{enumerate}	
+
+
+\subsection{Data4Help Implementation details}
+This subsection of the Implementation Plan addresses the specifics of the implementation for this site. Include a description of the implementation procedures, database and data updates. Implemented procedures are as follows:
+\begin{itemize}
+\item{} Procedures:
+\begin{itemize}
+\item{} Login:  
+\begin{itemize}
+\item{} LoginResponse login(Spark.Request req, Spark.Response response);
+\item{} void logout(Spark.Request req, Spark.Response response);
+
+\end{itemize}
+
+\item{} Signup:
+\begin{itemize}
+\item{} SignupResponse signupIndividual(Spark.Request req, Spark.Response res); 
+\item{} SignupResponse signupThirdParty(Spark.Request req, Spark.Response res);
+\end{itemize}
+ 
+ \item{} Search:
+\begin{itemize}
+\item{} IndividualSearchResponse searchIndividual(Spark.Request req, Spark.Response res);
+\item{} BulkSearchResponse searchBulk(Spark.Request req, Spark.Response res);
+\end{itemize}
+
+ \item{} Request:
+\begin{itemize}
+\item{} RequestResponse createRequest(Spark.Request req, Spark.Response res);
+\item{} RequestResponse acceptRequest(Spark.Request req, Spark.Response res);
+\item{} void rejectRequest(Spark.Request req, Spark.Response res);
+\item{} Collection<Request> getAllRequests(Spark.Request req,
+Spark.Response res);
+\item{} void removeRequest(Spark.Request req, Spark.Response res)
+\end{itemize}
+
+ \item{} Subscription:
+\begin{itemize}
+\item{} SubscriptionResponse createSubscription(Spark.Request req, Spark.Response res);
+\item{} Collection$<$Subscription$>$ getAllSubscriptions(Spark.Request req, Spark.Response res);
+\item{} void removeSubscription(Spark.Request req, Spark.Response res);
+\end{itemize}
+
+\end{itemize}
+\item{} Database:
+\begin{itemize}
+\item{} DBHandler - Morphia.Datastore getDatastore();
+\end{itemize}
+\end{itemize}
+
+\section{\textbf{AutomatedSOS}}
+\subsection{AutomatedSOS Requirements}
+Regarding the implementation of AutomatedSOS system, the requirements that are addressed as below:
+	\begin{enumerate}
+		\requirement{13} The system must be able to send a request for monitoring an individual's data when he/she is older than 60 years old \\
+		\textbf{ASOS::DataHandler}
+		\requirement{14} The system must be able to monitor, and compare against defined thresholds, the health status of an individual \\
+		\textbf{ASOS::DataHandler}
+		\requirement{15} The system must be able to contact the health-care service associated to an individual \\
+		\textbf{ASOS::HealthCareConnector}
+	\end{enumerate}
+
+\subsection{AutomatedSOS Implementation details}
+This subsection of the Implementation Plan addresses the specifics of the implementation for this subsection. Include a description of the implementation procedures, database and data updates. Implemented procedures are as follows:
+\begin{itemize}
+\item{} Procedures:
+\begin{itemize}
+\item{} Threshold value:
+\begin{itemize}
+\item{} Collection$<$Threshold$>$ getAll()
+\item{} Boolean isOutOfRange(Threshold threshold, Data data);
+\end{itemize}
+\item{} Health Care connector:
+\begin{itemize}
+\item{} void notifyHealthcareService(String userId, Data data);
+\end{itemize}
+\end{itemize}
+
+\item{} Data Handler:
+\begin{itemize}
+\item{} void getIndividualData(Spark.Request req, Spark.Response res);
+\item{} void getRequestNotification(Spark.Request req, Spark.Response res);
+\end{itemize}
+
+\item{} Database:
+\begin{itemize}
+\item{} DBManager - Morphia.Datastore getDatastore()
+\end{itemize}
+\end{itemize}	
+
+\section{Risks and Contingencies}
+This subsection of the Implementation Plan identifies the risks and specific actions to be taken in the event the implementation fails or needs to be altered at any point and includes the factors to be used for making the decision. The possible risk that we are addressing in our system at this point of time are as follows:
+\begin{itemize}
+\item{} System fails to connect to the Server/Database, and in case of out-of-range health parameters, action cannot be taken within time. 
+\item{} In these kind of scenarios, as soon as the system is back on-line, latest parameters are checked and further transmitted.
+\end{itemize}
+
+\section{Acceptance Criteria}
+This section of the Implementation Plan establishes the exit or acceptance criteria for transitioning the system into production. Identify the criteria that will be used to determine the acceptability of the deliverables as well as any required technical processes, methods, tools, and/ or performance benchmarks required for product acceptance. \\\\
+When the system passes all the test cases and end-2-end scenarios (illustrated in chapter-6 in detail) without fail and the system is 100\% on-line with all the requirements stated about are implemented and working properly and making the system stable. Based on which a go/no-go decision can be taken, firstly a beta-version of the product can be published.
 	
 	\chapter{Adopted development frameworks}
 put references to DD...
