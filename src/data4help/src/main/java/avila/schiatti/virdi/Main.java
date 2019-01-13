@@ -22,7 +22,7 @@ public class Main {
                 .registerService(DataService.create())
                 .setAuthHandlers()
                 .registerJob(DataScheduler.create())
-                .registerJob(MigratorJob.create())
+//                .registerJob(MigratorJob.create())
                 .init();
     }
 }

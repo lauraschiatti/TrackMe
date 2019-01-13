@@ -76,7 +76,7 @@ public class DataService extends Service {
 
             // asynchronously notify all the third parties
             (new Thread(()->{
-                Collection<Subscription> subscriptions = subscriptionResource.getAllByIndividual(individual.getId());
+                Collection<Subscription> subscriptions = subscriptionResource.getAllByIndividual(individual);
                 subscriptions.forEach( (s) -> apiManager.sendData(s.getThirdParty(), individual.getSsn(), data) );
             })).start();
 
