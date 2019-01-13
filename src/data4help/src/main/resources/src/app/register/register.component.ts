@@ -53,9 +53,9 @@ export class RegisterComponent implements OnInit {
             passwordtp: ['', [Validators.required, Validators.minLength(6)]],
 
             // TPConfiguration
-            individualpushurl: [''],
-            bulkpushurl: [''],
-            notificationurl: ['']
+            individualPushUrl: [''],
+            bulkPushUrl: [''],
+            notificationUrl: ['']
         });
     }
 
@@ -133,11 +133,13 @@ export class RegisterComponent implements OnInit {
             'email': this.tpControls.emailtp.value,
             'password': this.tpControls.passwordtp.value,
             'config': {
-                'individualpushurl': this.tpControls.individualpushurl.value,
-                'bulkpushurl': this.tpControls.bulkpushurl.value,
-                'notificationurl': this.tpControls.notificationurl.value
+                'individualPushUrl': this.tpControls.individualPushUrl.value,
+                'bulkPushUrl': this.tpControls.bulkPushUrl.value,
+                'notificationUrl': this.tpControls.notificationUrl.value
             }
         };
+
+        console.log('tp register', thirdparty);
 
         if (this.tpForm.valid) {
             this.authenticationService

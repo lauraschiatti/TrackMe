@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
             .subscribe(
                 data => {
                     this.user = data['data'];
-                    // console.log('user', this.role);
+                    console.log('getCurrentUserInfo', this.user);
                 },
                 error => {
                     console.log('error', error);
