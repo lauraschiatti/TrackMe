@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
+import static spark.Spark.before;
 import static spark.Spark.path;
 
 public class RouteConfig {
@@ -30,6 +31,10 @@ public class RouteConfig {
     }
 
     public void setApiEndpoints(){
+        before((req, res)->{
+            res.type("application/json");
+        });
+
         path("/api/", () -> {
             for (Service service : services) {
                 String infoMessage = "Service: ".concat(service.getClass().getName()).concat(" setting up API endpoints..");

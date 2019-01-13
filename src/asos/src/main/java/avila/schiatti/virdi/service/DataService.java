@@ -18,6 +18,7 @@ import spark.Response;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -55,7 +56,11 @@ public class DataService extends Service {
     }
 
     private ResponseWrapper<Collection<Address>> getAddresses(Request request, Response response) {
-        Collection<Address> addresses = addressResource.getAll();
+        Collection<Address> addresses = contactResource.getAll()
+                .stream()
+                .map(EmergencyContact::getAddress)
+                .collect(Collectors.toList());
+
         return new ResponseWrapper<>(addresses);
     }
 

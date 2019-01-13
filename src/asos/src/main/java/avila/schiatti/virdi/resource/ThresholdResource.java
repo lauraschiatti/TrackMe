@@ -31,7 +31,7 @@ public final class ThresholdResource {
 
     public HashMap<HealthParameter, Threshold> get(Integer age){
         return thresholds.stream()
-                .filter((t -> (t.getMinAge() <= age && t.getMaxAge() >= age)))
+                .filter(t -> (t.getMinAge() <= age && t.getMaxAge() >= age))
                 .collect(Collectors.toMap(Threshold::getParameter, Function.identity(), (o, n) -> o, HashMap::new));
     }
 

@@ -11,6 +11,8 @@ public class Threshold {
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.parameter = parameter;
+        this.minAge = minAge;
+        this.maxAge = maxAge;
     }
 
     public Integer getMinAge() {

@@ -26,6 +26,7 @@ public final class ASOSApp implements SparkApplication {
     @Override
     public void init() {
         setGlobalExceptionHandlers();
+        setRoutes();
 
         awaitInitialization();
     }
