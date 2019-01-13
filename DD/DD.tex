@@ -1,3 +1,4 @@
+
  % PACKAGES
 \documentclass[a4paper, hidelinks, 12pt]{report}
 \usepackage[margin=1in]{geometry}
@@ -98,7 +99,7 @@
 		\rule{\linewidth}{0.2 mm} \\[1.5 cm]
 		
 		\textsc{\Large TrackMe}\\[0.5 cm]
-		\textsc{\large - v1.0 -}\\[1 cm]
+		\textsc{\large - v1.1 -}\\[1 cm]
 		
 		\begin{minipage}{0.4\textwidth}
 			\begin{flushleft} \large
@@ -117,7 +118,7 @@
 			\end{flushright}
 		\end{minipage}\\[2 cm]
 		
-		{\large December \nth{10} , 2018}\\[2 cm]
+		{\large January \nth{13} , 2019}\\[2 cm]
 		
 		\vfill
 	\end{titlepage}
@@ -171,6 +172,7 @@ interface within the next five seconds. The health care service reaction time ca
 		\item{\textbf{Anonymize}}: The action of anonymize means that an individual’s identity cannot
 be inferred using the available data.
 		\item{\textbf{Parameter out of its normal range}}: Meaning that the parameter is under or above a defined threshold. 
+		\item{\textbf{Filter}}
 	\end{itemize}
 	
 	\subsection{Acronyms}
@@ -181,9 +183,7 @@ be inferred using the available data.
 		\item{ASOS}: AutomatedSOS
 		\item{T4R}: Track4Run
 		\item{GUI}: Graphical User Interface
-		\item{MVC}: Model View Controller is a design pattern used for GUIs
-		\item{JMS}: Java Message Service 
-		\item{DSL}: Digital Subscriber Line
+		\item{MVC}: Model View Controller 
 	\end{itemize}
 	
 	\subsection{Abbreviations}
@@ -196,16 +196,20 @@ be inferred using the available data.
 	
 	\begin{table}[h]
 		\centering
-		\begin{tabular}{c c}
+		\begin{tabular}{c c c}
 			\hline\hline
-			\textbf{Version} & \textbf{Last modified date} \\ [0.5ex]
+			\textbf{Version} & \textbf{Last modified date} & \textbf{Comments} \\ [0.5ex]
 			\hline
-			1.0 &  \nth{10} December, 2018  \\
+			1.0 &  \nth{11} November, 2018  & \\
+			\hline
+			1.1 &  \nth{13} January, 2019 & \textit{ (a)} \\
 			\hline
 		\end{tabular}
 		\caption{Revision history timeline}
 		\label{fig:Revision history}
 	\end{table}
+	
+	\textit{ (a) } Update regarding diagrams looking forward to be precise with the actual implementation of the system.
 	
 	\section{Document structure}
 	This document is divided in seven parts, each one devoted to approach each one of the steps required to apply requirements engineering techniques.
@@ -293,7 +297,40 @@ and it also contains the most relevant architecture views: component view, class
 			\label{table:d4h_component_descriptions}
 		\end{longtable}
 			
-		\subsection{Track4Run component diagram}
+			\subsection{AutomatedSOS component diagram}
+				\subsubsection{Overview}
+			In the Figure \ref{fig:asos_component_diagram} it can be seen the ASOS components. It can be noticed that the system has a similar structure of T4R: the \textbf{ASOSBackend} component communicates  with \textbf{DataBase} component through the \textbf{DBConnector} interface, and provides a \textbf{DataAPI} interface to receive the updated information of the individuals.\\\\
+			On the other hand, \textbf{ASOSBackend} component sends notifications to the different \textbf{Health Care Service} components using the provided \textbf{Alarm Interface}.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=1\textwidth]{diagrams/asos_component_diagram.png}
+				\caption[AutomatedSOS Component Diagram]{AutomatedSOS Component Diagram}
+				\label{fig:asos_component_diagram}
+			\end{figure}	
+			\subsubsection{Description}
+			In the Table \ref{table:asos_component_descriptions} a description of the components involved in ASOS is shown.
+			
+		\begin{longtable}{l p{0.7\textwidth}}
+			\hline\hline
+			\multicolumn{2}{c}{\textbf{Component descriptions}} \\
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endfirsthead
+			\hline
+			\textbf{Component} & \textbf{Description} \\ [0.5ex]
+			\hline
+			\endhead
+			DBManager & Component responsible of connecting the database. It is related to all the other components since they depend on it.\\
+			DataBase & Component that contains the main database (AutomatedSOS DB), with all its collections.\\
+			DataHandler & Component responsible to get the location and health data of the Individuals every time it has changes. It should be able to obtain the information sent by D4H, and to get the information related to the Individuals who accepted the request.\\
+			HealthCareConnector & Component responsible of connecting to the health-care service assigned to an Individual, when its parameters are out of normal range.\\
+			\hline
+			\caption{Component descriptions of ASOS}
+			\label{table:asos_component_descriptions}
+		\end{longtable}
+		
+	\subsection{Track4Run component diagram}
 		\subsubsection{Overview}
 			In the Figure \ref{fig:t4r_component_diagram} it can be seen the T4R components. As in the D4H component diagram, the \textit{DataBase} component provides an interface in order to let the \textbf{DBManager} component communicate to it.\\\\
 			The main structure of the system is similar to the structure seen in D4H component diagram. The web site communicates with the back-end using the following interfaces: \textbf{LoginWeb}, \textbf{SignupWeb}, \textbf{UserWeb} and \textbf{NotificationWeb}. On the other hand, T4R provides the \textbf{DataAPI} interface, which is responsibly of receiving all the data of the participants, and uses the \textbf{RequestAPI} interface, in order to send the requests for accessing the individuals' location and health status.\\\\
@@ -335,206 +372,90 @@ and it also contains the most relevant architecture views: component view, class
 			\caption{Component descriptions of T4R}
 			\label{table:t4r_component_descriptions}
 		\end{longtable}
-			
-			\subsection{AutomatedSOS component diagram}
-				\subsubsection{Overview}
-			In the Figure \ref{fig:asos_component_diagram} it can be seen the ASOS components. It can be noticed that the system has a similar structure of T4R: the \textbf{ASOSBackend} component communicates  with \textbf{DataBase} component through the \textbf{DBConnector} interface, and provides a \textbf{DataAPI} interface to receive the updated information of the individuals.\\\\
-			On the other hand, \textbf{ASOSBackend} component sends notifications to the different \textbf{Health Care Service} components using the provided \textbf{Alarm Interface}.
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=1\textwidth]{diagrams/asos_component_diagram.png}
-				\caption[AutomatedSOS Component Diagram]{AutomatedSOS Component Diagram}
-				\label{fig:asos_component_diagram}
-			\end{figure}	
-			\subsubsection{Description}
-			In the Table \ref{table:asos_component_descriptions} a description of the components involved in ASOS is shown.
-			
-		\begin{longtable}{l p{0.7\textwidth}}
-			\hline\hline
-			\multicolumn{2}{c}{\textbf{Component descriptions}} \\
-			\hline
-			\textbf{Component} & \textbf{Description} \\ [0.5ex]
-			\hline
-			\endfirsthead
-			\hline
-			\textbf{Component} & \textbf{Description} \\ [0.5ex]
-			\hline
-			\endhead
-			DBManager & Component responsible of connecting the database. It is related to all the other components since they depend on it.\\
-			DataBase & Component that contains the main database (AutomatedSOS DB), with all its collections.\\
-			DataHandler & Component responsible to get the location and health data of the Individuals every time it has changes. It should be able to obtain the information sent by D4H, and to get the information related to the Individuals who accepted the request.\\
-			HealthCareConnector & Component responsible of connecting to the health-care service assigned to an Individual, when its parameters are out of normal range.\\
-			\hline
-			\caption{Component descriptions of ASOS}
-			\label{table:asos_component_descriptions}
-		\end{longtable}
 		
 	\section{Component interfaces}
-	In the following section all the interfaces of the systems (D4H, T4R, ASOS) are presented. It is stated the classes that are part of the components, the exposed methods, the expected input parameters and the expected outputs, and the different endpoints exposed to the web-sites and to the Third Parties.
-	\subsection{Data4Help interfaces}
-	The following is a list of all the components of D4H, and the classes that belong to them, with the exposed methods.
+	In the following section all the interfaces of the systems (D4H, T4R, ASOS) are presented. Furthermore, classes belonging to the components, in particular \textit{Service} classes count on methods that are related to the external interfaces. All the  exposed methods expected input parameters and the expected outputs wil be listed in this section.  \\
+	
+	The endpoints are categorized as \textit{setupWebEndpoints} or \textit{setupApiEndpoints} according to whether they are exposed for the web (front-end) or for third parties directly.  In this section interfaces exposed for the web are explained in detail.\\
+	
+	It is important to mention that \verb|Spark.Request| and \verb|Spark.Response| classes belong to the \textit{Java Spark Framework}, and does nothing to do with the \textit{Request} class of TrackMe system. 
+		
+	\subsection{Data4Help interfaces}	
+	To have access to the exposed methods, it is required for requests to have the following HTTP headers to each request. 	The headers are required for all the methods except for \textit{login},  \textit{signupIndividual} and \textit{signupThirdParty}.\\
+	\textbf{USER\_ID}= userId:String \\
+	\textbf{ACCESS-TOKEN}= accessToken:String \\
+
 	\begin{itemize}
 		\item{\textbf{Login}}
 			\begin{itemize}
-				\item{LoginService}
-					\begin{itemize}
-						\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|}
-						\item{\verb|void logout(Spark.Request req, Spark.Response response)|}
-					\end{itemize}
-				\item{UserResource}
-					\begin{itemize}
-						\item{\verb|D4HUser getByEmailAndPass(String email, String password)|}
-					\end{itemize}
-			\end{itemize}
-			\item{\textbf{Signup}}
-			\begin{itemize}
-				\item{SignupService}
-					\begin{itemize}
-						\item{\verb|SignupResponse signupIndividual(Spark.Request req, Spark.Response res)|}
-						\item{\verb|SignupResponse signupThirdParty(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{UserResource}
-					\begin{itemize}
-						\item{\verb|D4HUser getByEmailAndPass(String email, String password)|}
-						\item{\verb|void add(D4HUser u)|}
-					\end{itemize}
-			\end{itemize}
-			\item{\textbf{SearchManager}}
-			\begin{itemize}
-				\item{SearchService}
-					\begin{itemize}
-						\item{\verb|IndividualSearchResponse searchIndividual(Spark.Request req,|\\ \verb|Spark.Response res)|}
-						\item{\verb|BulkSearchResponse searchBulk(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{UserResource}
-					\begin{itemize}
-						\item{\verb|Individual getBySSN(String ssn)|}
-						\item{\verb|Collection<D4HUser> get(D4HQuery query)|}
-						\item{\verb|Collection<D4HUser> anonymize(Collection<D4HUser> users)|}
-					\end{itemize}
-			\end{itemize}
-			\item{\textbf{Request}}
-			\begin{itemize}
-				\item{RequestService}
-					\begin{itemize}
-						\item{\verb|RequestResponse createRequest(Spark.Request req, Spark.Response res)|}
-						\item{\verb|RequestResponse acceptRequest(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void rejectRequest(Spark.Request req, Spark.Response res)|}
-						\item{\verb|Collection<Request> getAllRequests(Spark.Request req,|\\ \verb|Spark.Response res)|}
-						\item{\verb|void removeRequest(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{RequestResource}
-					\begin{itemize}
-						\item{\verb|Request getById(String id)|}
-						\item{\verb|Collection<Request> getAll(String userId)|}
-						\item{\verb|Request add(Request request)|}
-						\item{\verb|Request delete(Request request)|}
-						\item{\verb|Request update(Request request)|}
-					\end{itemize}
-			\end{itemize}
-			\item{\textbf{Subscription}}
-			\begin{itemize}
-				\item{SubscriptionService}
-					\begin{itemize}
-						\item{\verb|SubscriptionResponse createSubscription(Spark.Request req,|\\ \verb|Spark.Response res)|}
-						\item{\verb|Collection<Subscription> getAllSubscriptions(Spark.Request req,|\\ \verb|Spark.Response res)|}
-						\item{\verb|void removeSubscription(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{SubscriptionResource}
-					\begin{itemize}
-						\item{\verb|Subscription getById(String id)|}
-						\item{\verb|Collection<Subscription> getAll(String userId)|}
-						\item{\verb|Subscription add(Subscription subscription)|}
-						\item{\verb|Subscription delete(Subscription subscription)|}
-					\end{itemize}
-			\end{itemize}
-			\item{\textbf{APIManager}}
-			\begin{itemize}
-				\item{APIManager}
-					\begin{itemize}
-						\item{\verb|APIConfiguration getAPIConfig(String thirdPartyId)|}
-						\item{\verb|void sendNotification(String thirdPartyId, Notification notification)|}
-						\item{\verb|void sendIndividualData(String thirdPartyId, Data data)|}
-						\item{\verb|void sendBulkData(String thirdPartyId, List<Data> data)|}
-					\end{itemize}
-			\end{itemize}
-			\item{\textbf{AuthenticatorManager}}
-			\begin{itemize}
-				\item{AuthenticationManager}
-					\begin{itemize}
-						\item{\verb|void validateAndUpdateAccessToken(String userId, String accessToken)|}
-						\item{\verb|void validateAccessToken(String userId, String accessToken)|}
-						\item{\verb|void validateSecretKey(String appId, String secretKey)|}
-						\item{\verb|void deleteAccessToken(String accessToken)|}
-						\item{\verb|UserWebAuth setUserAccessToken(D4HUser d4HUser)|}
-						\item{\verb|ThirdPartyApiAuth setThirdPartySecretKey(String seed)|}
-						\item{\verb|static String hashPassword(String password)|}
-					\end{itemize}
-			\end{itemize}
-			\item{\textbf{DBManager}}
-			\begin{itemize}
-				\item{DBManager}
-					\begin{itemize}
-						\item{\verb|Morphia.Datastore getDatastore()|}
-					\end{itemize}
-			\end{itemize}
-	\end{itemize}
-	Almost all the components offer a way to communicate with the front-end (web site), or with the third parties. In particular, the Service classes have methods that are related to the external interfaces, which are endpoints used by the web site, in order to let the web user to interact with it, or by a third party services. Is it important to mention that \verb|Spark.Request| and \verb|Spark.Response| classes belong to the \textit{Java Spark Framework}, and does nothing to do with the \textit{Request} class of the TrackMe model. In the following list, all the service classes are listed showing the link between their methods and the endpoints, and the expected inputs and outputs:
-	\begin{itemize}
-		\item{LoginService}
+	\item{\textbf{LoginService}}
 		\begin{itemize}
-			\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/login|}\\
+			\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/login|}\\\\
 			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
+			\textbf{Input} \textit{[LoginRequest]} & \textbf{Output} \textit{[UserWebAuth]} \\
 			\hline
 			\verb|email: String| & \verb|userId: String| \\
 			\verb|password: String| & \verb|accessToken: String| \\
-			& \verb|type: UserType| 
+			& \verb|role: D4HUserRole| 
 			\end{tabular}\\
-			\item{\verb|void logout(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/logout|}\\
+			
+			\item{\verb|String logout(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/logout|}
+			\item{\verb|String isValidToken(Spark.Request req, Spark.Response response)|\\ \verb|HEAD /web/|}
+			\end{itemize}
+				
+		\item{\textbf{UserResource}}
+			\begin{itemize}
+				\item{\verb|D4HUser getByEmailAndPass(String email, String password)|}
+				\item{\verb|ThirdParty getThirdPartyBySecretKey(String secretKey)|}
+				\item{\verb|Individual getBySSN(String ssn)|}
+				\item{\verb|List<Individual> getByQuery(D4HQuery query)|}
+			\end{itemize}
+	  \end{itemize}
+			
+			\item{\textbf{Signup}}
+			\begin{itemize}
+				\item{\textbf{SignupService}}
+					\begin{itemize}
+			\item{\verb|SignupResponse signupIndividual(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/individual/signup|}\\\\
 			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-			\verb|userId: String| & \\
-			\verb|accessToken: String| & \\
-			\end{tabular}\\
-		\end{itemize}
-		\item{SignupService}
-		\begin{itemize}
-			\item{\verb|SignupResponse signupIndividual(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/individual/signup|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
+			\textbf{Input} \textit{[IndividualSignupRequest]} & \textbf{Output} \textit{[UserWebAuth]}\\
 			\hline
 				\verb|email: String| & \verb|userId: String| \\
 				\verb|password: String| & \verb|accessToken: String| \\
-				\verb|name: String| & \\
+				\verb|name: String| & \verb|role: D4HUserRole| \\
 				\verb|ssn: String| & \\
 				\verb|birthDate: Date| & \\
 				\verb|gender: Gender| & \\
 				\verb|bloodType: BloodType| & \\
+				\verb|weight: Float| & \\
+				\verb|height: Float| & \\
 				\verb|address: Address| & \\
 				\verb|address.country: String| & \\
 				\verb|address.province: String| & \\
 				\verb|address.city: String| & \\
 			\end{tabular}\\
+			
 			\item{\verb|SignupResponse signupThirdParty(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/thirdparty/signup|}\\
 			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
+			\textbf{Input} \textit{[ThirdPartySignupRequest]} & \textbf{Output}\textit{[UserWebAuth]} \\
 			\hline
 				\verb|email: String| & \verb|userId: String| \\
 				\verb|password: String| & \verb|accessToken: String| \\
-				\verb|certificate: File| & \\
+				\verb|certificate: String| & \verb|role: D4HUserRole|  \\
 				\verb|name: String| & \\
 				\verb|phone: String| & \\
-				\verb|code: String| & \\
-				\verb|taxcode: String| & \\
+				\verb|taxCode: String| & \\
 			\end{tabular}\\
 		\end{itemize}
-		\item{SearchService}
-		\begin{itemize}
-			\item{\verb|IndividualSearchResponse searchIndividual(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|POST /web/search|}\\
+		\end{itemize}
+			
+			\item{\textbf{Search}}
+			\begin{itemize}
+				\item{\textbf{SearchService}}
+				\begin{itemize}
+			\item{\verb|Collection<Data> search(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|POST /web/search|}\\\\
 			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
+			\textbf{Input} \textit{[D4HQuery]} & \textbf{Output} \\
 			\hline
 				\verb|ssn: String| & \verb|ssn: String| \\
 				& \verb|name: String| \\
@@ -542,348 +463,223 @@ and it also contains the most relevant architecture views: component view, class
 				& \verb|data.location: Location| \\
 				& \verb|data.location.longitude: Long| \\
 				& \verb|data.location.latitude: Long| \\
-				& \verb|data.healthStatus: HealtStatus| \\
+				& \verb|data.healthStatus: HealthStatus| \\
 				& \verb|data.healthStatus.heartRate: Integer| \\
-				& \verb|data.healthStatus.bloodPreasure: Integer| \\
-				& \verb|data.healthStatus.bodyTemperature: Integer| \\
+				& \verb|data.healthStatus.healthStatus.systolic: Double| \\
+				& \verb|data.healthStatus.healthStatus.diastolic: Double| \\
+				& \verb|data.healthStatus.bodyTemperature: Double| \\
 				& \verb|data.healthStatus.bloodOxygen: Integer| \\
-			\end{tabular}\\
-			\item{\verb|BulkSearchResponse searchBulk(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/search|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
 			\hline
-				\verb|country: String| & \verb|data: List<Data>| \\
-				\verb|city: String| & \verb|data[*].healthStatus: HealtStatus| \\
-				\verb|gender: Gender| & \verb|data[*].healthStatus.heartRate: Integer| \\
-				\verb|age: Integer| & \verb|data[*].healthStatus.bloodPreasure: Integer| \\
-				\verb|bloodType: BloodType| & \verb|data[*].healthStatus.bodyTemperature: Integer| \\
-				\verb|province: String| & \verb|data[*].healthStatus.bloodOxygen: Integer| \\
+				\verb|country?: String| & \verb|data: List<Data>| \\
+				\verb|city?: String| & \verb|data[*].healthStatus: HealthStatus| \\
+				\verb|gender?: Gender| & \verb|data[*].healthStatus.heartRate: Integer| \\
+				\verb|minAge?: Integer| & \verb|data[*].healthStatus.systolic: Double| \\
+				\verb|maxAge?: Integer| & \verb|data[*].healthStatus.diastolic: Double| \\
+				\verb|bloodType?: BloodType| & \verb|data[*].healthStatus.bodyTemperature: Double| \\
+				\verb|province?: String| & \verb|data[*].healthStatus.bloodOxygen: Integer| \\
 			\end{tabular}\\
-		\end{itemize}
-		\item{RequestService}
-		\begin{itemize}
-			\item{\verb|RequestResponse createRequest(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/request|}\\
+		\end{itemize}	
+						
+				\item{\textbf{DataResource}}
+					\begin{itemize}
+						\item{\verb|Data getByIndividualId(Individual i)|}
+						\item{\verb|Data getByIndividual(Individual individual)|}
+						\item{\verb|Collection<Data> getByIndividualList(Collection<Individual> individuals)|}
+						\item{\verb|Collection<Data> getAnonymizeByIndividualList(Collection<Individual> individuals)|}
+					\end{itemize}
+			\end{itemize}
+			
+		\item{\textbf{D4HRequest}}
+			\begin{itemize}
+				\item{\textbf{D4HRequestService}}
+					\begin{itemize}
+			\item{\verb|D4HReqResponse createRequest(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/requests/|}\\
 			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
+			\textbf{Input} \textit{[D4HReqRequest]}  & \textbf{Output} \\
 			\hline
 				\verb|ssn: String| & \verb|requestId: String| \\
-				\verb|secretKey: String| & \\
-				\verb|appId: String| & \\
+				& \verb|thirdParty: ThirdParty|\\
+				& \verb|thirdParty.name: String|\\
+				& \verb|individual: Individual|\\
+				& \verb|individual.name: String|\\
+				& \verb|status: D4HRequestStatus|\\
 			\end{tabular}\\
-			\item{\verb|RequestResponse acceptRequest(Spark.Request req, Spark.Response res)|\\ \verb|PUT /web/request/:requestId|}\\
+			
+			\item{\verb|D4HReqResponse updateRequestStatus(Spark.Request req, Spark.Response res)|\\ \verb|PATCH /web/requests/:requestId|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} \textit{[D4HReqRequest]} & \textbf{Output} \\
+			\hline
+				\verb|ssn: String| & \verb|id: String|\\
+				\verb|status: D4HRequestStatus| & \verb|thirdParty: ThirdParty|\\
+				& \verb|thirdParty.name: String|\\
+				& \verb|individual: Individual|\\
+				& \verb|individual.name: String|\\
+				& \verb|status: D4HRequestStatus|\\
+			\end{tabular}\\
+			
+			\item{\verb|Collection<D4HReqResponse> getAllRequests(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/requests/:requestStatus|}\\\\
 			\begin{tabular}{l | l}
 			\textbf{Input} & \textbf{Output} \\
 			\hline
-				& \verb|requestId: String| \\
-				& \verb|status: String|\\
-			\end{tabular}\\
-			\item{\verb|void rejectRequest(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/request/:requestId|}
-			\item{\verb|Collection<Request> getAllRequests(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/request|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|ssn: String| & \verb|requests: List<Request>| \\
+				& \verb|requests: List<Request>| \\
 				& \verb|requests[*].id: String| \\
-				& \verb|requests[*].status: RequestStatus| \\
 				& \verb|requests[*].thirdParty: ThirdParty| \\
 				& \verb|requests[*].thirdParty.name: String| \\
+				& \verb|requests[*].individual: Individual| \\
+				& \verb|requests[*].individual.name: String| \\
+				& \verb|requests[*].status: D4HRequestStatus| \\
 			\end{tabular}\\
-			\item{\verb|void removeRequest(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /api/request/:requestId|}
-		\end{itemize}
-		\item{SubscriptionService}
-		\begin{itemize}
-			\item{\verb|SubscriptionResponse createSubscription(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|POST /web/subscription|}\\
+		\end{itemize}		
+				
+				\item{\textbf{D4HRequestResource}}
+					\begin{itemize}
+						\item{\verb|Collection<D4HRequest> getById(String userId)|}
+						\item{\verb|Collection<D4HRequest> getByUserId(String userId, D4HRequestStatus status)|}
+						\item{\verb|Collection<D4HRequest> getByThirdPartyId(String thirdPartyId, D4HRequestStatus status)|}		
+						\item{\verb|D4HRequest add(Request D4HRequest)|}
+						\item{\verb|D4HRequest accept(D4HRequest r)|}
+						\item{\verb|D4HRequest reject(D4HRequest r)|}
+					\end{itemize}
+			\end{itemize}	
+			
+			\item{\textbf{Subscription}}
+			\begin{itemize}
+				\item{\textbf{SubscriptionService}}
+					\begin{itemize}
+			\item{\verb|SubscriptionResponse createSubscription(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|POST /web/subscriptions/|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input}\textit{[SubscriptionRequest]} & \textbf{Output} \\
+			\hline
+				\verb|filter: D4HQuery| & \verb|subscriptionId: String| \\
+				\verb|filter.ssn?: String| & \verb|filter: D4HQuery| \\
+				\verb|filter.city?: String| & \verb|filter.ssn: String| \\
+				\verb|filter.province?: String| &  \verb|filter.city: String| \\
+				\verb|filter.country?: String| &  \verb|filter.province: String| \\
+				\verb|filter.gender?: Gender| & \verb|filter.country: String| \\
+				\verb|filter.minAge?: Integer| &  \verb|filter.gender: Gender| \\
+				\verb|filter.maxAge?: Integer| &  \verb|filter.minAge: Integer| \\
+				\verb|filter.bloodType?: BloodType| &  \verb|filter.maxAge: Integer| \\
+				\verb|timeSpan: Integer| &  \verb|filter.bloodType: BloodType| \\
+			\end{tabular}\\
+                
+			\item{\verb|Collection<Subscription> getAllSubscriptions(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/subscriptions/|}\\\\
 			\begin{tabular}{l | l}
 			\textbf{Input} & \textbf{Output} \\
 			\hline
-				\verb|ssn: String| & \verb|subscriptionId: String| \\
-				\verb|country: String| & \\
-				\verb|city: String| & \\
-				\verb|province: String| & \\
-				\verb|gender: Gender| & \\
-				\verb|age: Integer| & \\
-				\verb|bloodType: BloodType| & \\
-			\end{tabular}\\
-			\item{\verb|Collection<Subscription> getAllSubscriptions(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/subscription|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|ssn: String| & \verb|subscriptions: List<Subscription>| \\
+				& \verb|subscriptions: List<Subscription>| \\
 				& \verb|subscriptions[*].id: String| \\
+				& \verb|filter: D4HQuery| \\
+				& \verb|subscriptions[*].filter.ssn: String| \\
+				& \verb|subscriptions[*].filter.city: String| \\
+				& \verb|subscriptions[*].filter.province: String| \\
+				& \verb|subscriptions[*].filter.country: String| \\
+				& \verb|subscriptions[*].filter.gender: Gender| \\
+				& \verb|subscriptions[*].filter.minAge: Integer| \\
+				& \verb|subscriptions[*].filter.maxAge: Integer| \\
+				& \verb|subscriptions[*].filter.bloodType: BloodType| \\
 				& \verb|subscriptions[*].thirdParty: ThirdParty| \\
 				& \verb|subscriptions[*].thirdParty.name: String| \\
-				& \verb|subscriptions[*].individual: Individual| \\
-				& \verb|subscriptions[*].individual.name: String| \\
-				& \verb|subscriptions[*].individual.ssn: String| \\
+				& \verb|subscriptions[*].thirdParty.certificate: String| \\
+				& \verb|subscriptions[*].thirdParty.phone: String| \\
+				& \verb|subscriptions[*].thirdParty.taxCode: String| \\				
+				& \verb|subscriptions[*].timeSpan: Integer|  \\
 			\end{tabular}\\
-			\item{\verb|void removeSubscription(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/subscription/:subscriptionId|}
+			
+			\item{\verb|void removeSubscription(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/subscriptions/:subscriptionId|} 			
+		\end{itemize}
+		
+				\item{\textbf{SubscriptionResource}}
+					\begin{itemize}
+						\item{\verb|Collection<Subscription> getAllByIndividual(ObjectId individualId)|}
+						\item{\verb|Collection<Subscription> getAllByOwner(ObjectId thirPartyId)|}
+						\item{\verb|Subscription getByOwnerAndId(String thirdPartyId, String sid)|}
+						\item{\verb|void removeByRequest(D4HRequest req)|}
+					\end{itemize}
+			\end{itemize}
+			
+			\item{\textbf{User}}
+			\begin{itemize}
+				\item{\textbf{UserService}}
+					\begin{itemize}
+			\item{\verb|D4HUserResponse getProfileInfo(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/me/|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				& \verb|name: String| \\
+				& \verb|ssn: String| \\
+				& \verb|birthDate: Date| \\
+				& \verb|gender: Gender| \\
+				& \verb|bloodType: BloodType| \\
+				& \verb|weight: Float| \\
+				& \verb|height: Float| \\
+				& \verb|address: Address| \\
+				& \verb|address.country: String| \\
+				& \verb|address.province: String| \\
+				& \verb|address.city: String| \\
+				& \verb|pendingRequests: Long| \\
+				& \verb|approvedRequests: Long| \\
+				& \verb|rejectedRequests: Long| \\
+				\hline
+				& \verb|name: String| \\
+				& \verb|phone: String| \\
+				& \verb|taxCode: String| \\
+				& \verb|secretKey: String| \\
+				& \verb|appId: String| \\
+				& \verb|config: TPConfiguration| \\
+				& \verb|config.individualPushUrl: String| \\
+				& \verb|config.bulkPushUrl: String| \\
+				& \verb|config.notificationUrl: String| \\
+				& \verb|pendingRequests: Long| \\
+				& \verb|approvedRequests: Long| \\
+				& \verb|rejectedRequests: Long| \\
+				
+				\end{tabular}\\
+				
+		\item{\verb|TPConfiguration updateThirdPartyConfig(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|PATCH /web/me/config|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} \textit{[TPConfiguration]} & \textbf{Output} \\
+			\hline
+				\verb|config: TPConfiguration| & \verb|config: TPConfiguration| \\
+				\verb|config.individualPushUrl: String|& \verb|config.individualPushUrl: String| \\
+				\verb|config.bulkPushUrl: String|& \verb|config.bulkPushUrl: String| \\
+				\verb|config.notificationUrl: String|& \verb|config.notificationUrl: String| \\
+			\end{tabular}\\      			
 		\end{itemize}
 	\end{itemize}
-	
-	\subsection{Track4Run interfaces}
-	The following is a list of all the components of T4R, and the classes that belong to them, with the exposed methods.
-	\begin{itemize}
-		\item{\textbf{Login}}
-			\begin{itemize}
-				\item{LoginService}
-					\begin{itemize}
-						\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|}
-						\item{\verb|void logout(Spark.Request req, Spark.Response response)|}
-					\end{itemize}
-				\item{UserResource}
-					\begin{itemize}
-						\item{\verb|T4RUser getByEmailAndPass(String email, String password)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{Signup}}
-			\begin{itemize}
-				\item{SignupService}
-					\begin{itemize}
-						\item{\verb|SignupResponse signupParticipant(Spark.Request req, Spark.Response res)|}
-						\item{\verb|SignupResponse signupOrganizer(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{UserResource}
-					\begin{itemize}
-						\item{\verb|void add(T4RUser u)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{User}}
-			\begin{itemize}
-				\item{UserService}
-					\begin{itemize}
-						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req,|\\ \verb|Spark.Response res)|}
-						\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{UserResource}
-					\begin{itemize}
-						\item{\verb|T4RUser getById(String userId)|}
-						\item{\verb|void update(T4RUser u)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{Event}}
-			\begin{itemize}
-				\item{EventService}
-					\begin{itemize}
-						\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req,|\\ \verb|Spark.Response res)|}
-						\item{\verb|void createEvent(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void updateEvent(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{EventResource}
-					\begin{itemize}
-						\item{\verb|Event getById(String eventId)|}
-						\item{\verb|Collection<Event> getAll()|}
-						\item{\verb|void add(Event e)|}
-						\item{\verb|void update(Event e)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{Notification}}
-			\begin{itemize}
-				\item{NotificationService}
-					\begin{itemize}
-						\item{\verb|Collection<Notification> getPendingNotifications(Spark.Request req,|\\ \verb|Spark.Response res)|}
-						\item{\verb|void accept(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void delete(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void createNotification(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-				\item{NotificationResource}
-					\begin{itemize}
-						\item{\verb|Notification getByUserId(String userId)|}
-						\item{\verb|void update(Notification u)|}
-					\end{itemize}
-				\item{EventResource}
-					\begin{itemize}
-						\item{\verb|Event getById(String eventId)|}
-						\item{\verb|void addParticipant(String eventId, String participantId)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{DataHandler}}
-			\begin{itemize}
-				\item{DataHandler}
-					\begin{itemize}
-						\item{\verb|void getParticipantLocation(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{Request}}
-			\begin{itemize}
-				\item{RequestService}
-					\begin{itemize}
-						\item{\verb|void sendRequestToParticipant(String ssn)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{AuthenticatorManager}}
-			\begin{itemize}
-				\item{AuthenticationManager}
-					\begin{itemize}
-						\item{\verb|void validateAndUpdateAccessToken(String userId, String accessToken)|}
-						\item{\verb|void validateAccessToken(String userId, String accessToken)|}
-						\item{\verb|void deleteAccessToken(String accessToken)|}
-						\item{\verb|UserWebAuth setUserAccessToken(T4RUser d4HUser)|}
-						\item{\verb|static String hashPassword(String password)|}
-					\end{itemize}
-			\end{itemize}
-		\item{\textbf{DBManager}}
-			\begin{itemize}
-				\item{DBManager}
-					\begin{itemize}
-						\item{\verb|Morphia.Datastore getDatastore()|}
-					\end{itemize}
-			\end{itemize}
-	\end{itemize}
-	As in D4H, the Service classes have methods that are related to the endpoints used by the web-site. A special case is the DataHandler component, which is responsible of getting the notifications from D4H and the data of the individuals. The  NotificationAPI and DataAPI refer to the interfaces exposed to D4H and to which it connects. On the other hand, the Request component connects to D4H by using the RequestAPI, in order to send Requests for accessing individual location during an event. In the following list, the exposed interfaces - used by the web-site and by D4H - are shown, linked with the classes and methods, and detailing the inputs and outputs:
-	
-	\begin{itemize}
-		\item{LoginService}
-		\begin{itemize}
-			\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/login|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-			\verb|email: String| & \verb|userId: String| \\
-			\verb|password: String| & \verb|accessToken: String| \\
-			& \verb|type: UserType| 
-			\end{tabular}\\
-			\item{\verb|void logout(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/logout|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-			\verb|userId: String| & \\
-			\verb|accessToken: String| & \\
-			\end{tabular}\\
-		\end{itemize}
-		\item{SignupService}
-		\begin{itemize}
-			\item{\verb|SignupResponse signupParticipant(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/individual/signup|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|email: String| & \verb|userId: String| \\
-				\verb|password: String| & \verb|accessToken: String| \\
-				\verb|name: String| & \\
-				\verb|ssn: String| & \\
-			\end{tabular}\\
-			\item{\verb|SignupResponse signupOrganizer(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/thirdparty/signup|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|email: String| & \verb|userId: String| \\
-				\verb|password: String| & \verb|accessToken: String| \\
-				\verb|name: String| & \\
-				\verb|phone: String| & \\
-				\verb|website: String| & \\
-			\end{tabular}\\
-		\end{itemize}
-		\item{UserService}
-		\begin{itemize}
-			\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req, |\\ \verb|Spark.Response res)|\\ \verb|GET /web/:eventId/participants|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				& \verb|participants: Collection<Participant>| \\
-				& \verb|participants[*].userId: String| \\
-				& \verb|participants[*].name: String| \\
-			\end{tabular}\\
-			\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/participant/:userId/:eventId|}
-			\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/participant/:userId/:eventId|}
-		\end{itemize}
-		\item{EventService}
-			\begin{itemize}
-			\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req, Spark.Response res)|\\ \verb|GET /web/event|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				& \verb|events: Collection<Event>| \\
-				& \verb|events[*].eventId: String| \\
-				& \verb|events[*].name: String| \\
-				& \verb|events[*].startDate: Date| \\
-				& \verb|events[*].organizer: Organizer| \\
-				& \verb|events[*].organizer.name: String| \\
-			\end{tabular}\\
-			\item{\verb|void createEvent(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/event|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|name: String| & \\
-				\verb|organizerId: String| & \\
-				\verb|startDate: Date| & \\
-				\verb|endtDate: Date| & \\
-				\verb|path: Collection<Coordinate>| & \\
-				\verb|path[*].longitude: Long| & \\
-				\verb|path[*].latitude: Long| & \\
-			\end{tabular}\\
-			\item{\verb|void updateEvent(Spark.Request req, Spark.Response res)|\\ \verb|PUT /web/event/:eventId|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|name: String| & \\
-				\verb|startDate: Date| & \\
-				\verb|endtDate: Date| & \\
-				\verb|path: Collection<Coordinate>| & \\
-				\verb|path[*].longitude: Long| & \\
-				\verb|path[*].latitude: Long| & \\
-			\end{tabular}\\
-			\end{itemize}
-		\item{NotificationService}
-		\begin{itemize}
-			\item{\verb|Collection<Notification> getPendingNotifications(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/:userId/notification|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				& \verb|notifications: Collection<Notification>| \\
-				& \verb|notifications[*].event: Event| \\
-				& \verb|notifications[*].event.eventId: String| \\
-				& \verb|notifications[*].event.name: String| \\
-			\end{tabular}\\
-			\item{\verb|void accept(Spark.Request req, Spark.Response res)|\\ \verb|PUT /web/:userId/notification/:notificationId|}
-			\item{\verb|void delete(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/:userId/notification/:notificationId|}
-			\item{\verb|void createNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/notification|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|userId: String| & \\
-				\verb|eventId: String| & \\
-			\end{tabular}\\
-		\end{itemize}
-		\item{DataHandler}
-		\begin{itemize}
-			\item{\verb|void getParticipantLocation(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/participant/data|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|ssn: String| & \\
-				\verb|data: Data| & \\
-				\verb|data.location: Location| & \\
-				\verb|data.location.longitude: Long| & \\
-				\verb|data.location.latitude: Long| & \\
-				\verb|data.healthStatus: HealtStatus| & \\
-				\verb|data.healthStatus.heartRate: Integer| & \\
-				\verb|data.healthStatus.bloodPreasure: Integer| & \\
-				\verb|data.healthStatus.bodyTemperature: Integer| & \\
-				\verb|data.healthStatus.bloodOxygen: Integer| & \\
-			\end{tabular}\\
-			\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/participant/notification|}\\
-			\begin{tabular}{l | l}
-			\textbf{Input} & \textbf{Output} \\
-			\hline
-				\verb|name: String| & \\
-				\verb|ssn: String| & \\
-				\verb|birthDate: Date| & \\
-				\verb|gender: Gender| & \\
-				\verb|status: RequestStatus| & \\
-			\end{tabular}\\
-		\end{itemize}
-	\end{itemize}
-	
-	\subsection{AutomatedSOS interfaces}
+\end{itemize}
+
+\subsection{AutomatedSOS interfaces}
 	The following is a list of all the components of ASOS, and the classes that belong to them, with the exposed methods.
 	\begin{itemize}
 		\item{\textbf{DataHandler}}
 			\begin{itemize}
 				\item{DataHandler}
 					\begin{itemize}
-						\item{\verb|void getIndividualData(Spark.Request req, Spark.Response res)|}
-						\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|}
+						\item{\verb|void getIndividualData(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/individual/notification|}\\\\
+				\begin{tabular}{l | l}
+				\textbf{Input} & \textbf{Output} \\
+				\hline
+					\verb|ssn: String| & \\
+					\verb|data: Data| & \\
+					\verb|data.location: Location| & \\
+					\verb|data.location.longitude: Long| & \\
+					\verb|data.location.latitude: Long| & \\
+					\verb|data.healthStatus: HealtStatus| & \\
+					\verb|data.healthStatus.heartRate: Integer| & \\
+					\verb|data.healthStatus.bloodPreasure: Integer| & \\
+					\verb|data.healthStatus.bodyTemperature: Integer| & \\
+					\verb|data.healthStatus.bloodOxygen: Integer| & \\
+				\end{tabular}\\
+				\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/individual/notification|}\\\\
+				\begin{tabular}{l | l}
+				\textbf{Input} & \textbf{Output} \\
+				\hline
+					\verb|name: String| & \\
+					\verb|ssn: String| & \\
+					\verb|birthDate: Date| & \\
+					\verb|gender: Gender| & \\
+					\verb|status: RequestStatus| & \\
+				\end{tabular}\\
 					\end{itemize}
 					\item{ThresholdResource}
 					\begin{itemize}
@@ -914,36 +710,215 @@ and it also contains the most relevant architecture views: component view, class
 	
 	ASOS has a different architecture as the ones seen in T4R and D4H, because it does not relays on a web-site nor a user. The system receives the data of the subscribed Individuals through the DataAPI, which is the interface provided to D4H, to which it connects. The NotificationAPI, let D4H connect to ASOS in order to send the status of the Requests sent to an Individual.  In the following list, the exposed interfaces are shown, linked with the classes and methods, and detailing the inputs and outputs:
 	
+	
+	\subsection{Track4Run interfaces}
+	The following is a list of all the components of T4R, and the classes that belong to them, with the exposed methods. \\
+	
+		As in D4H, the Service classes have methods that are related to the endpoints used by the web-site. A special case is the DataHandler component, which is responsible of getting the notifications from D4H and the data of the individuals. The  NotificationAPI and DataAPI refer to the interfaces exposed to D4H and to which it connects. On the other hand, the Request component connects to D4H by using the RequestAPI, in order to send Requests for accessing individual location during an event. In the following list, the exposed interfaces - used by the web-site and by D4H - are shown, linked with the classes and methods, and detailing the inputs and outputs:
+
 	\begin{itemize}
-		\item{DataHandler}
+		\item{\textbf{Login}}
 			\begin{itemize}
-				\item{\verb|void getIndividualData(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/individual/notification|}\\
-				\begin{tabular}{l | l}
-				\textbf{Input} & \textbf{Output} \\
-				\hline
-					\verb|ssn: String| & \\
-					\verb|data: Data| & \\
-					\verb|data.location: Location| & \\
-					\verb|data.location.longitude: Long| & \\
-					\verb|data.location.latitude: Long| & \\
-					\verb|data.healthStatus: HealtStatus| & \\
-					\verb|data.healthStatus.heartRate: Integer| & \\
-					\verb|data.healthStatus.bloodPreasure: Integer| & \\
-					\verb|data.healthStatus.bodyTemperature: Integer| & \\
-					\verb|data.healthStatus.bloodOxygen: Integer| & \\
-				\end{tabular}\\
-				\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/individual/notification|}\\
-				\begin{tabular}{l | l}
-				\textbf{Input} & \textbf{Output} \\
-				\hline
-					\verb|name: String| & \\
-					\verb|ssn: String| & \\
-					\verb|birthDate: Date| & \\
-					\verb|gender: Gender| & \\
-					\verb|status: RequestStatus| & \\
-				\end{tabular}\\
+				\item{\textbf{LoginService}}
+					\begin{itemize}
+						\item{\verb|LoginResponse login(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/login|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+			\verb|email: String| & \verb|userId: String| \\
+			\verb|password: String| & \verb|accessToken: String| \\
+			& \verb|type: UserType| 
+			\end{tabular}\\
+			\item{\verb|void logout(Spark.Request req, Spark.Response response)|\\ \verb|POST /web/logout|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+			\verb|userId: String| & \\
+			\verb|accessToken: String| & \\
+			\end{tabular}\\
+					\end{itemize}
+					
+				\item{\textbf{UserResource}}
+					\begin{itemize}
+						\item{\verb|T4RUser getByEmailAndPass(String email, String password)|}
+					\end{itemize}
 			\end{itemize}
-	\end{itemize}
+			
+		\item{\textbf{Signup}}
+			\begin{itemize}
+				\item{\textbf{SignupService}}
+					\begin{itemize}
+						\item{\verb|SignupResponse signupParticipant(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/individual/signup|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|email: String| & \verb|userId: String| \\
+				\verb|password: String| & \verb|accessToken: String| \\
+				\verb|name: String| & \\
+				\verb|ssn: String| & \\
+			\end{tabular}\\
+			\item{\verb|SignupResponse signupOrganizer(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/thirdparty/signup|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|email: String| & \verb|userId: String| \\
+				\verb|password: String| & \verb|accessToken: String| \\
+				\verb|name: String| & \\
+				\verb|phone: String| & \\
+				\verb|website: String| & \\
+			\end{tabular}\\
+					\end{itemize}
+					
+				\item{\textbf{UserResource}}
+					\begin{itemize}
+						\item{\verb|void add(T4RUser u)|}
+					\end{itemize}
+			\end{itemize}
+			
+		\item{\textbf{User}}
+			\begin{itemize}
+				\item{\textbf{UserService}}
+					\begin{itemize}
+						\item{\verb|Collection<Participant> getEnrolledParticipants(Spark.Request req, |\\ \verb|Spark.Response res)|\\ \verb|GET /web/:eventId/participants|}\\\\
+				\begin{tabular}{l | l}
+				\textbf{Input} & \textbf{Output} \\
+				\hline
+					& \verb|participants: Collection<Participant>| \\
+					& \verb|participants[*].userId: String| \\
+					& \verb|participants[*].name: String| \\
+				\end{tabular}\\
+				\item{\verb|void enrollToEvent(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/participant/:userId/:eventId|}
+				\item{\verb|void cancelEnrollment(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/participant/:userId/:eventId|}
+			\end{itemize}
+		\end{itemize}
+			
+		\item{\textbf{Event}}
+			\begin{itemize}
+				\item{\textbf{EventService}}
+					\begin{itemize}
+						\item{\verb|Collection<Event> getAvailableEvents(Spark.Request req, Spark.Response res)|\\ \verb|GET /web/event|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				& \verb|events: Collection<Event>| \\
+				& \verb|events[*].eventId: String| \\
+				& \verb|events[*].name: String| \\
+				& \verb|events[*].startDate: Date| \\
+				& \verb|events[*].organizer: Organizer| \\
+				& \verb|events[*].organizer.name: String| \\
+			\end{tabular}\\
+			\item{\verb|void createEvent(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/event|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|name: String| & \\
+				\verb|organizerId: String| & \\
+				\verb|startDate: Date| & \\
+				\verb|endtDate: Date| & \\
+				\verb|path: Collection<Coordinate>| & \\
+				\verb|path[*].longitude: Long| & \\
+				\verb|path[*].latitude: Long| & \\
+			\end{tabular}\\
+			\item{\verb|void updateEvent(Spark.Request req, Spark.Response res)|\\ \verb|PUT /web/event/:eventId|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|name: String| & \\
+				\verb|startDate: Date| & \\
+				\verb|endtDate: Date| & \\
+				\verb|path: Collection<Coordinate>| & \\
+				\verb|path[*].longitude: Long| & \\
+				\verb|path[*].latitude: Long| & \\
+			\end{tabular}\\
+					\end{itemize}
+					
+				\item{\textbf{EventResource}}
+					\begin{itemize}
+						\item{\verb|Event getById(String eventId)|}
+						\item{\verb|Collection<Event> getAll()|}
+						\item{\verb|void add(Event e)|}
+						\item{\verb|void update(Event e)|}
+					\end{itemize}
+			\end{itemize}
+			
+		\item{\textbf{Notification}}
+			\begin{itemize}
+				\item{\textbf{NotificationService}}
+					\begin{itemize}
+						\item{\verb|Collection<Notification> getPendingNotifications(Spark.Request req,|\\ \verb|Spark.Response res)|\\ \verb|GET /web/:userId/notification|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				& \verb|notifications: Collection<Notification>| \\
+				& \verb|notifications[*].event: Event| \\
+				& \verb|notifications[*].event.eventId: String| \\
+				& \verb|notifications[*].event.name: String| \\
+			\end{tabular}\\
+			\item{\verb|void accept(Spark.Request req, Spark.Response res)|\\ \verb|PUT /web/:userId/notification/:notificationId|}
+			\item{\verb|void delete(Spark.Request req, Spark.Response res)|\\ \verb|DELETE /web/:userId/notification/:notificationId|}
+			\item{\verb|void createNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /web/notification|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|userId: String| & \\
+				\verb|eventId: String| & \\
+			\end{tabular}\\
+					\end{itemize}
+					
+				\item{\textbf{NotificationResource}}
+					\begin{itemize}
+						\item{\verb|Notification getByUserId(String userId)|}
+						\item{\verb|void update(Notification u)|}
+					\end{itemize}
+					
+				\item{\textbf{EventResource}}
+					\begin{itemize}
+						\item{\verb|Event getById(String eventId)|}
+						\item{\verb|void addParticipant(String eventId, String participantId)|}
+					\end{itemize}
+			\end{itemize}
+			
+		\item{\textbf{DataHandler}}
+			\begin{itemize}
+				\item{\textbf{DataHandler}}
+					\begin{itemize}
+						\item{\verb|void getParticipantLocation(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/participant/data|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|ssn: String| & \\
+				\verb|data: Data| & \\
+				\verb|data.location: Location| & \\
+				\verb|data.location.longitude: Long| & \\
+				\verb|data.location.latitude: Long| & \\
+				\verb|data.healthStatus: HealtStatus| & \\
+				\verb|data.healthStatus.heartRate: Integer| & \\
+				\verb|data.healthStatus.bloodPreasure: Integer| & \\
+				\verb|data.healthStatus.bodyTemperature: Integer| & \\
+				\verb|data.healthStatus.bloodOxygen: Integer| & \\
+			\end{tabular}\\
+			\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/participant/notification|}\\\\
+			\begin{tabular}{l | l}
+			\textbf{Input} & \textbf{Output} \\
+			\hline
+				\verb|name: String| & \\
+				\verb|ssn: String| & \\
+				\verb|birthDate: Date| & \\
+				\verb|gender: Gender| & \\
+				\verb|status: RequestStatus| & \\
+			\end{tabular}\\
+					\end{itemize}
+		\end{itemize}
+			
+		\item{\textbf{Request}}
+			\begin{itemize}
+				\item{\textbf{RequestService}}
+					\begin{itemize}
+						\item{\verb|void sendRequestToParticipant(String ssn)|}
+					\end{itemize}
+			\end{itemize}
+	\end{itemize}		
+	
 	\section{Database view}
 In the previous section, an architectural landscape of D4H, ASOS and T4R was provided by means of high-level component diagrams. Those diagrams showed how components communicate with the rest of the system (i.e. through interfaces). Now, it is also meaningful to describe data models involved using class diagrams. 
 	
@@ -951,15 +926,21 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	As explained in the RASD, the whole data model of TrackMe up to now will be treated as a "black box", this means \textbf{D4H} will have a local copy of the \textit{basic information} and \textit{collected data} only of users who activated this service. The classes considered in D4H, their attributes, and relationships are shown in Figure \ref{fig:Data4Help Class Diagram}.
 	
 	\begin{itemize}
-		\item{\textbf{User}}: basic attributes of all users interacting with the system.
-		\item{\textbf{Individual}}: users wearing the devices.
-		\item{\textbf{Data}}: health status and location collected from devices.
-		\item{\textbf{ThirdParty}}: companies requesting data of individuals or bulk data. For registering, all third parties must provide a certificate to verify that it is a legally constituted company.
-		\item{\textbf{TPConfiguration}}: an important issue to tackle is the way in which the system will communicate to third parties to send them notifications or the data they request. To send information regarding saved queries, third parties will be asked to provide three endpoints,
-	 \textit{individualpushURL}, \textit{bulkPushURL} and \textit{notificationURL}.
-		\item{\textbf{Request}}: third parties can request data of a given individual. Each request has an associated \textit{status}, initially is \textit{pending} and can become either \textit{rejected} or \textit{approved} according to to whether the individual accepts or not. 
-		\textit{Requests for bulk data} are treated differently. The only constraints to provide that data to third parties are managed by the system (if they do not hold the third party is notified)
-		\item{\textbf{Subscription}}:  third parties can \textit{subscribe} to receive new data, then the query of the search they did needs to be stored. \\
+		\item{\textbf{D4HUser}}: credentials of all users interacting with the system.
+		\item{\textbf{Individual}}: main attributes of users wearing the devices.
+		\item{\textbf{Data}}: health status, location and timestamp collected from devices.
+		\item{\textbf{ThirdParty}}: companies requesting data of individuals or bulk data. For registering, all third parties must provide a certificate to verify that it is a legally constituted company (it was assumed that there is a mechanism capable of doing this checking).
+		
+		\item{\textbf{TPConfiguration}}: an important issue to tackle is the way in which the system will communicate to third parties to send them notifications or data they request. Then, they are asked to provide three endpoints,
+	 \textit{individualpushUrl}, \textit{bulkPushUrl} and \textit{notificationUrl}.
+	 
+		\item{\textbf{D4HRequest}}: third parties can make requests to access data of a given individual. Each request has an associated \textit{status}, initially is \textit{PENDING} and can become either \textit{APPROVED} or \textit{REJECTED} according to whether the individual accepts it or not. 
+		\begin{itemize}
+		\item After the status of a request is updated to \textit{APPROVED}, a subscription to receive new data of the intended individual is automatically created. 
+		\item \textit{Requests for bulk data} are treated differently. The only constraints are managed by the system (if they do not hold the third party is notified), then there is no need to store them.
+		\end{itemize}
+		
+		\item{\textbf{Subscription}}: when searching for bulk data, third parties can decide if they want to subscribe to that specific \textit{filter}. This means, they will receive new data after a certain amount of time defined by a \textit{timeSpan} (hours). New data will be send to individuals according to the nextExecution attribute of the subscription.
 	\end{itemize}
 
 	\begin{figure}[H]
@@ -967,6 +948,22 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\includegraphics[width=1\textwidth]{diagrams/d4h_class_diagram.png}
 		\caption[Data4Help Class Diagram]{Data4Help Class Diagram}
 		\label{fig:Data4Help Class Diagram}
+	\end{figure}
+	
+	\subsection{AutomatedSOS data model}
+	\begin{itemize}
+		\item{\textbf{ASOSUser}}: individuals subscribed to D4H that decided to activate ASOS service. Each of them has a \textit{status} so as to avoid duplicate notifications to the health care service. 
+		\item{\textbf{EmergencyContact}}: available health care services by addresses.  Each health care service will receive notifications by means of a URL and only of users living in the same city.
+		\item {\textbf{Threshold}}: normal range for each health parameter (i.e. minimum and maximum values).
+	\end{itemize}
+	
+	It is necessary to clarify that the parameters (i.e. users' data) are not stored, they are used exclusively to make comparisons with their corresponding  \textit{thresholds}. \\
+	
+	\begin{figure}[H]
+    		\centering
+		\includegraphics[width=0.5\textwidth]{diagrams/asos_class_diagram.png}
+		\caption[AutomatedSOS Class Diagram]{AutomatedSOS Class Diagram}
+		\label{fig:AutomatedSOS Class Diagram}
 	\end{figure}
 	
 	\subsection{Track4Run data model}
@@ -985,22 +982,6 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\caption[Track4Run Class Diagram]{Track4Run Class Diagram}
 		\label{fig:Track4Run Class Diagram}
 	\end{figure}	
-	
-	\subsection{AutomatedSOS data model}
-	\begin{itemize}
-		\item{\textbf{ASOSUser}}: individuals subscribed to D4H that decided to activate ASOS service. Each of them has a \textit{status} so as to avoid duplicate notifications to the health care service. 
-		\item{\textbf{EmergencyContact}}: available health care services by addresses.  Each health care service will receive notifications by means of a URL and only of users living in the same city.
-		\item {\textbf{Threshold}}: normal range for each health parameter (i.e. minimum and maximum values).
-	\end{itemize}
-	
-	It is necessary to clarify that the parameters (i.e. users' data) are not stored, they are used exclusively to make comparisons with their corresponding  \textit{thresholds}. \\
-	
-	\begin{figure}[H]
-    		\centering
-		\includegraphics[width=0.5\textwidth]{diagrams/asos_class_diagram.png}
-		\caption[AutomatedSOS Class Diagram]{AutomatedSOS Class Diagram}
-		\label{fig:AutomatedSOS Class Diagram}
-	\end{figure}
 			
 	\section{Deployment view}
 	In the current chapter the deployment diagrams of D4H, T4R and ASOS are shown. All diagrams follow the same structure and design: yellow nodes represent external nodes that interact with the system, green nodes represent hardware devices (i.e. web server, database server, etc.), pale orange nodes represent execution environments such as JVM, and blue boxes represent high level components. Finally, the protocols used to communicate between different nodes displayed as red links.
@@ -1018,18 +999,7 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 			\caption[Data4Help Deployment Diagram]{Data4Help Deployment Diagram}
 			\label{fig:d4h_deployment_diagram}
 		\end{figure}	
-		
-	\subsection{Track4Run deployment diagram}
-	In the Figure \ref{fig:t4r_deployment_diagram} the T4R deployment diagram is shown. It can be seen the interaction between \textbf{Data4Help} execution environment and the \textbf{Web Server} node. This interaction happens thanks to the different interfaces provided by D4H and T4R. \\
-	Furthermore, the \textbf{Web Server} node interacts with the \textbf{MongoDB Server} node using the TCP/IP protocol, and it works thanks to the \textbf{DBConnector} interface provided by the \textbf{T4R Database} component. \\
 	
-		\begin{figure}[H]
-			\centering
-			\includegraphics[width=1\textwidth]{diagrams/t4r_deployment_diagram.png}
-			\caption[Track4Run Deployment Diagram]{Track4Run Deployment Diagram}
-			\label{fig:t4r_deployment_diagram}
-		\end{figure}	
-		
 	\subsection{AutomatedSOS deployment diagram}
 	In the Figure \ref{fig:asos_deployment_diagram} the ASOS deployment diagram is shown. Since ASOS does not have a web site, the main node is an \textbf{Application Server} that hosts the execution environment for the \textbf{ASOS Backend} component. The \textbf{Application Server} interacts with a \textbf{MongoDB Server} node, using the TCP/IP protocol. Moreover, it interacts with an external node which represent the different \textbf{Health Care Service}s, and with the execution environment of \textbf{Data4Help}.
 		\begin{figure}[H]
@@ -1039,84 +1009,130 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 			\label{fig:asos_deployment_diagram}
 		\end{figure}	
 	
+	\subsection{Track4Run deployment diagram}
+	In the Figure \ref{fig:t4r_deployment_diagram} the T4R deployment diagram is shown. It can be seen the interaction between \textbf{Data4Help} execution environment and the \textbf{Web Server} node. This interaction happens thanks to the different interfaces provided by D4H and T4R. \\
+	Furthermore, the \textbf{Web Server} node interacts with the \textbf{MongoDB Server} node using the TCP/IP protocol, and it works thanks to the \textbf{DBConnector} interface provided by the \textbf{T4R Database} component. \\
+	
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{diagrams/t4r_deployment_diagram.png}
+			\caption[Track4Run Deployment Diagram]{Track4Run Deployment Diagram}
+			\label{fig:t4r_deployment_diagram}
+		\end{figure}
+		
 	\section{Runtime view}
 	In the following section sequence diagrams of D4H, T4R and ASOS are shown. 
 	
 	\subsection{Data4Help sequence diagrams}
-	In D4H the \textbf{:Signup} component communicates with the \textbf{:DBManager} which stores the user in the database. After, the \textbf{:AuthenticationManager} creates a token for the session of the user, which is send to the \textbf{GUI} that redirects the user to his dashboard. This process applies for third parties as well. \\
+	In D4H the \textbf{:SignupService} component receives a signup request, and 
+	communicates with the \textbf{:UserWebAuth} in charge of creating an accessToken and userId for the session of the user, they are send back to the \textbf{GUI}. This process applies for third parties as well, by means of \textbf{signupThirdParty} exposed method. 
 	
+	\begin{itemize}
+	\item \textbf{Registration} 
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_signup.png}
-		\caption[Data4Help Signup sequence diagram]{Data4Help Signup sequence diagram}
+		\caption[Signup Sequence Diagram]{Signup Sequence Diagram}
 		\label{fig:d4h_seq_signup}
 	\end{figure}
 	
-	The system also provides login and logout mechanisms to both types of users: individuals and third parties. The \textbf{:Login} component is in charge of contacting the \\ \textbf{:AuthenticationManager} to create an access token. This token is retrieved to the \textbf{GUI} to be used for upcoming requests. The GUI decides whether to redirect the user to its corresponding dashboard or display an error according to credentials checking. \\
+	\item \textbf{Login} \\
+	The system also provides login and logout mechanisms to both types of users: individuals and third parties. The \textbf{:LoginService} component is in charge of contacting the \textbf{:AuthenticationManager} to set the accessToken for the user. This token is retrieved to the \textbf{GUI} to be used for upcoming requests. The GUI decides whether to redirect the user to its corresponding dashboard or display an error according to credentials checking. \\
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_login_logout.png}
-		\caption[Data4Help Login and Logout sequence diagram]{Data4Help Login and Logout sequence diagram}
+		\caption[Login and Logout Sequence Diagram]{Login and Logout Sequence Diagram}
 		\label{fig:d4h_seq_login_logout}
 	\end{figure}
 	
-	After login into the system, any individual can check all requests he received from third parties. The \textbf{:Request} component is the responsible for this process. First of all, it gets the requests by means of the \textbf{:DBManager} and then :Request returns it to the \textbf{GUI} (Figure \ref{fig:d4h_seq_show_requests}). \\
+	\item \textbf{Get All Requests} \\
+	After login into the system, any individual can check all requests he received from third parties. The \textbf{:D4HRequestService} component is the responsible for this process.  It gets the requests by means of the \textbf{:RequestResource} and returns them to the \textbf{GUI} (Figure \ref{fig:d4h_seq_show_requests}). \\
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_show_requests.png}
-		\caption[Data4Help Show Requests sequence diagram]{Data4Help Show Requests sequence diagram}
+		\caption[Show Requests Sequence Diagram]{Show Requests Sequence Diagram}
 		\label{fig:d4h_seq_show_requests}
 	\end{figure}
 	
-	The \textbf{:Request} component provides to each individual a way to manage his own requests (i.e. accept or reject them). If a request is approved, :Request instructs \textbf{:Subscription} component to create a subscription allowing the third party associated to the request to receive new data. Otherwise, just an update of the status of the request is made by the \textbf{:DBManager}. In both cases, the third party who created the request will get a notification (Figure \ref{fig:d4h_seq_ notify_third_party}). \\
+	\item \textbf{Manage Requests} \\
+	The \textbf{:RequestService} component provides to each individual a way to manage his own requests (i.e. accept or reject them). In both cases the status of the request is updated to \textit{APPROVED} or \textit{REJECTED} respectively. If the request was accepted, the component creates a subscription allowing the third party associated to the request to receive new data. Otherwise, the request is deleted. In both cases, the third party who created the request will be notified (Figure \ref{fig:d4h_seq_ notify_third_party}). \\
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_manage_requests.png}
-		\caption[Data4Help Manage Requests sequence diagram]{Data4Help Manage Requests sequence diagram}
+		\includegraphics[width=1.1\textwidth]{diagrams/sequence_diagrams/d4h_manage_requests.png}
+		\caption[Manage Requests Sequence Diagram]{Manage Requests Sequence Diagram}
 		\label{fig:d4h_seq_manage_requests}
 	\end{figure}
-	
-	Notifications to third parties are handled by the \textbf{:APIManager} component. In detail, :Request asks :APIManager to send a notification to a given third party, to do so this component aks to the :\textbf{DBManager} the \textit{APIConfiguration} (of the third party) that contains the URL to which the message will be posted. \\
+
+	\item \textbf{Notify Third Party} \\
+	Notifications to third parties are handled by the \textbf{:APIManager} component. In detail, \textbf{:D4HRequestService} asks :APIManager to send a notification to a given third party, to do so this component asks to the :\textbf{DBManager} the \textit{APIConfiguration} (of the third party) that contains the URL to which the message will be posted. \\
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.8\textwidth]{diagrams/sequence_diagrams/d4h_notify_third_party.png}
-		\caption[Data4Help Notify Third Party sequence diagram]{Data4Help Notify Third Party sequence diagram}
+		\includegraphics[width=0.9\textwidth]{diagrams/sequence_diagrams/d4h_notify_third_party.png}
+		\caption[Notify Third Party Sequence Diagram]{Notify Third Party Sequence Diagram}
 		\label{fig:d4h_seq_ notify_third_party}
 	\end{figure}
 	
-	As concerns to third parties, they can send requests (Figure \ref{fig:d4h_seq_send_request}) to individuals in order to have future access to their data. All this process is handled by \textbf{:Request} component. Each request is stored in the database by the \textbf{:DBManager}. \\
+	\item \textbf{Send Request} \\
+	As concerns to third parties, they can send requests (Figure \ref{fig:d4h_seq_send_request}) to individuals in order to have future access to their data. All this process is handled by  \\ \textbf{:D4HRequestService} component.  \\
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.8\textwidth]{diagrams/sequence_diagrams/d4h_send_request.png}
-		\caption[Data4Help Send Request sequence diagram]{Data4Help Send Request sequence diagram}
+		\includegraphics[width=0.9\textwidth]{diagrams/sequence_diagrams/d4h_send_request.png}
+		\caption[Data4Help Send Request Sequence Diagram]{Data4Help Send Request Sequence Diagram}
 		\label{fig:d4h_seq_send_request}
 	\end{figure}
 	
-	Additionally, if third parties have approved requests to data of individuals, they can search for it using the ssn of the individual. This operation is carried out by the \textbf{:SearchManager}, which provides to the \textbf{GUI} information concerning the request. \\
+	\item \textbf{Search for individual or bulk data} \\
+	Third parties can search for data of a specific individual or bulk data. If a third parties has approved requests to data of any individual, he can search for that data using the ssn of the individual. This operation is carried out by the \textbf{:SearchService}, which provides to the \textbf{GUI} information concerning the request. \\
+	
+	If third parties want to search for bulk data, they have several available filtering criteria. All those filters are received by the \textbf{:SearchService}, which returns to the \textbf{GUI} the data anonymized (Figure \ref{fig:d4h_access_data}) .\\ 
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_access_individual_data.png}
-		\caption[Data4Help Access Individual Data sequence diagram]{Data4Help Access Individual Data sequence diagram}
-		\label{fig:d4h_access_individual_data}
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_subscribe_to_data.png}
+		\caption[Data4Help Access Data Sequence Diagram]{Data4Help Access Data Sequence Diagram}
+		\label{fig:d4h_access_data}
 	\end{figure}
 	
-	In the case in which third parties want to search for bulk data (Figure \ref{fig:d4h_access_bulk_data}) they have several available filtering criteria. The query containing those parameters is received by the \textbf{:SearchManager}, which returns to the \textbf{GUI} the data anonymized.
+	\item \textbf{Subscribe to data}\\
+	Third parties can subscribe to a specific search, this way he will get new data according to the the \textit{time span} specified by the third party (Figure \ref{fig:d4h_subscribe_to_data}).
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_access_bulk_data.png}
-		\caption[Data4Help Access Bulk Data sequence diagram]{Data4Help Access Bulk Data sequence diagram}
-		\label{fig:d4h_access_bulk_data}
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/d4h_subscribe_to_data.png}
+		\caption[Data4Help Subscription Sequence Diagram]{Data4Help Subscription Sequence Diagram}
+		\label{fig:d4h_subscribe_to_data}
+	\end{figure}
+	
+	\subsection{AutomatedSOS sequence diagrams}
+	Since ASOS is an event-based service, it does not provide a GUI. That is why the main "actor" is Data4Help, which is the boundary of a different service. In the Figure \ref{fig:asos_seq_get_notification} the \textit{Get Request Notification} use case is shown. As mentioned before, the component that initiates the process is Data4Help, which sends a message every time an Individual accepts or rejects the ASOS request. If the individual has accepted the request, the \textbf{:DataHandler} component will update the information of the Individual in the database, and will assign an emergency contact based on its Address.\\
+	
+	On the other hand, if the individual has rejected the request, :DataHandler component will remove it from the database.\\
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/asos_get_individual_notification.png}
+		\caption[AutomatedSOS get notification sequence diagram]{AutomatedSOS get notification sequence diagram}
+		\label{fig:asos_seq_get_notification}
+	\end{figure}
+	
+	Finally, the core functionality of ASOS is shown in the Figure \ref{fig:asos_seq_receive_data}. It can be seen that, as before, the "actor" that initiates the process is Data4Help service, which sends the Individual information. This message is handled by \textbf{:DataHandler} component, which will compare the information with the previously defined thresholds. If the Data is out of range, the :DataHandler will send a message to the \textbf{:HealthCareConnector} component in order notify the emergency contact assigned for the Individual. The :HealthCareConnector component is responsible of getting the assigned emergency contact information from the database, and send the Alert to the \textbf{EmergencyService}.\\
+	
+	It worth mentioning that the notification to the health-care service is done asynchronously. On the other hand, if the data is \textit{\textbf{not}} out of range, the system will do nothing.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/asos_receive_individual_data_and_notify_emergency_service.png}
+		\caption[AutomatedSOS receive data and notify emergency service sequence diagram]{AutomatedSOS receive data and notify emergency service sequence diagram}
+		\label{fig:asos_seq_receive_data}
 	\end{figure}
 	
 	\subsection{Track4Run sequence diagrams}
-	In the Figure \ref{fig:t4r_seq_signup} the signup process is shown. It can be seen the \textbf{:Signup} component, which is responsible of getting the participant's information, and with the help of the\textbf{:DBManager} component, save it into the database. The \textbf{:AuthenticationManager} component is responsible of create the access token for the session. Finally, the :Signup component sends a message to the \textbf{:Request} component which, asynchronously,  sends a request for accessing the individual's information to D4H. The process ends when the \textbf{GUI} redirects the new user to its dashboard.\\
+	In the Figure \ref{fig:t4r_seq_signup} the signup process is shown. It can be seen the \textbf{:Signup} component, which is responsible of getting the participant's information, and with the help of the\textbf{:DBManager} component, save it into the database. \\ The \textbf{:AuthenticationManager} component is responsible of create the access token for the session. Finally, the :Signup component sends a message to the \textbf{:Request} component which, asynchronously,  sends a request for accessing the individual's information to D4H. The process ends when the \textbf{GUI} redirects the new user to its dashboard.\\
 	
 	It worth mentioning, that the organizer signup process is similar to the signup process of the Participant. The only difference is that, in the case of the Organizer, the \textbf{:Signup} component does not send a message to the \textbf{:Request }component.\\
 	
@@ -1158,28 +1174,7 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\label{fig:t4r_seq_accept_invitation}
 	\end{figure}	
 	
-	\subsection{AutomatedSOS sequence diagrams}
-	Since ASOS is an event-based service, it does not provide a GUI. That is why the main "actor" is Data4Help, which is the boundary of a different service. In the Figure \ref{fig:asos_seq_get_notification} the \textit{Get Request Notification} use case is shown. As mentioned before, the component that initiates the process is Data4Help, which sends a message every time an Individual accepts or rejects the ASOS request. If the individual has accepted the request, the \textbf{:DataHandler} component will update the information of the Individual in the database, and will assign an emergency contact based on its Address.\\
-	
-	On the other hand, if the individual has rejected the request, :DataHandler component will remove it from the database.\\
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/asos_get_individual_notification.png}
-		\caption[AutomatedSOS get notification sequence diagram]{AutomatedSOS get notification sequence diagram}
-		\label{fig:asos_seq_get_notification}
-	\end{figure}
-	
-	Finally, the core functionality of ASOS is shown in the Figure \ref{fig:asos_seq_receive_data}. It can be seen that, as before, the "actor" that initiates the process is Data4Help service, which sends the Individual information. This message is handled by \textbf{:DataHandler} component, which will compare the information with the previously defined thresholds. If the Data is out of range, the :DataHandler will send a message to the \textbf{:HealthCareConnector} component in order notify the emergency contact assigned for the Individual. The :HealthCareConnector component is responsible of getting the assigned emergency contact information from the database, and send the Alert to the \textbf{EmergencyService}.\\
-	
-	It worth mentioning that the notification to the health-care service is done asynchronously. On the other hand, if the data is \textit{\textbf{not}} out of range, the system will do nothing.
-	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=1\textwidth]{diagrams/sequence_diagrams/asos_receive_individual_data_and_notify_emergency_service.png}
-		\caption[AutomatedSOS receive data and notify emergency service sequence diagram]{AutomatedSOS receive data and notify emergency service sequence diagram}
-		\label{fig:asos_seq_receive_data}
-	\end{figure}
+	\end{itemize}
 	
 	\section{Selected architectural styles and patterns}
 Resuming the high level architecture of the system briefly explained on \textit{ \autoref{sec:overview} Overview}, it is important to describe MVC	and event-driven design patterns, how they work and why are the proper ones to build up each subsystem.
@@ -1244,37 +1239,45 @@ Resuming the high level architecture of the system briefly explained on \textit{
 	Finally, the only external APIs to whom TrackMe environment depends on, are the health-care services to which ASOS should contact in some cases. Both D4H and T4R do not depend on any external services.
 	
 	\chapter{User interface design}
-	The following mock-ups represent a basic idea of what the web application will look like after the first release.\\
-	As when new customers visits the home page of TrackMe, they can read about the work that the company does, what services it offers, what benefits users can achieve by joining the community. In addition, they can buy the wearables and get more information, how to use them, what is TrackMe, more details about D4H, ASOS and T4R is provided here. The full home page can be seen in Figure \ref{fig:Home_Page}. \\\\
-	Moreover, in the Figure \ref{fig:Data4Help Information Page} and Figure \ref{fig:ASOS Information Page} can be seen the information page for D4H and ASOS respectively.
+	The user interfaces were introduced in the RASD, however in this section they
+are examined in depth. \\ 
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.11]{UI/d4h_home.png}
+		\includegraphics[scale=0.8]{UI/home.png}
 		\caption[UI: TrackMe's Home Page]{TrackMe's Home Page}
 		\label{fig:Home_Page}
 	\end{figure}
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.13]{UI/d4h.png}
+		\includegraphics[scale=0.3]{UI/d4h.png}
 
 		\caption[UI: Data4Help Information Page]{Data4Help Information Page}
 		\label{fig:Data4Help Information Page}
 	\end{figure}
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.13]{UI/asos.png}
+		\includegraphics[scale=0.3]{UI/asos.png}
 
 		\caption[UI: ASOS Information Page]{ASOS Information Page}
 		\label{fig:ASOS Information Page}
 	\end{figure}
 	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\textwidth]{UI/t4r.png}
+		\caption[UI: Track4Run Web Page]{Track4Run Web Page}
+		\label{fig:Track4Run Web Page}
+	\end{figure}
+	
+	In the Figure \ref{fig:Track4Run Web Page}, Spectators are able to visualize all the available runs in which are currently going on; and by clicking on 'view participants' button, they are redirected to the map-view of the selected run, where they can view the live location of the participant users.	
+	
 	In the Figure \ref{fig:Login}, can be seen the web page through which users can Login into the system (if already registered).
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.12]{UI/login.png}
+		\includegraphics[scale=0.35]{UI/UI/9.jpeg}
 		\caption[UI: Login Page]{Login Page}
 		\label{fig:Login}
 	\end{figure}
@@ -1282,14 +1285,14 @@ Resuming the high level architecture of the system briefly explained on \textit{
 	 And if not already registered into the system, they can register themselves through the Register web-page (Figure \ref{fig:Registration}). There are separate register forms for the Individual users and for Third Party users.
 	 \begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.13]{UI/register.png}
+		\includegraphics[scale=0.35]{UI/UI/10.jpeg}
 		\caption[UI: Registration Page]{Registration Page}
 		\label{fig:Registration}
 	\end{figure}
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=1\textwidth]{UI/dashboard_individual.png}
+		\includegraphics[width=1\textwidth]{UI/UI/2.jpeg}
 		\caption[UI: Individual Dashboard Page]{Individual Dashboard Page}
 		\label{fig:Dashboard for individuals}
 	\end{figure}
@@ -1298,7 +1301,7 @@ The above Figure \ref{fig:Dashboard for individuals} displays the dashboard for 
 
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=1\textwidth]{UI/individual_manage_requests.png}
+		\includegraphics[width=1\textwidth]{UI/UI/4.jpeg}
 		\caption[UI: Manage Requests Page]{Manage Requests Page}
 		\label{fig:manage_requests}
 	\end{figure}
@@ -1307,12 +1310,47 @@ In the Figure \ref{fig:manage_requests} the individual user have options to acce
 
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=1\textwidth]{UI/db_thirdparty.png}
-		\caption[UI: Third party Dashboard Page]{Third party Dashboard Page}
-		\label{fig:third_party_dashboard}
+		\includegraphics[width=1\textwidth]{UI/UI/5.jpeg}
+		\caption[UI: Third party Dashboard Page 1]{Third party Dashboard Page 1}
+		\label{fig:third_party_dashboard_1}
 	\end{figure}
 	
-	The above Figure \ref{fig:third_party_dashboard} displays the dashboard for third party users, this page is responsive and a real-time view of the application for the third party user's point of view. Third parties can search for  data using the filtering criteria provided by the system such as country, province, city, age, blood type, or SSN. When the user fills in the SSN field, all the other fields are disabled since are related to bulk anonymized data. If the user wants to subscribe to the bulk anonymize data, he/she can do it by checking the Subscribe checkbox and setting the amount of time in between updates.	
+	The above Figure \ref{fig:third_party_dashboard_1}, displays the dashboard for third party users, this page is responsive and a real-time view of the application for the third party user's point of view. Third parties can search for  data using the filtering criteria provided by the system such as country, province, city, age, blood type, or SSN.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{UI/UI/6.jpeg}
+		\caption[UI: Third party Dashboard Page 2]{Third party Dashboard Page 2}
+		\label{fig:third_party_dashboard_2}
+	\end{figure}
+	
+	The above figure \ref{fig:third_party_dashboard_2}, states that, if they click on the 'Check' sign then the request is sent to the individual which has the same SSN entered by the third party.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{UI/UI/1.jpeg}
+		\caption[UI: Third party Dashboard Bulk Request Page]{Third party Dashboard Bulk Request Page}
+		\label{fig:third_party_Bulk_Request_Page}
+	\end{figure}
+	
+	The above figure \ref{fig:third_party_Bulk_Request_Page}, user s able to select the filter criterias according the which user wishes to get the data. Filter criterias are such as gender, age, demographic findings or the date of subscription. User is able to get filtered data, if already there (from previous requests).
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{UI/UI/3.jpeg}
+		\caption[UI: Individual Profile page]{Individual Profile page}
+		\label{fig:user_profile_individual}
+	\end{figure}
+	
+	The above figure \ref{fig:user_profile_individual}, user is able to view the details of his profile. This profile data is personal to every user. They can only access their own data; details include: ssn, name, address, blood type etc.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{UI/UI/8.jpeg}
+		\caption[UI: Third party Profile page]{Third party Profile page}
+		\label{fig:user_profile_thirdparty}
+	\end{figure}
+	
+	The above figure \ref{fig:user_profile_thirdparty}, user is able to view the details of his profile. This profile data is personal to every user. They can only access their own data; details include: tac code, contact and the configuration details (such as App id, secret key, bulk data and individual data URLs etc.
+	
 	
 	\begin{figure}[H]
 		\centering
@@ -1330,14 +1368,6 @@ In the Figure \ref{fig:manage_requests} the individual user have options to acce
 	\end{figure}
 	In the Figure \ref{fig:organizer_dashboard_2}, Organizer's are able to define the parameters to define a complete running circuit such as: start and end time, name of the run, date of the run, nodes of the running circuit and here they can select whether to send invitations now or not by clicking the check-box; Thus, by clicking on 'Complete running circuit' button, the configuration gets completed and based on the details above, run is configured.
 	
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=1\textwidth]{UI/track4run.png}
-		\caption[UI: Track4Run Web Page]{Track4Run Web Page}
-		\label{fig:Track4Run Web Page}
-	\end{figure}
-	
-	In the Figure \ref{fig:Track4Run Web Page}, Spectators are able to view all the available runs in which are currently going on; and by clicking on 'view participants' button, they are redirected to the map-view of the selected run, where they can view the live location of the participant users.	
 	
 	\begin{figure}[H]
 		\centering
