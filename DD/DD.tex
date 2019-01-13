@@ -245,11 +245,13 @@ and it also contains the most relevant architecture views: component view, class
 			\subsubsection{Overview}
 		In the Figure \ref{fig:d4h_component_diagram} it can be seen the component diagram of D4H, with all its external interfaces. It can be noticed two main components: \textbf{DataBase} and \textbf{D4HBackend}, where the former one refers to the Data4Help database, and which provides an interface used by the \textbf{DBManager} component. \\
 		
-		On the other hand, \textbf{D4HBackend} component, contains all the components related to D4H, which are needed to provide the interfaces used by the third parties and the web site. The following interfaces are used by the web site: \textbf{SignupWeb}, \textbf{LoginWeb}, \textbf{SearchWeb}, \textbf{RequestWeb} and  \textbf{SubscriptionWeb}, while the \textbf{RequestAPI} interface is used by the third parties. In this case, D4H provides the interface in order to let the third parties send requests for accessing the health status and location of the individuals to them. Is it important to notice that the \textit{RequestPort} is used to show the difference between the interfaces that are consumed by Third Parties, and the interfaces used internally by the web site. The same can be noticed in the third party components, like Track4Run and AutomatedSOS, with their \textit{DataPort} and \textit{NotificationPort}.\\
+		On the other hand, \textbf{D4HBackend} component, contains all the components related to D4H, which are needed to provide the interfaces used by the third parties and the web site. The following interfaces are used by the web site: \textbf{SignupWeb}, \textbf{LoginWeb}, \textbf{SearchWeb}, \textbf{RequestWeb}, \textbf{UserWeb} and  \textbf{SubscriptionWeb}, while the \textbf{RequestAPI} interface is used by the third parties. In this case, D4H provides the interface in order to let the third parties send requests for accessing the health status and location of the individuals to them. Is it important to notice that the \textit{RequestPort} is used to show the difference between the interfaces that are consumed by Third Parties, and the interfaces used internally by the web site. The same can be noticed in the third party components, like Track4Run and AutomatedSOS, with their \textit{DataPort} and \textit{NotificationPort}.\\
 		
 		Furthermore, \textbf{AuthenticatorManager} component has the responsibility of validate the different credentials, and to provide the secret codes to the third parties, to do so, it interacts with the \textbf{TokenDB} component using the \textbf{TokenConnector}.\\
 		
-		Finally, it can be seen the different third parties related to D4H. It worth mentioning \textbf{Track4Run} and \textbf{AutomatedSOS} components which, even though they are part of the TrackMe environment, they are treated as third parties in the sense they are completely decoupled of D4H. Moreover, all third parties must provide an interface to D4H in order to let it communicate the incoming changes of the subscriptions.\\
+		Moreover, the \textbf{DataService} component has the responsibility of get the data from the TrackMe smart devices, and store them in the data base. The \textbf{Devices} component, make reference to all the TrackMe smart devices, which connect to the \textbf{DataService} component using an \textit{Internal} interface.\\
+		
+		Finally, it can be seen the different third parties related to D4H. It worth mentioning \textbf{Track4Run} and \textbf{AutomatedSOS} components which, even though they are part of the TrackMe environment, they are treated as third parties in the sense they are decoupled of D4H. Moreover, all third parties must provide an interface to D4H in order to let it communicate the incoming changes of the subscriptions.
 	
 			\begin{sidewaysfigure}
     				\centering
@@ -281,6 +283,9 @@ and it also contains the most relevant architecture views: component view, class
 			Request & Component responsible of adding the requests to a specific Individual and to accept or reject them. It should provide an internal interface, in order to send, accept and reject requests from within the web-site, and an external interface in order to let the Third Parties to send requests to specific users from their back-end. Finally, it should be capable of connecting to the notification API of the Third Parties in order to let them know that an Individual has accepted a Request.\\
 			
 			Subscription & Component responsible of sending the information of the users to the subscribed Third Parties. It should be able to connect to the Third Parties endpoints in order to send the information regarding the saved queries. Also, it should expose an internal interface in order to let the Third Party users to save a particular query, delete it or get all the saved queries.\\
+			User & Component used by the front-end in order to get information about the current user (Individual or Third Party). Furthermore, it is responsible to get and store the changes in the profile of the current user, such as the Third Party configuration, which involve the URLs of the DataPort and NotificationPort\\
+			
+			Scheduler & This component contains two schedulers: the DataScheduler and the ASOSRequestScheduler. The first one, is responsible to send the data related to the subscriptions of bulk data, it runs at a fixed time rate (an hour). The DataScheduler looks for all the subscriptions that should be executed, makes a search using the saved query, anonymize the data, and sends it to the Third Party. The second scheduler, runs once a day, and is responsible to create the requests of ASOS to all the elderly individuals\\
 			
 			DBManager & Component responsible of connecting the database. It is related to all the other components since they depend on it.\\
 			
@@ -323,8 +328,8 @@ and it also contains the most relevant architecture views: component view, class
 			\endhead
 			DBManager & Component responsible of connecting the database. It is related to all the other components since they depend on it.\\
 			DataBase & Component that contains the main database (AutomatedSOS DB), with all its collections.\\
-			DataHandler & Component responsible to get the location and health data of the Individuals every time it has changes. It should be able to obtain the information sent by D4H, and to get the information related to the Individuals who accepted the request.\\
-			HealthCareConnector & Component responsible of connecting to the health-care service assigned to an Individual, when its parameters are out of normal range.\\
+			DataService & Component responsible to get the location and health data of the Individuals every time it has changes. It should be able to obtain the information sent by D4H, and to get the information related to the Individuals who accepted the request. Moreover, it should be capable to get the Notifications every time an Individual approves or rejects a request.\\
+			APIManager & Component responsible of connecting to the health-care service assigned to an Individual, when its parameters are out of normal range.\\
 			\hline
 			\caption{Component descriptions of ASOS}
 			\label{table:asos_component_descriptions}
@@ -378,7 +383,7 @@ and it also contains the most relevant architecture views: component view, class
 	
 	The endpoints are categorized as \textit{setupWebEndpoints} or \textit{setupApiEndpoints} according to whether they are exposed for the web (front-end) or for third parties directly.  In this section interfaces exposed for the web are explained in detail.\\
 	
-	It is important to mention that \verb|Spark.Request| and \verb|Spark.Response| classes belong to the \textit{Java Spark Framework}, and does nothing to do with the \textit{Request} class of TrackMe system. 
+	It is important to mention that \verb|Spark.Request| and \verb|Spark.Response| classes belong to the \textit{Java Spark Framework}, and does nothing to do with the \textit{D4HRequest} class of TrackMe system. 
 		
 	\subsection{Data4Help interfaces}	
 	To have access to the exposed methods, it is required for requests to have the following HTTP headers to each request. 	The headers are required for all the methods except for \textit{login},  \textit{signupIndividual} and \textit{signupThirdParty}.\\
@@ -649,15 +654,15 @@ and it also contains the most relevant architecture views: component view, class
 \end{itemize}
 
 \subsection{AutomatedSOS interfaces}
-	The following is a list of all the components of ASOS, and the classes that belong to them, with the exposed methods.
+	ASOS has a different architecture as the ones seen in T4R and D4H, because it does not relay on a web-site nor a user. The system receives the data of the subscribed Individuals through the DataAPI, which is the interface provided to D4H, to which it connects. The NotificationAPI, let D4H connect to ASOS in order to send the status of the Requests sent to an Individual.  In the following list, the exposed interfaces are shown, linked with the classes and methods, and detailing the inputs and outputs:
 	\begin{itemize}
-		\item{\textbf{DataHandler}}
+		\item{\textbf{DataService}}
 			\begin{itemize}
-				\item{DataHandler}
+				\item{DataService}
 					\begin{itemize}
-						\item{\verb|void getIndividualData(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/individual/notification|}\\\\
+						\item{\verb|void getIndividualData(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/data|}\\\\
 				\begin{tabular}{l | l}
-				\textbf{Input} & \textbf{Output} \\
+				\textbf{Input} \textit{[IndividualDataRequest]} & \textbf{Output} \\
 				\hline
 					\verb|ssn: String| & \\
 					\verb|data: Data| & \\
@@ -666,37 +671,39 @@ and it also contains the most relevant architecture views: component view, class
 					\verb|data.location.latitude: Long| & \\
 					\verb|data.healthStatus: HealtStatus| & \\
 					\verb|data.healthStatus.heartRate: Integer| & \\
-					\verb|data.healthStatus.bloodPreasure: Integer| & \\
+					\verb|data.healthStatus.systolic: Double| & \\
+					\verb|data.healthStatus.diastolic: Double| & \\
 					\verb|data.healthStatus.bodyTemperature: Integer| & \\
 					\verb|data.healthStatus.bloodOxygen: Integer| & \\
 				\end{tabular}\\
-				\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/individual/notification|}\\\\
+				\item{\verb|void getRequestNotification(Spark.Request req, Spark.Response res)|\\ \verb|POST /api/notification|}\\\\
 				\begin{tabular}{l | l}
-				\textbf{Input} & \textbf{Output} \\
+				\textbf{Input} \textit{[NotificationRequest]} & \textbf{Output} \\
 				\hline
-					\verb|name: String| & \\
-					\verb|ssn: String| & \\
-					\verb|birthDate: Date| & \\
-					\verb|gender: Gender| & \\
+					\verb|individual: ASOSUser| & \\
+					\verb|individual.ssn: String| & \\
+					\verb|individual.birthDate: LocalDate| & \\
+					\verb|individual.gender: Gender| & \\
+					\verb|individual.bloodType: BloodType| & \\
 					\verb|status: RequestStatus| & \\
 				\end{tabular}\\
 					\end{itemize}
 					\item{ThresholdResource}
 					\begin{itemize}
-						\item{\verb|Collection<Threshold> getAll()|}
-						\item{\verb|Boolean isOutOfRange(Threshold threshold, Data data)|}
+						\item{\verb|HashMap<HealthParameter, Threshold> get(Integer age)|}
+						\item{\verb|Boolean isOutOfRange(Double value, Threshold threshold)|}
 					\end{itemize}
 					\item{UserResource}
 					\begin{itemize}
-						\item{\verb|ASOSUser getById(String userId)|}
-						\item{\verb|void delete(String userId)|}
+						\item{\verb|ASOSUser getBySSN(String ssn)|}
+						\item{\verb|void remove(String userId)|}
 					\end{itemize}
 			\end{itemize}
-		\item{\textbf{HealthCareConnector}}
+		\item{\textbf{APIManager}}
 			\begin{itemize}
-				\item{HealthCareConnector}
+				\item{APIManager}
 					\begin{itemize}
-						\item{\verb|void notifyHealthcareService(String userId, Data data)|}
+						\item{\verb|void sendNotification(EmergencyContact contact, ASOSUser user)|}
 					\end{itemize}
 			\end{itemize}
 		\item{\textbf{DBManager}}
@@ -706,10 +713,7 @@ and it also contains the most relevant architecture views: component view, class
 						\item{\verb|Morphia.Datastore getDatastore()|}
 					\end{itemize}
 			\end{itemize}
-	\end{itemize}
-	
-	ASOS has a different architecture as the ones seen in T4R and D4H, because it does not relays on a web-site nor a user. The system receives the data of the subscribed Individuals through the DataAPI, which is the interface provided to D4H, to which it connects. The NotificationAPI, let D4H connect to ASOS in order to send the status of the Requests sent to an Individual.  In the following list, the exposed interfaces are shown, linked with the classes and methods, and detailing the inputs and outputs:
-	
+	\end{itemize}	
 	
 	\subsection{Track4Run interfaces}
 	The following is a list of all the components of T4R, and the classes that belong to them, with the exposed methods. \\
@@ -1014,6 +1018,8 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	
 	Moreover, the \textbf{Web Server} is related to three third parties: two of them are \textbf{Track4Run} execution environment, and \textbf{AutomatedSOS} execution environment. The third third party is a \textbf{Generic Third Party Backend} node that is external to the TrackMe environment.\\
 	
+	It worth notice, that the \textbf{Smart devices} are the ones that provide the data of the individuals to D4H. These devices connect to the D4H back-end using the internal interface, as shown in Figure \ref{fig:d4h_component_diagram}.\\
+	
 	Finally, the deployment diagram does not show the interaction between the web-users (individuals or third parties) with the system. This interaction is inherent to a web site, and it happens between the client and the \textbf{D4H Web page} component.
 	
 		\begin{figure}[H]
@@ -1132,9 +1138,9 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 	\end{figure}
 	
 	\subsection{AutomatedSOS sequence diagrams}
-	Since ASOS is an event-based service, it does not provide a GUI. That is why the main "actor" is Data4Help, which is the boundary of a different service. In the Figure \ref{fig:asos_seq_get_notification} the \textit{Get Request Notification} use case is shown. As mentioned before, the component that initiates the process is Data4Help, which sends a message every time an Individual accepts or rejects the ASOS request. If the individual has accepted the request, the \textbf{:DataHandler} component will update the information of the Individual in the database, and will assign an emergency contact based on its Address.\\
+	Since ASOS is an event-based service, it does not provide a GUI. That is why the main "actor" is Data4Help, which is the boundary of a different service. In the Figure \ref{fig:asos_seq_get_notification} the \textit{Get Request Notification} use case is shown. As mentioned before, the component that initiates the process is Data4Help, which sends a message every time an Individual accepts or rejects the ASOS request. If the individual has accepted the request, the \textbf{:DataService} component will update the information of the Individual in the database, and will assign an emergency contact based on its Address.\\
 	
-	On the other hand, if the individual has rejected the request, :DataHandler component will remove it from the database.\\
+	On the other hand, if the individual has rejected the request, :DataService component will remove it from the database.\\
 	
 	\begin{figure}[H]
 		\centering
@@ -1143,7 +1149,7 @@ In the previous section, an architectural landscape of D4H, ASOS and T4R was pro
 		\label{fig:asos_seq_get_notification}
 	\end{figure}
 	
-	Finally, the core functionality of ASOS is shown in the Figure \ref{fig:asos_seq_receive_data}. It can be seen that, as before, the "actor" that initiates the process is Data4Help service, which sends the Individual information. This message is handled by \textbf{:DataHandler} component, which will compare the information with the previously defined thresholds. If the Data is out of range, the :DataHandler will send a message to the \textbf{:HealthCareConnector} component in order notify the emergency contact assigned for the Individual. The :HealthCareConnector component is responsible of getting the assigned emergency contact information from the database, and send the Alert to the \textbf{EmergencyService}.\\
+	Finally, the core functionality of ASOS is shown in the Figure \ref{fig:asos_seq_receive_data}. It can be seen that, as before, the "actor" that initiates the process is Data4Help service, which sends the Individual health data. This message is handled by \textbf{:DataService} component, which will compare the information with the previously defined thresholds. If the Data is out of range, the :DataService will send a message to the \textbf{:APIManager} component in order notify the emergency contact assigned for the Individual. The :APIManager component is responsible of getting the assigned emergency contact information, and notifies the \textbf{EmergencyService}.\\
 	
 	It worth mentioning that the notification to the health-care service is done asynchronously. On the other hand, if the data is \textit{\textbf{not}} out of range, the system will do nothing.
 	
@@ -1434,11 +1440,11 @@ In the Figure \ref{fig:manage_requests} the individual user have options to acce
 	\item{\textbf{AutomatedSOS}}
 	\begin{enumerate}
 		\requirement{13} The system must be able to send a request for monitoring an individual's data when he/she is older than 60 years old \\
-		\textbf{ASOS::DataHandler}
+		\textbf{ASOS::DataService}
 		\requirement{14} The system must be able to monitor, and compare against defined thresholds, the health status of an individual \\
-		\textbf{ASOS::DataHandler}
+		\textbf{ASOS::DataService}
 		\requirement{15} The system must be able to contact the health-care service associated to an individual \\
-		\textbf{ASOS::HealthCareConnector}
+		\textbf{ASOS::APIManager}
 	\end{enumerate}
 	
 	\item{\textbf{Track4Run}}
