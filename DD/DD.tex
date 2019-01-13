@@ -1489,25 +1489,20 @@ In order to start implementation process of the project, RASD and DD must be fin
 \section{Implementation Strategy}
 Implementation process will follow the bottom-up strategy: we plan to implement first single component isolated. Once at least 60\% of a component will be developed, its unit testing phase can start.\\
 
-Using \textit{Drivers} for tests allows different developer teams to complete its own work. Using this method we can be sure that component will be more reliable, so it will be more easy to reuse them into different part of the system.\\
-
 The implementation of the \textit{TrackMe} system will be done module by module and component by component. The order in which it is carried out depends on a number of factors like the complexity of the modules and services, the dependence of other modules on the component being implemented and to the system as a whole, and it should also take into account the possibility of discovering flaws with the proposed design. The later should be dealt in a way that, if such an unfortunate event does	happen, the flaws should be found and corrected as soon as possible, to limit the cost of the change of design. Identify here the order in which system plan to implement the subcomponents of your system and the order in which system plan to integrate such subcomponents and test the integration.\\
 
 \subsection{Implementation order}
-Due to modularity of system components and to the adopted strategy there are no constraints on implementation order of components. But due to some critical aspects of a few components we want to prioritize implementation of those components.
-The most critical components of the system that could take more than others to be implemented may be:
+Due to modularity of system components and to the adopted strategy there are no constraints on implementation order of components. But due to some critical aspects of a few components we want to prioritize implementation of those components.\\
 
+The most critical components of the system that could take more than others to be implemented may be:
 \begin{enumerate}
-\item{} Data4HelpWebService, Track4RunWebService
-\item{} LoginService and SignupService
-\item{} SearchManager, AuthenticationManager, DBManager, DataHandler
+\item{} DBManager, AuthenticationManager, LoginService and SignupService
 \item{} RequestService, SubscriptionService, NotificationService
-\item{} HealthCareService, HealthCareConnector, AutomatedSOSDB
-\item{} UserService, TokenDB, Track4RunDB
+\item{} SearchService, DataService
+\item{} APIManager, UserService
+\item{} AutomatedSOSDB, TokenDB, Track4RunDB, Data4HelpDB
 \end{enumerate}
 (note that by specifying the names of interfaces of components, we are also considering the concrete implementations, in whichever number they exist)\\
-
-The Data4HelpWebService is proposed to be the first component that is implemented because all parts of the application server will be using some element of it and its role in allowing some service to communicate with the DBMS in the DBManager component is crucial to the whole application. The component releasing process should follow the integration order that will be described into the next section.
 
 \section{Integration and Testing}
 \subsection{Entry criteria} 
@@ -1516,37 +1511,34 @@ The integration of components and its testing should start as soon as possible, 
 Next, the modules which are being integrated should have at least the operations concerning one another created, if not completed completely. The operations that have been developed should pass the unit tests in order to be sure that the components are working fine on their own and that if an integration test fails, the problem lies in the in the integration itself.\\
 
 \subsection{Integration test strategy}  
-The main goal of integration process is to avoid as much
-errors as possible at each step of the process, so the system will incrementally integrate components as soon as they are completely developed and released.\\
+The main goal of integration process is to avoid as much errors as possible at each step of the process, so the system will incrementally integrate components as soon as they are completely developed and released.\\
 
-\textit{Bottom-up} design will be adopted for most of the integration process: at the beginning only components that have less bindings to other components or which can work without other component will be integrated. In this way we can obtain feedbacks
-about system functionalities as soon as components are released and in addition we can parallelize integration of different subsections of the system.\\
+\textit{Bottom-up} design will be adopted for most of the integration process: at the beginning only components that have less bindings to other components or which can work without other component will be integrated. In this way we can obtain feedbacks about system functionalities as soon as components are released and in addition we can parallelize integration of different subsections of the system.\\
 
 For the most critical components or for more complex system parts we will use instead \textit{Critical Modules strategy}: components that fit very well for \textit{Critical Modules} strategy are those in Data4Help subsystem, because the AutomatedSOS and Track4Run will use the Data4Help system and are the most frequent interaction performed into our system. For this reason \textit{Bottom-Up} strategy will be applied only once Data4Help subsystem will be fully integrated using \textit{Critical Modules}.
 
 \subsection{Integration order}
 In this section, the list and order of every integration that is performed is shown. As already stated, the integration will be performed from the bottom-up. \\
 
-It should be noted that there will be no explicit integration of the Data4HelpWebService, Track4RunWebService with any of the other components. This is because the nature of the component, the extent of the usage and dependency of other components on it and the implementation plan, that clearly states that the Data4HelpWebService will be the first part that is implemented, mean that the integration itself is already being done during the implementation phase of the depending components and its correctness will inherently be tested by the unit tests of each component.
+It should be noted that there will be no explicit integration of the Data4Help Backend, Track4Run Backend with any of the other components. This is because the nature of the component, the extent of the usage and dependency of other components on it and the implementation plan, that clearly states that the Data4Help Backend will be the first part that is implemented, mean that the integration itself is already being done during the implementation phase of the depending components and its correctness will inherently be tested by the unit tests of each component.
 \begin{enumerate}
 \item{} As written in the introduction, at the beginning we will integrate the \textit{Data4Help} subsystem, composed by these components:
 \begin{itemize}
-\item{} Data4HelpWebSite
-\item{} LoginService and SignupService
-\item{} RequestService and NotificationService
-\item{} SubscriptionService
+\item{} Data4Help Web Site
+\item{} DBManager, AuthenticationManager, LoginService and SignupService
+\item{} RequestService, SubscriptionService
+\item{} SearchManager, UserService, DataService
+\item{} Schedulers
 \end{itemize}
 
 Integration tests will check cases like addition of new user to database, accessing the system with correct credentials, the consistency of making request, the reachability of all notifications to accept/reject request in the dashboard, the modification of subscription chosen by the user (if he wants any).
 
 \item{} Then we could start to implement part of the \textit{AutomatedSOS} subsystem:
 \begin{itemize}
-\item{} HealthCareService (\textit{External component})
-\item{} HealthCareConnector 
-\item{} AutomatedSOSDB
-\item{} ThresholdCollection, UserCollection, HealthCareCollection
+\item{} DataService, DBManager
+\item{} APIManager 
 \end{itemize}
-This integration step will check the communication of the Data4Help system with external sources HealthCareService when the vital signs are out of the normal range or the ThresholdCollection.
+This integration step will check the communication of the Data4Help system with external sources HealthCareService when the vital signs are out of the normal range.
 
 \item{} Then we could start to implement part of the \textit{Track4Run} subsystem:
 \begin{itemize}
@@ -1561,7 +1553,7 @@ This integration step will check the communication of the Data4Help system with 
 \begin{itemize}
 \item{} \textit{AuthenticationManager} and \textit{LoginService} : their interactions must not brake the consistency of Account information and they have to check only authorized users can access information
 \item{} \textit{SearchManager, RequestService} and \textit{SubscriptionService} : system will check consistency between search into a request and subscription of the same user
-\item{} \textit{DataHandler, DBManager} and \textit{HealthCareConnector} : system will continuously check latest data and verify with the ThresholdCollection, if varies, notifies HealthCareService through HealthCareConnector of the same user
+\item{} \textit{DataService, DBManager} and \textit{APIManager} : system will continuously check latest data and verify with the thresholds, if varies, notifies HealthCareService through APIManager of the same user
 \item{} \textit{RunCollection} and \textit{ParticipantCollection} : system will check consistency between run created and allows users participated in the same run
 \end{itemize}
 
@@ -1611,15 +1603,15 @@ and the synchronization of Data with threshold values when user's data is out of
 			& \textbf{Task} & \textbf{Hours}
 			& \textbf{Task} & \textbf{Hours} \\ [0.5ex]
 			\hline
-			Component view &  10
+			Component view &  11
 			& Scope & 3
 			& Purpose & 2  \\
 			\hline
-			Component interfaces &  13
+			Component interfaces &  14
 			& Database view & 6
 			& UI design & 15  \\
 			\hline
-			Deployment view &  5
+			Deployment view &  6
 			& Runtime view & 8
 			& I and T plan & 6  \\
 			\hline
@@ -1627,7 +1619,7 @@ and the synchronization of Data with threshold values when user's data is out of
 			& R traceability & 3
 			& Design decisions & 2 \\
 			\hline
-			Corrections & 3  
+			Corrections & 4  
 			& Final user interfaces & 7
 			& &   \\
 			\hline 
@@ -1635,7 +1627,7 @@ and the synchronization of Data with threshold values when user's data is out of
 			& Architectural styles & 4
 			& &   \\
 			\hline
-			\textbf{Total} & 35
+			\textbf{Total} & 39
 			& \textbf{Total} & 31
 			& \textbf{Total} & 25  \\
 			\hline
