@@ -1,27 +1,32 @@
 package avila.schiatti.virdi.model.subscription;
 
-import avila.schiatti.virdi.model.data.Gender;
+import avila.schiatti.virdi.model.data.Address;
 import avila.schiatti.virdi.model.data.BloodType;
-import xyz.morphia.annotations.Embedded;
+import avila.schiatti.virdi.model.data.Gender;
+import avila.schiatti.virdi.model.user.Individual;
+import xyz.morphia.annotations.*;
 
 @Embedded
+@Indexes(@Index(fields = { @Field("individual") }))
 public class D4HQuery {
-    private String ssn;
+    @Reference(idOnly = true)
+    private Individual individual;
     private String country;
     private String city;
     private String province;
     @Embedded
     private Gender gender;
-    private Integer age;
+    private Integer minAge;
+    private Integer maxAge;
     @Embedded
     private BloodType bloodType;
 
-    public String getSsn() {
-        return ssn;
+    public Individual getIndividual() {
+        return individual;
     }
 
-    public void setSsn(String ssn) {
-        this.ssn = ssn;
+    public void setIndividual(Individual individual) {
+        this.individual = individual;
     }
 
     public String getCountry() {
@@ -56,12 +61,12 @@ public class D4HQuery {
         this.gender = gender;
     }
 
-    public Integer getAge() {
-        return age;
+    public Integer getMinAge() {
+        return minAge;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setMinAge(Integer minAge) {
+        this.minAge = minAge;
     }
 
     public BloodType getBloodType() {
@@ -70,5 +75,19 @@ public class D4HQuery {
 
     public void setBloodType(BloodType bloodType) {
         this.bloodType = bloodType;
+    }
+
+    public Integer getMaxAge() {
+        return maxAge;
+    }
+
+    public void setMaxAge(Integer maxAge) {
+        this.maxAge = maxAge;
+    }
+
+    public void setAddress(Address address){
+        this.country = address.getCountry();
+        this.province = address.getProvince();
+        this.city = address.getCity();
     }
 }

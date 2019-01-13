@@ -4,9 +4,9 @@ import xyz.morphia.annotations.Embedded;
 
 @Embedded
 public class TPConfiguration {
-    private String individualPushUrl;
-    private String bulkPushUrl;
-    private String notificationUrl;
+    private String individualPushUrl = "";
+    private String bulkPushUrl = "";
+    private String notificationUrl = "";
 
     public String getIndividualPushUrl() {
         return individualPushUrl;

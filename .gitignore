@@ -23,6 +23,9 @@ src/**/public
 
 # Ignore node_modules
 node_modules/
+src/**/resources/public/*
+package-lock.json
+
 
 # Ignore redis binary dump (dump.rdb) files
-src/data4help/dump.rbd
+src/data4help/dump.rdb
