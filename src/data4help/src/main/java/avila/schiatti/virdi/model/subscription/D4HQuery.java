@@ -1,5 +1,6 @@
 package avila.schiatti.virdi.model.subscription;
 
+import avila.schiatti.virdi.model.data.Address;
 import avila.schiatti.virdi.model.data.BloodType;
 import avila.schiatti.virdi.model.data.Gender;
 import avila.schiatti.virdi.model.user.Individual;
@@ -82,5 +83,11 @@ public class D4HQuery {
 
     public void setMaxAge(Integer maxAge) {
         this.maxAge = maxAge;
+    }
+
+    public void setAddress(Address address){
+        this.country = address.getCountry();
+        this.province = address.getProvince();
+        this.city = address.getCity();
     }
 }

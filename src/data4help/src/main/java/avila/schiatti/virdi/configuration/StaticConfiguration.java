@@ -25,6 +25,8 @@ public final class StaticConfiguration {
     private static String LOCAL_MONGODB_URI;
     private static String REDIS_URL;
     private static String REDIS_DB;
+    private static String ASOS_URL;
+    private static String ASOS_ADDRESS_URL;
 
     private StaticConfiguration(){ };
 
@@ -51,6 +53,8 @@ public final class StaticConfiguration {
             LOCAL_MONGODB_URI = (configVars.get("MONGODB_URI") != null) ? configVars.get("MONGODB_URI") : tmConfig.getMongoURI();
             REDIS_URL = (configVars.get("REDIS_URL") != null) ? configVars.get("REDIS_URL") : tmConfig.getRedisURI();
             REDIS_DB = (configVars.get("REDIS_DB") != null) ? configVars.get("REDIS_DB") : tmConfig.getRedisDBNumber();
+            ASOS_URL = (configVars.get("ASOS_URL") != null) ? configVars.get("ASOS_URL") : tmConfig.getASOSUrl();
+            ASOS_ADDRESS_URL = (configVars.get("ASOS_ADDRESS_URL") != null) ? configVars.get("ASOS_ADDRESS_URL") : tmConfig.getASOSAddressURL();
         }catch(Exception ex) {
             logger.error(ex.getMessage(), ex);
 
@@ -58,6 +62,8 @@ public final class StaticConfiguration {
             LOCAL_MONGODB_URI = "";
             REDIS_URL = "";
             REDIS_DB = "";
+            ASOS_URL = "";
+            ASOS_ADDRESS_URL = "";
         }
 
         logger.debug(LOCAL_MONGODB_URI);
@@ -87,5 +93,9 @@ public final class StaticConfiguration {
 
     public String getRedisDb(){
         return REDIS_DB;
+    }
+
+    public String getASOSAddressURL(){
+        return ASOS_URL.concat(ASOS_ADDRESS_URL);
     }
 }

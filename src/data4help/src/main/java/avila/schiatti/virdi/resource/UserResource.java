@@ -1,5 +1,6 @@
 package avila.schiatti.virdi.resource;
 
+import avila.schiatti.virdi.model.data.Address;
 import avila.schiatti.virdi.model.subscription.D4HQuery;
 import avila.schiatti.virdi.model.user.D4HUser;
 import avila.schiatti.virdi.model.user.Individual;
@@ -81,8 +82,36 @@ public class UserResource extends Resource<D4HUser> {
         if(query.getMinAge() != null && query.getMaxAge() != null && query.getMinAge() <= query.getMaxAge()){
             q = q.field("birthDate").greaterThanOrEq(LocalDate.now().minusYears(query.getMaxAge()));
             q = q.field("birthDate").lessThanOrEq(LocalDate.now().minusYears(query.getMinAge()));
+        } else if(query.getMinAge() != null){
+            q = q.field("birthDate").lessThanOrEq(LocalDate.now().minusYears(query.getMinAge()));
+        } else if(query.getMaxAge() != null){
+            q = q.field("birthDate").greaterThanOrEq(LocalDate.now().minusYears(query.getMaxAge()));
         }
 
         return q.asList();
+    }
+
+    public List<Individual> getAllByAddress(Address address){
+        Query<Individual> q = datastore.find(Individual.class);
+
+        if(!Validator.isNullOrEmpty(address.getCountry())){
+            q = q.field("address.country").equal(address.getCountry());
+        }
+        if(!Validator.isNullOrEmpty(address.getProvince())){
+            q = q.field("address.province").equal(address.getProvince());
+        }
+        if(!Validator.isNullOrEmpty(address.getCity())){
+            q = q.field("address.city").equal(address.getCity());
+        }
+
+        return q.asList();
+    }
+
+    public D4HUser getByEmail(String email){
+        return this.datastore
+                .find(D4HUser.class)
+                .field("email")
+                .equal(email)
+                .get();
     }
 }
