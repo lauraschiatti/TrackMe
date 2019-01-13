@@ -239,11 +239,8 @@ In the following chapter a list of development frameworks and technologies that 
 		\item{Single paradigm language}: the addition of static imports in Java 5.0 the procedural paradigm is better accommodated than in earlier versions of Java.
 	\end{itemize}
 	
-	\subsection{Typescript}(Structured Query Language) is a domain-specific language used in programming and designed for managing data held in a relational database management system (RDBMS), or for stream processing in a relational data stream management system (RDSMS). 
-
 \subsection{Typescript}
-TypeScript is an open-source programming language developed and maintained by Microsoft. It is a strict syntactical superset of JavaScript, and adds optional static typing to the language. TypeScript is designed for development of large applications and transcompiles to JavaScript. As TypeScript is a superset of JavaScript, existing JavaScript programs are also valid TypeScript programs. TypeScript may be used to develop JavaScript applications for both client-side and server-side (Node.js) execution.\\
-TypeScript supports definition files that can contain type information of existing JavaScript libraries, much like C++ header files can describe the structure of existing object files. This enables other programs to use the values defined in the files as if they were statically typed TypeScript entities. There are third-party header files for popular libraries such as jQuery, MongoDB, and D3.js. TypeScript headers for the Node.js basic modules are also available, allowing development of Node.js programs within TypeScript.
+	TypeScript is an open-source programming language, it is a strict syntactical superset of JavaScript, and adds optional static typing to the language. TypeScript is designed for development of large applications and transcompiles to JavaScript. As TypeScript is a superset of JavaScript, existing JavaScript programs are also valid TypeScript programs. TypeScript may be used to develop JavaScript applications for both client-side and server-side (Node.js) execution.\\
 
 \subsubsection{Advantages}
 \begin{itemize}
@@ -325,20 +322,79 @@ TypeScript supports definition files that can contain type information of existi
 
 \end{itemize}
 
-	
-
-
-
-
-
-
 	\section{Additional APIs}
 The only external APIs to whom TrackMe environment depends on, are the health-care services to which ASOS should contact in some cases. Both D4H and T4R do not depend on any external services.
 
 
 \chapter{Structure of the source code}
 
-\section{D4H Backend (Spark app)}
+\section{D4H Backend (Spark project)}
+	The general structure of the project can be seen in Figure . It has xx main parts, which are.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=1]{images/backend/d4h_source_code_structure.png}
+		\caption[Source code: General Structure]{Source code: General Structure}
+		\label{fig:d4h_source_code_structure}
+	\end{figure}
+	
+	It is important to highlight four important folders, which are
+	\begin{itemize}
+		\item model
+		\item resources
+		\item services
+		\item jobs
+	\end{itemize}
+	
+\section{ASOS Backend (Spark project)}
+
+
+\section{D4H Frontend (Angular 7 project)}
+The whole project is contained in the folder src (Figure \ref{fig:d4h_source_code_structure}). In this folder we can distinguish three main parts: app, assets and environment. Outside of them there are other configuration files
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{images/frontend/d4h_source_code_structure.png}
+		\caption[Source code: General Structure]{Source code: General Structure}
+		\label{fig:d4h_source_code_structure}
+	\end{figure}
+	
+	\begin{itemize}
+		\item \textbf{app}: this folder contains the source code of the application, so we will focus on its content (Figure \ref{fig:d4h_source_code_models_services}).
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.7]{images/frontend/d4h_source_code_models_services.png}
+		\caption[Source code: Models and Services]{Source code: Models and Services}
+		\label{fig:d4h_source_code_models_services}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.7]{images/frontend/d4h_source_code_components_assets.png}
+		\caption[Source code: Components]{Source code: Components}
+		\label{fig:d4h_source_code_components_assets}
+	\end{figure}
+	
+	\begin{itemize}
+			\item \textbf{\_guards} and \textbf{\_helpers} contain some general purpose functions used by services and components.
+			\item \textbf{\_models} contain the definition of classes and enumerations regarding data structure in the app. They are highly useful to map data coming from the backend.
+			
+			Angular distinguishes \textit{components} from \textit{services} to increase modularity and reusability. By separating a component's view-related functionality from other kinds of processing, you can make your component classes lean and efficient. Then,
+			
+			\item \textbf{\_services} are classes with a narrow, well-defined purpose. It should do something specific and do it well.
+			\item \textbf{components} they delegate certain tasks to services, such as fetching data from the server, validating user input, or logging directly to the console. In this case, dashboard, login, profile, register, request, search and ui are components, each one devoted to specific requirements.
+
+
+		\end{itemize}
+		
+		\item \textbf{assets}: contains all the asset files such as logos, images, videos, media etc. 
+		\item \textbf{environments}:  is devoted to the environment based configurations, in this case contains the url to access the services exposed by the backend.
+	\end{itemize}
+
+	
+	
+	
 
 
 	\chapter{Integration Strategy}
