@@ -160,11 +160,11 @@
 		\item{Installation and development instructions}
 	\end{itemize}.
 
-	\chapter{Implemented Requirements}
+	\chapter{Implemented requirements}
 This section describes which functional requirements were implemented in the presented TrackMe prototype which compresses D4H and ASOS systems in reference to the ones already stated in the RASD.
 
 \section{\textbf{Data4Help}}
-\subsection{Data4Help Requirements}
+\subsection{Data4Help requirements}
 	Since, regarding the implementation of Data4Help system, the requirements addressed are:
 
 	\begin{enumerate}
@@ -195,7 +195,7 @@ This section describes which functional requirements were implemented in the pre
 	\end{enumerate}
 
 \section{\textbf{AutomatedSOS}}
-\subsection{AutomatedSOS Requirements}
+\subsection{AutomatedSOS requirements}
 	With respecto to the implementation of AutomatedSOS system, the requirements that are addressed are:
 	\begin{enumerate}
 		\requirement{13} The system must be able to send a request for monitoring an individual's data when he/she is older than 60 years old \\
@@ -206,21 +206,34 @@ This section describes which functional requirements were implemented in the pre
 		\textbf{ASOS::DataService}
 	\end{enumerate}
 
-\section{Risks and Contingencies}
+\section{Risks and contingencies}
 This subsection of the Implementation Plan identifies the risks and specific actions to be taken in the event the implementation fails or needs to be altered at any point and includes the factors to be used for making the decision. The possible risk that we are addressing in our system at this point of time are as follows:
 \begin{itemize}
 \item{} System fails to connect to the Server/Database, and in case of out-of-range health parameters, action cannot be taken within time.
 \item{} In these kind of scenarios, as soon as the system is back on-line, latest parameters are checked and further transmitted.
 \end{itemize}
 
-\section{Acceptance Criteria}
+\section{Known bugs and future work}
+
+\begin{itemize}
+	\item \textbf{No access token expiration checking in the front-end}: it is missing a way to check whether the token is no longer valid before making requests to D4H API. Then, future releases should include a checking mechanism and it corresponding redirection to the login page.
+
+	\item \textbf{Search by minAge and maxAge}: currently there is a bug in the search, in which when looking for individuals between 2 ages, the maximum age is not set correctly \\ 
+		   \textit{query.setMinAge(minAge);} \\
+			\textit{query.setMinAge(maxAge);}
+	
+	\item \textbf{Possible manual modification of the user role}: even if the user role is stored in localstorage variables, and therefore can be modified, the back-end has several checkings that avoid unauthorized users to access protected areas. For instance, even if the role changes from individual to third party, that user cannot search for data, an the error 
+	\textit{"The current user is not authorized to perform the operation" } will be displayed. For the future it will be useful to implement another way of keeping track of the role of the current user.
+\end{itemize}
+
+\section{Acceptance criteria}
 This section of the Implementation Plan establishes the exit or acceptance criteria for transitioning the system into production. Identify the criteria that will be used to determine the acceptability of the deliverables as well as any required technical processes, methods, tools, and/ or performance benchmarks required for product acceptance. \\\\
 When the system passes all the test cases and end-2-end scenarios (illustrated in chapter-6 in detail) without fail and the system is 100\% on-line with all the requirements stated about are implemented and working properly and making the system stable. Based on which a go/no-go decision can be taken, firstly a beta-version of the product can be published.
 
 	\chapter{Adopted development frameworks}
 In the following chapter a list of development frameworks and technologies that are used in building  D4H and ASOS systems, they were designed and implemented to be highly decoupled.
 
-	\section{Adopted Programming Languages}
+	\section{Adopted programming languages}
 	The Programming languages used are:
 
 	\subsection{Java} Java is a general-purpose computer-programming language that is concurrent, class-based, object-oriented,and specifically designed to have as few implementation dependencies as possible. This language was used for the development of D4H and ASOS backends.
@@ -277,7 +290,7 @@ PHP: Hypertext Preprocessor is a server-side scripting language designed for web
 	\section{Adopted Middle-wares}
 	To begin with, it is suggested to build Java based applications, since developers have expertise working with this language.
 
-\subsection{Java Spark Framework}
+\subsection{Java Spark framework}
 Java Spark Framework is a simple and expressive Java web framework DSL built for rapid development. Sparks intention is to provide an alternative for Java developers that want to develop their web applications as expressive as possible and with minimal boilerplate. It is a micro-framework for MVC applications, because pure Java web development has traditionally been very cumbersome. The configuration for this framework is minimal and with a short learning curve.\\
 
 Spark Java has a very consistent API which consists of just calling static methods from within your code. Indeed, it is a framework, in the sense that you specify the code to run and it wraps it in its own functionality. The developers can control what route mappings to declare, what code is the responsible for handling the requests and how to handle everything else.
@@ -299,7 +312,7 @@ Spark Java has a very consistent API which consists of just calling static metho
 		\item{} Small community
 		\end{itemize}
 
-\subsection{Morphia Framework}
+\subsection{Morphia framework}
 MongoDB is an open source document-oriented NoSQL database system which stores data as JSON-like documents with dynamic schemas.  As it doesn't store data in tables as is done in the usual relational database setup, it doesn't map well to the JPA way of storing data. Morphia is an open source lightweight type-safe library designed to bridge the gap between the MongoDB Java driver and domain objects. It can be an alternative to SpringData if you're not using the Spring Framework to interact with MongoDB.
 
 \subsubsection{Advantages}
@@ -328,8 +341,7 @@ MongoDB is an open source document-oriented NoSQL database system which stores d
 \item{} Cloud ready
 \end{itemize}
 
-
-\subsection{Angular Framework}
+\subsection{Angular framework}
 It is a TypeScript-based open-source front-end web application framework led by the Angular Team at Google and by a community of individuals and corporations. Angular is a complete rewrite from the same team that built AngularJS.\\
 
 Angular implements MVC architecture to develop web application. It provides a platform where only few attributes needs to be added to the HTML language and progress with the development will be faster. It enhances HTML which makes all difficult tasks move smoothly. Using MVC architecture helps in retrieving and inserting the data, independent of user interface. Angular makes it easy to arrange things like dynamic loading and dependencies and utilize them as required without worrying about instances and namespaces. Angular development is Robust and easy. It is has features like filters, data binding, scope management, directives, API client, form validation. These features make the web applications more straightforward and easy to detect and troubleshoot them.
@@ -398,7 +410,7 @@ MongoDB is a cross-platform document-oriented database program. It is issued und
 
 \chapter{Structure of the source code}
 
-\section{D4H Backend (Spark project)}
+\section{D4H back-end (Spark project)}
 	The general structure of the project is contained in src/main/java folder, it can be seen in Figure \ref{fig:d4h_source_code_structure} As in any spark project there are several folders concerning general configurations of the project and also others containing the source code, in this opportunity four main ones can be highlighted: model, resource, service and jobs.
 
 	\begin{figure}[H]
@@ -446,7 +458,7 @@ MongoDB is a cross-platform document-oriented database program. It is issued und
 	\end{figure}
 	\end{itemize}
 
-\section{ASOS Backend (Spark project)}
+\section{ASOS back-end (Spark project)}
 ASOS has the same structure that D4H, but in this case, since ASOS does not expose services to possible consumer apps, it has fewer classes and all of them have a specific task to complete.
 
 All the important requirements that ASOS need to fulfill are in charge of DataService and
@@ -480,7 +492,7 @@ All the important requirements that ASOS need to fulfill are in charge of DataSe
 	\end{figure}
 
 
-\section{D4H Frontend (Angular 7 project)}
+\section{D4H front-end (Angular 7 project)}
 The whole project is contained in the folder src (Figure \ref{fig:d4h_source_code_structure}). In this folder there three main parts: app, assets and environment. Outside of them there are other configuration files.
 
 	\begin{figure}[H]
@@ -521,8 +533,8 @@ The whole project is contained in the folder src (Figure \ref{fig:d4h_source_cod
 		\item \textbf{environments}:  is devoted to the environment based configurations, in this case contains the url to access the services exposed by the backend.
 	\end{itemize}
 
-	\chapter{Integration Strategy}
-	\section{Entry Criteria}
+	\chapter{Integration strategy}
+	\section{Entry criteria}
 	\label{sec:Entry Criteria}
 	In order for the integration testing to be possible and to produce meaningful results, there are a number of conditions on the progress of the project that have to be met.\\
 	\quad First of all, the \textbf{Requirements Analysis and Specification Document} and the \textbf{Design Document} must have been fully written. This is a required step in order to have a complete picture of the interactions between the different components of the system and of the functionalities they offer.\\
@@ -567,13 +579,13 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
 
 	Using the bottom-up approach, we will start integrating together those components that do not depend on other components to function, or that only depend on already developed components. This strategy brings a number of important advantages. First, it allows us to perform integration tests on "real" components that are almost fully developed and thus obtain more precise indications about how the system may react and fail in real world usage with respect to a top-down approach. Secondly, working bottom-up enables us to more closely follow the development process, which in our case is also proceeding using the bottom-up approach; by doing this we can start performing integration testing earlier in the development process as soon as the required components have been developed in order to maximize parallelism and efficiency.\\
 
-	Since subsystems are fairly independent from one another, the order in which they're integrated together to obtain the full system follows the critical-module-first approach. This strategy allows us to concentrate our testing efforts on the riskiest components first, that is those that represent the core functionalities of the whole system and whose malfunctioning could pose a very serious threat to the correct implementation of the entire TrackMe infrastructure. By proceeding this way, we are able to discover bugs earlier in the integration progress and take the necessary measures to correct them on time.\\
+	Since subsystems are fairly independent from one another, the order in which they're integrated together to obtain the full system follows the critical-module-first approach. This strategy allows us to concentrate our testing efforts on the riskiest components first, that is those that represent the core functionalities of the whole system and whose malfunctioning could pose a very serious threat to the correct implementation of the entire TrackMe infrastructure. By proceeding this way, we are able to discover bugs earlier in the integration progress and take the necessary measures to correct them on time.
 
-	\section{Sequence of Component/Function Integration}
+	\section{Sequence of component/function integration}
 	This section has already been explained in detail in the \textbf{DD} - Design Document \textbf{(Reference section: 5.3.3 Integration order)}.
 
-	\chapter{Test Plan}
-	\section{Test Scenarios}
+	\chapter{Test plan}
+	\section{Test scenarios}
 	In the following section a list of test scenarios is described. These scenarios were used to test D4H back-end and front-end, and ASOS back-end. The test scenarios were categorized by its importance, based on how critical are for the system. \\
 
 	\begin{table}[h]
@@ -618,7 +630,7 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
 		\label{tab:Test Scenario List - ASOS}
 	\end{table}
 
-	\section{Test Cases}
+	\section{Test cases}
 	The tests cases were done by hand, following the steps described below and based on the importance described in the Test Scenarios section. Not all test cases were executed, only those with High and Medium importance.\\
 
 	Moreover, for testing purposes, a data generator tool has been made. It was developed using PHP as a language, and it generates and sends health data and location for all the D4H users. The testing environment was done using Docker as a virtual environment, and Docker Compose to setup the systems: Data4Help back-end and front-end, MongoDB and Redis databases, AutomatedSOS back-end, and the data generator tool.
@@ -793,9 +805,7 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
 		\end{enumerate}
 		\textbf{Actual output}: ASOS has contacted the emergency contact \\
 		\rule{\linewidth}{0.4pt}
-
 \end{itemize}
-
 
 	\chapter{Installation instructions}
 The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS, and Track4Run. We decided to develop Data4Help, which is the leading system, and AutomatedSOS.
@@ -812,9 +822,9 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 	\end{enumerate}
 	
 	\subsection{Initial data (seeds)}
-	D4H system comes with initial data regarding \textbf{Individuals}, \textbf{Third parties}, \textbf{Requests}, \textbf{Subscriptions} and \textbf{Addresses}. This data is stored in the database when the system starts and those individuals are stored as \textit{D4HUsers}. Furthermore, as mentioned before, the data received from devices is simulated by means of a php script \textit{(d4h\_data\_generator)}. The script generates and delivers random data regarding health status and location for all the D4H users each minute.  \\
+	D4H system comes with initial data regarding \textbf{Individuals}, \textbf{Third parties}, \textbf{Requests}, \textbf{Subscriptions} and \textbf{Addresses}. This data is stored in the database when the system starts and those individuals are saved as \textit{D4HUsers}. Furthermore, as mentioned before, the data received from devices is simulated by means of a php script \textit{(d4h\_data\_generator)}. The script generates and delivers random data regarding health status and location for all the D4H users each minute.  \\
 		
-	Then, for testing the system, those seeds are available inside the source code, in the \textit{src/seeders} folder.
+	Then, for testing the system, those seeds are available inside the source code, in the \href{https://github.com/lauricdd/AvilaSchiattiVirdi/tree/master/src/seeders}{\textbf{src/seeders}} folder.
 
 	\subsection{How to work on the back-end?}
 	The following are the steps needed to work on the back-end:
@@ -845,7 +855,7 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 	\item Build the project by running \textbf{ng build}.
 	\item To run the front-end, you can run: \textbf{ng serve}. You will be able to access the front-end by accessing to \textbf{http://127.1.1.1:4200}
 
-	\textit{You won't have access to the back-end services, so probably the front-end alone is not useful)}
+	\textit{(You won't have access to the back-end services, so probably the front-end alone is not useful)}
 	\end{enumerate}
 
 	\chapter{Effort spent}
