@@ -142,7 +142,7 @@
 	\section{Purpose}
 	This document describes in detail the processes of implementation and testing of D4H and ASOS following the specifications reported in RASD and DD documents. The purpose of this document is to provide a general overview of a running prototype implementation of TrackMe and the process of testing it.
 	
-	\section{Scope PENDING}
+	\section{Scope}
 	This document represents the Integration Testing Plan Document for TrackMe Service. \\\\
 	Integration testing is a key activity to guarantee that all the different subsystems composing Data4Help and AutomatedSOS interoperate consistently with the requirements they are supposed to fulfil and without exhibiting unexpected behaviours. The purpose of this document is to outline, in a clear and comprehensive way, the main aspects concerning the organization of the integration testing activity for all the components that make up the system.	\\	
 	More precisely, the document presents:
@@ -257,6 +257,22 @@ In the following chapter a list of development frameworks and technologies that 
 \item{} Short Update Cycles
 \end{itemize}
 
+\subsection{PHP}
+PHP: Hypertext Preprocessor is a server-side scripting language designed for Web development. 
+
+\textbf{Why we choose to use this?} PHP was used for creating the script that generates data for individuals that are initially in the database.
+\subsubsection{Advantages}
+\begin{itemize}
+\item{} Rapid Development
+\item{} Easier Maintenance
+\end{itemize}
+
+\subsubsection{Disadvantages}
+\begin{itemize}
+\item{} Slower Execution
+\item{} Limited Visibility and Control
+\end{itemize}
+
 	\section{Adopted Middle-wares}
 	To begin with, it is suggested to build Java based applications, since developers have expertise working with this language. Moreover, the proposed frameworks are:
 \subsection{Java Spark Framework} Java Spark Framework is a simple and expressive Java/Kotlin web framework DSL built for rapid development. Sparks intention is to provide an alternative for Kotlin/Java developers that want to develop their web applications as expressive as possible and with minimal boilerplate. With a clear philosophy Spark is designed not only to make you more productive, but also to make your code better under the influence of Spark’s sleek, declarative and expressive syntax. It is a micro-framework for MVC applications, because pure Java web development has traditionally been very cumbersome. The configuration for this framework is minimal and with a short learning curve.\\\\
@@ -325,36 +341,142 @@ In the following chapter a list of development frameworks and technologies that 
 	\section{Additional APIs}
 The only external APIs to whom TrackMe environment depends on, are the health-care services to which ASOS should contact in some cases. Both D4H and T4R do not depend on any external services.
 
+	
+\subsection{Docker}
+Docker is a tool designed to make it easier to create, deploy, and run applications by using containers. Containers allow a developer to package up an application with all of the parts it needs, such as libraries and other dependencies, and ship it all out as one package. By doing so, thanks to the container, the developer can rest assured that the application will run on any other Linux machine regardless of any customized settings that machine might have that could differ from the machine used for writing and testing the code.
+
+\subsubsection{Advantages}
+
+\begin{itemize}
+\item{} Containers are small compared to VMs
+\item{} Containers uses less resources
+\item{} Fast boot
+\item{} Eliminating the “Works on My Machine” situation
+
+\end{itemize}
+\subsubsection{Disadvantages}
+
+\begin{itemize}
+\item{} Security
+\item{} Isolation
+\item{} Networking
+
+\end{itemize}
+
+\subsection{MongoDB}
+MongoDB is a cross-platform document-oriented database program. It is issued under the Server Side Public License (SSPL) version 1, which was submitted for certification to the Open Source Initiative but later withdrawn in lieu of SSPL version 2[6]. Classified as a NoSQL database program, MongoDB uses JSON-like documents with schemata.
+
+\subsubsection{Advantages}
+
+\begin{itemize}
+\item{} schema-less. If you have a flexible schema, this is ideal for a document store like MongoDB. This is difficult to implement in a performant manner in RDBMS
+\item{} ease of scale-out. Scale reads by using replica sets. Scale writes by using sharding (auto balancing). Just fire up another machine and away you go. Adding more machines = adding more RAM over which to distribute your working set.
+\item{} cost. Depends on which RDBMS of course, but MongoDB is free and can run on Linux, ideal for running on cheaper commodity kit.
+\item{} you can choose what level of consistency you want depending on the value of the data (e.g. faster performance = fire and forget inserts to MongoDB, slower performance = wait til insert has been replicated to multiple nodes before returning)
+
+\end{itemize}
+\subsubsection{Disadvantages}
+
+\begin{itemize}
+\item{} Data size in MongoDB is typically higher due to e.g. each document has field names stored it
+\item{} less flexibity with querying (e.g. no JOINs)
+\item{} no support for transactions - certain atomic operations are supported, at a single document level
+\item{} at the moment Map/Reduce (e.g. to do aggregations/data analysis) is OK, but not blisteringly fast. So if that's required, something like Hadoop may need to be added into the mix
+\item{} less up to date information available/fast evolving product
+
+\end{itemize}
+
 
 \chapter{Structure of the source code}
 
 \section{D4H Backend (Spark project)}
-	The general structure of the project can be seen in Figure . It has xx main parts, which are.
+	The general structure of the project is contained in src/main/java folder, it can be seen in Figure \ref{fig:d4h_source_code_structure} As in any spark project there are several folders concerning general configurations of the project and also others containing the source code, in this opportunity four main ones can be highlighted: model, resource, service and jobs. 
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=1]{images/backend/d4h_source_code_structure.png}
-		\caption[Source code: General Structure]{Source code: General Structure}
+		\includegraphics[scale=0.5]{images/backend/d4h_source_code_structure.png}
+		\caption[D4H Source code - General Structure]{D4H Source code - General Structure}
 		\label{fig:d4h_source_code_structure}
 	\end{figure}
 	
-	It is important to highlight four important folders, which are
 	\begin{itemize}
-		\item model
-		\item resources
-		\item services
-		\item jobs
+		\item \textbf{model}: containes the classes define all data structures, such as \textit{Individual, ThirdParty}, etc.
+		
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/d4h_source_code_models.png}
+		\caption[D4H Source code - Models]{D4H Source code - Models}
+		\label{fig:d4h_source_code_models}
+	\end{figure}
+
+		\item \textbf{resource}: contains classes that directly manage the data, by interacting with the database and retrieving them to services. There are \textit{SubscriptionResource, UserResource,} among other.
+		
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/d4h_source_code_resources.png}
+		\caption[D4H Source code - Resources]{D4H Source code - Resources}
+		\label{fig:d4h_source_code_resources}
+	\end{figure}
+	
+		\item \textbf{service}: classes in charge of controlling the application logic and expose methods and routes that can be consumed by frontend applications. D4H provides services such as \textit{SearchService, SubscriptionService}, etc.
+		
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/d4h_source_code_services.png}
+		\caption[D4H Source code - Services]{D4H Source code - Services}
+		\label{fig:d4h_source_code_services}
+	\end{figure}
+	
+		\item \textbf{jobs}: contains scheduled async task, that repeat according to how they were configured. For instance, the DataScheduler job looks for all the subscriptions that should be executed, makes a search using the saved query, anonymizes the data, and sends it to the third party.
+		
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/d4h_source_code_jobs.png}
+		\caption[D4H Source code - Jobs]{D4H Source code - Jobs}
+		\label{fig:d4h_source_code_jobs}
+	\end{figure}
 	\end{itemize}
 	
 \section{ASOS Backend (Spark project)}
+ASOS has the same structure that D4H, but in this case, since ASOS does not expose services to possible consumer apps, it has fewer classes and all of them have a specific task to complete.
 
-
-\section{D4H Frontend (Angular 7 project)}
-The whole project is contained in the folder src (Figure \ref{fig:d4h_source_code_structure}). In this folder we can distinguish three main parts: app, assets and environment. Outside of them there are other configuration files
+All the important requirements that ASOS need to fulfill are in charge of DataService and
 
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.5]{images/frontend/d4h_source_code_structure.png}
+		\includegraphics[scale=0.6]{images/backend/asos_source_code_structure.png}
+		\caption[ASOS Source code - General Structure]{ASOS Source code - General Structure}
+		\label{fig:asos_source_code_structure}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/asos_source_code_models.png}
+		\caption[ASOS Source code - Models]{ASOS Source code - Models}
+		\label{fig:asos_source_code_models}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/asos_source_code_resources.png}
+		\caption[ASOS Source code - Resources]{ASOS Source code - Resources}
+		\label{fig:asos_source_code_resources}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/asos_source_code_services.png}
+		\caption[ASOS Source code - Services]{ASOS Source code - Services}
+		\label{fig:asos_source_code_services}
+	\end{figure}
+	
+
+\section{D4H Frontend (Angular 7 project)}
+The whole project is contained in the folder src (Figure \ref{fig:d4h_source_code_structure}). In this folder there three main parts: app, assets and environment. Outside of them there are other configuration files.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/frontend/d4h_source_code_structure.png}
 		\caption[Source code: General Structure]{Source code: General Structure}
 		\label{fig:d4h_source_code_structure}
 	\end{figure}
@@ -364,14 +486,14 @@ The whole project is contained in the folder src (Figure \ref{fig:d4h_source_cod
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.7]{images/frontend/d4h_source_code_models_services.png}
+		\includegraphics[scale=0.6]{images/frontend/d4h_source_code_models_services.png}
 		\caption[Source code: Models and Services]{Source code: Models and Services}
 		\label{fig:d4h_source_code_models_services}
 	\end{figure}
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.7]{images/frontend/d4h_source_code_components_assets.png}
+		\includegraphics[scale=0.6]{images/frontend/d4h_source_code_components_assets.png}
 		\caption[Source code: Components]{Source code: Components}
 		\label{fig:d4h_source_code_components_assets}
 	\end{figure}
@@ -384,18 +506,11 @@ The whole project is contained in the folder src (Figure \ref{fig:d4h_source_cod
 			
 			\item \textbf{\_services} are classes with a narrow, well-defined purpose. It should do something specific and do it well.
 			\item \textbf{components} they delegate certain tasks to services, such as fetching data from the server, validating user input, or logging directly to the console. In this case, dashboard, login, profile, register, request, search and ui are components, each one devoted to specific requirements.
-
-
 		\end{itemize}
 		
 		\item \textbf{assets}: contains all the asset files such as logos, images, videos, media etc. 
 		\item \textbf{environments}:  is devoted to the environment based configurations, in this case contains the url to access the services exposed by the backend.
 	\end{itemize}
-
-	
-	
-	
-
 
 	\chapter{Integration Strategy}
 	\section{Entry Criteria}
