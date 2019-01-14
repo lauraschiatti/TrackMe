@@ -95,14 +95,14 @@
 		\vspace*{0.7 cm}
 		\includegraphics[scale = 0.85]{../Assets/PolimiLogo.png}\\[1.6 cm]
 		\textsc{\large Department of Computer Science and Engineering}\\[1.8 cm]
-		
+
 		\rule{\linewidth}{0.2 mm} \\[0.4 cm]
 		{ \huge \bfseries Implementation \& Test Deliverable Document (ITD)}\\
 		\rule{\linewidth}{0.2 mm} \\[1.5 cm]
-		
+
 		\textsc{\Large TrackMe}\\[0.5 cm]
 		\textsc{\large - v1.0 -}\\[1 cm]
-		
+
 		\begin{minipage}{0.4\textwidth}
 			\begin{flushleft} \large
 				\emph{Authors:}\\
@@ -118,15 +118,15 @@
 				904204
 			\end{flushright}
 		\end{minipage}\\[2 cm]
-				
+
 		\textsc{\large Source code repository}
 		\href{https://github.com/lauricdd/AvilaSchiattiVirdi/tree/backend/src}{\textbf{https://github.com/lauricdd/AvilaSchiattiVirdi/tree/backend/src}}\\[1 cm]
-		
+
 		{\large January \nth{13} , 2019}\\[2 cm]
-		
+
 		\vfill
 	\end{titlepage}
-	
+
 	\pagenumbering{roman}
 	\tableofcontents
 %	\thispagestyle{empty}
@@ -137,20 +137,20 @@
 	\clearpage
 	\pagenumbering{arabic}
 	\setcounter{page}{1}
-	
+
 	\chapter{Introduction}
 	\section{Purpose}
 	This document describes in detail the processes of implementation and testing of D4H and ASOS following the specifications reported in RASD and DD documents. The purpose of this document is to provide a general overview of a running prototype implementation of TrackMe and the process of testing it.
-	
+
 	\section{Scope}
 	This document represents the Integration Testing Plan Document for TrackMe Service. \\
-	
-	Integration testing is a key activity to guarantee that all the different subsystems composing Data4Help and AutomatedSOS interoperate consistently with the requirements they are supposed to fulfil and without exhibiting unexpected behaviours. The purpose of this document is to outline, in a clear and comprehensive way, the main aspects concerning the organization of the integration testing activity for all the components that make up the system.\\	
-	
-	Furthermore, in this document it is explained how the code is organized, and how to prepare the environment in order to continue the work done so far. Also, it is explained how to run the systems, and the way they interact.\\	
-	
+
+	Integration testing is a key activity to guarantee that all the different subsystems composing Data4Help and AutomatedSOS interoperate consistently with the requirements they are supposed to fulfil and without exhibiting unexpected behaviours. The purpose of this document is to outline, in a clear and comprehensive way, the main aspects concerning the organization of the integration testing activity for all the components that make up the system.\\
+
+	Furthermore, in this document it is explained how the code is organized, and how to prepare the environment in order to continue the work done so far. Also, it is explained how to run the systems, and the way they interact.\\
+
 	More precisely, the document presents:
-	
+
 \begin{itemize}
 		\item{A list of all the implemented requirements, for Data4Help and AutomatedSOS}
 		\item{The adopted programming languages and frameworks}
@@ -159,8 +159,8 @@
 		\item{A description of the test plan, and the tests done so far}
 		\item{Installation and development instructions}
 	\end{itemize}.
-	
-	\chapter{Implemented Requirements}	
+
+	\chapter{Implemented Requirements}
 This section describes which functional requirements were implemented in the presented TrackMe prototype which compresses D4H and ASOS systems in reference to the ones already stated in the RASD.
 
 \section{\textbf{Data4Help}}
@@ -176,23 +176,23 @@ This section describes which functional requirements were implemented in the pre
 		\textbf{D4H::D4HRequestService}
 		\requirement{4} The system must be able to communicate with TrackMe database in order to obtain the health status and location of an individual \\
 		\textbf{D4H::SearchService}
-		\requirement{5} The system must allow a third party company to register a new account \\		
+		\requirement{5} The system must allow a third party company to register a new account \\
 		\textbf{D4H::SignupService}
-		\requirement{6} The system must allow a third party company to access to its account 	\\		
+		\requirement{6} The system must allow a third party company to access to its account 	\\
 		\textbf{D4H::LoginService}
 		\requirement{7} The system must be able to notify the individual that a third party company wants to access its data \\
 		\textbf{D4H::D4HRequestService}
 		\requirement{8} The system must allow a third party company to search for an individual health status and location using his/her SSN \\
 		 \textbf{D4H::SearchService}
-		 \requirement{9} The system must allow a third party company to filter data of an anonymized group of individuals by country, age, gender and blood type parameters \\ 
+		 \requirement{9} The system must allow a third party company to filter data of an anonymized group of individuals by country, age, gender and blood type parameters \\
 		 \textbf{D4H::SearchService}
 		 \requirement{10} The system must be able to anonymize the data of a group of individuals \\
 		 \textbf{D4H::APIManager}
-		 \requirement{11} The system must allow a third party company to subscribe to an individual health status and location \\ 
+		 \requirement{11} The system must allow a third party company to subscribe to an individual health status and location \\
 		\textbf{D4H::SubscriptionService}
 		\requirement{12} The system must allow a third party company to subscribe to data of an anonymized group of individuals \\
 		\textbf{D4H::SubscriptionService}
-	\end{enumerate}	
+	\end{enumerate}
 
 \section{\textbf{AutomatedSOS}}
 \subsection{AutomatedSOS Requirements}
@@ -209,45 +209,41 @@ This section describes which functional requirements were implemented in the pre
 \section{Risks and Contingencies}
 This subsection of the Implementation Plan identifies the risks and specific actions to be taken in the event the implementation fails or needs to be altered at any point and includes the factors to be used for making the decision. The possible risk that we are addressing in our system at this point of time are as follows:
 \begin{itemize}
-\item{} System fails to connect to the Server/Database, and in case of out-of-range health parameters, action cannot be taken within time. 
+\item{} System fails to connect to the Server/Database, and in case of out-of-range health parameters, action cannot be taken within time.
 \item{} In these kind of scenarios, as soon as the system is back on-line, latest parameters are checked and further transmitted.
 \end{itemize}
 
 \section{Acceptance Criteria}
 This section of the Implementation Plan establishes the exit or acceptance criteria for transitioning the system into production. Identify the criteria that will be used to determine the acceptability of the deliverables as well as any required technical processes, methods, tools, and/ or performance benchmarks required for product acceptance. \\\\
 When the system passes all the test cases and end-2-end scenarios (illustrated in chapter-6 in detail) without fail and the system is 100\% on-line with all the requirements stated about are implemented and working properly and making the system stable. Based on which a go/no-go decision can be taken, firstly a beta-version of the product can be published.
-	
+
 	\chapter{Adopted development frameworks}
 In the following chapter a list of development frameworks and technologies that are used in building  D4H and ASOS systems, they were designed and implemented to be highly decoupled.
 
 	\section{Adopted Programming Languages}
 	The Programming languages used are:
-	
+
 	\subsection{Java} Java is a general-purpose computer-programming language that is concurrent, class-based, object-oriented,and specifically designed to have as few implementation dependencies as possible. This language was used for the development of D4H and ASOS backends.
-	
+
 	\subsubsection{Advantages}
 	\begin{itemize}
-	\item{Object-oriented}: allows to create modular programs and reusable code. 
-	\item{Platform-Independent}: ability to move easily from one computer system to another. 
+	\item{Object-oriented}: allows to create modular programs and reusable code.
+	\item{Platform-Independent}: ability to move easily from one computer system to another.
 		\item{Distributed}: designed to make distributed computing easy with the networking capability that is inherently integrated into it.
 		\item{Secure}: the Java language, compiler, interpreter, and runtime environment were each developed with security in mind.
 		\item{Allocation}: java has the feature of Stack allocation system. It helps the data to be stored and can be restored easily.
 		\item{Multithreaded}: the capability for a program to perform several tasks simultaneously within a program.
 	\end{itemize}
-	
+
 	\subsubsection{Disadvantages}
 	\begin{itemize}
 	\item{Performance}: significantly slower and more memory-consuming than natively compiled languages such as C or C++.
 	\item{Look and Feel}: the default look and feel of GUI applications written in Java using the Swing toolkit is very different from native applications.
 		\item{Single paradigm language}: the addition of static imports in Java 5.0 the procedural paradigm is better accommodated than in earlier versions of Java.
 	\end{itemize}
-	
-	
 
 \subsection{Typescript}
-TypeScript is an open-source programming language developed and maintained by Microsoft. It is a strict syntactical superset of JavaScript, and adds optional static typing to the language. TypeScript is designed for development of large applications and transcompiles to JavaScript. As TypeScript is a superset of JavaScript, existing JavaScript programs are also valid TypeScript programs. TypeScript may be used to develop JavaScript applications for both client-side and server-side (Node.js) execution.\\
-
-TypeScript supports definition files that can contain type information of existing JavaScript libraries, much like C++ header files can describe the structure of existing object files. This enables other programs to use the values defined in the files as if they were statically typed TypeScript entities. There are third-party header files for popular libraries such as jQuery, MongoDB, and D3.js. TypeScript headers for the Node.js basic modules are also available, allowing development of Node.js programs within TypeScript.
+	TypeScript is an open-source programming language, it is a strict syntactical superset of JavaScript, and adds optional static typing to the language. TypeScript is designed for development of large applications and transcompiles to JavaScript. As TypeScript is a superset of JavaScript, existing JavaScript programs are also valid TypeScript programs. TypeScript may be used to develop JavaScript applications for both client-side and server-side (Node.js) execution.\\
 
 \subsubsection{Advantages}
 \begin{itemize}
@@ -264,7 +260,7 @@ TypeScript supports definition files that can contain type information of existi
 \end{itemize}
 
 \subsection{PHP}
-PHP: Hypertext Preprocessor is a server-side scripting language designed for web development. 
+PHP: Hypertext Preprocessor is a server-side scripting language designed for web development.
 
 \subsubsection{Advantages}
 \begin{itemize}
@@ -280,8 +276,8 @@ PHP: Hypertext Preprocessor is a server-side scripting language designed for web
 
 	\section{Adopted Middle-wares}
 	To begin with, it is suggested to build Java based applications, since developers have expertise working with this language.
-	
-\subsection{Java Spark Framework} 
+
+\subsection{Java Spark Framework}
 Java Spark Framework is a simple and expressive Java web framework DSL built for rapid development. Sparks intention is to provide an alternative for Java developers that want to develop their web applications as expressive as possible and with minimal boilerplate. It is a micro-framework for MVC applications, because pure Java web development has traditionally been very cumbersome. The configuration for this framework is minimal and with a short learning curve.\\
 
 Spark Java has a very consistent API which consists of just calling static methods from within your code. Indeed, it is a framework, in the sense that you specify the code to run and it wraps it in its own functionality. The developers can control what route mappings to declare, what code is the responsible for handling the requests and how to handle everything else.
@@ -319,10 +315,10 @@ MongoDB is an open source document-oriented NoSQL database system which stores d
 			\begin{itemize}
 		\item{} Does not have serializers for enumeration type
 		\end{itemize}
-		
+
 \subsection{Lettuce Framework}
  Lettuce is a fully non-blocking Redis client built with netty providing Reactive, Asynchronous and Synchronous Data Access. Lettuce connects with all operational models natively supported by Redis. Partition-tolerance, Read Slaves and Transport-Level-Security provide the required foundation for highly scalable applications.
- 
+
 \subsubsection{Advantages}
 \begin{itemize}
 \item{} Standalone
@@ -333,7 +329,7 @@ MongoDB is an open source document-oriented NoSQL database system which stores d
 \end{itemize}
 
 
-\subsection{Angular Framework} 
+\subsection{Angular Framework}
 It is a TypeScript-based open-source front-end web application framework led by the Angular Team at Google and by a community of individuals and corporations. Angular is a complete rewrite from the same team that built AngularJS.\\
 
 Angular implements MVC architecture to develop web application. It provides a platform where only few attributes needs to be added to the HTML language and progress with the development will be faster. It enhances HTML which makes all difficult tasks move smoothly. Using MVC architecture helps in retrieving and inserting the data, independent of user interface. Angular makes it easy to arrange things like dynamic loading and dependencies and utilize them as required without worrying about instances and namespaces. Angular development is Robust and easy. It is has features like filters, data binding, scope management, directives, API client, form validation. These features make the web applications more straightforward and easy to detect and troubleshoot them.
@@ -351,7 +347,10 @@ Angular implements MVC architecture to develop web application. It provides a pl
 
 \end{itemize}
 
-	
+	\section{Additional APIs}
+The only external APIs to whom TrackMe environment depends on, are the health-care services to which ASOS should contact in some cases. Both D4H and T4R do not depend on any external services.
+
+
 \subsection{Docker}
 Docker is a tool designed to make it easier to create, deploy, and run applications by using containers. Containers allow a developer to package up an application with all of the parts it needs, such as libraries and other dependencies, and ship it all out as one package. By doing so, thanks to the container, the developer can rest assured that the application will run on any other Linux machine regardless of any customized settings that machine might have that could differ from the machine used for writing and testing the code.
 
@@ -397,26 +396,137 @@ MongoDB is a cross-platform document-oriented database program. It is issued und
 \end{itemize}
 
 
-
-
-
-
-
-	\section{Additional APIs}
-The only external APIs to whom TrackMe environment depends on, are the health-care services to which ASOS should contact in some cases. Both D4H and T4R do not depend on any external services.
-
-
 \chapter{Structure of the source code}
 
-\section{D4H Backend (Spark app)}
+\section{D4H Backend (Spark project)}
+	The general structure of the project is contained in src/main/java folder, it can be seen in Figure \ref{fig:d4h_source_code_structure} As in any spark project there are several folders concerning general configurations of the project and also others containing the source code, in this opportunity four main ones can be highlighted: model, resource, service and jobs.
 
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{images/backend/d4h_source_code_structure.png}
+		\caption[D4H Source code - General Structure]{D4H Source code - General Structure}
+		\label{fig:d4h_source_code_structure}
+	\end{figure}
+
+	\begin{itemize}
+		\item \textbf{model}: containes the classes define all data structures, such as \textit{Individual, ThirdParty}, etc.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/d4h_source_code_models.png}
+		\caption[D4H Source code - Models]{D4H Source code - Models}
+		\label{fig:d4h_source_code_models}
+	\end{figure}
+
+		\item \textbf{resource}: contains classes that directly manage the data, by interacting with the database and retrieving them to services. There are \textit{SubscriptionResource, UserResource,} among other.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/d4h_source_code_resources.png}
+		\caption[D4H Source code - Resources]{D4H Source code - Resources}
+		\label{fig:d4h_source_code_resources}
+	\end{figure}
+
+		\item \textbf{service}: classes in charge of controlling the application logic and expose methods and routes that can be consumed by frontend applications. D4H provides services such as \textit{SearchService, SubscriptionService}, etc.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/d4h_source_code_services.png}
+		\caption[D4H Source code - Services]{D4H Source code - Services}
+		\label{fig:d4h_source_code_services}
+	\end{figure}
+
+		\item \textbf{jobs}: contains scheduled async task, that repeat according to how they were configured. For instance, the DataScheduler job looks for all the subscriptions that should be executed, makes a search using the saved query, anonymizes the data, and sends it to the third party.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/d4h_source_code_jobs.png}
+		\caption[D4H Source code - Jobs]{D4H Source code - Jobs}
+		\label{fig:d4h_source_code_jobs}
+	\end{figure}
+	\end{itemize}
+
+\section{ASOS Backend (Spark project)}
+ASOS has the same structure that D4H, but in this case, since ASOS does not expose services to possible consumer apps, it has fewer classes and all of them have a specific task to complete.
+
+All the important requirements that ASOS need to fulfill are in charge of DataService and
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/asos_source_code_structure.png}
+		\caption[ASOS Source code - General Structure]{ASOS Source code - General Structure}
+		\label{fig:asos_source_code_structure}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/asos_source_code_models.png}
+		\caption[ASOS Source code - Models]{ASOS Source code - Models}
+		\label{fig:asos_source_code_models}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/asos_source_code_resources.png}
+		\caption[ASOS Source code - Resources]{ASOS Source code - Resources}
+		\label{fig:asos_source_code_resources}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/backend/asos_source_code_services.png}
+		\caption[ASOS Source code - Services]{ASOS Source code - Services}
+		\label{fig:asos_source_code_services}
+	\end{figure}
+
+
+\section{D4H Frontend (Angular 7 project)}
+The whole project is contained in the folder src (Figure \ref{fig:d4h_source_code_structure}). In this folder there three main parts: app, assets and environment. Outside of them there are other configuration files.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/frontend/d4h_source_code_structure.png}
+		\caption[Source code: General Structure]{Source code: General Structure}
+		\label{fig:d4h_source_code_structure}
+	\end{figure}
+
+	\begin{itemize}
+		\item \textbf{app}: this folder contains the source code of the application, so we will focus on its content (Figure \ref{fig:d4h_source_code_models_services}).
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/frontend/d4h_source_code_models_services.png}
+		\caption[Source code: Models and Services]{Source code: Models and Services}
+		\label{fig:d4h_source_code_models_services}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{images/frontend/d4h_source_code_components_assets.png}
+		\caption[Source code: Components]{Source code: Components}
+		\label{fig:d4h_source_code_components_assets}
+	\end{figure}
+
+	\begin{itemize}
+			\item \textbf{\_guards} and \textbf{\_helpers} contain some general purpose functions used by services and components.
+			\item \textbf{\_models} contain the definition of classes and enumerations regarding data structure in the app. They are highly useful to map data coming from the backend.
+
+			Angular distinguishes \textit{components} from \textit{services} to increase modularity and reusability. By separating a component's view-related functionality from other kinds of processing, you can make your component classes lean and efficient. Then,
+
+			\item \textbf{\_services} are classes with a narrow, well-defined purpose. It should do something specific and do it well.
+			\item \textbf{components} they delegate certain tasks to services, such as fetching data from the server, validating user input, or logging directly to the console. In this case, dashboard, login, profile, register, request, search and ui are components, each one devoted to specific requirements.
+		\end{itemize}
+
+		\item \textbf{assets}: contains all the asset files such as logos, images, videos, media etc.
+		\item \textbf{environments}:  is devoted to the environment based configurations, in this case contains the url to access the services exposed by the backend.
+	\end{itemize}
 
 	\chapter{Integration Strategy}
 	\section{Entry Criteria}
 	\label{sec:Entry Criteria}
 	In order for the integration testing to be possible and to produce meaningful results, there are a number of conditions on the progress of the project that have to be met.\\
 	\quad First of all, the \textbf{Requirements Analysis and Specification Document} and the \textbf{Design Document} must have been fully written. This is a required step in order to have a complete picture of the interactions between the different components of the system and of the functionalities they offer.\\
-	
+
 	\quad Secondly, the integration process should start only when the estimated percentage of completion of every component with respect to its functionalities is:
 	\begin{itemize}
 		\item{}\textbf{100\%} for the \textbf{Data4Help Backend} component
@@ -428,17 +538,17 @@ The only external APIs to whom TrackMe environment depends on, are the health-ca
 
 	\section{Elements to be integrated}
 	As specified in TrackMe Design Document, the system is built upon the interactions of many high-level components, each one implementing a specific set of functionalities. For the sake of modularity, each subsystem is further obtained by the combination of several lower-level components. Because of this software architecture, the integration phase will involve the integration of components at two different levels of abstraction.\\
-	
+
 	At the lowest level, we'll integrate together those components that depend strongly on one another to offer the higher level functionalities of \textbf{Data4Help Backend}. This involves the integration of the \textbf{Login Service and Signup Service}, \textbf{Search Service}, \textbf{Request Service}, \textbf{Subscription Service} components in order to obtain the \textbf{Data4Help Management System} subsystem.\\
-	
+
 	For what concerns the building of the \textbf{AutomatedSOS} and \textbf{Track4Run} subsystems, the integration activity is actually quite limited; in fact, they simply represent a collection of functionalities belonging to the same area which however are not dependent on one another. As a result of this, their subcomponents don't really interact with each other, and the integration phase will be limited to the task of ensuring that the set of functionalities of each subcomponent is properly exposed by the subsystem. The components involved in this phase are:
-	
+
 	\begin{itemize}
 	\item{} The \textbf{DataService, APIManager and DBManger} subcomponents in order to obtain the \textbf{AutomatedSOS subsystem}.
 	\item{} The \textbf{Login, Signup, User, Event, Notification, Data handler, Request and  Authentication manager} subcomponents in order to obtain the \textbf{Track4Run Management subsystem}.
 	\end{itemize}
 		Some of these subcomponents also directly rely on higher level, atomic components: that is the case, for instance, of the dependency on the \textbf{DataService} component. These dependencies will be taken care of in the integration process.\\
-		
+
 		Finally, we will proceed with the integration of the higher level subsystems. In particular, the integration activity will involve:
 	\begin{itemize}
 	\item{} The already existing components used to achieve
@@ -449,23 +559,23 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
 	\item{} On the server side: the \textbf{Data4Help Management System, Authentication system, Search subsystems}, together with the \textbf{Data Service} component.
 	\item{} On the client side: the \textbf{Data4Help Web Application and Track4Run Web Application} components.
 	\end{itemize}
-			
+
 	\end{itemize}
-	
+
 	\section{Integration testing strategy}
 	The approach we're going to use to perform integration testing is based on a mixture of the bottom-up and critical-module-first integration strategies.\\
-	
+
 	Using the bottom-up approach, we will start integrating together those components that do not depend on other components to function, or that only depend on already developed components. This strategy brings a number of important advantages. First, it allows us to perform integration tests on "real" components that are almost fully developed and thus obtain more precise indications about how the system may react and fail in real world usage with respect to a top-down approach. Secondly, working bottom-up enables us to more closely follow the development process, which in our case is also proceeding using the bottom-up approach; by doing this we can start performing integration testing earlier in the development process as soon as the required components have been developed in order to maximize parallelism and efficiency.\\
-	
+
 	Since subsystems are fairly independent from one another, the order in which they're integrated together to obtain the full system follows the critical-module-first approach. This strategy allows us to concentrate our testing efforts on the riskiest components first, that is those that represent the core functionalities of the whole system and whose malfunctioning could pose a very serious threat to the correct implementation of the entire TrackMe infrastructure. By proceeding this way, we are able to discover bugs earlier in the integration progress and take the necessary measures to correct them on time.\\
-			
+
 	\section{Sequence of Component/Function Integration}
 	This section has already been explained in detail in the \textbf{DD} - Design Document \textbf{(Reference section: 5.3.3 Integration order)}.
-	
-	\chapter{Test Plan}	
+
+	\chapter{Test Plan}
 	\section{Test Scenarios}
 	In the following section a list of test scenarios is described. These scenarios were used to test D4H back-end and front-end, and ASOS back-end. The test scenarios were categorized by its importance, based on how critical are for the system. \\
-	
+
 	\begin{table}[h]
 		\centering
 		\begin{tabular}{l l l}
@@ -473,7 +583,7 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
 			\multicolumn{3}{c}{\textbf{Scenario List - D4H}} \\
 			\hline
 			\multicolumn{1}{c |}{\textbf{ID}}  &
-			\multicolumn{1}{c |}{\textbf{Description}} & 
+			\multicolumn{1}{c |}{\textbf{Description}} &
 			\multicolumn{1}{c |}{\textbf{Importance}} \\
 			\hline
 			SC01  & Validate the login functionality of the system & Medium \\
@@ -482,12 +592,12 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
     			SC04  & Validate if third party is able to request bulk data & High \\
     			SC05  & Validate the individual's response to request (Accept/Reject) & High \\
     			SC06  & Validate third party is able to see the subscribed data on its dashboard & Low\\
-			\hline	
+			\hline
 		\end{tabular}
 		\caption{Test scenarios for D4H}
 		\label{tab:Test Scenario List - Data4Help}
 	\end{table}
-	
+
 	\begin{table}[h]
 		\centering
 		\begin{tabular}{l l l}
@@ -502,15 +612,15 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
    			SC08  & Validate data service & High \\
     			SC09  & Validate threshold checking & High  \\
     			SC10  & Validate contacting health care service & High \\
-			\hline	
+			\hline
 		\end{tabular}
 		\caption{Test scenarios for ASOS}
 		\label{tab:Test Scenario List - ASOS}
 	\end{table}
-	
+
 	\section{Test Cases}
 	The tests cases were done by hand, following the steps described below and based on the importance described in the Test Scenarios section. Not all test cases were executed, only those with High and Medium importance.\\
-	
+
 	Moreover, for testing purposes, a data generator tool has been made. It was developed using PHP as a language, and it generates and sends health data and location for all the D4H users. The testing environment was done using Docker as a virtual environment, and Docker Compose to setup the systems: Data4Help back-end and front-end, MongoDB and Redis databases, AutomatedSOS back-end, and the data generator tool.
 
 \subsection{Data4Help test cases}
@@ -567,7 +677,7 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
 		\end{enumerate}
 		\textbf{Actual output}: The request has been sent\\
 		\rule{\linewidth}{0.4pt}
-		
+
 		\item{\textbf{Send Request - negative}} \\
 		\textbf{Scenario ID}: SC03 \\
 		\textbf{Pre-requisite}: Valid user account \\
@@ -582,7 +692,7 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
 		\end{enumerate}
 		\textbf{Actual output}: An error is shown\\
 		\rule{\linewidth}{0.4pt}
-		
+
 		\item{\textbf{Search bulk data}} \\
 		\textbf{Scenario ID}: SC04 \\
 		\textbf{Pre-requisite}: Valid user account \\
@@ -598,7 +708,7 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
 		\end{enumerate}
 		\textbf{Actual output}: A list of data is shown\\
 		\rule{\linewidth}{0.4pt}
-		
+
 		\item{\textbf{Search bulk data - negative 1}} \\
 		\textbf{Scenario ID}: SC04 \\
 		\textbf{Pre-requisite}: Valid user account, no data to be shown \\
@@ -614,7 +724,7 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
 		\end{enumerate}
 		\textbf{Actual output}: An empty list is shown\\
 		\rule{\linewidth}{0.4pt}
-		
+
 		\item{\textbf{Accept a request}} \\
 		\textbf{Scenario ID}: SC05 \\
 		\textbf{Pre-requisite}: Valid user account,  request from a third party \\
@@ -628,7 +738,7 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
 		\end{enumerate}
 		\textbf{Actual output}: The page reloads and the request is approved\\
 		\rule{\linewidth}{0.4pt}
-		
+
 		\item{\textbf{Reject a request}} \\
 		\textbf{Scenario ID}: SC05 \\
 		\textbf{Pre-requisite}: Valid user account,  request from a third party \\
@@ -658,7 +768,7 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
 		\end{enumerate}
 		\textbf{Actual output}: New user has been created \\
 		\rule{\linewidth}{0.4pt}
-		
+
 		\item{\textbf{User notification - reject request}} \\
 		\textbf{Scenario ID}: SC07 \\
 		\textbf{Pre-requisite}: A request from ASOS has arrived \\
@@ -672,7 +782,7 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
 		\end{enumerate}
 		\textbf{Actual output}: No user has been created \\
 		\rule{\linewidth}{0.4pt}
-		
+
 		\item{\textbf{User data}} \\
 		\textbf{Scenario ID}: SC08, SC09, SC10 \\
 		\textbf{Pre-requisite}: User has accepted the ASOS request, User exist in the ASOS database \\
@@ -683,7 +793,7 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
 		\end{enumerate}
 		\textbf{Actual output}: ASOS has contacted the emergency contact \\
 		\rule{\linewidth}{0.4pt}
-		
+
 \end{itemize}
 
 
@@ -703,10 +813,10 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 
 	\subsection{How to work on the back-end?}
 	The following are the steps needed to work on the back-end:
-	
+
 	\begin{enumerate}
 	\item \href{https://www.oracle.com/technetwork/java/javase/downloads/index.html}{\textbf{JDK}}  $>$= 8 is needed.
-	\item Install \href{https://maven.apache.org/what-is-maven.html}{\textbf{Apache Maven}}. 
+	\item Install \href{https://maven.apache.org/what-is-maven.html}{\textbf{Apache Maven}}.
 	\item Install \href{https://docs.mongodb.com/manual/installation/}{\textbf{MongoDB}}  and \href{https://redis.io/download}{\textbf{Redis}}.
 	\item In the folder \textit{TrackMe/src/data4help/}, open a terminal and run \textbf{mvn compile}.
 	\item \textit{[Optional]} To run the service:
@@ -716,10 +826,10 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 		\textbf{ mvn -X compile exec:java -Dexec.mainClass=avila.schiatti.virdi.Main -e}.
 		\item Access the site/services by accessing to \textbf{http://127.1.1.1:4567}
 		\end{enumerate}
-	
-	\textit{	In order to be able to have the front end, you should follow the steps of the front-end section, without running it}	
+
+	\textit{	In order to be able to have the front end, you should follow the steps of the front-end section, without running it}
 	\end{enumerate}
-	
+
 	\subsection{How to work on the front-end?}
 	In order to work on the front-end, follow this steps:
 
@@ -728,14 +838,14 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 	\item Install \href{https://cli.angular.io/}{\textbf{AngularCLI }} by running the following line:\textbf{ npm install -g @angular/cli }
 	\item Go to \textit{src/main/resources} folder and install the package dependencies running: \textbf{npm install}
 	\item Build the project by running \textbf{ng build}.
-	\item To run the front-end, you can run: \textbf{ng serve}. You will be able to access the front-end by accessing to \textbf{http://127.1.1.1:4200} 
-	
+	\item To run the front-end, you can run: \textbf{ng serve}. You will be able to access the front-end by accessing to \textbf{http://127.1.1.1:4200}
+
 	\textit{You won't have access to the back-end services, so probably the front-end alone is not useful)}
 	\end{enumerate}
-	
-	
+
+
 	\chapter{Effort spent}
-	
+
 	\begin{table}[h]
 		\centering
 		\begin{tabular}{l c}
@@ -755,7 +865,7 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 		\caption{Time spent by all team members}
 		\label{fig:Time spent by all team members}
 	\end{table}
-	
+
 	\begin{table}[h]
 		\centering
 		\begin{tabular}{l c l c l c}
@@ -786,11 +896,11 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 			& X & X
 			& Individual Steps, Testing & 5 \\
 			\hline
-			X & X  
+			X & X
 			& X & X
 			& Stubs and Test Data  & 10 \\
-			\hline 
-			X &  
+			\hline
+			X &
 			& X & 4
 			& Adopted Frameworks & 4  \\
 			\hline
@@ -802,7 +912,7 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 		\caption{Time spent by each team member}
 		\label{fig:Time spent by each team member}
 	\end{table}
-	
+
 	\chapter{References}
 	\begin{itemize}
 		\item Requirement Analysis and Specification Document.pdf. Version 1.1 - 11.11.2018
@@ -812,7 +922,7 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 		\item \textbf{Lettuce} - https://lettuce.io/
 		\item \textbf{Angular} - https://angular.io/
 		\item \textbf{Docker} - https://docs.docker.com/
-		
+
 	\end{itemize}
-	
+
 \end{document}
