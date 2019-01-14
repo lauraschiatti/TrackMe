@@ -120,7 +120,7 @@
 		\end{minipage}\\[2 cm]
 
 		\textsc{\large Source code repository}
-		\href{https://github.com/lauricdd/AvilaSchiattiVirdi/tree/backend/src}{\textbf{https://github.com/lauricdd/AvilaSchiattiVirdi/tree/backend/src}}\\[1 cm]
+		\href{https://github.com/lauricdd/AvilaSchiattiVirdi/tree/backend/src}{\textbf{https://github.com/lauricdd/AvilaSchiattiVirdi/tree/master/src}}\\[1 cm]
 
 		{\large January \nth{13} , 2019}\\[2 cm]
 
@@ -243,7 +243,7 @@ In the following chapter a list of development frameworks and technologies that 
 	\end{itemize}
 
 \subsection{Typescript}
-	TypeScript is an open-source programming language, it is a strict syntactical superset of JavaScript, and adds optional static typing to the language. TypeScript is designed for development of large applications and transcompiles to JavaScript. As TypeScript is a superset of JavaScript, existing JavaScript programs are also valid TypeScript programs. TypeScript may be used to develop JavaScript applications for both client-side and server-side (Node.js) execution.\\
+	TypeScript is an open-source programming language, it is a strict syntactical superset of JavaScript, and adds optional static typing to the language. TypeScript is designed for development of large applications and transcompiles to JavaScript. As TypeScript is a superset of JavaScript, existing JavaScript programs are also valid TypeScript programs. TypeScript may be used to develop JavaScript applications for both client-side and server-side (Node.js) execution.
 
 \subsubsection{Advantages}
 \begin{itemize}
@@ -805,9 +805,9 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 
 	\begin{enumerate}
 	\item Install \href{https://docs.docker.com/install/}{\textbf{Docker}} and \href{https://docs.docker.com/compose/install/}{\textbf{Docker Compose}}.
-	\item At the level of \textit{TrackMe/src} folder, open a terminal and execute
+	\item At the level of \textit{src/} folder, open a terminal and execute
 	\textbf{sudo docker-compose up} (with --build to rebuild the image).
-	\item Open the browser and you can access to the Data4Help site using the following URL
+	\item Open the browser and you can access to D4H website using the following URL
 		\textbf{http://0.0.0.0:4200}
 	\end{enumerate}
 
@@ -818,7 +818,7 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 	\item \href{https://www.oracle.com/technetwork/java/javase/downloads/index.html}{\textbf{JDK}}  $>$= 8 is needed.
 	\item Install \href{https://maven.apache.org/what-is-maven.html}{\textbf{Apache Maven}}.
 	\item Install \href{https://docs.mongodb.com/manual/installation/}{\textbf{MongoDB}}  and \href{https://redis.io/download}{\textbf{Redis}}.
-	\item In the folder \textit{TrackMe/src/data4help/}, open a terminal and run \textbf{mvn compile}.
+	\item In the folder \textit{src/data4help}, open a terminal and run \textbf{mvn compile}.
 	\item \textit{[Optional]} To run the service:
 		\begin{enumerate}
 		\item MongoDB and Redis services must be running.
@@ -894,14 +894,14 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 			\hline
 			 Chap. 7 & 2
 			& Seeds & 10
-			& Individual Steps, Testing & 5 \\
+			& Testing & 5 \\
 			\hline
 			 & 
-			& Struct. Code & 3
+			& Code structure & 3
 			& Stubs and Test Data  & 10 \\
 			\hline
 			 &
-			& X & 4
+			&  &  
 			& Adopted Frameworks & 4  \\
 			\hline
 			\textbf{Total} & 67
