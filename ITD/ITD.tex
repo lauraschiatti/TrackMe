@@ -810,6 +810,11 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 	\item Open the browser and you can access to D4H website using the following URL
 		\textbf{http://0.0.0.0:4200}
 	\end{enumerate}
+	
+	\subsection{Initial data (seeds)}
+	D4H system comes with initial data regarding \textbf{Individuals}, \textbf{Third parties}, \textbf{Requests}, \textbf{Subscriptions} and \textbf{Addresses}. This data is stored in the database when the system starts and those individuals are stored as \textit{D4HUsers}. Furthermore, as mentioned before, the data received from devices is simulated by means of a php script \textit{(d4h\_data\_generator)}. The script generates and delivers random data regarding health status and location for all the D4H users each minute.  \\
+		
+	Then, for testing the system, those seeds are available inside the source code, in the \textit{src/seeders} folder.
 
 	\subsection{How to work on the back-end?}
 	The following are the steps needed to work on the back-end:
@@ -842,7 +847,6 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 
 	\textit{You won't have access to the back-end services, so probably the front-end alone is not useful)}
 	\end{enumerate}
-
 
 	\chapter{Effort spent}
 
