@@ -131,7 +131,7 @@
 	\tableofcontents
 %	\thispagestyle{empty}
 	\newpage
-	\listoffigures
+%	\listoffigures
 	\listoftables
 %	\thispagestyle{empty}
 	\clearpage
@@ -143,18 +143,21 @@
 	This document describes in detail the processes of implementation and testing of D4H and ASOS following the specifications reported in RASD and DD documents. The purpose of this document is to provide a general overview of a running prototype implementation of TrackMe and the process of testing it.
 	
 	\section{Scope}
-	This document represents the Integration Testing Plan Document for TrackMe Service. \\\\
-	Integration testing is a key activity to guarantee that all the different subsystems composing Data4Help and AutomatedSOS interoperate consistently with the requirements they are supposed to fulfil and without exhibiting unexpected behaviours. The purpose of this document is to outline, in a clear and comprehensive way, the main aspects concerning the organization of the integration testing activity for all the components that make up the system.	\\	
+	This document represents the Integration Testing Plan Document for TrackMe Service. \\
+	
+	Integration testing is a key activity to guarantee that all the different subsystems composing Data4Help and AutomatedSOS interoperate consistently with the requirements they are supposed to fulfil and without exhibiting unexpected behaviours. The purpose of this document is to outline, in a clear and comprehensive way, the main aspects concerning the organization of the integration testing activity for all the components that make up the system.\\	
+	
+	Furthermore, in this document it is explained how the code is organized, and how to prepare the environment in order to continue the work done so far. Also, it is explained how to run the systems, and the way they interact.\\	
+	
 	More precisely, the document presents:
 	
 \begin{itemize}
-		\item{}A list of the subsystems and their subcomponents involved in the integration activity that will have to be tested
-		\item{}The criteria that must be met by the project status before integration testing of the outlined elements may begin
-		\item{}A description of the integration testing approach and the rationale behind it
-		\item{}The sequence in which components and subsystems will be integrated
-		\item{} A description of the planned testing activities for each integration step, including their input data and the expected output
-		\item{}Some performance measures that should be performed on the components to check they are fulfilling the requirements
-		\item{}A list of all the tools that will have to be employed during the testing activities, together with a description of the operational environment in which the tests will be executed
+		\item{A list of all the implemented requirements, for Data4Help and AutomatedSOS}
+		\item{The adopted programming languages and frameworks}
+		\item{A description and structure of the source code}
+		\item{The sequence in which components and subsystems will be integrated}
+		\item{A description of the test plan, and the tests done so far}
+		\item{Installation and development instructions}
 	\end{itemize}.
 	
 	\chapter{Implemented Requirements}	
@@ -224,7 +227,7 @@ In the following chapter a list of development frameworks and technologies that 
 	
 	\subsubsection{Advantages}
 	\begin{itemize}
-	\item{Object-oriented}: allows you to create modular programs and reusable code. 
+	\item{Object-oriented}: allows to create modular programs and reusable code. 
 	\item{Platform-Independent}: ability to move easily from one computer system to another. 
 		\item{Distributed}: designed to make distributed computing easy with the networking capability that is inherently integrated into it.
 		\item{Secure}: the Java language, compiler, interpreter, and runtime environment were each developed with security in mind.
@@ -243,43 +246,45 @@ In the following chapter a list of development frameworks and technologies that 
 
 \subsection{Typescript}
 TypeScript is an open-source programming language developed and maintained by Microsoft. It is a strict syntactical superset of JavaScript, and adds optional static typing to the language. TypeScript is designed for development of large applications and transcompiles to JavaScript. As TypeScript is a superset of JavaScript, existing JavaScript programs are also valid TypeScript programs. TypeScript may be used to develop JavaScript applications for both client-side and server-side (Node.js) execution.\\
+
 TypeScript supports definition files that can contain type information of existing JavaScript libraries, much like C++ header files can describe the structure of existing object files. This enables other programs to use the values defined in the files as if they were statically typed TypeScript entities. There are third-party header files for popular libraries such as jQuery, MongoDB, and D3.js. TypeScript headers for the Node.js basic modules are also available, allowing development of Node.js programs within TypeScript.
 
 \subsubsection{Advantages}
 \begin{itemize}
 \item{} Object Oriented Programming Features
-\item{} TypeScript Does Not Need a Runtime Plugin
-\item{} Back-end Developer Feel More Comfortable With it
-\item{} It is Used in Popular Frameworks
+\item{} Does not need a runtime plugin
+\item{} It is used in popular frameworks
+\item{} Learning Curve
 \end{itemize}
 \subsubsection{Disadvantages}
 \begin{itemize}
-\item{} Learning Curve
-\item{} Needs Development Tooling
-\item{} Cannot Easily be Edited by Content Management Systems (CMS)
-\item{} Short Update Cycles
+\item{} Needs development tooling
+\item{} Cannot easily be edited by content management systems (CMS)
+\item{} Short update cycles
 \end{itemize}
 
 \subsection{PHP}
-PHP: Hypertext Preprocessor is a server-side scripting language designed for Web development. 
+PHP: Hypertext Preprocessor is a server-side scripting language designed for web development. 
 
-\textbf{Why we choose to use this?} PHP was used for creating the script that generates data for individuals that are initially in the database.
 \subsubsection{Advantages}
 \begin{itemize}
-\item{} Rapid Development
-\item{} Easier Maintenance
+\item{} Rapid development
+\item{} Easy maintenance
 \end{itemize}
 
 \subsubsection{Disadvantages}
 \begin{itemize}
-\item{} Slower Execution
-\item{} Limited Visibility and Control
+\item{} Slower execution
+\item{} Limited visibility and control
 \end{itemize}
 
 	\section{Adopted Middle-wares}
-	To begin with, it is suggested to build Java based applications, since developers have expertise working with this language. Moreover, the proposed frameworks are:
-\subsection{Java Spark Framework} Java Spark Framework is a simple and expressive Java/Kotlin web framework DSL built for rapid development. Sparks intention is to provide an alternative for Kotlin/Java developers that want to develop their web applications as expressive as possible and with minimal boilerplate. With a clear philosophy Spark is designed not only to make you more productive, but also to make your code better under the influence of Spark’s sleek, declarative and expressive syntax. It is a micro-framework for MVC applications, because pure Java web development has traditionally been very cumbersome. The configuration for this framework is minimal and with a short learning curve.\\\\
-\textbf{So why choose Spark over other frameworks?} Answer is simple. The best part about Spark is that it has a very consistent API which consists of just calling static methods from within your code. Indeed, it is a framework, in the sense that you specify the code to run and it wraps it in its own functionality, but it really feels more like a library with a touch of magic happening behind the scenes. You control what route mappings you wish to declare, what code is the responsible for handling the requests and how you like to handle everything else. So far, Spark seems excellent for tiny applications or API backends.
+	To begin with, it is suggested to build Java based applications, since developers have expertise working with this language.
+	
+\subsection{Java Spark Framework} 
+Java Spark Framework is a simple and expressive Java web framework DSL built for rapid development. Sparks intention is to provide an alternative for Java developers that want to develop their web applications as expressive as possible and with minimal boilerplate. It is a micro-framework for MVC applications, because pure Java web development has traditionally been very cumbersome. The configuration for this framework is minimal and with a short learning curve.\\
+
+Spark Java has a very consistent API which consists of just calling static methods from within your code. Indeed, it is a framework, in the sense that you specify the code to run and it wraps it in its own functionality. The developers can control what route mappings to declare, what code is the responsible for handling the requests and how to handle everything else.
 
 \subsubsection{Advantages}
 		\begin{itemize}
@@ -298,13 +303,14 @@ PHP: Hypertext Preprocessor is a server-side scripting language designed for Web
 		\item{} Small community
 		\end{itemize}
 
-\subsection{Morphia Framework} MongoDB is an open source document-oriented NoSQL database system which stores data as JSON-like documents with dynamic schemas.  As it doesn't store data in tables as is done in the usual relational database setup, it doesn't map well to the JPA way of storing data. Morphia is an open source lightweight type-safe library designed to bridge the gap between the MongoDB Java driver and domain objects. It can be an alternative to SpringData if you're not using the Spring Framework to interact with MongoDB.
+\subsection{Morphia Framework}
+MongoDB is an open source document-oriented NoSQL database system which stores data as JSON-like documents with dynamic schemas.  As it doesn't store data in tables as is done in the usual relational database setup, it doesn't map well to the JPA way of storing data. Morphia is an open source lightweight type-safe library designed to bridge the gap between the MongoDB Java driver and domain objects. It can be an alternative to SpringData if you're not using the Spring Framework to interact with MongoDB.
 
 \subsubsection{Advantages}
 
 		\begin{itemize}
 		\item{} Stable
-	\item{} Very good play integration
+	\item{} Very good integration
 	\item{} Offers access to all Mongo driver features
 	\item{} Provides more extensiblity leading you to enjoy the ability to suck most out of mongo features
 	\item{} Lightweight
@@ -314,7 +320,9 @@ PHP: Hypertext Preprocessor is a server-side scripting language designed for Web
 		\item{} Does not have serializers for enumeration type
 		\end{itemize}
 		
-\subsection{Lettuce Framework} Lettuce is a fully non-blocking Redis client built with netty providing Reactive, Asynchronous and Synchronous Data Access. Lettuce connects with all operational models natively supported by Redis. Partition-tolerance, Read Slaves and Transport-Level-Security provide the required foundation for highly scalable applications.
+\subsection{Lettuce Framework}
+ Lettuce is a fully non-blocking Redis client built with netty providing Reactive, Asynchronous and Synchronous Data Access. Lettuce connects with all operational models natively supported by Redis. Partition-tolerance, Read Slaves and Transport-Level-Security provide the required foundation for highly scalable applications.
+ 
 \subsubsection{Advantages}
 \begin{itemize}
 \item{} Standalone
@@ -325,8 +333,10 @@ PHP: Hypertext Preprocessor is a server-side scripting language designed for Web
 \end{itemize}
 
 
-\subsection{Angular Framework} It is a TypeScript-based open-source front-end web application framework led by the Angular Team at Google and by a community of individuals and corporations. Angular is a complete rewrite from the same team that built AngularJS.\\\\
-\textbf{So why choose Angular over other frameworks?} Answer is simple. Angular implements MVC architecture to develop web application. It provides a platform where only few attributes needs to be added to the HTML language and progress with the development will be faster. It enhances HTML which makes all difficult tasks move smoothly. Using MVC architecture helps in retrieving and inserting the data, independent of user interface. Angular makes it easy to arrange things like dynamic loading and dependencies and utilize them as required without worrying about instances and namespaces. Angular development is Robust and easy. It is has features like filters, data binding, scope management, directives, API client, form validation. These features make the web applications more straightforward and easy to detect and troubleshoot them.
+\subsection{Angular Framework} 
+It is a TypeScript-based open-source front-end web application framework led by the Angular Team at Google and by a community of individuals and corporations. Angular is a complete rewrite from the same team that built AngularJS.\\
+
+Angular implements MVC architecture to develop web application. It provides a platform where only few attributes needs to be added to the HTML language and progress with the development will be faster. It enhances HTML which makes all difficult tasks move smoothly. Using MVC architecture helps in retrieving and inserting the data, independent of user interface. Angular makes it easy to arrange things like dynamic loading and dependencies and utilize them as required without worrying about instances and namespaces. Angular development is Robust and easy. It is has features like filters, data binding, scope management, directives, API client, form validation. These features make the web applications more straightforward and easy to detect and troubleshoot them.
 \subsubsection{Advantages}
 \begin{itemize}
 \item{} Two way data binding
@@ -681,31 +691,30 @@ specific functionalities: these are the \textbf{DBMS and Notification system} co
 The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS, and Track4Run. We decided to develop Data4Help, which is the leading system, and AutomatedSOS.
 
 	\section{How to run both systems?}
-	The whole system is dockerized, just run the follow the following steps:
+	The whole system is dockerized, so, the steps to run the whole environment are:
 
 	\begin{enumerate}
 	\item Install \href{https://docs.docker.com/install/}{\textbf{Docker}} and \href{https://docs.docker.com/compose/install/}{\textbf{Docker Compose}}.
 	\item At the level of \textit{TrackMe/src} folder, open a terminal and execute
-	\textbf{ sudo docker-compose up} (with --build to rebuild the image).
+	\textbf{sudo docker-compose up} (with --build to rebuild the image).
 	\item Open the browser and you can access to the Data4Help site using the following URL
 		\textbf{http://0.0.0.0:4200}
 	\end{enumerate}
-	 
-	\section{How to each system independently?}
+
 	\subsection{How to work on the back-end?}
 	The following are the steps needed to work on the back-end:
 	
 	\begin{enumerate}
-	\item You will need \href{https://www.oracle.com/technetwork/java/javase/downloads/index.html}{\textbf{JDK}}  $>$= 8.
+	\item \href{https://www.oracle.com/technetwork/java/javase/downloads/index.html}{\textbf{JDK}}  $>$= 8 is needed.
 	\item Install \href{https://maven.apache.org/what-is-maven.html}{\textbf{Apache Maven}}. 
 	\item Install \href{https://docs.mongodb.com/manual/installation/}{\textbf{MongoDB}}  and \href{https://redis.io/download}{\textbf{Redis}}.
 	\item In the folder \textit{TrackMe/src/data4help/}, open a terminal and run \textbf{mvn compile}.
 	\item \textit{[Optional]} To run the service:
 		\begin{enumerate}
-		\item Make sure that MongoDB and Redis services are running.
+		\item MongoDB and Redis services must be running.
 		\item Execute the following line:\\
 		\textbf{ mvn -X compile exec:java -Dexec.mainClass=avila.schiatti.virdi.Main -e}.
-		\item You will be able to access the site/services by accessing to \textbf{http://127.1.1.1:4567}
+		\item Access the site/services by accessing to \textbf{http://127.1.1.1:4567}
 		\end{enumerate}
 	
 	\textit{	In order to be able to have the front end, you should follow the steps of the front-end section, without running it}	
@@ -761,15 +770,15 @@ The TrackMe project is composed by 3 different systems: Data4Help, AutomatedSOS,
 			& \textbf{Task} & \textbf{Hours}
 			& \textbf{Task} & \textbf{Hours} \\ [0.5ex]
 			\hline
-			X &  X
+			D4H back-end dev. &  50
 			& X & X
 			& Layout & 2  \\
 			\hline
-			X &  X
+			ASOS back-end dev. &  10
 			& X & X
 			& Purpose and Scope & 3  \\
 			\hline
-			X &  X
+			D4H and ASOS test cases &  5
 			& X & X
 			& Implemented Requirements & 6  \\
 			\hline
