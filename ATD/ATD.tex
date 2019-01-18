@@ -1,0 +1,326 @@
+ % PACKAGES
+\documentclass[a4paper, hidelinks, 12pt]{report}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsfonts,amsmath,amssymb}
+\usepackage[none]{hyphenat}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage[font=footnotesize]{caption}
+\usepackage[flushleft]{threeparttable}
+\usepackage{amsmath}
+\usepackage{relsize}
+\usepackage[super,negative]{nth}
+\usepackage{enumerate}
+\usepackage{float}
+\usepackage{rotating}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
+\usepackage{float}
+\restylefloat{table}
+
+%%%%%%%%%%%%
+
+% DOC STYLES
+\makeatletter
+\def\thickhrulefill{\leavevmode \leaders \hrule height 1ex \hfill \kern \z@}
+\def\@makechapterhead#1{
+	\vspace*{4\p@}
+	{\parindent \z@ \centering \reset@font
+		\thickhrulefill\quad
+		\scshape \@chapapp{} \thechapter
+		\quad \thickhrulefill
+		\par\nobreak
+		\vspace*{4\p@}
+		\interlinepenalty\@M
+		\hrule
+		\vspace*{4\p@}
+		\Huge \bfseries #1\par\nobreak
+		\par
+		\vspace*{4\p@}
+		\hrule
+		\vskip 50\p@
+}}
+\def\@makeschapterhead#1{
+	\vspace*{4\p@}
+	{\parindent \z@ \centering \reset@font
+		\thickhrulefill
+		\par\nobreak
+		\vspace*{4\p@}
+		\interlinepenalty\@M
+		\hrule
+		\vspace*{4\p@}
+		\Huge \bfseries #1\par\nobreak
+		\par
+		\vspace*{4\p@}
+		\hrule
+		\vskip 50\p@
+}}
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{\slshape\MakeUppercase{\textbf{ATD}}}
+\fancyhead[R]{\slshape{Avila, Schiatti, Virdi}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\headrulewidth}{1pt}
+\linespread{1.3}
+%\floatstyle{boxed}
+\restylefloat{figure}
+\setlength\parindent{0pt}
+
+
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{codewhite}{rgb}{0.95,0.95,0.92}
+\definecolor{codeblack}{rgb}{0,0,0}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{codewhite}, 
+    keepspaces=false,
+    tabsize=1,
+    basicstyle=\ttfamily\small
+}
+ 
+\lstset{style=mystyle}
+
+%%%%%%%%%%%%
+
+% COMMANDS
+\newcommand\requirement[1]{\item[{[REQ-#1]}] }
+\newcommand\test[1]{\item[{[TEST-#1]}] }
+%%%%%%%%%%%%
+
+%BODY
+\begin{document}
+	\begin{titlepage}
+		\centering
+		\vspace*{0.7 cm}
+		\includegraphics[scale = 0.85]{../Assets/PolimiLogo.png}\\[1.6 cm]
+		\textsc{\large Department of Computer Science and Engineering}\\[1.8 cm]
+
+		\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+		{ \huge \bfseries Acceptance Test Deliverable (ATD)}\\
+		\rule{\linewidth}{0.2 mm} \\[1.5 cm]
+
+		\textsc{\Large TrackMe}\\[3 cm]
+
+		\begin{minipage}{0.4\textwidth}
+			\begin{flushleft} \large
+				\emph{Authors:}\\
+				\textbf{Avila}, Diego \\
+				\textbf{Schiatti}, Laura \\
+				\textbf{Virdi}, Sukhpreet
+			\end{flushleft}
+		\end{minipage}~
+		\begin{minipage}{0.4\textwidth}
+			\begin{flushright} \large
+				903988 \\
+				904738 \\
+				904204
+			\end{flushright}
+		\end{minipage}\\[2 cm]
+
+
+		{\large January \nth{20} , 2019}\\[2 cm]
+
+		\vfill
+	\end{titlepage}
+
+	\pagenumbering{roman}
+	\tableofcontents
+%	\thispagestyle{empty}
+	\newpage
+%	\listoffigures
+	\listoftables
+%	\thispagestyle{empty}
+	\clearpage
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+
+	\chapter{Introduction}
+	\section{Purpose}
+	This document describes in detail .. \\ 
+	
+	\section{Analyzed project}
+	Documents and source code regarding the project that was analyzed can be consulted from the repository 
+		\href{https://github.com/DavideRutigliano/FerranteMattaRutigliano}{\textbf{https://github.com/DavideRutigliano/FerranteMattaRutigliano}}.\\
+		
+	\textbf{Authors: } 
+	\begin{itemize}
+		\item Davide Rutigliano
+		\item Davide Matta
+		\item Claudio Ferrante
+	\end{itemize}
+	
+	\subsection{Abbreviations}
+	\begin{itemize}
+		\item $[REQ-n]$: n-functional requirement.
+		\item $[TEST-n]$: n-test case.
+	\end{itemize}
+
+ ----> describe the focuses of your validation
+activity and the results you have obtained.
+
+	\chapter{Installation setup}
+	%What you did to install the prototype as well as any problem you have faced in this phase, any incoherency you may have found when following the documentation accompanying the software.	
+
+	The application was tested by means of a Linux machine, following the steps provided in the \textit{Implementation and Testing Deliverable}. 
+	
+	\section{Server Build and Installation}
+	
+\begin{itemize}
+	\item \textbf{Database}
+		\begin{enumerate}
+			\item Install PostgreSQL Database and pgAdmin
+			\begin{lstlisting}[language=bash]
+				$ sudo apt install postgresql
+				$ sudo -u postgres psql postgres
+				$ \password postgres
+				$ sudo apt install pgadmin4
+			\end{lstlisting}
+			
+			\item Launch pgAdmin 
+			\begin{lstlisting}[language=bash]
+				$ sudo pgadmin4
+			\end{lstlisting}
+			
+			\begin{enumerate}
+				\item Select pgAdmin 4 $>$ New pgAdmin 4 window
+				\item Create and setup a new server  [Fig. \ref{fig:create_server}].
+			
+				\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.4\textwidth]{images/create_server.jpeg}
+					\caption[Data4Help Create Server]{Data4Help Create Server}
+				\label{fig:create_server}
+			\end{figure}
+				
+				\item Press Save.
+			\end{enumerate}			
+			
+			\item Create and setup a new user [Fig. \ref{fig:privileges}].
+			
+			\begin{enumerate}
+				\item Right click on Login/Group Roles $>$ create $>$ Login/Group Role
+				\item In the tab \textit{General}, set name = trackmeadmin.
+				\item In the tab \textit{Definition}, set password = password.
+				\item In the tab \textit{Privileges}, set Superuser = yes and Can login = yes.
+			\end{enumerate}
+			
+			\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.5\textwidth]{images/priviledges.jpeg}
+					\caption[Data4Help Setup User Privileges]{Data4Help Setup User privileges}
+				\label{fig:privileges}
+			\end{figure}
+			
+			\item  Create a new database
+			\begin{enumerate}
+				\item Right click in \textit{Databases} $>$ Create $>$ Database
+				\item In the tab \textit{General}, set name = trackme\_db.
+			\end{enumerate}						
+		\end{enumerate}
+		
+	\item \textbf{Build with Maven}
+		\begin{lstlisting}[language=bash]
+			$ cd FerranteMattaRutigliano/DeliveryFolder/software/server
+			$ chmod +x mvnw
+			$ ./mvnw package
+		\end{lstlisting}
+\end{itemize}
+	
+	\section{Client Build and Installation}
+
+	\chapter{Acceptance test cases}
+	%The acceptance test cases you have applied and the corresponding outcome: you can extract test cases by analysing the RASD the other team has developed, the list of features that the team has actually developed as well as any other case that you, as a user of the application, think is appropriate (please provide motivation for your choice). 
+	
+	\section{Motivation}
+	The system requirements are categorized according to their importance regarding the scope of the problem and the main functionalities to be implemented in order to have a minimum viable prototype as \textbf{HIGH}, \textbf{MEDIUM} and \textbf{LOW}. \\
+
+	All requirements defined as \textbf{MEDIUM} and \textbf{HIGH} were tested and their outcomes. Even if \textit{registration} (for both third parties and individuals) was not consider relevant, it was also assessed in order to have available users for testing.
+
+	\section{Tested features}
+
+	\subsection{Data4Help}
+	\begin{itemize}
+		\requirement{1} A customer not signed-on must be able to begin the Individual’s registration process to TrackMe providing a username, a password and its organization data.  \textbf{[LOW]}
+		
+	\begin{itemize}
+		\test{1}: Register an individual for the first time [Fig. \ref{fig:register_individual}].
+			\begin{itemize}
+			\item \textbf{Inputs: } username=Individuo, ssn=344918500			
+			\item \textbf{Outcome: } OK. Individual registered successfully. 
+			\item \textbf{Result: } Passed. 
+			\end{itemize}
+			
+		\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.2\textwidth]{images/register_individual.jpeg}
+					\caption[Data4Help Register Individual]{Data4Help Register Individual}
+				\label{fig:register_individual}
+			\end{figure}
+			
+		\test{2}: Register an individual with an already registered ssn.
+			\begin{itemize}
+			\item \textbf{Inputs: } username=individual2, ssn=344918500
+			\item \textbf{Outcome: } Error. Since ssn is duplicated, the registration was not allowed.
+			\item \textbf{Result: } Passed. 
+			 \end{itemize}	
+			 
+		\item \textbf{Possible bugs}: Birth date field is not validated
+	\end{itemize}
+	
+		\requirement{2} A customer not signed-on must be able to begin the Third Party’s registration process to TrackMe providing a username, a password and its organization data. \textbf{[LOW]}
+		\requirement{3}The system must provide a log-in interface for already registered users, not previously signed into the application. \textbf{[MEDIUM]}
+		\requirement{4}TrackMe must provide to users the possibility to change their username. \textbf{[LOW]}
+		\requirement{5}TrackMe must provide to registered users the possibility to change their password. \textbf{[LOW]}
+		\requirement{6}The system must provide the possibility to the user of logging out. \textbf{[LOW]}
+		\requirement{7}The system must provide the possibility to change Individual’s personal data. \textbf{[LOW]}
+		\requirement{8}The system must provide the possibility to change Third Party’s organization data. \textbf{[LOW]}
+		\requirement{9} Data4help must allow the Third-Parties to send a request to a particular individual, provided his SSN/FC.  \textbf{[HIGH]}
+	\requirement{10} Data4help must allow the Third-Parties to generated a request for a group of individuals.  \textbf{[HIGH]}
+	\requirement{11} The system must be able to anonymize users’ requested data. \textbf{[HIGH]}
+	\requirement{12} Data4help must allow the Third-Parties to choose if subscribe to new data associated with a particular Individual. \textbf{[MEDIUM]}
+	\requirement{13} The system must be able to periodically query the database in order to get new data as soon as they are produced. \textbf{[MEDIUM]}
+	\requirement{14} Data4help must allow the Third Party to see a list of sent requests and related Individual’s data. \textbf{[LOW]}
+	\requirement{15} Data4help must allow the Individual to see a list of the received requests from Third Parties. \textbf{[LOW]}
+	\requirement{16} Data4help must allow the Individual to accept or reject a request from the list. \textbf{[MEDIUM]}
+	\requirement{17} Data4help must allow the Individual to connect an external device through BT or NFC. \textbf{[HIGH]}
+	\end{itemize}
+	
+	\subsection{Track4Run}
+	
+	\begin{itemize}
+	\item \textbf{Runs management}
+	\requirement{24} Track4Run must allow the organizer to create a run with a date, time, duration and a path. \textbf{[HIGH]}
+	\requirement{25} The system must provide an interface that allows the user to define a path on an interactive map. \textbf{[MEDIUM]}
+	\requirement{26} Track4Run must allow the organizer to start a run previously
+created. \textbf{[MEDIUM]}
+	\requirement{27} Track4Run must allow the organizer to delete a run previously created. \textbf{[LOW]}
+	\requirement{28} Track4Run must allow the Athlete to enroll to an already existing run. \textbf{[HIGH]}
+	\requirement{29}  Track4Run must allow the Athlete to unroll a run. \textbf{[LOW]}
+ 	\requirement{30} Track4Run must allow the Spectator to see the position of the
+Athletes on a map during a run. \textbf{[HIGH]}
+	\end{itemize}
+
+	\chapter{Additional annotations}
+	Any additional point you want to raise on the quality of documentation and code.
+
+	\chapter{References}
+	\begin{itemize}
+		\item Requirement Analysis and Specification Document.pdf. Version 1.0 - 10.11.2018.
+		\item Design Document.pdf. Version 1.0 - 10.12.2018.
+		\item Implementation and Testing Document.pdf. Version 1.0 - 13.01.2019.
+	\end{itemize}
+
+\end{document}
