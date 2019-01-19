@@ -141,6 +141,7 @@
 %	\thispagestyle{empty}
 	\newpage
 %	\listoffigures
+\listoffigures
 	\listoftables
 %	\thispagestyle{empty}
 	\clearpage
@@ -149,7 +150,7 @@
 
 	\chapter{Introduction}
 	\section{Purpose}
-	This document describes in detail .. \\ 
+	This document is the Acceptance Test Plan (ATP) for \textbf{TrackMe} software. The acceptance test verifies that the system works as required and validates that the correct functionality has been delivered.  The main purpose of this test is to evaluate the system's compliance with the requirements and verify if it is has met the required criteria for delivery to end users. This is final testing performed when functional, system and regression testing is completed. Go or No Go decision is based upon this document.
 	
 	\section{Analyzed project}
 	Documents and source code regarding the project that was analyzed can be consulted from the repository 
@@ -168,8 +169,50 @@
 		\item $[TEST-n]$: n-test case.
 	\end{itemize}
 
- ----> describe the focuses of your validation
-activity and the results you have obtained.
+\section{Overview}
+This document describes the focuses of the validation activity and the results obtained. The below table describes how the activities under Acceptance Testing was formulated:
+
+\begin{table}[H]
+  \centering
+  \caption{Acceptance Testing Schedule}
+    \begin{tabular}{|l|l|}
+    \toprule
+   \multicolumn{1}{|c|}{\multirow{3}[2]{*}{\textit{\textbf{Activity}}}} &  \\
+& \multicolumn{1}{c|}{\textit{\textbf{Checkpoint}}} \\
+ &  \\
+    \midrule
+    \textit{Plan Acceptance Testing for  TrackMe} & \textit{Preliminary Acceptance Test Scenario} \\
+    \midrule
+    \textit{Identify Test Materials} & \textit{Preliminary Acceptance Test Data} \\
+    \midrule
+    \textit{Establish Acceptance Test Environment} & \textit{Acceptance Test Environment Inventory} \\
+    \midrule
+    \multirow{2}[2]{*}{\textit{Conduct Acceptance Test Readiness Review}} & \textit{Draft Acceptance Test Plan} \\
+          & \textit{Completed Test Readiness Checklist} \\
+    \midrule
+    \textit{Execute Tests} & \textit{Acceptance Test Progress} \\
+    \midrule
+    \textit{Complete Acceptance Testing} & \textit{Acceptance Test Summary } \\
+    \midrule
+    \textit{Document Acceptance Testing} & \textit{Final Acceptance Test Document} \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:addlabel}%
+\end{table}%
+Test traceability is used to verify that functional requirements are accounted for, and tested in the delivered software.  It provides traceability between the requirements and the test materials.\\
+Regarding the preparation of environment preparatory activities involve constructing the actual acceptance test environment and installing the hardware and software, including the software to be tested, in order to ensure the configuration is correct.  Changes need to be closely managed and controlled.  Prior to an installation or configuration, the acceptance test team reviews a list of affected components and the planned installation or configuration activities.  Deviations from the planned activities are recorded and reported to the acceptance test team.  The acceptance test team begins acceptance testing by conducting an initial series of ad hoc, diagnostic tests designed to exercise the acceptance test environment and verify that major system software capabilities are available and functioning.\\\\
+With the Acceptance Test Plan as the guiding document, components reviewed include, but are not limited to:
+\begin{itemize}
+\item{}Software components
+\item{}Database
+\item{}Environmental components
+\item{}Documentation
+\item{}Known problems and outstanding issues from the System Test
+\item{}Inventory of the acceptance test environment
+
+\end{itemize}
+If the status of one or more of the components is unsatisfactory, the parties identify corrective actions and schedule another ATD.  If the status is acceptable, then testing will proceed.\\
+Acceptance test execution is an iterative process that begins with the initial execution of the planned tests.  If no defects are discovered, then the test procedure has “passed.” If defects are discovered, they are documented.
 
 	\chapter{Installation setup}
 	%What you did to install the prototype as well as any problem you have faced in this phase, any incoherency you may have found when following the documentation accompanying the software.	
@@ -281,20 +324,170 @@ activity and the results you have obtained.
 	\end{itemize}
 	
 		\requirement{2} A customer not signed-on must be able to begin the Third Party’s registration process to TrackMe providing a username, a password and its organization data. \textbf{[LOW]}
-		\requirement{3}The system must provide a log-in interface for already registered users, not previously signed into the application. \textbf{[MEDIUM]}
+		\begin{itemize}
+		\test{3}: Register third party for the first time [Fig. \ref{fig:register_third_party}].
+			\begin{itemize}
+			\item \textbf{Inputs: } username=Tp1			
+			\item \textbf{Outcome: } At first, time out warning but then we redo the request, and everything was fine.
+			\item \textbf{Result: } Conditionally Passed. 
+			\end{itemize}
+			
+		\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.2\textwidth]{images/register_third_party.jpeg}
+					\caption[Data4Help Register Third Party]{Data4Help Register Third Party}
+				\label{fig:register_third_party}
+			\end{figure}
+			
+		\test{4}: Register a Third party with an already registered vat.
+			\begin{itemize}
+			\item \textbf{Inputs: } username=Tp1
+			\item \textbf{Outcome: } Error. The vat was duplicated, registration not allowed.
+			\item \textbf{Result: } Passed. 
+			 \end{itemize}	
+	\end{itemize}
+	
+\requirement{3}The system must provide a log-in interface for already registered users, not previously signed into the application. \textbf{[MEDIUM]}
+		\begin{itemize}
+		\test{5}: Login user with valid credentials [Fig. \ref{fig:register_third_party}].
+			\begin{itemize}
+			\item \textbf{Inputs: }Password=1234567890, Username=Tp1			
+			\item \textbf{Outcome: } OK. User Logged in successfully.
+			\item \textbf{Result: } Passed. 
+			\end{itemize}
+			
+			
+		\test{6}: Login with invalid credentials
+			\begin{itemize}
+			\item \textbf{Inputs: } Username=Tp1, Password=12341231
+			\item \textbf{Outcome: } Login Error.
+			\item \textbf{Result: } Passed. 
+			 \end{itemize}	
+	\end{itemize}
+	
 		\requirement{4}TrackMe must provide to users the possibility to change their username. \textbf{[LOW]}
+		
 		\requirement{5}TrackMe must provide to registered users the possibility to change their password. \textbf{[LOW]}
 		\requirement{6}The system must provide the possibility to the user of logging out. \textbf{[LOW]}
 		\requirement{7}The system must provide the possibility to change Individual’s personal data. \textbf{[LOW]}
 		\requirement{8}The system must provide the possibility to change Third Party’s organization data. \textbf{[LOW]}
 		\requirement{9} Data4help must allow the Third-Parties to send a request to a particular individual, provided his SSN/FC.  \textbf{[HIGH]}
+		
+				\begin{itemize}
+		\test{7}: Send request to individual [Fig. \ref{fig:request_individual}].
+			\begin{itemize}
+			\item \textbf{Inputs: } SSN 344918500			
+			\item \textbf{Outcome: } Ok. Request was sent to individual successfully.
+			\item \textbf{Result: } Passed. 
+			\end{itemize}
+			\item{\textbf{Possible Bugs:}} a third party can send 2 requests to the same user, the user can accept one of them and reject the other, and the DB will be in an inconsistent state.
+			
+		\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.2\textwidth]{images/request_individual.jpeg}
+					\caption[Data4Help Request Individual]{Data4Help Request Individual}
+				\label{fig:request_individual}
+			\end{figure}
+			
+		\test{8} : Send request with an invalid ssn
+			\begin{itemize}
+			\item \textbf{Inputs: } SSN 1112121a (invalid)
+			\item \textbf{Outcome: } Error. Invalid SSN.
+			\item \textbf{Result: } Passed. 
+			 \end{itemize}	
+	\end{itemize}
+	
 	\requirement{10} Data4help must allow the Third-Parties to generated a request for a group of individuals.  \textbf{[HIGH]}
+	
+						\begin{itemize}
+		\test{9}: Request for group of individuals [Fig. \ref{fig:request_group_individuals}].
+			\begin{itemize}
+			\item \textbf{Inputs: } -			
+			\item \textbf{Outcome: } The system cannot anonymize the data (minimum amount of individuals is not satisfied), and error is displayed.
+			\item \textbf{Result: } Manual testing was not possible.
+			\end{itemize}
+			\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.2\textwidth]{images/request_group_individuals.jpeg}
+					\caption[Data4Help Request Group Individual]{Data4Help Request Group Individual}
+				\label{fig:request_group_individuals}
+			\end{figure}
+
+	\end{itemize}
+	
 	\requirement{11} The system must be able to anonymize users’ requested data. \textbf{[HIGH]}
+	\begin{itemize}
+		\test{10}: Anonymize data.
+			\begin{itemize}
+			\item \textbf{Inputs: } -			
+			\item \textbf{Outcome: } cannot be tested because there is no enough data.
+			\item \textbf{Result: } Testing was not possible. 
+			\end{itemize}
+			
+	\end{itemize}
+
+	
 	\requirement{12} Data4help must allow the Third-Parties to choose if subscribe to new data associated with a particular Individual. \textbf{[MEDIUM]}
+	
+			
+				\begin{itemize}
+		\test{11}: Subscribe to new data of an individual while requesting for data [Fig. \ref{fig:data_subscription}].
+			\begin{itemize}
+			\item \textbf{Inputs: } SSN 344918500			
+			\item \textbf{Outcome: } If the request is accepted by the individual, the subscription is created automatically.
+			\item \textbf{Result: } Passed. 
+			\end{itemize}
+			\item{\textbf{Possible Bugs:}} even if the third party is subscribed to the individual, he does not receive the data as soon as it is produced. To do it, he has to look for the accepted request and click on the individual to visualize a chart.
+			
+		\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.5\textwidth]{images/data_subscription.jpeg}
+					\caption[Data4Help data subscription]{Data4Help data subscription}
+				\label{fig:data_subscription}
+			\end{figure}
+			
+		
+	\end{itemize}
+	
 	\requirement{13} The system must be able to periodically query the database in order to get new data as soon as they are produced. \textbf{[MEDIUM]}
+	
+			
+				\begin{itemize}
+		\test{12}: Run the query for data periodically.
+			\begin{itemize}
+			\item \textbf{Inputs: } -			
+			\item \textbf{Outcome: } None of the provided documents state the meaning of periodically and there is no way of testing it.
+
+			\item \textbf{Result: } Testing was not possible. 
+			\end{itemize}
+			
+	\end{itemize}
+	
+	
 	\requirement{14} Data4help must allow the Third Party to see a list of sent requests and related Individual’s data. \textbf{[LOW]}
 	\requirement{15} Data4help must allow the Individual to see a list of the received requests from Third Parties. \textbf{[LOW]}
 	\requirement{16} Data4help must allow the Individual to accept or reject a request from the list. \textbf{[MEDIUM]}
+			
+				\begin{itemize}
+		\test{13}: Accept or Reject the request [Fig. \ref{fig:request_acceptreject}].
+			\begin{itemize}
+			\item \textbf{Inputs: } password=1234567890, username=Tp1			
+			\item \textbf{Outcome: } Ok. The status is updated and the request is removed from the list (no update options).
+			\item \textbf{Result: } Passed. 
+			\end{itemize}
+			
+			
+		\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.2\textwidth]{images/manage_requests.jpeg}
+					\caption[Data4Help Accept/Reject Request]{Data4Help Accept/Reject Request}
+				\label{fig:request_acceptreject}
+			\end{figure}
+			
+
+	\end{itemize}
+	
+	
 	\requirement{17} Data4help must allow the Individual to connect an external device through BT or NFC. \textbf{[HIGH]}
 	\end{itemize}
 	
@@ -303,14 +496,105 @@ activity and the results you have obtained.
 	\begin{itemize}
 	\item \textbf{Runs management}
 	\requirement{24} Track4Run must allow the organizer to create a run with a date, time, duration and a path. \textbf{[HIGH]}
+					\begin{itemize}
+		\test{14}: Create a run with valid data set [Fig. \ref{fig:run_path}].
+			\begin{itemize}
+			\item \textbf{Inputs: } Set title, Date, time and path.			
+			\item \textbf{Outcome: } Ok. Path was created successfully.
+			\item \textbf{Result: } Passed. 
+			\end{itemize}
+			
+			
+		\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.2\textwidth]{images/define_path.jpeg}
+					\caption[Track4Run Create path]{Track4Run Create path}
+				\label{fig:run_path}
+			\end{figure}
+			
+		\test{15} : Create a run with invalid fields
+			\begin{itemize}
+			\item \textbf{Inputs: }Select only 2 points
+			\item \textbf{Outcome: }Path with less than 2 points are not valid. All fields are validated.
+			\item \textbf{Result: } Passed. 
+			 \end{itemize}	
+	\end{itemize}
 	\requirement{25} The system must provide an interface that allows the user to define a path on an interactive map. \textbf{[MEDIUM]}
-	\requirement{26} Track4Run must allow the organizer to start a run previously
-created. \textbf{[MEDIUM]}
+						\begin{itemize}
+		\test{16}: Set path on an interactive map [Fig. \ref{fig:run_path}].
+			\begin{itemize}
+			\item \textbf{Result: } Passed (same as above). 
+			\end{itemize}
+	
+	\end{itemize}
+	\requirement{26} Track4Run must allow the organizer to start a run previously created. \textbf{[MEDIUM]}
+	\begin{itemize}
+	\test{17} : Start a run
+				\begin{itemize}
+			\item \textbf{Inputs: } Select a run to start from the active run list
+			\item \textbf{Outcome: } the organizer can check the list of runs he created and start any of them at any time (the system does not check whether it is about to take place or not)
+			\item \textbf{Result: } Fail. 
+			\end{itemize}
+\item{\textbf{Possible Bugs:}} the only way of "stopping" a run is deleting it.
+
+\test{18} : Start a run with less than 2 athletes
+				\begin{itemize}
+			\item \textbf{Inputs: } Select a run in which there are less than 2 athletes participating
+			\item \textbf{Outcome: } it was possible, considering domain assumption 18 (A -18).
+			\item \textbf{Result: } Passed. 
+			\end{itemize}
+
+\test{19} : Start a run that start in future dates
+				\begin{itemize}
+			\item \textbf{Inputs: } Select run whose start data is in future. 
+			\item \textbf{Outcome: } Possible to start the run, but cannot be "watched" by the spectators.
+			\item \textbf{Result: } Fail. 
+			\end{itemize}
+
+	\end{itemize}
+
+
 	\requirement{27} Track4Run must allow the organizer to delete a run previously created. \textbf{[LOW]}
 	\requirement{28} Track4Run must allow the Athlete to enroll to an already existing run. \textbf{[HIGH]}
+		\begin{itemize}
+	\test{20} : Enroll a run [Fig. \ref{fig:run_list}].
+				\begin{itemize}
+			\item \textbf{Inputs: } Select a run to to enroll from active run list
+			\item \textbf{Outcome: } Ok. User is allowed to enroll into the run.
+			\item \textbf{Result: } Passed.
+			\end{itemize}
+\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.5\textwidth]{images/runs_list.jpeg}
+					\caption[Track4Run Enroll Run]{Track4Run Enroll Run}
+				\label{fig:run_list}
+			\end{figure}
+\test{21} : Enroll to a run that has already started
+				\begin{itemize}
+			\item \textbf{Inputs: } Select a run to enroll which has already been started.
+			\item \textbf{Outcome: } the user can enroll even if the run has started.
+			\item \textbf{Result: } Fail. 
+			\end{itemize}
+
+	\end{itemize}
 	\requirement{29}  Track4Run must allow the Athlete to unroll a run. \textbf{[LOW]}
- 	\requirement{30} Track4Run must allow the Spectator to see the position of the
-Athletes on a map during a run. \textbf{[HIGH]}
+ 	\requirement{30} Track4Run must allow the Spectator to see the position of the Athletes on a map during a run.\textbf{[HIGH]}
+ 			\begin{itemize}
+	\test{22} : Spectators can see the position of athletes during a run.
+				\begin{itemize}
+			\item \textbf{Inputs: } press watch, if the run wasn't previously started by the organizer an error message is displayed.
+			\item \textbf{Outcome: } We can visualize the map with the path but since there's no data, it is possible to see the position of the athletes.
+			\item \textbf{Result: } Testing with real data was not possible.
+			\end{itemize}
+
+\test{23} : See position of athletes in a a run that hasn't started is not possible.
+				\begin{itemize}
+			\item \textbf{Inputs: } Select a run which has already been started.
+			\item \textbf{Outcome: } No real data was available.
+			\item \textbf{Result: } Testing was not possible. 
+			\end{itemize}
+
+	\end{itemize}
 	\end{itemize}
 
 	\chapter{Additional annotations}
