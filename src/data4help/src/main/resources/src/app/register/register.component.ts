@@ -86,9 +86,9 @@ export class RegisterComponent implements OnInit {
             'birthDate': this.iControls.birthDate.value,
             'gender': this.iControls.gender.value,
             'address': {
-                'city': address[0],
-                'province': address[1],
-                'country': address[2]
+                'city': address[0].trim(),
+                'province': address[1].trim(),
+                'country': address[2].trim()
             },
             'bloodType': this.iControls.bloodType.value,
             'email': this.iControls.email.value,
