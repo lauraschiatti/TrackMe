@@ -141,8 +141,7 @@
 %	\thispagestyle{empty}
 	\newpage
 %	\listoffigures
-\listoffigures
-	\listoftables
+	\listoffigures
 %	\thispagestyle{empty}
 	\clearpage
 	\pagenumbering{arabic}
@@ -150,7 +149,7 @@
 
 	\chapter{Introduction}
 	\section{Purpose}
-	This document is the Acceptance Test Plan (ATP) for \textbf{TrackMe} software. The acceptance test verifies that the system works as required and validates that the correct functionality has been delivered.  The main purpose of this test is to evaluate the system's compliance with the requirements and verify if it is has met the required criteria for delivery to end users. This is final testing performed when functional, system and regression testing is completed. Go or No Go decision is based upon this document.
+	This document is the Acceptance Test Plan (ATP) for \textbf{TrackMe} software. The acceptance test verifies that the system works as required and validates that the correct functionality has been delivered.  The main purpose of this test is to evaluate the system's compliance with the requirements and verify if it is has met the required criteria for delivery to end users. 
 	
 	\section{Analyzed project}
 	Documents and source code regarding the project that was analyzed can be consulted from the repository 
@@ -283,6 +282,68 @@ Acceptance test execution is an iterative process that begins with the initial e
 \end{itemize}
 	
 	\section{Client Build and Installation}
+	
+	\begin{itemize}
+		\item  Build with Android Studio 
+	
+		\begin{enumerate}
+			\item Download and install  \href{https://developer.android.com/studio/}{\textbf{Android Studio}}
+			
+			\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.5\textwidth]{images/android_studio.png}
+					\caption[Android Studio]{Android Studio}
+				\label{fig:android_studio}
+			\end{figure}
+			
+			\item Select \textit{Open an existing android studio project} 
+			\item Open ”ferrantemattarutigliano/software/client/build.gradle”.
+			
+			\item Configure the project. Go to  \textit{Select file} $>$ project structure. 
+			
+			\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.5\textwidth]{images/project_structure.png}
+					\caption[Configure Project Structure]{ Configure Android Studio}
+				\label{fig:project_structure}
+			\end{figure}
+			
+			\item Install \textbf{Android NDK} by clicking in the \textit{Download} link (Fig. \ref{fig:android_studio}).
+			
+			\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.5\textwidth]{images/android_NDK.png}
+					\caption[Install Android NDK]{Install Android NDK}
+				\label{fig:android_NDK}
+			\end{figure}
+			
+			\item Run the application and select a deployment target. For testing a Samsung J8 was used instead of a virtual device \ref{fig:deployment_target}.  
+			
+			\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.5\textwidth]{images/deployment_target.png}
+					\caption[Choose Deployment Target]{Choose Deployment Target}
+				\label{fig:deployment_target}
+			\end{figure}
+			
+			\item Download the corresponding SDK.
+			
+			\begin{figure}[H]
+					\centering
+				\includegraphics[width=0.5\textwidth]{images/install_sdk.png}
+					\caption[Install SDK]{Install SDK}
+				\label{fig:install_sdk}
+			\end{figure}
+
+	\section{External Device App Build and Installation}
+	It was possible to run the device emulator. But it was not possible to run both emulators at the same time and make them communicate. The main problem was due to the next command, it was not working
+	
+		\begin{lstlisting}[language=bash]
+			$ adb -d forward tcp :5601 tcp :5601
+		\end{lstlisting}
+	
+		\end{enumerate}
+	\end{itemize}
 
 	\chapter{Acceptance test cases}
 	%The acceptance test cases you have applied and the corresponding outcome: you can extract test cases by analysing the RASD the other team has developed, the list of features that the team has actually developed as well as any other case that you, as a user of the application, think is appropriate (please provide motivation for your choice). 
@@ -424,13 +485,10 @@ Acceptance test execution is an iterative process that begins with the initial e
 			\item \textbf{Inputs: } -			
 			\item \textbf{Outcome: } cannot be tested because there is no enough data.
 			\item \textbf{Result: } Testing was not possible. 
-			\end{itemize}
-			
+			\end{itemize}	
 	\end{itemize}
-
 	
 	\requirement{12} Data4help must allow the Third-Parties to choose if subscribe to new data associated with a particular Individual. \textbf{[MEDIUM]}
-	
 			
 				\begin{itemize}
 		\test{11}: Subscribe to new data of an individual while requesting for data [Fig. \ref{fig:data_subscription}].
@@ -446,13 +504,11 @@ Acceptance test execution is an iterative process that begins with the initial e
 				\includegraphics[width=0.5\textwidth]{images/data_subscription.jpeg}
 					\caption[Data4Help data subscription]{Data4Help data subscription}
 				\label{fig:data_subscription}
-			\end{figure}
-			
+			\end{figure}		
 		
 	\end{itemize}
 	
-	\requirement{13} The system must be able to periodically query the database in order to get new data as soon as they are produced. \textbf{[MEDIUM]}
-	
+	\requirement{13} The system must be able to periodically query the database in order to get new data as soon as they are produced. \textbf{[MEDIUM]}	
 			
 				\begin{itemize}
 		\test{12}: Run the query for data periodically.
@@ -464,8 +520,7 @@ Acceptance test execution is an iterative process that begins with the initial e
 			\end{itemize}
 			
 	\end{itemize}
-	
-	
+
 	\requirement{14} Data4help must allow the Third Party to see a list of sent requests and related Individual’s data. \textbf{[LOW]}
 	\requirement{15} Data4help must allow the Individual to see a list of the received requests from Third Parties. \textbf{[LOW]}
 	\requirement{16} Data4help must allow the Individual to accept or reject a request from the list. \textbf{[MEDIUM]}
@@ -476,8 +531,7 @@ Acceptance test execution is an iterative process that begins with the initial e
 			\item \textbf{Inputs: } password=1234567890, username=Tp1			
 			\item \textbf{Outcome: } Ok. The status is updated and the request is removed from the list (no update options).
 			\item \textbf{Result: } Passed. 
-			\end{itemize}
-			
+			\end{itemize}		
 			
 		\begin{figure}[H]
 					\centering
@@ -485,7 +539,6 @@ Acceptance test execution is an iterative process that begins with the initial e
 					\caption[Data4Help Accept/Reject Request]{Data4Help Accept/Reject Request}
 				\label{fig:request_acceptreject}
 			\end{figure}
-			
 
 	\end{itemize}
 	
@@ -510,8 +563,7 @@ Acceptance test execution is an iterative process that begins with the initial e
 			\item \textbf{Inputs: } Set title, Date, time and path.			
 			\item \textbf{Outcome: } Ok. Path was created successfully.
 			\item \textbf{Result: } Passed. 
-			\end{itemize}
-			
+			\end{itemize}			
 			
 		\begin{figure}[H]
 					\centering
