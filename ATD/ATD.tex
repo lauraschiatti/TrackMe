@@ -293,6 +293,7 @@ Acceptance test execution is an iterative process that begins with the initial e
 	All requirements defined as \textbf{MEDIUM} and \textbf{HIGH} were tested and their outcomes. Even if \textit{registration} (for both third parties and individuals) was not consider relevant, it was also assessed in order to have available users for testing.
 
 	\section{Tested features}
+	As commented in the ITD document, sometimes when trying to sign-up or log-in a user, or when doing generic requests, the response was a \textit{Connection timeout} error message. Since this was mentioned in the ITD document, every time we got the message it was not considered as an issue.
 
 	\subsection{Data4Help}
 	\begin{itemize}
@@ -328,8 +329,8 @@ Acceptance test execution is an iterative process that begins with the initial e
 		\test{3}: Register third party for the first time [Fig. \ref{fig:register_third_party}].
 			\begin{itemize}
 			\item \textbf{Inputs: } username=Tp1			
-			\item \textbf{Outcome: } At first, time out warning but then we redo the request, and everything was fine.
-			\item \textbf{Result: } Conditionally Passed. 
+			\item \textbf{Outcome: } Ok. Third party was registered.
+			\item \textbf{Result: } Passed. 
 			\end{itemize}
 			
 		\begin{figure}[H]
@@ -402,9 +403,10 @@ Acceptance test execution is an iterative process that begins with the initial e
 						\begin{itemize}
 		\test{9}: Request for group of individuals [Fig. \ref{fig:request_group_individuals}].
 			\begin{itemize}
-			\item \textbf{Inputs: } -			
-			\item \textbf{Outcome: } The system cannot anonymize the data (minimum amount of individuals is not satisfied), and error is displayed.
-			\item \textbf{Result: } Manual testing was not possible.
+			\item \textbf{Inputs: } City=Milan	
+			\item \textbf{Outcome: } The system creates the request.
+			\item \textbf{Result: } Passed.
+			\item \textbf{Comment: } Since the database was empty, and the anonymization constraint was that more than 1000 users should fulfil the filter, we removed the constraint and tested the requirement.    
 			\end{itemize}
 			\begin{figure}[H]
 					\centering
@@ -435,10 +437,10 @@ Acceptance test execution is an iterative process that begins with the initial e
 			\begin{itemize}
 			\item \textbf{Inputs: } SSN 344918500			
 			\item \textbf{Outcome: } If the request is accepted by the individual, the subscription is created automatically.
-			\item \textbf{Result: } Passed. 
+			\item \textbf{Result: } Passed.
+			\item \textbf{Possible bug: } Even if the third party is not subscribed to an Individual, it receives the data.
 			\end{itemize}
-			\item{\textbf{Possible Bugs:}} even if the third party is subscribed to the individual, he does not receive the data as soon as it is produced. To do it, he has to look for the accepted request and click on the individual to visualize a chart.
-			
+						
 		\begin{figure}[H]
 					\centering
 				\includegraphics[width=0.5\textwidth]{images/data_subscription.jpeg}
@@ -487,10 +489,16 @@ Acceptance test execution is an iterative process that begins with the initial e
 
 	\end{itemize}
 	
-	
 	\requirement{17} Data4help must allow the Individual to connect an external device through BT or NFC. \textbf{[HIGH]}
+	\begin{itemize}
+		\test{13}: Accept or Reject the request [Fig. \ref{fig:request_acceptreject}].
+			\begin{itemize}
+			\item \textbf{Inputs: } password=1234567890, username=Tp1			
+			\item \textbf{Outcome: } Ok. The status is updated and the request is removed from the list (no update options).
+			\item \textbf{Result: } Passed. 
+			\end{itemize}
 	\end{itemize}
-	
+	\end{itemize}
 	\subsection{Track4Run}
 	
 	\begin{itemize}
