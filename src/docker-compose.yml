@@ -2,8 +2,15 @@ version: '3'
 services:
     redis:
         image: "redis:4.0"
+        links:
+            - "d4h"
     mongodb:
         image: "mongo:4.0.4"
+        ports: 
+            - "27017:27017"
+        links:
+            - "d4h"
+            - "asos"
     d4h_front:
         build:
             context: ./data4help
@@ -29,6 +36,10 @@ services:
             - "mongodb"
             - "redis"
         command: ["./wait-for-it.sh", "mongodb:27017", "--", "./wait-for-it.sh", "redis:6379", "--", "sh", "./restore_db_and_start.sh"]
+        links:
+            - "redis"
+            - "mongodb"
+            - "asos"
     asos:
         build:
             context: ./asos
@@ -41,6 +52,9 @@ services:
         depends_on:
             - "mongodb"
         command: ["./wait-for-it.sh", "mongodb:27017", "--", "./wait-for-it.sh", "redis:6379", "--", "sh", "./restore_db_and_start.sh"]
+        links:
+            - "mongodb"
+            - "d4h"
     data_gen:
         build: ./d4h_data_generator
         environment:
@@ -48,3 +62,5 @@ services:
         depends_on:
             - "d4h"
         command: ["./wait-for-it.sh", "d4h:4567", "--", "php", "./d4h_generator.php"]
+        links:
+            - "d4h"
