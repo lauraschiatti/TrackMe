@@ -212,6 +212,7 @@ With the Acceptance Test Plan as the guiding document, components reviewed inclu
 
 \end{itemize}
 If the status of one or more of the components is unsatisfactory, the parties identify corrective actions and schedule another ATD.  If the status is acceptable, then testing will proceed.\\
+
 Acceptance test execution is an iterative process that begins with the initial execution of the planned tests.  If no defects are discovered, then the test procedure has “passed.” If defects are discovered, they are documented.
 
 	\chapter{Installation setup}
@@ -355,7 +356,14 @@ Acceptance test execution is an iterative process that begins with the initial e
 	All requirements defined as \textbf{MEDIUM} and \textbf{HIGH} were tested and their outcomes. Even if \textit{registration} (for both third parties and individuals) was not consider relevant, it was also assessed in order to have available users for testing.
 
 	\section{Tested features}
-	As commented in the ITD document, sometimes when trying to sign-up or log-in a user, or when doing generic requests, the response was a \textit{Connection timeout} error message. Since this was mentioned in the ITD document, every time we got the message it was not considered as an issue.
+	As commented in the ITD document, sometimes when trying to sign-up or log-in a user, or when doing generic requests, the response was a \textit{Connection timeout} error message. Since this was mentioned in the ITD document, every time we got the message it was not considered as an issue.\\
+	
+	On the other hand, the template for defining the tests is the following:\\
+	\textbf{Input}: The inputs used to test the requirement.\\
+	\textbf{Output}: The obtained output after following the steps in the related use cases.\\
+	\textbf{Result}: Passed of Fail. The result of the procedure.\\
+	\textbf{Possible bugs}: If there are possible bugs in the procedure, they are listed here.\\
+	\textbf{Comments}: Some relevant comments about the procedure.
 
 	\subsection{Data4Help}
 	\begin{itemize}
