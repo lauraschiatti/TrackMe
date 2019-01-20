@@ -199,7 +199,8 @@ This document describes the focuses of the validation activity and the results o
   \label{tab:addlabel}%
 \end{table}%
 Test traceability is used to verify that functional requirements are accounted for, and tested in the delivered software.  It provides traceability between the requirements and the test materials.\\
-Regarding the preparation of environment preparatory activities involve constructing the actual acceptance test environment and installing the hardware and software, including the software to be tested, in order to ensure the configuration is correct.  Changes need to be closely managed and controlled.  Prior to an installation or configuration, the acceptance test team reviews a list of affected components and the planned installation or configuration activities.  Deviations from the planned activities are recorded and reported to the acceptance test team.  The acceptance test team begins acceptance testing by conducting an initial series of ad hoc, diagnostic tests designed to exercise the acceptance test environment and verify that major system software capabilities are available and functioning.\\\\
+
+Regarding the preparation of environment preparatory activities involve constructing the actual acceptance test environment and installing the hardware and software, including the software to be tested, in order to ensure the configuration is correct.  Changes need to be closely managed and controlled. Prior to an installation or configuration, the acceptance test team reviews a list of affected components and the planned installation or configuration activities.  Deviations from the planned activities are recorded and reported to the acceptance test team.  The acceptance test team begins acceptance testing by conducting an initial series of ad hoc, diagnostic tests designed to exercise the acceptance test environment and verify that major system software capabilities are available and functioning.\\\\
 With the Acceptance Test Plan as the guiding document, components reviewed include, but are not limited to:
 \begin{itemize}
 \item{}Software components
@@ -382,7 +383,7 @@ Acceptance test execution is an iterative process that begins with the initial e
 			\item \textbf{Result: } Passed. 
 			 \end{itemize}	
 			 
-		\item \textbf{Possible bugs}: Birth date field is not validated
+		\item \textbf{Possible bugs}: Birth date field is not validated, a user with a future birth date can be registered.
 	\end{itemize}
 	
 		\requirement{2} A customer not signed-on must be able to begin the Third Party’s registration process to TrackMe providing a username, a password and its organization data. \textbf{[LOW]}
@@ -467,7 +468,7 @@ Acceptance test execution is an iterative process that begins with the initial e
 			\item \textbf{Inputs: } City=Milan	
 			\item \textbf{Outcome: } The system creates the request.
 			\item \textbf{Result: } Passed.
-			\item \textbf{Comment: } Since the database was empty, and the anonymization constraint was that more than 1000 users should fulfil the filter, we removed the constraint and tested the requirement.    
+			\item \textbf{Comment: } Since the database was empty, and the anonymization constraint was that more than 1000 users should fulfil the filter, we removed the constraint and tested the requirement. Moreover, we used an script to create 1000 users provided by the team, and the anonymization constraint is working ok.  
 			\end{itemize}
 			\begin{figure}[H]
 					\centering
@@ -592,7 +593,7 @@ Acceptance test execution is an iterative process that begins with the initial e
 			\item \textbf{Outcome: } the organizer can check the list of runs he created and start any of them at any time (the system does not check whether it is about to take place or not)
 			\item \textbf{Result: } Fail. 
 			\end{itemize}
-\item{\textbf{Possible Bugs:}} the only way of "stopping" a run is deleting it.
+\item{\textbf{Comment:}} the only way of "stopping" a run is deleting it.
 
 \test{18} : Start a run with less than 2 athletes
 				\begin{itemize}
@@ -640,22 +641,36 @@ Acceptance test execution is an iterative process that begins with the initial e
 	\test{22} : Spectators can see the position of athletes during a run.
 				\begin{itemize}
 			\item \textbf{Inputs: } press watch, if the run wasn't previously started by the organizer an error message is displayed.
-			\item \textbf{Outcome: } We can visualize the map with the path but since there's no data, it is possible to see the position of the athletes.
-			\item \textbf{Result: } Testing with real data was not possible.
+			\item \textbf{Outcome: } We can visualize the map with the path and it is possible to see the position of the athletes.
+			\item \textbf{Result: } Pass.
 			\end{itemize}
 
 \test{23} : See position of athletes in a a run that hasn't started is not possible.
 				\begin{itemize}
-			\item \textbf{Inputs: } Select a run which has already been started.
-			\item \textbf{Outcome: } No real data was available.
-			\item \textbf{Result: } Testing was not possible. 
+			\item \textbf{Inputs: } Click on watch.
+			\item \textbf{Outcome: } Since the run has not started, an error message is displayed.
+			\item \textbf{Result: } Pass. 
 			\end{itemize}
 
 	\end{itemize}
 	\end{itemize}
 
 	\chapter{Additional annotations}
-	Any additional point you want to raise on the quality of documentation and code.
+	\label{chap:additional_annotations}
+	We have some comments regarding the RASD and DD documents. It seems that these documents are outdated since they do not reflect the current status of the application. We think they should be updated in order to represent in a better way the present state of the project.\\
+	
+	Furthermore, we have seen some not well described requirements, like REQ-13, which states that the system must be able to \textit{periodically} query the database in order to get the data as soon as it is produced. This requirement could not be tested since we don't know what period it should be. Moreover, we think that some assumptions are actually not assumptions at all and should be requirements, like the A-16, which states that \textit{The organizer defines a not empty path} (something which should be impossible). Also, some goals are obvious like GOAL - 01 \textit{Allow a Guest to register as an Individual}. \\
+	
+	Apart from these comments about the document, we think it is clear enough to understand the system and it's functionality.
+	
+	\chapter{Conclusion}
+	We managed to test all the High and Medium requirements and, even though this application is a prototype and has some bugs, we think it was well developed. In the overall, the most important requirements are working fine.\\
+	
+	Furthermore, as mentioned in Chapter \ref{chap:additional_annotations}, we think that some of the requirements, goals and assumptions have not been written in a proper way. For example, there are no definitions for \textit{periodically}, so it was impossible to test the rate time the system should check the data base. \\
+	
+	Finally, we think that the RASD and DD document should be updated to reflect the last changes in the system.\\
+	
+	To conclude, the Data4Help application is working fine for the Individual or the Third Parties: the individuals can accept or reject the requests, and the third parties receives the notifications every time the information of a user changes; Moreover, the third parties can create group notifications when it satisfies the anonymization constraints. Also, Track4Run section is working fine as well: the organizer can create a run, select the way points and start the run, and the athletes can enrol into a run and the spectators can watch the position of the athletes during the run. Hence, we consider that the application can be \textbf{\emph{accepted}}.
 
 	\chapter{References}
 	\begin{itemize}
