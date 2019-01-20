@@ -336,20 +336,17 @@ Acceptance test execution is an iterative process that begins with the initial e
 					\caption[Install SDK]{Install SDK}
 				\label{fig:install_sdk}
 			\end{figure}
-
+		\end{enumerate}
+	\end{itemize}
+	
 	\section{External Device App Build and Installation}
 	It was possible to run the device emulator. But it was not possible to run both emulators at the same time and make them communicate. The main problem was due to the next command, it was not working
 	
 		\begin{lstlisting}[language=bash]
 			$ adb -d forward tcp :5601 tcp :5601
 		\end{lstlisting}
-	
-		\end{enumerate}
-	\end{itemize}
 
 	\chapter{Acceptance test cases}
-	%The acceptance test cases you have applied and the corresponding outcome: you can extract test cases by analysing the RASD the other team has developed, the list of features that the team has actually developed as well as any other case that you, as a user of the application, think is appropriate (please provide motivation for your choice). 
-	
 	\section{Motivation}
 	The system requirements are categorized according to their importance regarding the scope of the problem and the main functionalities to be implemented in order to have a minimum viable prototype as \textbf{HIGH}, \textbf{MEDIUM} and \textbf{LOW}. \\
 
