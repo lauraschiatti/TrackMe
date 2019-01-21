@@ -75,7 +75,7 @@ public class APIManager {
 
     private void trace(String type, ThirdParty tp, String url, Object obj) {
         String message = String.format("%s sent to ThirdParty %s at the following URL: %s with body: %s", type, tp.getName(), url, jsonTransformer.toJson(obj));
-        logger.trace(message);
+        logger.info(message);
     }
 
 }
