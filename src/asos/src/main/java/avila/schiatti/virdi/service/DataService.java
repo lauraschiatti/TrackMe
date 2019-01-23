@@ -12,6 +12,8 @@ import avila.schiatti.virdi.resource.*;
 import avila.schiatti.virdi.service.request.IndividualDataRequest;
 import avila.schiatti.virdi.service.request.NotificationRequest;
 import avila.schiatti.virdi.service.response.ResponseWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 
@@ -24,9 +26,8 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 public class DataService extends Service {
-
+    private static Logger logger = LoggerFactory.getLogger(DataService.class);
     private static final String APPROVED_REQUEST = "APPROVED";
-    private static final String REJECTED_REQUEST = "REJECTED";
 
     private UserResource userResource;
     private EmergencyContactResource contactResource;
@@ -61,11 +62,13 @@ public class DataService extends Service {
                 .map(EmergencyContact::getAddress)
                 .collect(Collectors.toList());
 
+        logger.info("Get addresses: {}", jsonTransformer.toJson(addresses));
         return new ResponseWrapper<>(addresses);
     }
 
     private ResponseWrapper<String> getRequestNotification(Request request, Response response) {
         NotificationRequest notification = jsonTransformer.fromJson(request.body(), NotificationRequest.class);
+        logger.info("Got following notification: {}", jsonTransformer.toJson(notification));
 
         // approved request
         if (APPROVED_REQUEST.equalsIgnoreCase(notification.getStatus())) {
@@ -91,6 +94,7 @@ public class DataService extends Service {
 
     private ResponseWrapper<String> getIndividualData(Request req, Response res) {
         IndividualDataRequest dataRequest = jsonTransformer.fromJson(req.body(), IndividualDataRequest.class);
+        logger.info("Got following individual data: {}", jsonTransformer.toJson(dataRequest));
 
         ASOSUser individual = userResource.getBySSN(dataRequest.getSsn());
 

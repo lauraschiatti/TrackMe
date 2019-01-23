@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import unirest.Unirest;
 
 public class APIManager {
-    private static final Gson jsonTransformer = new GsonBuilder().create();
+    private static final Gson jsonTransformer = JSONObjectMapper.jsonTransformer;
     private static Logger logger = LoggerFactory.getLogger(APIManager.class);
 
     private APIManager() {
@@ -22,6 +22,6 @@ public class APIManager {
 
     public void sendNotification(EmergencyContact contact, Object request) {
         String message = String.format("Information sent to %s at URL %s with the following information %s", contact.getName(), contact.getUrl(), jsonTransformer.toJson(request));
-        logger.trace(message);
+        logger.info(message);
     }
 }

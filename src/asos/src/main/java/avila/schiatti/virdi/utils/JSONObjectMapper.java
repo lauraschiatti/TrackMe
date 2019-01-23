@@ -10,9 +10,8 @@ import unirest.ObjectMapper;
 import java.time.LocalDate;
 
 public class JSONObjectMapper implements ObjectMapper {
-    private Gson jsonTransformer = new GsonBuilder()
+    public static final Gson jsonTransformer = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd")
-            .setPrettyPrinting()
             .registerTypeAdapter(ObjectId.class, new ObjectIDAdapter())
             .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
             .create();

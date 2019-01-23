@@ -65,11 +65,11 @@ public class APIManager {
 
     private void post(String url, Object object) {
         Unirest.post(url)
-                .header("accept", APPLICATION_JSON)
+                .header("content-type", APPLICATION_JSON)
                 .body(object)
                 .asStringAsync(response -> {
                     String message = String.format("Request sent to {{ %s }} had the following response {{ %s }} with status %d", url, response.getBody(), response.getStatus());
-                    APIManager.logger.info(message);
+                    logger.info(message);
                 });
     }
 

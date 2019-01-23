@@ -72,8 +72,8 @@ function pushData($data) {
     if(curl_errno($ch)) {
         echo "error ".curl_error($ch)."\n";
     }
-    
-    $response = curl_exec($ch) ;
+
+    // $response = curl_exec($ch) ;
 
     //close URL resource
     curl_close($ch);

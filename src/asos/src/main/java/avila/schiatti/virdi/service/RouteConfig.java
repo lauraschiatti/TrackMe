@@ -35,7 +35,7 @@ public class RouteConfig {
             res.type("application/json");
         });
 
-        path("/api/", () -> {
+        path("/api", () -> {
             for (Service service : services) {
                 String infoMessage = "Service: ".concat(service.getClass().getName()).concat(" setting up API endpoints..");
                 logger.info(infoMessage);
