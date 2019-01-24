@@ -49,7 +49,7 @@ public class SearchService extends Service {
         get("/search", this::search, jsonTransformer::toJson);
     }
 
-    private ResponseWrapper<Collection<Data>> search(Request req, Response res){
+    private ResponseWrapper<List<Data>> search(Request req, Response res){
         String thirdPartyId = req.headers(Data4HelpApp.USER_ID);
         D4HUser user = userResource.getById(thirdPartyId);
 
@@ -59,7 +59,7 @@ public class SearchService extends Service {
 
         String ssn = req.queryParams("ssn");
 
-        Collection<Data> data;
+        List<Data> data;
 
         if(!Validator.isNullOrEmpty(ssn)){
             Individual individual = userResource.getBySSN(ssn);
@@ -95,7 +95,7 @@ public class SearchService extends Service {
         return new ResponseWrapper<>(data);
     }
 
-    private Collection<Data> getIndividualData(Individual individual) {
+    private List<Data> getIndividualData(Individual individual) {
         ArrayList<Individual> individuals = new ArrayList<>(Collections.emptyList());
         individuals.add(individual);
 
@@ -105,12 +105,12 @@ public class SearchService extends Service {
         return dataResource.getByIndividualList(individuals, projections);
     }
 
-    private Collection<Data> getAnonymizedDataFromQuery(D4HQuery query){
+    private List<Data> getAnonymizedDataFromQuery(D4HQuery query){
         List<Individual> individuals = userResource.getByQuery(query);
-        Collection<Data> data = dataResource.getAnonymizeByIndividualList(individuals);
+        List<Data> data = dataResource.getAnonymizeByIndividualList(individuals);
 
         if(data.size() < StaticConfiguration.MINIMUM_ANONYMIZE_SIZE){
-            throw new TrackMeException(TrackMeError.CANNOT_ANONYMIZE_DATA);
+            data = Collections.emptyList();
         }
 
         return data;

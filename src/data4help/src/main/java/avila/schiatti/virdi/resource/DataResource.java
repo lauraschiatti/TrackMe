@@ -2,14 +2,13 @@ package avila.schiatti.virdi.resource;
 
 import avila.schiatti.virdi.model.data.Data;
 import avila.schiatti.virdi.model.user.Individual;
-import org.bson.types.ObjectId;
 import xyz.morphia.Datastore;
 import xyz.morphia.query.Query;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class DataResource extends Resource<Data> {
 
@@ -48,7 +47,7 @@ public class DataResource extends Resource<Data> {
         return data;
     }
 
-    public Collection<Data> getByIndividualList(Collection<Individual> individuals, Map<String, Boolean> projections){
+    public List<Data> getByIndividualList(Collection<Individual> individuals, Map<String, Boolean> projections){
         Query<Data> query = datastore.find(Data.class)
                 .field("individual")
                 .hasAnyOf(individuals);
@@ -60,7 +59,7 @@ public class DataResource extends Resource<Data> {
         return query.asList();
     }
 
-    public Collection<Data> getAnonymizeByIndividualList(Collection<Individual> individuals){
+    public List<Data> getAnonymizeByIndividualList(Collection<Individual> individuals){
         HashMap<String, Boolean> projections = new HashMap<>();
         projections.put(DataResource.Projections.INDIVIDUAL, Boolean.FALSE);
         projections.put(DataResource.Projections.LOCATION, Boolean.FALSE);

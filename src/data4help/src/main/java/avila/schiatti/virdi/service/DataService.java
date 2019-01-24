@@ -73,6 +73,7 @@ public class DataService extends Service {
             data.setLocation(body.getLocation());
 
             dataResource.update(data);
+            data.setIndividual(null);
 
             // asynchronously notify all the third parties
             (new Thread(()->{

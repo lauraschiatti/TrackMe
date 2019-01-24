@@ -9,7 +9,6 @@ import avila.schiatti.virdi.model.user.ThirdParty;
 import avila.schiatti.virdi.resource.APIManager;
 import avila.schiatti.virdi.resource.D4HRequestResource;
 import avila.schiatti.virdi.resource.UserResource;
-import avila.schiatti.virdi.service.response.ResponseWrapper;
 import avila.schiatti.virdi.utils.JSONObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,6 @@ import unirest.Unirest;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -27,9 +25,9 @@ import java.util.stream.Collectors;
 public class ASOSRequestScheduler implements Scheduler {
     private static Logger logger = LoggerFactory.getLogger(ASOSRequestScheduler.class);
 
-    private static Integer INITIAL_DELAY = 0;
-    private static Integer PERIOD = 24;
-    private static TimeUnit TIME_UNIT = TimeUnit.HOURS;
+    private static Integer INITIAL_DELAY = 1;
+    private static Integer PERIOD = 1;
+    private static TimeUnit TIME_UNIT = TimeUnit.MINUTES;
 
     private final ScheduledExecutorService executor;
     private ScheduledFuture<?> scheduler;

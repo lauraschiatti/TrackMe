@@ -1,5 +1,7 @@
 package avila.schiatti.virdi.resource;
 
+import avila.schiatti.virdi.model.data.Data;
+import avila.schiatti.virdi.model.user.ASOSUser;
 import avila.schiatti.virdi.model.user.EmergencyContact;
 import avila.schiatti.virdi.utils.JSONObjectMapper;
 import com.google.gson.Gson;
@@ -20,8 +22,9 @@ public class APIManager {
         return new APIManager();
     }
 
-    public void sendNotification(EmergencyContact contact, Object request) {
-        String message = String.format("Information sent to %s at URL %s with the following information %s", contact.getName(), contact.getUrl(), jsonTransformer.toJson(request));
+    public void sendNotification(ASOSUser user, Data request) {
+        EmergencyContact contact = user.getContact();
+        String message = String.format("Information sent to %s at URL %s for the user with SSN %s with the following information %s", contact.getName(), contact.getUrl(), user.getSsn(),jsonTransformer.toJson(request));
         logger.info(message);
     }
 }

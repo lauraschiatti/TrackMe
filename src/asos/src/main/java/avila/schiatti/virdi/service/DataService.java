@@ -103,7 +103,7 @@ public class DataService extends Service {
         }
 
         if (Status.CRITICAL.equals(getStatusFromData(dataRequest.getData(), individual))) {
-            apiManager.sendNotification(individual.getContact(), dataRequest.getData());
+            apiManager.sendNotification(individual, dataRequest.getData());
         }
 
         return new ResponseWrapper<>("OK");
