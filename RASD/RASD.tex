@@ -184,7 +184,6 @@
 		\begin{itemize}
 			\item{} The physical health parameters collected by the Trackme devices (i.e. blood pressure, body temperature, etc.), and stored by Data4Help
 			\item{} Individuals location collected by the Trackme device, and stored by Data4Help
-			\item{} Health-care system, that let AutomatedSOS send the alarms
 			\item{} The running circuit defined in Track4Run
 			\item{} The current location of the athletes participating in a run.
 		\end{itemize}
@@ -208,7 +207,7 @@
 		
 		\item{\textbf{Track4Run}}
 		\begin{enumerate}
-			\goal{6} Run organizers could define the path for a given run and TrackMe users can enrol to it.
+			\goal{6} Run organizers could define the path for a given run and TrackMe users can enroll to it.
 			\goal{7} Run spectators could track the position of all the runners during a race.
 		\end{enumerate}
 	\end{itemize}
@@ -514,7 +513,7 @@
 			\assumption{4} The data collected is directly related to the individuals' by their SSN and is structured according to the data scheme required by D4H.
 			\requirement{5} The system must allow a third party company to register a new account.
 			\requirement{6} The system must allow a third party company to access to its account.
-			\requirement{9} The system must allow a third party company to filter data of an anonymized group of individuals by country, age, gender and blood type parameters.
+			\requirement{9} The system must allow a third party company to filter data of an anonymized group of individuals by location, age range, gender and blood type criteria.
 			\requirement{10} The system must be able to anonymize the data of a group of individuals.
 		\end{enumerate}
 		
@@ -526,7 +525,7 @@
 			\assumption{5} The provided SSN by the individual is valid and trustable.
 			\requirement{5} The system must allow a third party company to register a new account.
 			\requirement{6} The system must allow a third party company to access to its account.
-			\requirement{11} The system must allow a third party company to subscribe to an individual health status and location.
+			\requirement{11} The system must subscribe a third party company to an individual health status and location when the request is approved by the individual.
 			\requirement{12} The system must allow a third party company to subscribe to data of an anonymized group of individuals
 		\end{enumerate}
 		
@@ -805,7 +804,6 @@
 			\item{The Third party company fills in the SSN field and clicks submit}
 			\item{The system gets the health status and location of the given SSN}
 			\item{The system shows the health status and location of the Individual}
-			\item{The third party company may click on Subscribe, which extends to the use case \usecase{10}}
 		\end{enumerate}
 		\textbf{Exit conditions}:
 		\begin{enumerate}
@@ -848,7 +846,7 @@
 		\textbf{Event flow}:
 		\begin{enumerate}
 			\item{The Third party company clicks on the View data button}
-			\item{The system shows a form with different filter criteria, which contains country, age, gender and blood type fields}
+			\item{The system shows a form with different filter criteria, which contains location, age range, gender and blood type fields}
 			\item{The Third party company selects the different filters}
 			\item{The system \textbf{Anonymize the data}(\usecase{12})}
 			\item{The system shows the health status and location of the anonymized group of individuals}
