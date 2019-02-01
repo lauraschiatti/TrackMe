@@ -1,0 +1,61 @@
+<app-header></app-header>
+
+<div class="unit-5 overlay" style="background-image: url('assets/images/statistics.jpg');">
+  <div class="container">
+    <h2 class="mb-0">Login</h2>
+    <p class="mb-0 unit-6"><a routerLink="/">Home</a> <span class="sep">></span> <span>Login</span></p>
+  </div>
+</div>
+
+<div class="site-section bg-light">
+  <div class="container">
+    <div class="col-md-12 col-lg-6 mb-5" style="margin-left:300px; ">
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="p-5 bg-white">
+        <h2 class="mb-4 text-black">Login</h2>
+
+        <div *ngIf="error"  class="alert alert-danger" >
+          {{ error }}
+          <br>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-md-12">
+            <label class="font-weight-bold" for="email">Email</label>
+            <input type="email" id="email" formControlName="email" class="form-control rounded-0"  [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">Email is required</div>
+              <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+            </div>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-md-12">
+            <label class="font-weight-bold" for="password">Password</label>
+            <input type="password" id="password" formControlName="password" class="form-control rounded-0" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+              <div *ngIf="f.password.errors.required">Password is required</div>
+              <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row form-group mb-2">
+          <div class="col-md-12">
+            <p class="float-left">No account yet? <a routerLink="/register">Register</a></p>
+            <!--<p class="float-right"> <a href="#">Forgot password?</a></p>-->
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-md-12">
+            <input type="submit" class="btn btn-primary py-2 px-4 rounded-0">
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

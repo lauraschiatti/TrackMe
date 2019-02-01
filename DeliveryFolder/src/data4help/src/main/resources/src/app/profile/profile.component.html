@@ -1,0 +1,175 @@
+<div id="wrapper">
+  <!-- Sidebar -->
+
+  <app-sidebar></app-sidebar>
+
+  <div id="content-wrapper" class="container">
+    <div class="container-fluid">
+
+      <app-dashboard-navbar></app-dashboard-navbar>
+
+      <br>
+
+      <div *ngIf="user">
+        <div class="container">
+          <div id="profile">
+            <div class="row">
+              <div class="col-sm-12 col-md-4">
+                <span class="profile-picture">
+                    <img class="editable img-responsive" alt=" Avatar" id="avatar2" src="https://bootdey.com/img/Content/avatar/avatar6.png">
+                </span>
+              </div><!-- /.col -->
+
+              <div *ngIf="role === 'THIRD_PARTY'; else individual">
+                <div class="col-sm-12">
+                  <h4 class="text-primary p-4 bg-white">
+                    <span class="text-capitalize">{{ user['name']}}</span>
+                  </h4>
+
+                  <div class="profile-user-info">
+                    <div class="profile-info-row">
+                      <div class="profile-info-name"> Tax code </div>
+
+                      <div class="profile-info-value">
+                        <span>{{ user['taxCode']}}</span>
+                      </div>
+                    </div>
+
+                    <div class="profile-info-row">
+                      <div class="profile-info-name"> Phone </div>
+
+                      <div class="profile-info-value">
+                        <i class="fa fa-map-marker light-orange bigger-110"></i>
+                        <span>{{ user['phone']}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- /.col -->
+              </div>
+
+              <ng-template #individual>
+                <div class="col-sm-12 col-md-8">
+                  <h4 class="text-primary p-4 bg-white">
+                    <span class="text-capitalize">{{ user['name']}}</span>
+                  </h4>
+
+                  <div class="profile-user-info">
+                    <div class="profile-info-row">
+                      <div class="profile-info-name"> SSN </div>
+
+                      <div class="profile-info-value">
+                        <span>{{ user['ssn']}}</span>
+                      </div>
+                    </div>
+
+                    <div class="profile-info-row">
+                      <div class="profile-info-name"> Date of birth </div>
+
+                      <div class="profile-info-value">
+                        <i class="fa fa-map-marker light-orange bigger-110"></i>
+                        <span>{{ user['birthDate']}}</span>
+                      </div>
+                    </div>
+
+                    <div class="profile-info-row">
+                      <div class="profile-info-name"> Gender </div>
+
+                      <div class="profile-info-value">
+                        <i class="fa fa-map-marker light-orange bigger-110"></i>
+                        <span>{{ user['gender']}}</span>
+                      </div>
+                    </div>
+
+                    <div class="profile-info-row">
+                      <div class="profile-info-name"> Address </div>
+
+                      <div class="profile-info-value">
+                        <span>{{ user['address']['city']}}, {{ user['address']['province']}}, {{ user['address']['country']}}</span>
+                      </div>
+                    </div>
+
+                    <div class="profile-info-row">
+                      <div class="profile-info-name"> Blood type </div>
+
+                      <div class="profile-info-value">
+                        <i class="fa fa-map-marker light-orange bigger-110"></i>
+                        <span>{{ user['bloodType']}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- /.col -->
+              </ng-template>
+
+            </div><!-- /.row -->
+
+
+            <div *ngIf="role === 'THIRD_PARTY'" class="p-5 bg-white">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <h5 class="text-primary">Configuration settings</h5>
+                    <hr>
+
+                    <form [formGroup]="configForm" (ngSubmit)="onSubmitConfig()">
+                      <div class="row form-group">
+                        <div class="col-md-12">
+                          <label class="font-weight-bold">App Id</label>
+                          <input class="form-control" value="{{ user['appId']}}" readonly/>
+                        </div>
+                      </div>
+
+                      <div class="row form-group">
+                        <div class="col-md-12">
+                          <label class="font-weight-bold">Secret key</label>
+                          <textarea class="form-control" readonly>{{ user['secretKey']}}</textarea>
+                        </div>
+                      </div>
+
+                      <div class="row form-group">
+                        <div class="col-md-12">
+                          <label class="font-weight-bold" for="individualpushurl">Individuals data URL</label>
+                          <input type="text" id="individualpushurl" formControlName="individualPushUrl" class="form-control rounded-0" value="{{ user['config']['individualPushUrl']}}"/>
+                        </div>
+                      </div>
+
+                      <div class="row form-group">
+                        <div class="col-md-12">
+                          <label class="font-weight-bold" for="bulkpushurl">Bulk data URL</label>
+                          <input type="text" id="bulkpushurl" formControlName="bulkPushUrl" class="form-control rounded-0" value="{{ user['config']['bulkPushUrl']}}"/>
+                        </div>
+                      </div>
+
+                      <div class="row form-group">
+                        <div class="col-md-12">
+                          <label class="font-weight-bold" for="notificationurl">Notifications URL</label>
+                          <input type="text" id="notificationurl" formControlName="notificationUrl" class="form-control rounded-0" value="{{ user['config']['notificationUrl']}}"/>
+                        </div>
+                      </div>
+
+                      <div class="row form-group">
+                        <div class="col-md-12">
+                          <input type="submit" class="btn btn-primary  py-2 px-4 rounded-0" value="Save changes">
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="space-20"></div>
+
+
+          </div><!-- /#home -->
+
+        </div>
+      </div>
+
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+
+  <!-- /.content-wrapper -->
+</div>
